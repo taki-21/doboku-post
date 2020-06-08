@@ -1,0 +1,24 @@
+<html>
+<head>
+<style type="text/css">
+      div{
+        background-color: #EEEEEE;
+        width: 300px;
+      }
+      p.title{
+          font-size: 20px;
+          font-weight: bold;
+      }
+</style>
+
+</head>
+<h1>投稿一覧</h1>
+{% for post in object_list %}
+<div>
+    <p class="title">{{ post.title }}</p>
+    <img src="{{post.image.url}}" width="300">
+    <p>{{ post.auther }}</p>
+    <p>{{ post.content }}</p>
+</div>
+{% endfor %}
+</html>
