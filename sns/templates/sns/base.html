@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width">
-    <title>MySite</title>
+    <title>DOBOKU_SNS</title>
     <style>
         * {
             margin: 0;
@@ -21,6 +21,10 @@
             grid-column: 2 / -2;
             grid-row: head;
             align-self: center;
+            font-size: 50px;
+            font-weight: bold;
+            background-color: #778899;
+
         }
 
         main {
@@ -34,21 +38,32 @@
         }
 
         div{
-            background-color: #EEEEEE;
-            width: 300px;
+            background-color: #F8F8FF;
+            width: 350px;
             margin-bottom: 10px;
-            border: 1px solid black;
+            border: 1px solid gray;
+            border-radius: 10px;
+
         }
         p.title{
             font-size: 20px;
+            text-align: center;
+        }
+        p.auther{
+            font-size: 15px;
             font-weight: bold;
+        }
+
+        a{
+            text-decoration: none;
+            color: black;
         }
 
     </style>
 </head>
 <body>
 
-<header>DOBOKU_SNS</header>
+<header><a href="{% url 'sns:index' %}">DOBOKU_SNS</a></header>
 
 <main>{% block content %}{% endblock %}</main>
 
