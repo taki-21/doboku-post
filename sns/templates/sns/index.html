@@ -1,16 +1,6 @@
-<html>
-<head>
-<style type="text/css">
-      div{
-        background-color: #EEEEEE;
-        width: 300px;
-      }
-      p.title{
-          font-size: 20px;
-          font-weight: bold;
-      }
-</style>
+{% extends 'sns/base.html' %}
 
+{% block content %}
 </head>
 <h1>投稿一覧</h1>
 {% for post in object_list %}
@@ -21,4 +11,4 @@
     <p>{{ post.content }}</p>
 </div>
 {% endfor %}
-</html>
+{% endblock %}

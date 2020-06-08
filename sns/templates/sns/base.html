@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>MySite</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 600px 60px 300px 1fr;
+            grid-template-rows: [head] 100px [main side] auto;
+        }
+
+        header {
+            grid-column: 2 / -2;
+            grid-row: head;
+            align-self: center;
+        }
+
+        main {
+            grid-column: 2;
+            grid-row: main;
+        }
+
+        aside {
+            grid-column: 4;
+            grid-row: side;
+        }
+
+        div{
+            background-color: #EEEEEE;
+            width: 300px;
+            margin-bottom: 10px;
+            border: 1px solid black;
+        }
+        p.title{
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+
+<header>DOBOKU_SNS</header>
+
+<main>{% block content %}{% endblock %}</main>
+
+<aside>
+    <h2>Category</h2>
+    <!-- ここにカテゴリの一覧を置きたい -->
+    <ul>
+        {% for category in category_list %}
+            <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+
+</body>
+</html>
