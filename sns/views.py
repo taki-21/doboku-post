@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from .models import Post, Category
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 # Create your views here.
 
