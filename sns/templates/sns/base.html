@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+    <title>DOBOKU_SNS</title>
+    <style>
+        * {
+            margin: 0;
+        }
+
+        body {
+            width: 960px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 600px 60px 300px 1fr;
+            grid-template-rows: [head] 100px [main side] auto;
+        }
+
+        header {
+            grid-column: 2 / -2;
+            grid-row: head;
+            align-self: center;
+            font-size: 50px;
+            font-weight: bold;
+            background-color: #778899;
+
+        }
+
+        main {
+            grid-column: 2;
+            grid-row: main;
+        }
+
+        aside {
+            grid-column: 4;
+            grid-row: side;
+        }
+
+        div{
+            background-color: #F8F8FF;
+            width: 350px;
+            margin-bottom: 10px;
+            border: 1px solid gray;
+            border-radius: 10px;
+
+        }
+        p.title{
+            font-size: 20px;
+            text-align: center;
+        }
+        p.auther{
+            font-size: 15px;
+            font-weight: bold;
+        }
+
+        a{
+            text-decoration: none;
+            color: black;
+        }
+
+    </style>
+</head>
+<body>
+
+<header><a href="{% url 'sns:index' %}">DOBOKU_SNS</a></header>
+
+<main>{% block content %}{% endblock %}</main>
+
+<aside>
+    <h2>Category</h2>
+    <!-- ここにカテゴリの一覧を置きたい -->
+    <ul>
+        {% for category in category_list %}
+            <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+        {% endfor %}
+    </ul>
+</aside>
+
+</body>
+</html>

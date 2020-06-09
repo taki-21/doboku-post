@@ -1,0 +1,13 @@
+{% extends 'sns/base.html' %}
+
+{% block content %}
+    <h1>「{{ category.name }}」の投稿一覧</h1>
+    {% for post in object_list %}
+        <div>
+        <p class="title">{{ post.title }}</p>
+        <img src="{{post.image.url}}" width="350">
+        <p>{{ post.auther }}</p>
+        <p>{{ post.content }}</p>
+        </div>
+    {% endfor %}
+{% endblock %}
