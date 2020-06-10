@@ -43,7 +43,9 @@ def form_view(request):
     if request.method == 'POST':
         form = forms.PostForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
             return redirect('sns:index')
     else:
        form = forms.PostForm()

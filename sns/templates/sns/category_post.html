@@ -6,8 +6,9 @@
         <div>
         <p class="title">{{ post.title }}</p>
         <img src="{{post.image.url}}" width="350">
-        <p>{{ post.auther }}</p>
+        <p>{{ post.author }}</p>
         <p>{{ post.content }}</p>
+        <p>{{ post.published_at }}</p>
         </div>
     {% endfor %}
 {% endblock %}
