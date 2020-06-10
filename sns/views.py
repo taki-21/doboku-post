@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from .models import Post, Category
 from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Post, Category
+from . import forms
 
 # Create your views here.
+
 
 class IndexView(generic.ListView):
     model = Post
@@ -35,3 +37,14 @@ class CategoryPostView(generic.ListView):
         context['category'] = self.category
         context['category_list'] = Category.objects.all()
         return context
+
+
+def form_view(request):
+    if request.method == 'POST':
+        form = forms.PostForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('sns:index')
+    else:
+       form = forms.PostForm()
+    return render(request, 'sns/form_view.html', {'form': form})

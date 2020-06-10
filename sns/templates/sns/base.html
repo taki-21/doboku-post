@@ -80,6 +80,8 @@
 {% if user.is_authenticated%}
     <a href="{% url 'logout' %}" class="logout">ログアウト</a>
     <a href="" class='username'>{{ user.get_username }}さん</a>
+    <a href="{% url 'sns:form_view' %}" class='username'>投稿する</a>
+
 {% else %}
     <a href="{% url 'accounts:signup' %}" class="signup">新規登録</a>
     <a href="{% url 'login' %}" class="login">ログイン</a>
