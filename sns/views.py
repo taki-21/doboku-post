@@ -14,7 +14,7 @@ class IndexView(generic.ListView):
     # def get_queryset(self):
     #     object_list = super().get_queryset()
     #     print(object_list)
-    #     return Post.objects.filter(auther='admin')
+    #     return Post.objects.filter(author='admin')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,0 +1,66 @@
+
+* {
+    margin: 0;
+}
+
+body {
+    width: 960px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 600px 60px 300px 1fr;
+    grid-template-rows: [head] 100px [main side] auto;
+}
+
+header {
+    grid-column: 2 / -2;
+    grid-row: head;
+    align-self: center;
+    font-size: 50px;
+    font-weight: bold;
+    background-color: #778899;
+}
+
+.title{
+    font-family:'Homemade Apple', cursive;
+}
+
+main {
+    grid-column: 2;
+    grid-row: main;
+}
+
+aside {
+    grid-column: 4;
+    grid-row: side;
+}
+
+div{
+    background-color: #F8F8FF;
+    width: 350px;
+    margin-bottom: 10px;
+    border: 1px solid gray;
+    border-radius: 10px;
+
+}
+p.title{
+    font-size: 20px;
+    text-align: center;
+}
+p.author{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+
+.login, .logout, .signup{
+    font-size: 15px;
+    color: blue;
+}
+
+.username{
+    font-size: 20px;
+}
