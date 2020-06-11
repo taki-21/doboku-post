@@ -1,66 +1,168 @@
-
 * {
-    margin: 0;
+    box-sizing: border-box;
 }
 
 body {
-    width: 960px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 600px 60px 300px 1fr;
-    grid-template-rows: [head] 100px [main side] auto;
+    margin: 0;
+    padding: 0;
+    font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fff;
 }
 
 header {
-    grid-column: 2 / -2;
-    grid-row: head;
-    align-self: center;
-    font-size: 50px;
-    font-weight: bold;
-    background-color: #778899;
+    padding: 30px 4% 10px;
+    /* position: fixed; */
+    top: 0;
+    width: 100%;
+    background-color: #e6e6e6;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+h1 {
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+    font-family: 'DIN Condensed', 'Impact';
+}
+a {
+    text-decoration: none;
+    color: #4b4b4b;
+}
+a:hover {
+    text-decoration: none;
 }
 
-.title{
-    font-family:'Homemade Apple', cursive;
+
+ul.header {
+    list-style: none;
+    margin: 0;
+    display: flex;
+}
+
+li.header {
+    margin: 0 0 0 15px;
+    font-size: 14px;
+}
+
+.logout {
+    color:red;
+}
+
+nav {
+    margin: 0 0 0 auto;
 }
 
 main {
-    grid-column: 2;
-    grid-row: main;
+    width: 960px;
+    margin-left: 40px;
 }
 
-aside {
-    grid-column: 4;
-    grid-row: side;
+
+section {
+    width: 960px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-div{
-    background-color: #F8F8FF;
-    width: 350px;
-    margin-bottom: 10px;
-    border: 1px solid gray;
-    border-radius: 10px;
-
+/**
+ * index
+ */
+.user-name {
+    margin-bottom: 24px;
+    color: #993333;
 }
-p.title{
-    font-size: 20px;
+
+.post-list ul {
+    width: 100%;
+}
+
+.post-list ul li {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+
+.pagination ul {
+    width: 100%;
+    display: table;
+}
+
+.pagination li {
+    display: table-cell;
+    width: 50%;
+}
+
+.pagination li:last-child {
+    text-align: right;
+}
+
+/**
+ * detail
+ */
+.post-text {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.post-date {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.post-date span {
+    padding: 0 16px;
+}
+
+.post-edit {
+    margin-bottom: 8px;
+    padding-bottom: 8px;
+    border-bottom: 1px dotted #cccccc;
+}
+
+.post-edit a:first-child {
+    margin-right: 24px;
+}
+
+/**
+ * Create, Update
+ */
+.common-form label {
+    display: block;
+}
+
+.common-form p {
+    margin-bottom: 8px;
+}
+
+.common-form input,
+.common-form textarea {
+    padding: 4px;
+    width: 100%;
+    margin-bottom: 8px;
+}
+
+.common-form select {
+    padding: 4px;
+    margin-bottom: 8px;
+}
+
+.common-form .submit {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px 36px;
+    border: none;
+    color: #ffffff;
     text-align: center;
-}
-p.author{
-    font-size: 15px;
-    font-weight: bold;
-}
-
-a{
     text-decoration: none;
-    color: black;
+    display: inline-block;
+    background-color: #4CAF50;
+    border-radius: 2px;
 }
 
-.login, .logout, .signup{
-    font-size: 15px;
-    color: blue;
-}
-
-.username{
-    font-size: 20px;
+.common-form .delete {
+    background-color: #f44336;
 }

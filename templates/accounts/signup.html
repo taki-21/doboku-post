@@ -1,0 +1,12 @@
+{% extends 'sns/base.html' %}
+
+{% block content %}
+<section class="common-form">
+<h1>新規登録</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit">送信</button>
+    </form>
+</section>
+{% endblock %}

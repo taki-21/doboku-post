@@ -1,47 +1,41 @@
-{% comment %} <!DOCTYPE html>
-<html lang="ja">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    {% comment %} <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> {% endcomment %}
-    {% comment %} <link href="{% static 'css/sns_style.css' %}" rel="stylesheet">
-    <link rel="stylesheet" href="uikit.min.css">
-    <script src="uikit.min.js"></script>
-    <title>DOBOKU_SNS</title>
-</head> {% endcomment %}
+{% load static %}
 
 <!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--IE対策：互換表示させない。-->
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Uikitサンプルトップページ</title>
+<title>DOBOKU_SNS</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/css/uikit.min.css">
-<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="{% static 'css/sns_style.css'%}">
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit-icons.min.js"></script>
 </head>
 
 <body>
 <header>
-<a href="{% url 'sns:index' %}" class='title'>DOBOKU_SNS</a>
-{% if user.is_authenticated%}
-    <a href="{% url 'logout' %}" class="logout">ログアウト</a>
-    <a href="" class='username'>{{ user.get_username }}さん</a>
-    <a href="{% url 'sns:form_view' %}" class='username'>投稿する</a>
+<h1>
+    <a href="{% url 'sns:index' %}" class='title'>DOBOKU_SNS</a>
+</h1>
+<nav>
+    <ul class='header'>
+        {% if user.is_authenticated%}
+            <li class='header'><a href="" class='username'>{{ user.get_username }}さん</a></li>
+            <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
+            <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
 
-{% else %}
-    <a href="{% url 'accounts:signup' %}" class="signup">新規登録</a>
-    <a href="{% url 'login' %}" class="login">ログイン</a>
-{% endif %}
-
+        {% else %}
+            <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a></li>
+            <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a></li>
+        {% endif %}
+    </ul>
+</nav>
 </header>
 
 <main>{% block content %}{% endblock %}</main>
 
 <aside>
-    <h2 class='uk-heading-primary'>Category</h2>
+    <h2>Category</h2>
     <!-- ここにカテゴリの一覧を置きたい -->
     <ul>
         {% for category in category_list %}
