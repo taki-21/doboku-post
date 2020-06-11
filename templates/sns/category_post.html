@@ -1,15 +1,16 @@
 {% extends 'sns/base.html' %}
 
-
 {% block content %}
     <h1>「{{ category.name }}」の投稿一覧</h1>
-    {% for post in object_list %}
-        <div>
-        <p class="title">{{ post.title }}</p>
-        <img src="{{post.image.url}}" width="350">
-        <p>{{ post.author }}</p>
-        <p>{{ post.content }}</p>
-        <p>{{ post.published_at }}</p>
-        </div>
-    {% endfor %}
+    <div class="uk-grid-column-small uk-grid-row-large" uk-grid>
+        {% for post in object_list %}
+            <div class="uk-card uk-card-default uk-card-body">
+                <p class='uk-text-lead'>{{ post.title }}</p>
+                <img src="{{post.image.url}}" width="350">
+                <p class="auther">{{ post.author }}</p>
+                <p>{{ post.content }}</p>
+                <p>{{ post.published_at }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

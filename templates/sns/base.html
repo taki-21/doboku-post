@@ -1,17 +1,29 @@
-{% load static %}
-
-<!DOCTYPE html>
+{% comment %} <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
-    <link href="{% static 'css/sns_style.css' %}" rel="stylesheet">
+    {% comment %} <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet"> {% endcomment %}
+    {% comment %} <link href="{% static 'css/sns_style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="uikit.min.css">
+    <script src="uikit.min.js"></script>
     <title>DOBOKU_SNS</title>
+</head> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--IE対策：互換表示させない。-->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uikitサンプルトップページ</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/css/uikit.min.css">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit-icons.min.js"></script>
 </head>
+
 <body>
-
-
 <header>
 <a href="{% url 'sns:index' %}" class='title'>DOBOKU_SNS</a>
 {% if user.is_authenticated%}
@@ -29,7 +41,7 @@
 <main>{% block content %}{% endblock %}</main>
 
 <aside>
-    <h2>Category</h2>
+    <h2 class='uk-heading-primary'>Category</h2>
     <!-- ここにカテゴリの一覧を置きたい -->
     <ul>
         {% for category in category_list %}
