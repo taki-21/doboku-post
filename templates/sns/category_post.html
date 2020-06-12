@@ -7,7 +7,7 @@
         <div>
             <div class="uk-card uk-card-hover uk-card-default">
                 <div class="uk-card-media-top">
-                    <img src="{{post.image.url}}" width="350">
+                    <img src="{{post.image.url}}" width="100%">
                 </div>
                 <div class="uk-card">
                     <h3 class="">{{ post.author }}</h3>
@@ -19,4 +19,17 @@
         </div>
     {% endfor %}
     </div>
+{% endblock %}
+
+{% block aside %}
+    <h3>カテゴリー</h3>
+    <ul class="uk-nav uk-nav-default">
+        <ul>
+            <li class="uk-nav-divider"></li>
+            {% for category in category_list %}
+                <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+            <li class="uk-nav-divider"></li>
+            {% endfor %}
+        </ul>
+    </ul>
 {% endblock %}

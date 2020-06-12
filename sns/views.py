@@ -50,3 +50,13 @@ def form_view(request):
     else:
        form = forms.PostForm()
     return render(request, 'sns/form_view.html', {'form': form})
+
+class MyPage(generic.TemplateView):
+    model = Post
+    template_name = 'sns/my_page.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        print(context)
+        context['user_post'] = Post.objects.filter(author=self.request.user)
+        return context

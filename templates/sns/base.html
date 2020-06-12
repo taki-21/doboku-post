@@ -20,7 +20,9 @@
 <nav>
     <ul class='header'>
         {% if user.is_authenticated%}
-            <li class='header'><a href="" class='username'>{{ user.get_username }}さん</a></li>
+            <li class='header'>{{ user.get_username }}さん</li>
+            <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
+            <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>
             <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
             <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
 
@@ -36,18 +38,7 @@
         <main>{% block content %}{% endblock %}</main>
     </div>
     <div class="uk-width-1-4">
-        <div class="uk-width-1">
-            <h3>カテゴリー</h3>
-            <ul class="uk-nav uk-nav-default">
-                <ul>
-                <li class="uk-nav-divider"></li>
-                    {% for category in category_list %}
-                        <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
-                    <li class="uk-nav-divider"></li>
-                    {% endfor %}
-                </ul>
-            </ul>
-        </div>
+        <aside>{% block aside %}{% endblock %}</aside>
     </div>
 </div>
 
