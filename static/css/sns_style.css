@@ -23,7 +23,7 @@ h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'DIN Condensed', 'Impact';
+    /* font-family: 'ヒラギノ角ゴ StdN','Hiragino Kaku Gothic StdN',sans-serif; */
 }
 a {
     text-decoration: none;
@@ -53,9 +53,9 @@ nav {
     margin: 0 0 0 auto;
 }
 
-main {
-    width: 960px;
-    margin-left: 40px;
+.content {
+    margin-left: 20px;
+    margin-right: 20px;
 }
 
 

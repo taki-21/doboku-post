@@ -15,7 +15,7 @@
 <body>
 <header>
 <h1>
-    <a href="{% url 'sns:index' %}" class='title'>DOBOKU_SNS</a>
+    <a href="{% url 'sns:index' %}" class='title'>Doboku_Post</a>
 </h1>
 <nav>
     <ul class='header'>
@@ -31,18 +31,25 @@
     </ul>
 </nav>
 </header>
-
-<main>{% block content %}{% endblock %}</main>
-
-<aside>
-    <h2>Category</h2>
-    <!-- ここにカテゴリの一覧を置きたい -->
-    <ul>
-        {% for category in category_list %}
-            <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
-        {% endfor %}
-    </ul>
-</aside>
+<div uk-grid class='content'>
+    <div class="uk-width-3-4">
+        <main>{% block content %}{% endblock %}</main>
+    </div>
+    <div class="uk-width-1-4">
+        <div class="uk-width-1">
+            <h3>カテゴリー</h3>
+            <ul class="uk-nav uk-nav-default">
+                <ul>
+                <li class="uk-nav-divider"></li>
+                    {% for category in category_list %}
+                        <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+                    <li class="uk-nav-divider"></li>
+                    {% endfor %}
+                </ul>
+            </ul>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
