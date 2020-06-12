@@ -28,14 +28,22 @@ class CategoryPostView(generic.ListView):
 
     def get_queryset(self):
         category_slug = self.kwargs['category_slug']
+        print('category_slug: ', category_slug)
         self.category = get_object_or_404(Category, slug=category_slug)
+        print('self.category: ', self.category)
+        queryset = super().get_queryset()
+        print('queryset1: ', queryset)
         queryset = super().get_queryset().filter(category=self.category)
+        print('queryset2: ', queryset)
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        print('context1: ', context)
         context['category'] = self.category
+        print('context2: ', context)
         context['category_list'] = Category.objects.all()
+        print('context3: ', context)
         return context
 
 
@@ -57,6 +65,8 @@ class MyPage(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        login_user = self.request.user
+        print('login_user: ', login_user)
+        context['user_post'] = Post.objects.filter(author=login_user)
         print(context)
-        context['user_post'] = Post.objects.filter(author=self.request.user)
         return context

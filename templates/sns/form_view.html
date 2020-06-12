@@ -4,7 +4,7 @@
 <section class="common-form">
     <h1>新規投稿</h1>
     <form method="post" enctype="multipart/form-data">
-        <h3>{{ user.get_username }}さん</h3>
+        <h3>{{ user.username }}さん</h3>
         {% csrf_token %}
         {{ form.as_p }}
         <div class="js-upload uk-placeholder uk-text-center">
