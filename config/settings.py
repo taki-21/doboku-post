@@ -130,4 +130,4 @@ MEDIA_URL = '/media/'
 
 
 # ログイン後トップページにリダイレクト
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'sns:index'
