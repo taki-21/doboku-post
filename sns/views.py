@@ -22,6 +22,12 @@ class IndexView(generic.ListView):
         return context
 
 
+class PostDetailView(generic.DetailView):
+    model = Post
+    template_name = 'sns/post_detail.html'
+
+
+
 class CategoryPostView(generic.ListView):
     model = Post
     template_name = 'sns/category_post.html'

@@ -27,6 +27,7 @@
             <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
 
         {% else %}
+            <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a></li>
             <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a></li>
         {% endif %}
