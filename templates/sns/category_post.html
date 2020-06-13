@@ -1,11 +1,11 @@
-{% extends 'sns/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <h4>「{{ category.name }}」の投稿一覧</h4>
     <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
     {% for post in object_list %}
         <div>
-            <a href="{% url 'sns:post_detail' post.id %}">
+            <a href="{% url 'sns:post_detail' pk=post.id %}">
                 <div class="uk-card uk-card-hover uk-card-default" id="card">
                     <div class="uk-card-media-top">
                         <img src="{{post.image.url}}" width="100%" height="50%"  id="card_top">
@@ -15,7 +15,7 @@
                             <li>{{ post.author }}</li>
                             <li>{{ post.title }}</li>
                             <p class="content">{{ post.content }}</p>
-                            <li class="time">{{ post.published_at|date:"Y/n/j H:i:s" }}</li>
+                            <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
                         </ul>
                     </div>
                 </div>
