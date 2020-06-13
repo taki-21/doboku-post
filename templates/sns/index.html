@@ -1,4 +1,4 @@
-{% extends 'sns/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <h4>新着投稿一覧</h4>
@@ -8,14 +8,14 @@
             <a href="{% url 'sns:post_detail' post.id %}">
                 <div class="uk-card uk-card-hover uk-card-default" id="card">
                     <div class="uk-card-media-top">
-                        <img src="{{post.image.url}}" width="100%" height="50%"  id="card_top">
+                        <img src="{{post.image.url}}" width="100%" height="50%">
                     </div>
                     <div class="uk-card uk-accordion-content">
                         <ul>
                             <li>{{ post.author }}</li>
                             <li>{{ post.title }}</li>
                             <p class="content">{{ post.content }}</p>
-                            <li class="time">{{ post.published_at|date:"Y/n/j H:i:s" }}</li>
+                            <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
                         </ul>
                     </div>
                 </div>
