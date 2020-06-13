@@ -2,11 +2,14 @@
 
 {% block content %}
 <section class="common-form">
-<h1>新規登録</h1>
-    <form method="post">
+<h2>新規登録</h2>
+    {% for field in form %}
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="submit">送信</button>
-    </form>
+        {{ field.label_tag }} {{ field }}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    {% endfor %}
+    <button type="submit" class="submit">送信</button>
 </section>
 {% endblock %}
