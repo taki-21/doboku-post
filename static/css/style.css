@@ -10,7 +10,7 @@ body {
 }
 
 header {
-    padding: 30px 4% 20px;
+    padding: 20px 4% 20px;
     /* position: fixed; */
     top: 0;
     width: 100%;
@@ -21,7 +21,7 @@ header {
 }
 
 span#name{
-    font-size: 25px;
+    font-size: 20px;
     font-weight: 900;
 }
 h1 {

@@ -20,20 +20,20 @@
 <nav>
     {% if user.is_authenticated%}
         <ul class='header'>
-        <li class='header'><span id='name'>{{ user.get_username }}</span>さん</li>
+            <li class='header'><span id='name'>{{ user.get_username }}</span>さん</li>
         </ul>
         <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>
             <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
             <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
-
-        {% else %}
+        </ul>
+    {% else %}
+        <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a></li>
             <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a></li>
-        {% endif %}
-    </ul>
+    {% endif %}
 </nav>
 </header>
 <div uk-grid class='content'>
