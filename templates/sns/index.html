@@ -1,4 +1,4 @@
-{% extends 'sns/base.html' %}
+{% extends 'base.html' %}
 
 {% block content %}
     <h4>新着投稿一覧</h4>
@@ -15,7 +15,7 @@
                             <li>{{ post.author }}</li>
                             <li>{{ post.title }}</li>
                             <p class="content">{{ post.content }}</p>
-                            <li class="time">{{ post.published_at|date:"Y/n/j H:i:s" }}</li>
+                            <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
                         </ul>
                     </div>
                 </div>
