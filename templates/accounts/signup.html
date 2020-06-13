@@ -1,8 +1,8 @@
-{% extends 'base.html' %}
+{% extends 'sns/base.html' %}
 
 {% block content %}
-<h1>新規登録</h1>
 <section class="common-form">
+<h1>新規登録</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
