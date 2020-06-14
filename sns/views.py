@@ -12,6 +12,15 @@ class IndexView(generic.ListView):
     model = Post
     template_name = 'sns/index.html'
 
+    def get_queryset(self):
+        condition = self.kwargs['condition']
+        if condition == 0:
+            queryset = Post.objects.all().order_by('-published_at')
+        elif condition == 1:
+            queryset = Post.objects.all().order_by('published_at')
+
+        return queryset
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['category_list'] = Category.objects.all()
