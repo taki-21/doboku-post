@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.response import TemplateResponse
 from .models import Post, Category
 from . import forms
 
@@ -10,11 +11,6 @@ from . import forms
 class IndexView(generic.ListView):
     model = Post
     template_name = 'sns/index.html'
-
-    # def get_queryset(self):
-    #     object_list = super().get_queryset()
-    #     print(object_list)
-    #     return Post.objects.filter(author='admin')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -76,3 +72,10 @@ class MyPage(generic.TemplateView):
         context['user_post'] = Post.objects.filter(author=login_user)
         print(context)
         return context
+
+def index_condition(request, condition):
+    if condition == 0:
+        object_list = Post.objects.all().order_by('-published_at')
+    elif condition == 1:
+        object_list = Post.objects.all().order_by('published_at')
+    return TemplateResponse(request, 'sns/index.html', {'object_list': object_list})

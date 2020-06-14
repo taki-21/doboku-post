@@ -2,10 +2,6 @@
 
 {% block content %}
     <h4>「{{ category.name }}」の投稿一覧</h4>
-    <p>
-        <a href="">新しい順</a>
-        <a href="">古い順</a>
-    </p>
     <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
     {% for post in object_list %}
         <div>
@@ -35,7 +31,7 @@
         <ul>
             <li class="uk-nav-divider"></li>
             {% for category in category_list %}
-                <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+                <li><a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a></li>
             <li class="uk-nav-divider"></li>
             {% endfor %}
         </ul>
