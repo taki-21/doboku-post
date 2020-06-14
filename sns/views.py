@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.template.response import TemplateResponse
 from .models import Post, Category
 from . import forms
 
@@ -12,12 +13,24 @@ class IndexView(generic.ListView):
     template_name = 'sns/index.html'
 
     # def get_queryset(self):
-    #     object_list = super().get_queryset()
-    #     print(object_list)
-    #     return Post.objects.filter(author='admin')
+    #     condition = self.kwargs['condition']
+    #     if condition == 0:
+    #         queryset = Post.objects.all().order_by('-published_at')
+    #     elif condition == 1:
+    #         queryset = Post.objects.all().order_by('published_at')
+    #     return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # conditionが指定されている場合
+        condition = self.kwargs.get('condition')
+        if condition == 0:
+            context['object_list'] = Post.objects.all()
+        elif condition == 1:
+            context['object_list'] = Post.objects.all().reverse()
+
+        #　conditionが指定されていない場合
         context['category_list'] = Category.objects.all()
         return context
 
@@ -33,23 +46,23 @@ class CategoryPostView(generic.ListView):
     template_name = 'sns/category_post.html'
 
     def get_queryset(self):
-        category_slug = self.kwargs['category_slug']
-        print('category_slug: ', category_slug)
+        category_slug = self.kwargs.get('category_slug')
         self.category = get_object_or_404(Category, slug=category_slug)
-        print('self.category: ', self.category)
-        queryset = super().get_queryset()
-        print('queryset1: ', queryset)
-        queryset = super().get_queryset().filter(category=self.category)
-        print('queryset2: ', queryset)
-        return queryset
+        self.queryset = super().get_queryset().filter(category=self.category)
+        return self.queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('context1: ', context)
+
+        # conditionが指定されている場合
+        condition = self.kwargs.get('condition')
+        if condition == 0:
+            context['object_list'] = self.queryset
+        elif condition == 1:
+            context['object_list'] = self.queryset.order_by('published_at')
+
         context['category'] = self.category
-        print('context2: ', context)
         context['category_list'] = Category.objects.all()
-        print('context3: ', context)
         return context
 
 
@@ -76,3 +89,10 @@ class MyPage(generic.TemplateView):
         context['user_post'] = Post.objects.filter(author=login_user)
         print(context)
         return context
+
+def index_condition(request, condition):
+    if condition == 0:
+        object_list = Post.objects.all().order_by('-published_at')
+    elif condition == 1:
+        object_list = Post.objects.all().order_by('published_at')
+    return TemplateResponse(request, 'sns/index.html', {'object_list': object_list})
