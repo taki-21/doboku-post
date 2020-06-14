@@ -22,11 +22,15 @@ class IndexView(generic.ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # conditionが指定されている場合
         condition = self.kwargs.get('condition')
         if condition == 0:
-            context['object_list'] = Post.objects.all().reverse()
-        elif context == 1:
             context['object_list'] = Post.objects.all()
+        elif condition == 1:
+            context['object_list'] = Post.objects.all().reverse()
+
+        #　conditionが指定されていない場合
         context['category_list'] = Category.objects.all()
         return context
 
@@ -44,19 +48,19 @@ class CategoryPostView(generic.ListView):
     def get_queryset(self):
         category_slug = self.kwargs['category_slug']
         self.category = get_object_or_404(Category, slug=category_slug)
-        queryset = super().get_queryset().filter(category=self.category)
-        condition = self.kwargs['condition']
-        if condition == 0:
-            queryset = queryset.order_by('-published_at')
-        elif condition == 1:
-            queryset = queryset.order_by('published_at')
-        return queryset
-
-
-        return queryset
+        self.queryset = super().get_queryset().filter(category=self.category)
+        return self.queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        # conditionが指定されている場合
+        condition = self.kwargs.get('condition')
+        if condition == 0:
+            context['object_list'] = self.queryset
+        elif condition == 1:
+            context['object_list'] = self.queryset.order_by('published_at')
+
         context['category'] = self.category
         context['category_list'] = Category.objects.all()
         return context
