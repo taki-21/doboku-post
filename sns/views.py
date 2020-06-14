@@ -12,9 +12,20 @@ class IndexView(generic.ListView):
     template_name = 'sns/index.html'
 
     # def get_queryset(self):
-    #     object_list = super().get_queryset()
-    #     print(object_list)
-    #     return Post.objects.filter(author='admin')
+    #     return Post.objects.order_by('published_at')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category_list'] = Category.objects.all()
+        return context
+
+
+class IndexReverseView(generic.ListView):
+    model = Post
+    template_name = 'sns/index.html'
+
+    def get_queryset(self):
+        return Post.objects.order_by('published_at')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
