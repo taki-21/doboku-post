@@ -2,6 +2,10 @@
 
 {% block content %}
     <h4>新着投稿一覧</h4>
+    <p>
+        <a href="">新しい順</a>
+        <a href="">古い順</a>
+    </p>
     <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
     {% for post in object_list %}
         <div>
