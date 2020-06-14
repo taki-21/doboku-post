@@ -46,7 +46,7 @@ class CategoryPostView(generic.ListView):
     template_name = 'sns/category_post.html'
 
     def get_queryset(self):
-        category_slug = self.kwargs['category_slug']
+        category_slug = self.kwargs.get('category_slug')
         self.category = get_object_or_404(Category, slug=category_slug)
         self.queryset = super().get_queryset().filter(category=self.category)
         return self.queryset
