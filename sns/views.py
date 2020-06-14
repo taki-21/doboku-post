@@ -12,17 +12,21 @@ class IndexView(generic.ListView):
     model = Post
     template_name = 'sns/index.html'
 
-    def get_queryset(self):
-        condition = self.kwargs['condition']
-        if condition == 0:
-            queryset = Post.objects.all().order_by('-published_at')
-        elif condition == 1:
-            queryset = Post.objects.all().order_by('published_at')
-
-        return queryset
+    # def get_queryset(self):
+    #     condition = self.kwargs['condition']
+    #     if condition == 0:
+    #         queryset = Post.objects.all().order_by('-published_at')
+    #     elif condition == 1:
+    #         queryset = Post.objects.all().order_by('published_at')
+    #     return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        condition = self.kwargs.get('condition')
+        if condition == 0:
+            context['object_list'] = Post.objects.all().reverse()
+        elif context == 1:
+            context['object_list'] = Post.objects.all()
         context['category_list'] = Category.objects.all()
         return context
 
@@ -39,22 +43,22 @@ class CategoryPostView(generic.ListView):
 
     def get_queryset(self):
         category_slug = self.kwargs['category_slug']
-        print('category_slug: ', category_slug)
         self.category = get_object_or_404(Category, slug=category_slug)
-        print('self.category: ', self.category)
-        queryset = super().get_queryset()
-        print('queryset1: ', queryset)
         queryset = super().get_queryset().filter(category=self.category)
-        print('queryset2: ', queryset)
+        condition = self.kwargs['condition']
+        if condition == 0:
+            queryset = queryset.order_by('-published_at')
+        elif condition == 1:
+            queryset = queryset.order_by('published_at')
+        return queryset
+
+
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        print('context1: ', context)
         context['category'] = self.category
-        print('context2: ', context)
         context['category_list'] = Category.objects.all()
-        print('context3: ', context)
         return context
 
 
