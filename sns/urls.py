@@ -11,5 +11,6 @@ urlpatterns = [
     path('category/<str:category_slug>/<int:condition>',
          views.CategoryPostView.as_view(), name='category_post'),
     path('create/', views.form_view, name='form_view'),
-    path('mypage/', views.MyPage.as_view(), name='my_page')
+    path('mypage/', views.MyPage.as_view(), name='my_page'),
+    path('comment/<int:pk>', views.CommentFormView.as_view(), name='comment_form'),
 ]

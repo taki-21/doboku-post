@@ -88,3 +88,8 @@ def index_condition(request, condition):
     elif condition == 1:
         object_list = Post.objects.all().order_by('published_at')
     return TemplateResponse(request, 'sns/index.html', {'object_list': object_list})
+
+
+class CommentFormView(generic.CreateView):
+    model = Comment
+    form_class = CommentForm

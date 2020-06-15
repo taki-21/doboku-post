@@ -1,8 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h2>{{ object.title }}</h2>
-<img src="{{object.image.url}}" width="80%" height="50%"  id="card_top">
-<p>{{ object.author }}</p>
-<p>{{ object.content }}</p>
+    <h2>{{ object.title }}</h2>
+    <img src="{{object.image.url}}" width="80%" height="50%"  id="card_top">
+    <p>{{ object.author }}</p>
+    <p>{{ object.content }}</p>
+
+    <article class="">
+        <a class="" href="{% url 'blog:comment_form' post.pk %}">コメントを投稿する</a>
+    </article>
+
 {% endblock %}
