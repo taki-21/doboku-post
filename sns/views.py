@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.response import TemplateResponse
-from .models import Post, Category
+from .models import Post, Category, Comment
 from . import forms
 
 # Create your views here.
@@ -92,4 +92,17 @@ def index_condition(request, condition):
 
 class CommentFormView(generic.CreateView):
     model = Comment
-    form_class = CommentForm
+    form_class = forms.CommentForm
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        post_pk = self.kwargs.get('pk')
+        comment.post = get_object_or_404(Post, pk=post_pk)
+        comment.save()
+        return redirect('sns:post_detail', pk=post_pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_pk = self.kwargs.get('pk')
+        context['post'] = get_object_or_404(Post, pk=post_pk)
+        return context
