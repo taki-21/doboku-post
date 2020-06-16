@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.response import TemplateResponse
-from .models import Post, Category, Comment
+from .models import Post, Category, Comment, Reply
 from . import forms
 
 # Create your views here.
@@ -105,4 +105,22 @@ class CommentFormView(generic.CreateView):
         context = super().get_context_data(**kwargs)
         post_pk = self.kwargs.get('pk')
         context['post'] = get_object_or_404(Post, pk=post_pk)
+        return context
+
+
+class ReplyFormView(generic.CreateView):
+    model = Reply
+    form_class = forms.ReplyForm
+
+    def form_valid(self, form):
+        reply = form.save(commit=False)
+        comment_pk = self.kwargs['pk']
+        reply.comment = get_object_or_404(Comment, pk=comment_pk)
+        reply.save()
+        return redirect('blog:post_detail', pk=reply.comment.post.pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comment_pk = self.kwargs['pk']
+        context['comment'] = get_object_or_404(Comment, pk=comment_pk)
         return context
