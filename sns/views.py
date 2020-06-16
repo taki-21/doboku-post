@@ -82,13 +82,6 @@ class MyPage(generic.TemplateView):
         print(context)
         return context
 
-def index_condition(request, condition):
-    if condition == 0:
-        object_list = Post.objects.all().order_by('-published_at')
-    elif condition == 1:
-        object_list = Post.objects.all().order_by('published_at')
-    return TemplateResponse(request, 'sns/index.html', {'object_list': object_list})
-
 
 class CommentFormView(generic.CreateView):
     model = Comment
@@ -98,6 +91,7 @@ class CommentFormView(generic.CreateView):
         comment = form.save(commit=False)
         post_pk = self.kwargs.get('pk')
         comment.post = get_object_or_404(Post, pk=post_pk)
+        comment.author = self.request.user
         comment.save()
         return redirect('sns:post_detail', pk=post_pk)
 
@@ -114,13 +108,14 @@ class ReplyFormView(generic.CreateView):
 
     def form_valid(self, form):
         reply = form.save(commit=False)
-        comment_pk = self.kwargs['pk']
+        comment_pk = self.kwargs.get('pk')
         reply.comment = get_object_or_404(Comment, pk=comment_pk)
+        reply.author = self.request.user
         reply.save()
-        return redirect('blog:post_detail', pk=reply.comment.post.pk)
+        return redirect('sns:post_detail', pk=reply.comment.post.id)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        comment_pk = self.kwargs['pk']
+        comment_pk = self.kwargs.get('pk')
         context['comment'] = get_object_or_404(Comment, pk=comment_pk)
         return context

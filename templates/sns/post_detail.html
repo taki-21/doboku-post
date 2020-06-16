@@ -11,18 +11,22 @@
     <article class="">
         <a class="" href="{% url 'sns:comment_form' post.pk %}">コメントを投稿する</a>
     </article>
+
     {% for comment in post.comments.all %}
-    <strong>{{ comment.author }}</strong>・{{ comment.timestamp|date:"y/n/j H:i" }}
-    <p>{{ comment.text|linebreaksbr }}</p>
-    <p>
-        <a href="{% url 'sns:reply_form' comment.pk %}">返信する</a>
-    </p>
-    {% endfor %}
-    {% for reply in comment.replies.all %}
-    <div class="reply ml-5">
-    <strong>{{ reply.author }}</strong>・{{ reply.timestamp }}
-    <p>{{ reply.text|linebreaksbr }}</p>
-    </div>
+        <strong>{{ comment.author }}</strong>・{{ comment.timestamp|date:"y/n/j H:i" }}
+        <div class='comment_text'>
+            <p>{{ comment.text|linebreaksbr }}</p>
+        </div>
+        <p>
+            <a href="{% url 'sns:reply_form' comment.pk %}">返信する</a>
+        </p>
+
+        {% for reply in comment.replies.all %}
+            <strong>{{ reply.author }}</strong>・{{ reply.timestamp }}
+            <div class='reply_text'>
+                <p>{{ reply.text|linebreaksbr }}</p>
+            </div>
+        {% endfor %}
     {% endfor %}
 
 {% endblock %}

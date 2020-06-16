@@ -15,8 +15,7 @@ class CommentForm(forms.ModelForm):
     class Meta():
         model = Comment
         fields = (
-            'author',
-            'text'
+            'text',
         )
 
 
@@ -24,6 +23,5 @@ class ReplyForm(forms.ModelForm):
     class Meta():
         model = Reply
         fields = (
-            'author',
-            'text'
+            'text',
         )

@@ -195,3 +195,11 @@ p.content{
 .common-form .delete {
     background-color: #f44336;
 }
+
+.comment_text {
+    border: 2px solid #4CAF50;
+}
+
+.reply_text {
+    border: 2px solid #993333;
+}

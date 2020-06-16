@@ -29,7 +29,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='comments')
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
 
@@ -38,7 +38,6 @@ class Comment(models.Model):
 
 class Reply(models.Model):
     comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE, related_name='replies')
-    author = models.CharField(max_length=50)
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-
