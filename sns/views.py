@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.template.response import TemplateResponse
-from .models import Post, Category
+from .models import Post, Category, Comment, Reply
 from . import forms
 
 # Create your views here.
@@ -11,14 +11,6 @@ from . import forms
 class IndexView(generic.ListView):
     model = Post
     template_name = 'sns/index.html'
-
-    # def get_queryset(self):
-    #     condition = self.kwargs['condition']
-    #     if condition == 0:
-    #         queryset = Post.objects.all().order_by('-published_at')
-    #     elif condition == 1:
-    #         queryset = Post.objects.all().order_by('published_at')
-    #     return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -90,9 +82,40 @@ class MyPage(generic.TemplateView):
         print(context)
         return context
 
-def index_condition(request, condition):
-    if condition == 0:
-        object_list = Post.objects.all().order_by('-published_at')
-    elif condition == 1:
-        object_list = Post.objects.all().order_by('published_at')
-    return TemplateResponse(request, 'sns/index.html', {'object_list': object_list})
+
+class CommentFormView(generic.CreateView):
+    model = Comment
+    form_class = forms.CommentForm
+
+    def form_valid(self, form):
+        comment = form.save(commit=False)
+        post_pk = self.kwargs.get('pk')
+        comment.post = get_object_or_404(Post, pk=post_pk)
+        comment.author = self.request.user
+        comment.save()
+        return redirect('sns:post_detail', pk=post_pk)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        post_pk = self.kwargs.get('pk')
+        context['post'] = get_object_or_404(Post, pk=post_pk)
+        return context
+
+
+class ReplyFormView(generic.CreateView):
+    model = Reply
+    form_class = forms.ReplyForm
+
+    def form_valid(self, form):
+        reply = form.save(commit=False)
+        comment_pk = self.kwargs.get('pk')
+        reply.comment = get_object_or_404(Comment, pk=comment_pk)
+        reply.author = self.request.user
+        reply.save()
+        return redirect('sns:post_detail', pk=reply.comment.post.id)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        comment_pk = self.kwargs.get('pk')
+        context['comment'] = get_object_or_404(Comment, pk=comment_pk)
+        return context

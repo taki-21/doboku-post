@@ -25,3 +25,19 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title
+
+
+class Comment(models.Model):
+    post = models.ForeignKey(to=Post, on_delete=models.CASCADE, related_name='comments')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    text = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['-timestamp']
+
+class Reply(models.Model):
+    comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE, related_name='replies')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    text = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
