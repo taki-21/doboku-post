@@ -18,7 +18,7 @@ class Post(models.Model):
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     image = models.FileField(upload_to='upload/')
-    good = models.IntegerField()
+    good = models.IntegerField(default=0)
 
 
     class Meta:
