@@ -119,3 +119,9 @@ class ReplyFormView(generic.CreateView):
         comment_pk = self.kwargs.get('pk')
         context['comment'] = get_object_or_404(Comment, pk=comment_pk)
         return context
+
+def good_func(request, pk):
+    post = Post.objects.get(pk=pk)
+    post.good = post.good + 1
+    post.save()
+    return redirect('sns:index')

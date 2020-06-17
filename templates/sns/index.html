@@ -20,6 +20,7 @@
                             <li>{{ post.title }}</li>
                             <p class="content">{{ post.content }}</p>
                             <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
+                            <a href="{% url 'sns:good' post.pk%}" class='uk-button uk-button-danger'>いいね : {{ post.good }}</a>
                         </ul>
                     </div>
                 </div>
