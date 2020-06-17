@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+
 from django.template.response import TemplateResponse
 from .models import Post, Category, Comment, Reply
 from . import forms
@@ -76,10 +78,14 @@ class MyPage(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        login_user = self.request.user
-        print('login_user: ', login_user)
-        context['user_post'] = Post.objects.filter(author=login_user)
-        print(context)
+        user = self.kwargs.get('pk')
+        if user:
+            context['user_post'] = Post.objects.filter(author=user)
+            context['author'] = get_object_or_404(get_user_model(), pk=user)
+        else:
+            user = self.request.user
+            context['user_post'] = Post.objects.filter(author=user)
+            context['author'] = user
         return context
 
 
