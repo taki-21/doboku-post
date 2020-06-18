@@ -24,7 +24,7 @@ class IndexView(generic.ListView):
         elif condition == 1:
             context['object_list'] = Post.objects.all().reverse()
 
-        #　conditionが指定されていない場合
+        # conditionが指定されていない場合
         context['category_list'] = Category.objects.all()
         return context
 
@@ -125,6 +125,7 @@ class ReplyFormView(generic.CreateView):
         comment_pk = self.kwargs.get('pk')
         context['comment'] = get_object_or_404(Comment, pk=comment_pk)
         return context
+
 
 def good_func(request, pk):
     post = Post.objects.get(pk=pk)
