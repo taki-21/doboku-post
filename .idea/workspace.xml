@@ -2,17 +2,30 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7d1f9b96-34a5-40bb-8db2-9b4b5164474f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/sns/includes/reply.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/config/urls.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sns/admin.py" beforeDir="false" afterPath="$PROJECT_DIR$/sns/admin.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sns/forms.py" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/sns/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/sns/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sns/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/sns/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sns/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/sns/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/css/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/css/style.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/base.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/sns/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sns/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/sns/post_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/sns/post_detail.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -24,7 +37,9 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="ServiceViewManager">
