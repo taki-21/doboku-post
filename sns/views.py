@@ -3,14 +3,9 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 
-from django.template.response import TemplateResponse
 from .models import Post, Category, Comment
-from django import forms
+from . import forms
 
-# Create your views here.
-
-# コメント、返信フォーム
-CommentForm = forms.modelform_factory(Comment, fields=('text', ))
 
 class IndexView(generic.ListView):
     model = Post
@@ -105,7 +100,7 @@ class MyPage(generic.TemplateView):
 def comment_create(request, post_pk):
     """記事へのコメント"""
     post = get_object_or_404(Post, pk=post_pk)
-    form = CommentForm(request.POST or None)
+    form = forms.CommentForm(request.POST or None)
 
     if request.method == 'POST':
         comment = form.save(commit=False)
@@ -125,7 +120,7 @@ def reply_create(request, comment_pk):
     """コメントへの返信"""
     comment = get_object_or_404(Comment, pk=comment_pk)
     post = comment.post
-    form = CommentForm(request.POST or None)
+    form = forms.CommentForm(request.POST or None)
 
     if request.method == 'POST':
         reply = form.save(commit=False)

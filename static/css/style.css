@@ -238,6 +238,7 @@ p{
 
 .uk-comment-primary{
     padding: 15px;
+    border-left: 4px solid black;
 }
 
 .uk-comment-header{
