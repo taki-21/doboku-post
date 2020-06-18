@@ -1,6 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth import get_user_model
+
 from django.template.response import TemplateResponse
 from .models import Post, Category, Comment, Reply
 from . import forms
@@ -22,7 +24,7 @@ class IndexView(generic.ListView):
         elif condition == 1:
             context['object_list'] = Post.objects.all().reverse()
 
-        #　conditionが指定されていない場合
+        # conditionが指定されていない場合
         context['category_list'] = Category.objects.all()
         return context
 
@@ -76,10 +78,14 @@ class MyPage(generic.TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        login_user = self.request.user
-        print('login_user: ', login_user)
-        context['user_post'] = Post.objects.filter(author=login_user)
-        print(context)
+        user = self.kwargs.get('pk')
+        if user:
+            context['user_post'] = Post.objects.filter(author=user)
+            context['author'] = get_object_or_404(get_user_model(), pk=user)
+        else:
+            user = self.request.user
+            context['user_post'] = Post.objects.filter(author=user)
+            context['author'] = user
         return context
 
 
@@ -119,6 +125,7 @@ class ReplyFormView(generic.CreateView):
         comment_pk = self.kwargs.get('pk')
         context['comment'] = get_object_or_404(Comment, pk=comment_pk)
         return context
+
 
 def good_func(request, pk):
     post = Post.objects.get(pk=pk)

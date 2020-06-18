@@ -1,14 +1,13 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 
-# Create your models here.
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
 
     def __str__(self):
         return self.name
-
 
 
 class Post(models.Model):
@@ -18,8 +17,7 @@ class Post(models.Model):
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     image = models.FileField(upload_to='upload/')
-    good = models.IntegerField()
-
+    good = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-published_at']
@@ -36,6 +34,7 @@ class Comment(models.Model):
 
     class Meta:
         ordering = ['-timestamp']
+
 
 class Reply(models.Model):
     comment = models.ForeignKey(to=Comment, on_delete=models.CASCADE, related_name='replies')
