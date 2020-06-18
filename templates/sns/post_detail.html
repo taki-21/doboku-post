@@ -12,38 +12,57 @@
 {% endblock %}
 
 {% block aside %}
-    <button class="uk-button uk-button-default">
-        <a class="" href="{% url 'sns:comment_form' post.pk %}">コメントを投稿する</a>
-    </button>
+    <a class="" href="{% url 'sns:comment_create' post.pk %}">
+        <button class="uk-button uk-button-default">
+            コメントを投稿する
+        </button>
+    </a>
     <ul class="uk-comment-list">
         <li>
-            {% for comment in post.comments.all %}
-                <article class="uk-comment uk-comment-primary uk-visible-toggle">
-                    <strong>{{ comment.author }}</strong>・{{ comment.timestamp|date:"y/n/j H:i" }}
+            {% for comment in comment_list %}
+                <article class="uk-comment uk-comment-primary uk-visible-toggle" tabindex="-1">
+                    <header class="uk-comment-header uk-position-relative">
+                        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                            <div class="uk-width-auto">
+                                <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
+                            </div>
+                            <div class="uk-width-expand">
+                                <strong class="uk-comment-title uk-margin-remove">{{ comment.author }}</strong>
+                                <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
+                            </div>
+                        </div>
+                    <div class="uk-position-bottom-right uk-position-small uk-hidden-hover"><a class="uk-link-muted" href="{% url 'sns:reply_create' comment.pk %}">Reply</a></div>
+                    </header>
                     <div class='comment_text'>
                         <p>{{ comment.text|linebreaksbr }}</p>
                     </div>
-                    <button class="uk-button uk-button-default uk-button-small">
-                        <a href="{% url 'sns:reply_form' comment.pk %}">返信する</a>
-                    </button>
                 </article>
                 <ul>
                     <li>
-                        {% for reply in comment.replies.all %}
-                            <article class="uk-comment uk-comment-primary uk-visible-toggle">
-                                <strong>{{ reply.author }}</strong>・{{ reply.timestamp|date:"y/n/j H:i" }}
-                                <div class='reply_text'>
-                                    <p>{{ reply.text|linebreaksbr }}</p>
-                                </div>
-                                <button class="uk-button uk-button-default uk-button-small">
-                                    <a href="{% url 'sns:reply_form' comment.pk %}">返信する</a>
-                                </button>
-                            </article>
-                        {% endfor %}
+                        {% with reply_list=comment.comment_set.all %}
+                            {% include 'sns/includes/reply.html' %}
+                        {% endwith %}
                     </li>
                 </ul>
             {% endfor %}
         </li>
     </ul>
-
 {% endblock %}
+
+<!--                <ul>-->
+<!--                    <li>-->
+<!--                        {% for reply in comment.replies.all %}-->
+<!--                            <article class="uk-comment uk-comment-primary uk-visible-toggle">-->
+<!--                                <p>To: {{ comment.author }}</p>-->
+<!--                                <strong>{{ reply.author }}</strong>・{{ reply.timestamp|date:"y/n/j H:i" }}-->
+<!--                                <div class='reply_text'>-->
+<!--                                    <p>{{ reply.text|linebreaksbr }}</p>-->
+<!--                                </div>-->
+<!--                                <button class="uk-button uk-button-default uk-button-small">-->
+<!--                                    <a href="{% url 'sns:reply_create' reply.pk %}">返信する</a>-->
+<!--                                </button>-->
+<!--                            </article>-->
+<!--                        {% endfor %}-->
+<!--                    </li>-->
+<!--                </ul>-->
+

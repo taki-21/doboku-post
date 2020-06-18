@@ -4,11 +4,13 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
 
 from django.template.response import TemplateResponse
-from .models import Post, Category, Comment, Reply
-from . import forms
+from .models import Post, Category, Comment
+from django import forms
 
 # Create your views here.
 
+# コメント、返信フォーム
+CommentForm = forms.modelform_factory(Comment, fields=('text', ))
 
 class IndexView(generic.ListView):
     model = Post
@@ -30,8 +32,18 @@ class IndexView(generic.ListView):
 
 
 class PostDetailView(generic.DetailView):
+    """投稿詳細"""
     model = Post
     template_name = 'sns/post_detail.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # どのコメントにも紐づかないコメント=記事自体へのコメント を取得する
+        pk = self.kwargs.get('pk')
+        post = Post.objects.get(pk=pk)
+        context['comment_list'] = Comment.objects.filter(parent__isnull=True,
+                                                         post=post)
+        return context
 
 
 
@@ -72,6 +84,7 @@ def form_view(request):
        form = forms.PostForm()
     return render(request, 'sns/form_view.html', {'form': form})
 
+
 class MyPage(generic.TemplateView):
     model = Post
     template_name = 'sns/my_page.html'
@@ -89,42 +102,46 @@ class MyPage(generic.TemplateView):
         return context
 
 
-class CommentFormView(generic.CreateView):
-    model = Comment
-    form_class = forms.CommentForm
+def comment_create(request, post_pk):
+    """記事へのコメント"""
+    post = get_object_or_404(Post, pk=post_pk)
+    form = CommentForm(request.POST or None)
 
-    def form_valid(self, form):
+    if request.method == 'POST':
         comment = form.save(commit=False)
-        post_pk = self.kwargs.get('pk')
-        comment.post = get_object_or_404(Post, pk=post_pk)
-        comment.author = self.request.user
+        comment.author = request.user
+        comment.post = post
         comment.save()
-        return redirect('sns:post_detail', pk=post_pk)
+        return redirect('sns:post_detail', pk=post.pk)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        post_pk = self.kwargs.get('pk')
-        context['post'] = get_object_or_404(Post, pk=post_pk)
-        return context
+    context = {
+        'form': form,
+        'post': post
+    }
+    return render(request, 'sns/comment_form.html', context)
 
 
-class ReplyFormView(generic.CreateView):
-    model = Reply
-    form_class = forms.ReplyForm
+def reply_create(request, comment_pk):
+    """コメントへの返信"""
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    post = comment.post
+    form = CommentForm(request.POST or None)
 
-    def form_valid(self, form):
+    if request.method == 'POST':
         reply = form.save(commit=False)
-        comment_pk = self.kwargs.get('pk')
-        reply.comment = get_object_or_404(Comment, pk=comment_pk)
-        reply.author = self.request.user
+        reply.author = request.user
+        reply.parent = comment
+        reply.post = post
         reply.save()
-        return redirect('sns:post_detail', pk=reply.comment.post.id)
+        return redirect('sns:post_detail', pk=post.pk)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        comment_pk = self.kwargs.get('pk')
-        context['comment'] = get_object_or_404(Comment, pk=comment_pk)
-        return context
+    context = {
+        'form': form,
+        'post': post,
+        'comment': comment,
+    }
+
+    return render(request, 'sns/comment_form.html', context)
 
 
 def good_func(request, pk):

@@ -13,7 +13,7 @@ urlpatterns = [
     path('create/', views.form_view, name='form_view'),
     path('my_page/', views.MyPage.as_view(), name='my_page'),
     path('my_page/<int:pk>/', views.MyPage.as_view(), name='my_page'),
-    path('comment/<int:pk>/', views.CommentFormView.as_view(), name='comment_form'),
-    path('reply/<int:pk>/', views.ReplyFormView.as_view(), name='reply_form'),
+    path('comment/<int:post_pk>/', views.comment_create, name='comment_create'),
+    path('reply/<int:comment_pk>/', views.reply_create, name='reply_create'),
     path('good/<int:pk>/', views.good_func, name='good'),
 ]
