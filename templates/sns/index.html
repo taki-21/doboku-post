@@ -31,6 +31,21 @@
 {% endblock %}
 
 {% block aside %}
+    <!--検索フォーム-->
+    <div class="uk-margin">
+        <form class="uk-search uk-search-default" action="{% url 'sns:index' %}" method="get">
+            <a type="submit" value="search" uk-search-icon></a>
+            <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
+        </form>
+    </div>
+    <!--検索フォーム-->
+
+    <!-- 検索結果の数 -->
+    {% if query %}
+    <p class="text-center font-weight-bold h4">{{posts.count}}件</p>
+    {% endif%}
+    <!-- 検索結果の数 -->
+
     <h3>カテゴリー</h3>
     <ul class="uk-nav uk-nav-default">
         <ul>
