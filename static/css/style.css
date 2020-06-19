@@ -71,6 +71,7 @@ li.header {
     font-size: small;
     text-align: right;
     color: rgb(238, 94, 94);
+    padding-left: 170px;
 
 }
 
@@ -94,10 +95,6 @@ section {
     margin-right: auto;
 }
 
-p.content{
-    font-size: small;
-}
-
 #card {
     overflow:hidden;
     border-radius: 5px;
@@ -109,6 +106,12 @@ p{
     margin: 0;
 }
 
+
+.post_content{
+    width: 100%;
+    font-size: small;
+    height: 40px;
+}
 /**
  * index
  */
@@ -171,6 +174,27 @@ p{
     margin-right: 24px;
 }
 
+.post_author {
+    border: 1px solid #4b4b4b;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+.post_author_detail {
+    border: 1px solid #4b4b4b;
+    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+    width: 120px;
+}
+.title_detail {
+    font-size:35px;
+}
+
 /**
  * Create, Update
  */
@@ -222,13 +246,6 @@ p{
     padding: 10px 20px;
 }
 
-.post_author {
-    border: 1px solid #4b4b4b;
-    border-radius: 5px;
-    margin: 0;
-    text-align: center;
-    font-weight: bold;
-}
 
 .uk-comment-list .uk-comment~ul {
     padding-left: 20px;
@@ -239,6 +256,8 @@ p{
 .uk-comment-primary{
     padding: 15px;
     border-left: 4px solid black;
+    border-bottom: 1px solid black;
+
 }
 
 .uk-comment-header{

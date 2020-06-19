@@ -19,9 +19,11 @@
                             <p class='post_author'>{{ post.author }}</p>
                         </a>
                         <p>{{ post.title }}</p>
-                        <p class="content">- {{ post.content }}</p>
-                        <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
-                        <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+                        <p class="post_content"><span>-- </span>{{ post.content }}</p>
+                        <div>
+                            <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+                            <span class="time">{{ post.published_at|date:"y/n/j H:i" }}</span>
+                        </div>
                     </div>
                 </a>
             </div>
@@ -34,7 +36,7 @@
     <!--検索フォーム-->
     <div class="uk-margin">
         <form class="uk-search uk-search-default" action="{% url 'sns:index' %}" method="get">
-            <a type="submit" value="search" uk-search-icon></a>
+            <a type="submit" uk-search-icon></a>
             <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
         </form>
     </div>

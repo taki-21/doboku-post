@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2>{{ object.title }}</h2>
-    <span>
-        <a href="{% url 'sns:my_page' post.author.id %} ">
-            <p class='post_author'>{{ object.author }}</p>
+    <div class='post_author_detail'>
+        <a href="{% url 'sns:my_page' post.author.id %}">
+            <div>
+                <p class='post_author_detail'>{{ post.author }}</p>
+            </div>
         </a>
-    </span>
+    </div>
+    <div class="title_detail">{{ object.title }}</div>
     <img src="{{object.image.url}}" width="80%" height="50%"  id="card_top">
     <p>{{ object.content }}</p>
 {% endblock %}
