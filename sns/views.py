@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from .models import Post, Category, Comment
 from . import forms
@@ -10,6 +11,19 @@ from . import forms
 class IndexView(generic.ListView):
     model = Post
     template_name = 'sns/index.html'
+
+    def get_queryset(self):
+        q_word = self.request.GET.get('query')
+
+        if q_word:
+            object_list = Post.objects.filter(
+                Q(title__icontains=q_word) |
+                Q(author__username__icontains=q_word) |
+                Q(content__icontains=q_word)
+            )
+        else:
+            object_list = Post.objects.all()
+        return object_list
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
