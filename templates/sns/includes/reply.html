@@ -15,8 +15,8 @@
         <div class='comment_text'>
             <p>{{ reply.text }}</p>
         </div>
-    </article>
                 {% with reply_list=reply.comment_set.all %}
                     {% include 'sns/includes/reply.html' %}
                 {% endwith %}
+    </article>
 {% endfor %}
