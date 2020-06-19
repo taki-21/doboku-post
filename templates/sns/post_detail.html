@@ -50,20 +50,3 @@
     </ul>
 {% endblock %}
 
-<!--                <ul>-->
-<!--                    <li>-->
-<!--                        {% for reply in comment.replies.all %}-->
-<!--                            <article class="uk-comment uk-comment-primary uk-visible-toggle">-->
-<!--                                <p>To: {{ comment.author }}</p>-->
-<!--                                <strong>{{ reply.author }}</strong>・{{ reply.timestamp|date:"y/n/j H:i" }}-->
-<!--                                <div class='reply_text'>-->
-<!--                                    <p>{{ reply.text|linebreaksbr }}</p>-->
-<!--                                </div>-->
-<!--                                <button class="uk-button uk-button-default uk-button-small">-->
-<!--                                    <a href="{% url 'sns:reply_create' reply.pk %}">返信する</a>-->
-<!--                                </button>-->
-<!--                            </article>-->
-<!--                        {% endfor %}-->
-<!--                    </li>-->
-<!--                </ul>-->
-
