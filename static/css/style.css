@@ -199,6 +199,9 @@ p{
     padding-left: 25px;
 }
 
+.comment_icon{
+    text-align: right;
+}
 /**
  * Create, Update
  */

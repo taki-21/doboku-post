@@ -11,17 +11,21 @@
                     <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
                 </div>
             </div>
-            <div class="uk-position-bottom-right uk-position-small uk-hidden-hover"><a class="uk-link-muted" href="{% url 'sns:reply_create' comment.pk %}">Reply</a></div>
         </header>
         <div class='comment_text'>
             <p>{{ reply.text }}</p>
-            {% if user.is_superuser or comment.author.username == user.username %}
-                <a href="{% url 'sns:comment_remove' reply.pk %}">削除</a>
+        </div>
+        <div class="comment_icon">
+            {% if user.is_superuser or reply.author.username == user.username %}
+                <a uk-icon="icon: trash"href="{% url 'sns:comment_remove' reply.pk %}"></a>
+            {% endif %}
+            {% if user.is_authenticated %}
+                <a uk-icon="icon: reply" href="{% url 'sns:reply_create' comment.pk %}"></a>
             {% endif %}
         </div>
-                {% with reply_list=reply.comment_set.all %}
-                    {% include 'sns/includes/reply.html' %}
-                {% endwith %}
+        {% with reply_list=reply.comment_set.all %}
+            {% include 'sns/includes/reply.html' %}
+        {% endwith %}
     </article>
     {% endfor %}
 </div>
