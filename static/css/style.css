@@ -241,6 +241,12 @@ p{
     margin-left: 10px;
 }
 
+.comment_num{
+    font-size: 13px;
+    margin-left: 10px;
+    color: blue;
+}
+
 /* UIkitの上書き */
 .uk-card-body {
     padding: 10px 20px;

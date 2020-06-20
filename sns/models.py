@@ -27,11 +27,16 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(to=Post, verbose_name='対象記事', on_delete=models.CASCADE, related_name='comments')
+    post = models.ForeignKey(to=Post, verbose_name='対象記事',
+                             on_delete=models.CASCADE)
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    parent = models.ForeignKey('self', verbose_name='親コメント', null=True, blank=True, on_delete=models.CASCADE)
+    parent = models.ForeignKey(to='self', verbose_name='親コメント',
+                               null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['-timestamp']
+
+    def __str__(self):
+        return f'{self.author} -  {self.text}'

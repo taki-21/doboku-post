@@ -31,6 +31,7 @@
                             <div class="uk-width-expand">
                                 <strong class="uk-comment-title uk-margin-remove">{{ comment.author }}</strong>
                                 <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
+                                <span class="comment_num">{{ comment.comment_set.count }}</span>
                             </div>
                         </div>
                     <div class="uk-position-bottom-right uk-position-small uk-hidden-hover"><a class="uk-link-muted" href="{% url 'sns:reply_create' comment.pk %}">Reply</a></div>
