@@ -153,10 +153,28 @@ def reply_create(request, comment_pk):
 
 
 def comment_remove(request, comment_pk):
-    if comment_pk:
-        comment = get_object_or_404(Comment, pk=comment_pk)
-        comment.delete()
-        return redirect('sns:post_detail', pk=comment.post.pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    comment.delete()
+    return redirect('sns:post_detail', pk=comment.post.pk)
+
+
+def comment_edit(request, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    post = comment.post
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()
+            return redirect('sns:post_detail', pk=post.pk)
+    else:
+        form = forms.CommentForm(instance=comment)
+
+    context = {
+        'form': form,
+        'post': post,
+        'comment': comment,
+    }
+    return render(request, 'sns/comment_form.html', context)
 
 
 def good_func(request, pk):
