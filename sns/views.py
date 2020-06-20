@@ -55,7 +55,6 @@ class PostDetailView(generic.DetailView):
         return context
 
 
-
 class CategoryPostView(generic.ListView):
     model = Post
     template_name = 'sns/category_post.html'
@@ -151,6 +150,13 @@ def reply_create(request, comment_pk):
     }
 
     return render(request, 'sns/comment_form.html', context)
+
+
+def comment_remove(request, comment_pk):
+    if comment_pk:
+        comment = get_object_or_404(Comment, pk=comment_pk)
+        comment.delete()
+        return redirect('sns:post_detail', pk=comment.post.pk)
 
 
 def good_func(request, pk):

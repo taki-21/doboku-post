@@ -38,16 +38,15 @@
                     </header>
                     <div class='comment_text'>
                         <p>{{ comment.text|linebreaksbr }}</p>
+                        {% if user.is_superuser or comment.author.username == user.username %}
+                            <a href="{% url 'sns:comment_remove' comment.pk %}">削除</a>
+                        {% endif %}
                     </div>
                 </article>
-                <ul>
-                    <li>
-                        {% with reply_list=comment.comment_set.all %}
-                            {% include 'sns/includes/reply.html' %}
-                        {% endwith %}
-                    </li>
-                </ul>
-            <br>
+                {% with reply_list=comment.comment_set.all %}
+                    {% include 'sns/includes/reply.html' %}
+                {% endwith %}
+                <br>
             {% endfor %}
         </li>
     </ul>

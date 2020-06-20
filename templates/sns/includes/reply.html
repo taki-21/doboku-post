@@ -1,4 +1,5 @@
-{% for reply in reply_list %}
+<div class="reply_text">
+    {% for reply in reply_list %}
     <article class="uk-comment uk-comment-primary uk-visible-toggle" tabindex="-1">
         <header class="uk-comment-header uk-position-relative">
             <div class="uk-grid-medium uk-flex-middle" uk-grid>
@@ -14,9 +15,13 @@
         </header>
         <div class='comment_text'>
             <p>{{ reply.text }}</p>
+            {% if user.is_superuser or comment.author.username == user.username %}
+                <a href="{% url 'sns:comment_remove' reply.pk %}">削除</a>
+            {% endif %}
         </div>
                 {% with reply_list=reply.comment_set.all %}
                     {% include 'sns/includes/reply.html' %}
                 {% endwith %}
     </article>
-{% endfor %}
+    {% endfor %}
+</div>
