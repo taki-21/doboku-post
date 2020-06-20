@@ -17,6 +17,7 @@
         </div>
         <div class="comment_icon">
             {% if user.is_superuser or reply.author.username == user.username %}
+                <a uk-icon="icon: pencil"href="{% url 'sns:comment_edit' reply.pk %}"></a>
                 <a uk-icon="icon: trash"href="{% url 'sns:comment_remove' reply.pk %}"></a>
             {% endif %}
             {% if user.is_authenticated %}
