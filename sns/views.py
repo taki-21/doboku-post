@@ -89,7 +89,7 @@ def form_view(request):
             post.save()
             return redirect('sns:index')
     else:
-       form = forms.PostForm()
+        form = forms.PostForm()
     return render(request, 'sns/form_view.html', {'form': form})
 
 

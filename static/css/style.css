@@ -37,7 +37,7 @@ h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'ヒラギノ角ゴ StdN','Hiragino Kaku Gothic StdN',sans-serif;
+    font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 }
 a {
     text-decoration: none;
@@ -174,13 +174,6 @@ p{
     margin-right: 24px;
 }
 
-.post_author {
-    border: 1px solid #4b4b4b;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    text-align: center;
-    font-weight: bold;
-}
 .post_author_detail {
     border: 1px solid #4b4b4b;
     border-radius: 5px;
@@ -188,8 +181,7 @@ p{
     line-height: 40px;
     margin: 0;
     text-align: center;
-    font-weight: bold;
-    width: 120px;
+    width: 130px;
 }
 .title_detail {
     font-size:35px;
@@ -197,6 +189,12 @@ p{
 
 .reply_text{
     padding-left: 25px;
+}
+
+
+.like_left{
+    text-align: left;
+    float: left;
 }
 
 .comment_icon{

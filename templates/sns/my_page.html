@@ -16,15 +16,36 @@
                         <div class="uk-card-media-top">
                             <img src="{{post.image.url}}" width="100%" height="50%">
                         </div>
-                        <div class="uk-card-body">
-                            <a href="{% url 'sns:my_page' post.author.id %} ">
-                                <p class='post_author'>{{ post.author }}</p>
-                            </a>
-                            <p>{{ post.title }}</p>
-                            <p class="content">- {{ post.content }}</p>
-                            <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
-                            <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+                    <div class="uk-card-body">
+                        <header class="uk-comment-header uk-position-relative">
+                            <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                                <div class="uk-width-auto">
+                                    <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
+                                </div>
+                                <div class="uk-width-expand">
+                                    <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                                    <span class="timestamp">{{ post.published_at|date:"y/n/j H:i" }}</span>
+                                </div>
+                            </div>
+                        </header>
+                        <p>{{ post.title }}</p>
+                        <p class="post_content"><span>-- </span>{{ post.content }}</p>
+                        <div>
+                            <div class="like_left">
+                                <span class="likes"><a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}</span>
+                            </div>
+                            <div class="comment_icon">
+                                <span class="more-icon" uk-icon="icon: more"></span>
+                                <div uk-drop="pos: left-center; mode:click">
+                                    {% if user.is_superuser or comment.author.username == user.username %}
+                                        <a uk-icon="icon: pencil"href=""></a>
+                                        <a uk-icon="icon: trash"href=""></a>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
+
+                    </div>
                     </a>
                 </div>
             </div>
