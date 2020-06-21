@@ -35,13 +35,13 @@
                                 <span class="likes"><a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}</span>
                             </div>
                             <div class="comment_icon">
-                                <span class="more-icon" uk-icon="icon: more"></span>
-                                <div uk-drop="pos: left-center; mode:click">
-                                    {% if user.is_superuser or comment.author.username == user.username %}
-                                        <a uk-icon="icon: pencil"href=""></a>
-                                        <a uk-icon="icon: trash"href=""></a>
-                                    {% endif %}
-                                </div>
+                                {% if user.is_superuser or post.author.username == user.username %}
+                                    <span class="more-icon" uk-icon="icon: more"></span>
+                                    <div uk-drop="pos: left-center; mode:click">
+                                        <a uk-icon="icon: pencil" href="{% url 'sns:my_page_edit' post.pk %}"></a>
+                                        <a uk-icon="icon: trash" href="{% url 'sns:my_page_remove' post.pk %}"></a>
+                                    </div>
+                                {% endif %}
                             </div>
                         </div>
 

@@ -110,6 +110,29 @@ class MyPage(generic.TemplateView):
         return context
 
 
+def post_remove(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    post.delete()
+    return redirect('sns:my_page')
+
+
+def post_edit(request, post_pk):
+    post = get_object_or_404(Post, pk=post_pk)
+    if request.method == 'POST':
+        form = forms.PostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('sns:my_page',)
+    else:
+        form = forms.PostForm(instance=post)
+
+    context = {
+        'form': form,
+        'post': post,
+    }
+    return render(request, 'sns/form_view.html', context)
+
+
 def comment_create(request, post_pk):
     """記事へのコメント"""
     post = get_object_or_404(Post, pk=post_pk)
