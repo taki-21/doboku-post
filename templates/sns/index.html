@@ -21,7 +21,9 @@
                                     <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
                                 </div>
                                 <div class="uk-width-expand">
-                                    <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                                    <a href="{% url 'sns:my_page' post.author.id %}">
+                                        <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                                    </a>
                                     <span class="timestamp">{{ post.published_at|date:"y/n/j H:i" }}</span>
                                 </div>
                             </div>
