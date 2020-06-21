@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import generic
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth import get_user_model
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 
 from .models import Post, Category, Comment
@@ -133,6 +134,7 @@ def post_edit(request, post_pk):
     return render(request, 'sns/form_view.html', context)
 
 
+@login_required
 def comment_create(request, post_pk):
     """記事へのコメント"""
     post = get_object_or_404(Post, pk=post_pk)
@@ -151,7 +153,7 @@ def comment_create(request, post_pk):
     }
     return render(request, 'sns/comment_form.html', context)
 
-
+@login_required
 def reply_create(request, comment_pk):
     """コメントへの返信"""
     comment = get_object_or_404(Comment, pk=comment_pk)

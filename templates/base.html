@@ -20,8 +20,18 @@
 <nav>
     {% if user.is_authenticated%}
         <ul class='header'>
-            <li class='header'><span id='name'>{{ user.get_username }}</span>さん</li>
+            <li>
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="uk-width-auto">
+                        <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
+                    </div>
+                    <div class="uk-width-expand">
+                        <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                    </div>
+                </div>
+            </li>
         </ul>
+
         <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>

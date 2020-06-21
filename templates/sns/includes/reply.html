@@ -22,9 +22,7 @@
                     <a uk-icon="icon: pencil"href="{% url 'sns:comment_edit' reply.pk %}"></a>
                     <a uk-icon="icon: trash"href="{% url 'sns:comment_remove' reply.pk %}"></a>
                 {% endif %}
-                {% if user.is_authenticated %}
-                    <a uk-icon="icon: reply" href="{% url 'sns:reply_create' comment.pk %}"></a>
-                {% endif %}
+                <a uk-icon="icon: reply" href="{% url 'sns:reply_create' comment.pk %}"></a>
             </div>
         </div>
         {% with reply_list=reply.comment_set.all %}
