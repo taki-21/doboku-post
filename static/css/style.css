@@ -112,6 +112,8 @@ p{
     font-size: small;
     height: 40px;
 }
+
+
 /**
  * index
  */
@@ -144,6 +146,7 @@ p{
 .pagination li:last-child {
     text-align: right;
 }
+
 
 /**
  * detail
@@ -201,6 +204,19 @@ p{
     text-align: right;
 }
 
+.user_icon {
+    width: 45px;
+    height: 45px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.show_user{
+    line-height: 45px;
+    float: left;
+
+}
+
 .more-icon:hover{
     color: black;
 }
@@ -247,7 +263,7 @@ p{
 
 .timestamp{
     font-size: 12px;
-    margin-left: 10px;
+    text-align: right;
 }
 
 .comment_num{

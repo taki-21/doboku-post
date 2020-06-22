@@ -22,11 +22,13 @@
         <ul class='header'>
             <li>
                 <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                    <div class="uk-width-auto">
-                        <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
-                    </div>
-                    <div class="uk-width-expand">
-                        <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                    <div class="">
+                        <a class="show_user" href="{% url 'sns:my_page' %}">
+                            <div class="">
+                                <img class="user_icon" src="{{ user.icon_image.url }}">
+                                <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </li>
