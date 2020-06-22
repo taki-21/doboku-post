@@ -2,14 +2,15 @@
     {% for reply in reply_list %}
     <article class="uk-comment uk-comment-primary uk-visible-toggle" tabindex="-1">
         <header class="uk-comment-header uk-position-relative">
-            <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                <div class="uk-width-auto">
-                    <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
-                </div>
-                <div class="uk-width-expand">
-                    <strong class="uk-comment-title uk-margin-remove">{{ reply.author }}</strong>
-                    <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
-                </div>
+            <div class="">
+                <a class="show_user" href="{% url 'sns:my_page' reply.author.id %}">
+                    <div class="">
+                        <img class="user_icon" src="{{ reply.author.icon_image.url }}">
+                        <strong class="uk-comment-title uk-margin-remove">{{ reply.author }}</strong>
+                        <span class="timestamp">{{ reply.timestamp|date:"y/n/j H:i" }}</span>
+                        <span class="comment_num">{{ reply.comment_set.count }}</span>
+                    </div>
+                </a>
             </div>
         </header>
         <div class='comment_text'>

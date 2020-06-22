@@ -16,15 +16,15 @@
                     </div>
                     <div class="uk-card-body">
                         <header class="uk-comment-header uk-position-relative">
-                            <div class="uk-grid-medium uk-flex-middle" uk-grid>
-                                <div class="uk-width-auto">
-                                    <img class="uk-comment-avatar" src="images/avatar.jpg" width="80" height="80" alt="">
-                                </div>
-                                <div class="uk-width-expand">
-                                    <a href="{% url 'sns:my_page' post.author.id %}">
+                            <div class="">
+                                <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
+                                    <div class="">
+                                        <img class="user_icon" src="{{ post.author.icon_image.url }}">
                                         <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
-                                    </a>
-                                    <span class="timestamp">{{ post.published_at|date:"y/n/j H:i" }}</span>
+                                    </div>
+                                </a>
+                                <div class="timestamp" >
+                                    <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
                                 </div>
                             </div>
                         </header>
@@ -34,13 +34,6 @@
                             <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
                         </div>
                     </div>
-<!--                    <div class="uk-card-body">-->
-<!--                        <div class='post_author_detail'>-->
-<!--                            <a href="{% url 'sns:my_page' post.author.id %} ">-->
-<!--                                <p class='post_author_detail'>{{ post.author }}</p>-->
-<!--                            </a>-->
-<!--                        </div>-->
-<!--                    </div>-->
                 </a>
             </div>
         </div>

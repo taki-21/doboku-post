@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-
+from django.conf import settings
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -12,7 +12,7 @@ class Category(models.Model):
 
 class Post(models.Model):
     category = models.ForeignKey(to=Category, on_delete=models.CASCADE)
-    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title = models.CharField(max_length=100)
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
