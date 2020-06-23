@@ -30,6 +30,15 @@
 {% endblock %}
 
 {% block aside %}
+    <!--検索フォーム-->
+    <div class="uk-margin">
+        <form class="uk-search uk-search-default" action="" method="get">
+            <a type="submit" uk-search-icon></a>
+            <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
+        </form>
+    </div>
+    <!--検索フォーム-->
+
     <h3>カテゴリー</h3>
     <ul class="uk-nav uk-nav-default">
         <ul>
