@@ -18,8 +18,8 @@
 
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit" class="submit">Login</button>
+                {{ form.as_p }}
+            <button type="submit" class="submit">ログイン</button>
         </form>
 </section>
 {% endblock %}

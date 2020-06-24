@@ -13,7 +13,6 @@ def get_home_image_path(instance, filename):
 
 class CustomUser(AbstractUser):
     """カスタムユーザーモデル"""
-
     email = models.EmailField(
         verbose_name='メールアドレス',
         unique=True
