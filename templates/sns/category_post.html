@@ -2,6 +2,10 @@
 
 {% block content %}
     <h4>「{{ category.name }}」の投稿一覧</h4>
+    <p>
+        <a href="{% url 'sns:category_post' category.slug 0 %}">新しい順</a>
+        <a href="{% url 'sns:category_post' category.slug 1 %}">古い順</a>
+    </p>
     <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
     {% for post in object_list %}
         <div>
@@ -26,12 +30,21 @@
 {% endblock %}
 
 {% block aside %}
+    <!--検索フォーム-->
+    <div class="uk-margin">
+        <form class="uk-search uk-search-default" action="" method="get">
+            <a type="submit" uk-search-icon></a>
+            <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
+        </form>
+    </div>
+    <!--検索フォーム-->
+
     <h3>カテゴリー</h3>
     <ul class="uk-nav uk-nav-default">
         <ul>
             <li class="uk-nav-divider"></li>
             {% for category in category_list %}
-                <li><a href="{% url 'sns:category_post' category.slug%}">{{ category }}</a></li>
+                <li><a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a></li>
             <li class="uk-nav-divider"></li>
             {% endfor %}
         </ul>

@@ -3,6 +3,7 @@
 {% block content %}
 <section class="common-form">
 <h2>新規登録</h2>
+    <form method='POST'>
     {% for field in form %}
         {% csrf_token %}
         {{ field.label_tag }} {{ field }}
@@ -11,5 +12,6 @@
         {% endif %}
     {% endfor %}
     <button type="submit" class="submit">送信</button>
+    </form>
 </section>
 {% endblock %}

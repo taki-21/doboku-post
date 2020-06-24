@@ -13,25 +13,40 @@
 </head>
 
 <body>
-<header>
+<header class="title-header">
 <h1>
-    <a href="{% url 'sns:index' %}" class='title'>Doboku_Post</a>
+    <a href="{% url 'sns:index' %}" class='title'>DOBOKU_Post</a>
 </h1>
 <nav>
-    <ul class='header'>
-        {% if user.is_authenticated%}
-            <li class='header'>{{ user.get_username }}さん</li>
+    {% if user.is_authenticated%}
+        <ul class='header'>
+            <li>
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="">
+                        <a class="show_user" href="{% url 'sns:my_page' %}">
+                            <div class="">
+                                <img class="user_icon" src="{{ user.icon_image.url }}">
+                                <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>
             <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
             <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
-
-        {% else %}
+        </ul>
+    {% else %}
+        <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a></li>
             <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a></li>
-        {% endif %}
-    </ul>
+        </ul>
+    {% endif %}
 </nav>
 </header>
 <div uk-grid class='content'>

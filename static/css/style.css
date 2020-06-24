@@ -9,8 +9,8 @@ body {
     background-color: #fff;
 }
 
-header {
-    padding: 30px 4% 10px;
+.title-header {
+    padding: 20px 4% 20px;
     /* position: fixed; */
     top: 0;
     width: 100%;
@@ -19,11 +19,25 @@ header {
     align-items: center;
     margin-bottom: 20px;
 }
+
+header {
+    padding: 0px;
+    /* position: fixed; */
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+span#name{
+    font-size: 20px;
+    font-weight: 900;
+}
 h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'ヒラギノ角ゴ StdN','Hiragino Kaku Gothic StdN',sans-serif;
+    font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
 }
 a {
     text-decoration: none;
@@ -57,6 +71,7 @@ li.header {
     font-size: small;
     text-align: right;
     color: rgb(238, 94, 94);
+    padding-left: 170px;
 
 }
 
@@ -80,15 +95,25 @@ section {
     margin-right: auto;
 }
 
-p.content{
-    font-size: small;
-}
-
 #card {
-    background-color: rgb(245, 250, 250);
     overflow:hidden;
     border-radius: 5px;
+    background-color: #f7fcfc;
+
 }
+
+p{
+    margin: 0;
+}
+
+
+.post_content{
+    width: 100%;
+    font-size: small;
+    height: 40px;
+}
+
+
 /**
  * index
  */
@@ -122,6 +147,7 @@ p.content{
     text-align: right;
 }
 
+
 /**
  * detail
  */
@@ -151,6 +177,49 @@ p.content{
     margin-right: 24px;
 }
 
+.post_author_detail {
+    border: 1px solid #4b4b4b;
+    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    margin: 0;
+    text-align: center;
+    width: 130px;
+}
+.title_detail {
+    font-size:35px;
+}
+
+.reply_text{
+    padding-left: 25px;
+}
+
+
+.like_left{
+    text-align: left;
+    float: left;
+}
+
+.comment_icon{
+    text-align: right;
+}
+
+.user_icon {
+    width: 45px;
+    height: 45px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+.show_user{
+    line-height: 45px;
+    float: left;
+
+}
+
+.more-icon:hover{
+    color: black;
+}
 /**
  * Create, Update
  */
@@ -190,3 +259,47 @@ p.content{
 .common-form .delete {
     background-color: #f44336;
 }
+
+
+.timestamp{
+    font-size: 12px;
+    text-align: right;
+}
+
+.comment_num{
+    font-size: 13px;
+    margin-left: 10px;
+    color: blue;
+}
+
+/* UIkitの上書き */
+.uk-card-body {
+    padding: 10px 20px;
+}
+
+
+
+
+.uk-comment-primary{
+    padding: 15px;
+    border-left: 4px solid black;
+    border-bottom: 1px solid black;
+
+}
+
+.uk-comment-header{
+    margin-bottom: 10px;
+}
+
+/* 検索フォーム */
+.uk-search-default .uk-search-input {
+    height: 40px;
+    padding-left: 6px;
+    padding-right: 6px;
+    background: 0 0;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    width: 200%;
+}
+
+/* ログインフォーム */
