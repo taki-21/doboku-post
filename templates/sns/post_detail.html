@@ -32,7 +32,7 @@
                     <header class="uk-comment-header uk-position-relative">
                         <div class="">
                             <a class="show_user"
-                               href="{% url 'sns:my_page' post.author.id %}">
+                               href="{% url 'sns:my_page' comment.author.id %}">
                                 <div class="">
                                     <img class="user_icon"
                                          src="{{ comment.author.icon_image.url }}">
