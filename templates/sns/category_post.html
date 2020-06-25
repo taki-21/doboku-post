@@ -10,19 +10,29 @@
     {% for post in object_list %}
         <div>
             <a href="{% url 'sns:post_detail' pk=post.id %}">
-                <div class="uk-card uk-card-hover uk-card-default" id="card">
                     <div class="uk-card-media-top">
-                        <img src="{{post.image.url}}" width="100%" height="50%"  id="card_top">
+                        <img src="{{post.image.url}}" width="100%" height="50%">
                     </div>
-                    <div class="uk-card uk-accordion-content">
-                        <ul>
-                            <li>{{ post.author }}</li>
-                            <li>{{ post.title }}</li>
-                            <p class="content">{{ post.content }}</p>
-                            <li class="time">{{ post.published_at|date:"y/n/j H:i" }}</li>
-                        </ul>
+                    <div class="uk-card-body">
+                        <header class="uk-comment-header uk-position-relative">
+                            <div class="">
+                                <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
+                                    <div class="">
+                                        <img class="user_icon" src="{{ post.author.icon_image.url }}">
+                                        <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                                    </div>
+                                </a>
+                                <div class="timestamp" >
+                                    <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
+                                </div>
+                            </div>
+                        </header>
+                        <p>{{ post.title }}</p>
+                        <p class="post_content"><span>-- </span>{{ post.content }}</p>
+                        <div>
+                            <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+                        </div>
                     </div>
-                </div>
             </a>
         </div>
     {% endfor %}
