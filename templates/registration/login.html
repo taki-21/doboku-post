@@ -9,11 +9,11 @@
                     <div class="uk-width-1-1@m">
                         <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
                             <h2 class="uk-card-title uk-text-center">ログイン</h2>
-                            <form method="post">
+                            <form method="post">{% csrf_token %}
                                 {{ form.non_field_errors }}
                                 <div class="uk-margin">
                                     <div class="uk-inline uk-width-1-1">
-                                        {#                    <label for="{{ form.username.id_for_label }}">Username:</label>#}
+{#                                        <label for="{{ form.username.id_for_label }}">Username:</label>#}
                                         <span class="uk-form-icon" uk-icon="icon: user"></span>
                                         {{ form.username|attr:"class:uk-input uk-form-large"|attr:"placeholder:ユーザー名" }}
                                         {{ form.username.errors }}
@@ -21,7 +21,7 @@
                                 </div>
                                 <div class="uk-margin">
                                     <div class="uk-inline uk-width-1-1">
-                                        {#                <label for="{{ form.password.id_for_label }}">Password:</label>#}
+{#                                        <label for="{{ form.password.id_for_label }}">Password:</label>#}
                                         <span class="uk-form-icon" uk-icon="icon: lock"></span>
                                         {{ form.password|attr:"class:uk-input uk-form-large"|attr:"placeholder:パスワード" }}
                                         {{ form.password.errors }}
@@ -61,5 +61,4 @@
         {#            {{ form.as_p }}#}
         {#            <button type="submit" class="submit">ログイン</button>#}
         {#        </form>#}
-    </section>
 {% endblock %}
