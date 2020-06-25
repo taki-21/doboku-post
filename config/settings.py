@@ -28,7 +28,12 @@ INSTALLED_APPS = [
     'sns.apps.SnsConfig',
 
     # カスタムユーザー
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+
+    # 3rd party app
+    'widget_tweaks',
+
+
 ]
 
 MIDDLEWARE = [

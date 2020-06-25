@@ -1,0 +1,56 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--IE対策：互換表示させない。-->
+<title>DOBOKU_SNS</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/css/uikit.min.css">
+<link rel="stylesheet" href="{% static 'css/style.css'%}">
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit-icons.min.js"></script>
+</head>
+
+<body>
+<header class="title-header">
+<h1>
+    <a href="{% url 'sns:index' %}" class='title'>DOBOKU_Post</a>
+</h1>
+<nav>
+    {% if user.is_authenticated%}
+        <ul class='header'>
+            <li>
+                <div class="uk-grid-medium uk-flex-middle" uk-grid>
+                    <div class="">
+                        <a class="show_user" href="{% url 'sns:my_page' %}">
+                            <div class="">
+                                <img class="user_icon" src="{{ user.icon_image.url }}">
+                                <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+
+        <ul class='header'>
+            <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
+            <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>
+            <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
+            <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
+        </ul>
+    {% else %}
+        <ul class='header'>
+            <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
+            <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a></li>
+            <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a></li>
+        </ul>
+    {% endif %}
+</nav>
+</header>
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
