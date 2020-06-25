@@ -1,25 +1,27 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<section class="common-form">
-    <h2>ログイン</h2>
+    <section class="common-form">
+        <h2>ログイン</h2>
         {% if form.errors %}
-        <p class="error-msg">Your username and password didn't match. Please try again.</p>
+            <p class="error-msg">Your username and password didn't match. Please
+                try again.</p>
         {% endif %}
 
         {% if next %}
-        {% if user.is_authenticated %}
-        <p class="error-msg">Your account doesn't have access to this page. To proceed,
-            please login with an account that has access.</p>
-        {% else %}
-        <p class="error-msg">Please login to see this page.</p>
-        {% endif %}
+            {% if user.is_authenticated %}
+                <p class="error-msg">Your account doesn't have access to this
+                    page. To proceed,
+                    please login with an account that has access.</p>
+            {% else %}
+                <p class="error-msg">このページを見るためにはログインをしてください</p>
+            {% endif %}
         {% endif %}
 
         <form method="post" action="{% url 'login' %}">
             {% csrf_token %}
-                {{ form.as_p }}
+            {{ form.as_p }}
             <button type="submit" class="submit">ログイン</button>
         </form>
-</section>
+    </section>
 {% endblock %}
