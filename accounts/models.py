@@ -31,7 +31,7 @@ class CustomUser(AbstractUser):
         verbose_name='アイコン画像',
         blank=True,
         null=True,
-        default='images/custom_user/icon_image/icon.png',
+        default='images/custom_user/icon_image/default_icon.png',
         upload_to=get_icon_image_path
     )
     home_image = models.ImageField(
