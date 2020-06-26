@@ -134,5 +134,8 @@ MEDIA_URL = '/media/'
 # ログイン後トップページにリダイレクト
 LOGIN_REDIRECT_URL = 'sns:index'
 
+# ログアウト後トップページにリダイレクト
+LOGOUT_REDIRECT_URL = 'sns:index'
+
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
