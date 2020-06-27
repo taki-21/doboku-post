@@ -304,13 +304,15 @@ p{
 
 /* 新規投稿フォーム */
 .uk-placeholder {
-    margin-bottom: 20px;
+    height: 100%;
     padding: 30px 30px;
     background: 0 0;
-    width: 400px;
-    height: 300px;
-    border: 2px dashed #e5e5e5;
+    border: 1px dashed #e5e5e5;
 }
 .camera-icon{
     line-height: 236px;
+}
+.post-button{
+    margin-top: 10px;
+    font-size: 25px;
 }
