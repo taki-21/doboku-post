@@ -38,18 +38,8 @@
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
             <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a></li>
             <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a></li>
-            <li class='header logout'><a href="#modal-logout" class="logout" uk-toggle>ログアウト</a></li>
+            <li class='header logout'><a href="{% url 'logout' %}" class="logout">ログアウト</a></li>
         </ul>
-        <div id="modal-logout" uk-modal >
-            <div class="uk-modal-dialog uk-modal-body">
-                <h2 class="uk-modal-title">ログアウト確認</h2>
-                <p>ログアウトします。よろしいですか？</p>
-                <p class="uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
-                    <a href="{% url 'logout' %}"><button class="uk-button uk-button-primary" type="button" %}>OK</button></a>
-                </p>
-            </div>
-        </div>
     {% else %}
         <ul class='header'>
             <li class='header'><a href="{% url 'sns:index' %}">ホーム</a></li>
@@ -59,14 +49,8 @@
     {% endif %}
 </nav>
 </header>
-<div uk-grid class='content'>
-    <div class="uk-width-3-4">
-        <main>{% block content %}{% endblock %}</main>
-    </div>
-    <div class="uk-width-1-4">
-        <aside>{% block aside %}{% endblock %}</aside>
-    </div>
-</div>
+
+{% block content %}{% endblock %}
 
 </body>
 </html>

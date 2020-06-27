@@ -28,7 +28,12 @@ INSTALLED_APPS = [
     'sns.apps.SnsConfig',
 
     # カスタムユーザー
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+
+    # 3rd party app
+    'widget_tweaks',
+
+
 ]
 
 MIDDLEWARE = [
@@ -128,6 +133,9 @@ MEDIA_URL = '/media/'
 
 # ログイン後トップページにリダイレクト
 LOGIN_REDIRECT_URL = 'sns:index'
+
+# ログアウト後トップページにリダイレクト
+LOGOUT_REDIRECT_URL = 'sns:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'

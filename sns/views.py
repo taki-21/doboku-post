@@ -91,7 +91,7 @@ def form_view(request):
             return redirect('sns:index')
     else:
         form = forms.PostForm()
-    return render(request, 'sns/form_view.html', {'form': form})
+    return render(request, 'sns/post_form.html', {'form': form})
 
 
 class MyPage(generic.TemplateView):
@@ -131,7 +131,7 @@ def post_edit(request, post_pk):
         'form': form,
         'post': post,
     }
-    return render(request, 'sns/form_view.html', context)
+    return render(request, 'sns/post_form.html', context)
 
 
 @login_required
