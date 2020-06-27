@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('email', models.EmailField(max_length=254, unique=True, verbose_name='メールアドレス')),
                 ('username', models.CharField(max_length=20, unique=True, verbose_name='ユーザ名')),
                 ('introduction', models.TextField(blank=True, max_length=150, null=True, verbose_name='自己紹介')),
-                ('icon_image', models.ImageField(blank=True, default='images/custom_user/icon_image/icon.png', null=True, upload_to=accounts.models.get_icon_image_path, verbose_name='アイコン画像')),
+                ('icon_image', models.ImageField(blank=True, default='images/custom_user/icon_image/default_icon.png', null=True, upload_to=accounts.models.get_icon_image_path, verbose_name='アイコン画像')),
                 ('home_image', models.ImageField(blank=True, default='images/custom_user/home_image/home.png', null=True, upload_to=accounts.models.get_home_image_path, verbose_name='ホーム画像')),
                 ('groups', models.ManyToManyField(blank=True, help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.', related_name='user_set', related_query_name='user', to='auth.Group', verbose_name='groups')),
                 ('user_permissions', models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions')),
