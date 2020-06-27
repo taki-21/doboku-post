@@ -1,8 +1,5 @@
 __pycache__/
 db.sqlite3
 media
-<<<<<<< HEAD
-=======
 .idea/
->>>>>>> 1953b2c599dbc632f43752bfd25d31c6054efb72
 *.pyc
