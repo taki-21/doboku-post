@@ -9,17 +9,21 @@
                     <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
                     >
                         <h2 class="uk-card-title uk-text-center">新規投稿</h2>
-                        <form method="post" enctype="multipart/form-data">{% csrf_token %}
+                        <form method="post"
+                              enctype="multipart/form-data">{% csrf_token %}
                             <div uk-grid>
                                 <div class="uk-width-1-2">
+                                    {{ form.image }}
+                                    {{ form.image.errors }}
                                     <div class="js-upload uk-placeholder uk-text-center">
-                                        <div class="camera-icon"
-                                             uk-icon="icon: camera; ratio: 5"></div>
+                                        <div class="uk-link">
+                                            <div uk-form-custom>
+                                                <input type="file" multiple>
+                                                <div class="camera-icon"
+                                                     uk-icon="icon: camera; ratio: 5"></div>
+                                            </div>
+                                        </div>
                                     </div>
-{#                                    <progress id="js-progressbar"#}
-{#                                              class="uk-progress"#}
-{#                                              value="0" max="100"#}
-{#                                              hidden></progress>#}
                                 </div>
                                 <div class="uk-width-1-2">
                                     <div class="uk-margin">
@@ -113,8 +117,6 @@
                             </div>
                         </form>
                     </div>
-
-                    {#                            <button type="submit" class="submit">投稿</button>#}
                 </div>
             </div>
         </div>
