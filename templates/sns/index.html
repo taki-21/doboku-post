@@ -7,37 +7,44 @@
         <a href="{% url 'sns:index' 1 %}">古い順</a>
     </p>
     <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
-    {% for post in object_list %}
-        <div>
-            <div class="uk-card uk-card-hover uk-card-default" id="card">
-                <a href="{% url 'sns:post_detail' post.id %}">
-                    <div class="uk-card-media-top">
-                        <img src="{{post.image.url}}" width="100%" height="50%">
-                    </div>
-                    <div class="uk-card-body">
-                        <header class="uk-comment-header uk-position-relative">
-                            <div class="">
-                                <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
-                                    <div class="">
-                                        <img class="user_icon" src="{{ post.author.icon_image.url }}">
-                                        <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
-                                    </div>
-                                </a>
-                                <div class="timestamp" >
-                                    <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
-                                </div>
-                            </div>
-                        </header>
-                        <p>{{ post.title }}</p>
-                        <p class="post_content"><span>-- </span>{{ post.content }}</p>
-                        <div>
-                            <a href="{% url 'sns:good' post.pk%}" uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+        {% for post in object_list %}
+            <div>
+                <div class="uk-card uk-card-hover uk-card-default" id="card">
+                    <a href="{% url 'sns:post_detail' post.id %}">
+                        <div class="uk-card-media-top">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" width="100%"
+                                     height="50%">
+                            {% endif %}
                         </div>
-                    </div>
-                </a>
+                        <div class="uk-card-body">
+                            <header class="uk-comment-header uk-position-relative">
+                                <div class="">
+                                    <a class="show_user"
+                                       href="{% url 'sns:my_page' post.author.id %}">
+                                        <div class="">
+                                            <img class="user_icon"
+                                                 src="{{ post.author.icon_image.url }}">
+                                            <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                                        </div>
+                                    </a>
+                                    <div class="timestamp">
+                                        <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
+                                    </div>
+                                </div>
+                            </header>
+                            <p>{{ post.title }}</p>
+                            <p class="post_content">
+                                <span>-- </span>{{ post.content }}</p>
+                            <div>
+                                <a href="{% url 'sns:good' post.pk %}"
+                                   uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}
+                            </div>
+                        </div>
+                    </a>
+                </div>
             </div>
-        </div>
-    {% endfor %}
+        {% endfor %}
     </div>
 {% endblock %}
 
@@ -46,7 +53,9 @@
     <div class="uk-margin">
         <form class="uk-search uk-search-default" action="" method="get">
             <a type="submit" uk-search-icon></a>
-            <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
+            <input class="uk-search-input" name="query"
+                   value="{{ request.GET.query }}" type="search"
+                   placeholder="Search...">
         </form>
     </div>
     <!--検索フォーム-->
@@ -56,8 +65,10 @@
         <ul>
             <li class="uk-nav-divider"></li>
             {% for category in category_list %}
-                <li><a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a></li>
-            <li class="uk-nav-divider"></li>
+                <li>
+                    <a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a>
+                </li>
+                <li class="uk-nav-divider"></li>
             {% endfor %}
         </ul>
     </ul>

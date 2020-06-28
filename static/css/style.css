@@ -327,6 +327,18 @@ p {
 .camera-icon {
 }
 
+.preview {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
+}
+
+.default-preview-img {
+    max-width: 100%;
+    height: auto;
+
+}
+
 .post-button {
     margin-top: 10px;
     font-size: 25px;
