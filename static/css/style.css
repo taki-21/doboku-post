@@ -29,16 +29,18 @@ header {
     align-items: center;
 }
 
-span#name{
+span#name {
     font-size: 20px;
     font-weight: 900;
 }
+
 h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+    font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
 }
+
 a {
     text-decoration: none;
     color: #4b4b4b;
@@ -48,12 +50,12 @@ a:hover {
     text-decoration: none;
 }
 
-a.title:hover{
+a.title:hover {
     color: #4b4b4b;
 }
 
 ul {
-     list-style: none;
+    list-style: none;
 }
 
 ul.header {
@@ -67,7 +69,7 @@ li.header {
     font-size: 14px;
 }
 
-.time{
+.time {
     font-size: small;
     text-align: right;
     color: rgb(238, 94, 94);
@@ -76,7 +78,7 @@ li.header {
 }
 
 .logout {
-    color:red;
+    color: red;
 }
 
 nav {
@@ -85,7 +87,7 @@ nav {
 
 .content {
     width: 1500px;
-    margin:0 auto;
+    margin: 0 auto;
 }
 
 
@@ -96,18 +98,18 @@ section {
 }
 
 #card {
-    overflow:hidden;
+    overflow: hidden;
     border-radius: 5px;
     background-color: #f7fcfc;
 
 }
 
-p{
+p {
     margin: 0;
 }
 
 
-.post_content{
+.post_content {
     width: 100%;
     font-size: small;
     height: 40px;
@@ -186,21 +188,22 @@ p{
     text-align: center;
     width: 130px;
 }
+
 .title_detail {
-    font-size:35px;
+    font-size: 35px;
 }
 
-.reply_text{
+.reply_text {
     padding-left: 25px;
 }
 
 
-.like_left{
+.like_left {
     text-align: left;
     float: left;
 }
 
-.comment_icon{
+.comment_icon {
     text-align: right;
 }
 
@@ -211,15 +214,16 @@ p{
     border-radius: 50%;
 }
 
-.show_user{
+.show_user {
     line-height: 45px;
     float: left;
 
 }
 
-.more-icon:hover{
+.more-icon:hover {
     color: black;
 }
+
 /**
  * Create, Update
  */
@@ -261,12 +265,12 @@ p{
 }
 
 
-.timestamp{
+.timestamp {
     font-size: 12px;
     text-align: right;
 }
 
-.comment_num{
+.comment_num {
     font-size: 13px;
     margin-left: 10px;
     color: blue;
@@ -278,16 +282,14 @@ p{
 }
 
 
-
-
-.uk-comment-primary{
+.uk-comment-primary {
     padding: 15px;
     border-left: 4px solid black;
     border-bottom: 1px solid black;
 
 }
 
-.uk-comment-header{
+.uk-comment-header {
     margin-bottom: 10px;
 }
 
@@ -304,15 +306,42 @@ p{
 
 /* 新規投稿フォーム */
 .uk-placeholder {
+    margin-bottom: 0px;
     height: 100%;
     padding: 30px 30px;
     background: 0 0;
-    border: 1px dashed #e5e5e5;
+    position: relative;
 }
-.camera-icon{
-    line-height: 236px;
+
+
+.camera-choice {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: table-cell;
+    vertical-align: middle;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
 }
-.post-button{
+
+.camera-icon {
+}
+
+.post-button {
     margin-top: 10px;
     font-size: 25px;
+}
+
+.uk-form-custom {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    vertical-align: middle;
+    height: 100%;
+    border: 2px dashed gray;
+}
+
+.uk-form-custom:hover {
+    cursor: pointer;
+    background-color: #E6E6FA;
 }
