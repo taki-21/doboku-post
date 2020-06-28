@@ -81,7 +81,7 @@ class CategoryPostView(generic.ListView):
         return context
 
 
-def form_view(request):
+def post_form(request):
     if request.method == 'POST':
         form = forms.PostForm(request.POST, request.FILES)
         if form.is_valid():

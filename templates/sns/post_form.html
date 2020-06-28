@@ -13,8 +13,13 @@
                               enctype="multipart/form-data">{% csrf_token %}
                             <div uk-grid>
                                 <div class="uk-width-1-2">
-                                    {{ form.image }}
-                                    {{ form.image.errors }}
+                                    <div uk-form-custom>
+                                        {{ form.image }}
+                                        <button class="uk-button uk-button-default"
+                                                type="button" tabindex="-1">
+                                            Select
+                                        </button>
+                                    </div>
                                     <div class="js-upload uk-placeholder uk-text-center">
                                         <div class="uk-link">
                                             <div uk-form-custom>

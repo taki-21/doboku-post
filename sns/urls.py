@@ -10,7 +10,7 @@ urlpatterns = [
          views.CategoryPostView.as_view(), name='category_post'),
     path('category/<str:category_slug>/<int:condition>',
          views.CategoryPostView.as_view(), name='category_post'),
-    path('create/', views.form_view, name='form_view'),
+    path('create/', views.post_form, name='form_view'),
     path('my_page/', views.MyPage.as_view(), name='my_page'),
     path('my_page/<int:pk>/', views.MyPage.as_view(), name='my_page'),
     path('my_page/<int:post_pk>/remove/', views.post_remove, name='my_page_remove'),
