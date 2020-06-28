@@ -11,7 +11,10 @@
         <div>
             <a href="{% url 'sns:post_detail' pk=post.id %}">
                     <div class="uk-card-media-top">
-                        <img src="{{post.image.url}}" width="100%" height="50%">
+                            {% if post.image %}
+                                <img src="{{ post.image.url }}" width="100%"
+                                     height="50%">
+                            {% endif %}
                     </div>
                     <div class="uk-card-body">
                         <header class="uk-comment-header uk-position-relative">
