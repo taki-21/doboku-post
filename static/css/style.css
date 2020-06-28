@@ -327,6 +327,17 @@ p {
 .camera-icon {
 }
 
+.preview{
+    width: 400px;
+    height: 300px;
+    border:1px solid red;
+}
+
+.default-preview-img {
+    max-width: 100%;
+    height: auto;
+}
+
 .post-button {
     margin-top: 10px;
     font-size: 25px;

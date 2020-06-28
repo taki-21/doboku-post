@@ -6,8 +6,7 @@
         <div class="uk-container">
             <div class="uk-grid-margin uk-grid-stack">
                 <div class="uk-width-1-1@m">
-                    <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-                    >
+                    <div class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
                         <h2 class="uk-card-title uk-text-center">新規投稿</h2>
                         <form method="post"
                               enctype="multipart/form-data">{% csrf_token %}
@@ -15,21 +14,15 @@
                                 <div class="uk-width-1-2">
                                     <div uk-form-custom>
                                         <div class="uk-placeholder uk-text-center">
-                                            {{ form.image|attr:"class:image-uploader" }}
+                                            {{ form.image }}
                                             <div class="camera-choice">
-                                                <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
+                                                <div class="camera-icon"
+                                                     uk-icon="icon: camera; ratio: 5"></div>
                                                 <p>画像を選択してください</p>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {#                                    <div uk-form-custom>#}
-                                {#                                    {{ form.image }}#}
-                                {#                                        <button class="uk-button uk-button-default"#}
-                                {#                                                type="button" tabindex="-1">#}
-                                {#                                            Select#}
-                                {#                                        </button>#}
-                                {#                                    </div>#}
                                 <div class="uk-width-1-2">
                                     <div class="uk-margin">
                                         <div class="uk-inline uk-width-1-1">
@@ -114,6 +107,10 @@
                             {#                                });#}
                             {##}
                             {#                            </script>#}
+                            <div class="preview">
+                                {{ form.media }}
+                                <img id="image-preview">
+                            </div>
                             <div class="uk-margin">
                                 <button class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
                                         type="submit">
@@ -126,5 +123,6 @@
             </div>
         </div>
     </div>
+
 {% endblock %}
 

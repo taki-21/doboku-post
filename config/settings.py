@@ -33,8 +33,12 @@ INSTALLED_APPS = [
     # 3rd party app
     'widget_tweaks',
 
+    'django.forms',
+
 
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
