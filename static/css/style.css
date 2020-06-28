@@ -327,15 +327,16 @@ p {
 .camera-icon {
 }
 
-.preview{
-    width: 400px;
-    height: 300px;
-    border:1px solid red;
+.preview {
+    position: absolute;
+    z-index: 2;
+    pointer-events: none;
 }
 
 .default-preview-img {
     max-width: 100%;
     height: auto;
+
 }
 
 .post-button {
