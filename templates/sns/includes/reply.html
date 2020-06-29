@@ -1,0 +1,34 @@
+<div class="reply_text">
+    {% for reply in reply_list %}
+    <article class="uk-comment uk-comment-primary uk-visible-toggle" tabindex="-1">
+        <header class="uk-comment-header uk-position-relative">
+            <div class="">
+                <a class="show_user" href="{% url 'sns:my_page' reply.author.id %}">
+                    <div class="">
+                        <img class="user_icon" src="{{ reply.author.icon_image.url }}">
+                        <strong class="uk-comment-title uk-margin-remove">{{ reply.author }}</strong>
+                        <span class="timestamp">{{ reply.timestamp|date:"y/n/j H:i" }}</span>
+                        <span class="comment_num">{{ reply.comment_set.count }}</span>
+                    </div>
+                </a>
+            </div>
+        </header>
+        <div class='comment_text'>
+            <p>{{ reply.text }}</p>
+        </div>
+        <div class="comment_icon">
+            <span class="more-icon" uk-icon="icon: more"></span>
+            <div uk-drop="pos: left-center; mode:click">
+                {% if user.is_superuser or reply.author.username == user.username %}
+                    <a uk-icon="icon: pencil"href="{% url 'sns:comment_edit' reply.pk %}"></a>
+                    <a uk-icon="icon: trash"href="{% url 'sns:comment_remove' reply.pk %}"></a>
+                {% endif %}
+                <a uk-icon="icon: reply" href="{% url 'sns:reply_create' comment.pk %}"></a>
+            </div>
+        </div>
+        {% with reply_list=reply.comment_set.all %}
+            {% include 'sns/includes/reply.html' %}
+        {% endwith %}
+    </article>
+    {% endfor %}
+</div>

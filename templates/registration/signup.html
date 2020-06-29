@@ -1,0 +1,63 @@
+{% extends 'registration/base.html' %}
+{% load widget_tweaks %}
+
+{% block content %}
+    <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
+        <div class="uk-width-1-1">
+            <div class="uk-container">
+                <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
+                    <div class="uk-width-1-1@m">
+                        <div class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                            <h2 class="uk-card-title uk-text-center">新規登録</h2>
+                            <form method="post">{% csrf_token %}
+                                {{ form.non_field_errors }}
+                                <div class="uk-margin">
+                                    <div class="uk-inline uk-width-1-1">
+                                        {#                                        <label for="{{ form.username.id_for_label }}">Username:</label>#}
+                                        <span class="uk-form-icon"
+                                              uk-icon="icon: user"></span>
+                                        {{ form.username|attr:"class:uk-input uk-form-large"|attr:"placeholder:ユーザー名" }}
+                                        {{ form.username.errors }}
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-inline uk-width-1-1">
+                                        <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                                        {{ form.email|attr:"class:uk-input uk-form-large"|attr:"placeholder:メールアドレス" }}
+                                        {{ form.email.errors }}
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-inline uk-width-1-1">
+                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                        {{ form.password1|attr:"class:uk-input uk-form-large"|attr:"placeholder:パスワード" }}
+                                    </div>
+                                </div>
+                                <div class="uk-margin">
+                                    <div class="uk-inline uk-width-1-1">
+                                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                                        {{ form.password2|attr:"class:uk-input uk-form-large"|attr:"placeholder:パスワード（確認用）" }}
+                                    </div>
+                                    {{ form.password2.errors }}
+                                </div>
+                                <div class="uk-margin">
+                                    <button class="uk-button uk-button-primary uk-button-large uk-width-1-1"
+                                            type="submit">新規登録
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {##}
+    {#    <section class="common-form">#}
+    {#        <h2>新規登録</h2>#}
+    {#        <form method='POST'>{% csrf_token %}#}
+    {#            {{ form.as_p }}#}
+    {#            <button type="submit" class="submit">送信</button>#}
+    {#        </form>#}
+    {#    </section>#}
+{% endblock %}
