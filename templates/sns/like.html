@@ -1,11 +1,17 @@
-{{post.good.count}} いいね
- {% if request.user.is_authenticated %}
-   <form action="{% url 'sns:good' %}" method="POST">
-     {% csrf_token %}
-     {% if liked %}
-      <span type="submit" id="like" name="post_id" value="{{post.id}}" class="heart_icon" uk-icon="heart"></span>
-      {% else %}
-      <span type="submit" id="like" name="post_id" value="{{post.id}}" uk-icon="heart" ></span>
-     {% endif %}
-   </form>
- {% endif %}
+{% if request.user.is_authenticated %}
+    <form action="{% url 'sns:good' %}" method="POST">
+        {% csrf_token %}
+        {% if liked %}
+            <span type="submit" id="like" name="post_id" value="{{ post.id }}"
+                  class="heart_icon" uk-icon="heart"></span>
+            {{ post.id }}
+            {{ post.good.count }}
+        {% else %}
+            <span type="submit" id="like" name="post_id" value="{{ post.id }}"
+                  uk-icon="heart"></span>
+            {{ post.id }}
+
+            {{ post.good.count }}
+        {% endif %}
+    </form>
+{% endif %}

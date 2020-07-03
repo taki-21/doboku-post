@@ -32,25 +32,28 @@
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
- $(document).ready(function(event){
- $(document).on('click', '#like', function(event){
-    event.preventDefault();
-    var post_id = $(this).attr('value');
-    $.ajax({
-    type: 'POST',
-    url: '{% url "sns:good" %}',
-    data: {'post_id': post_id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
-    dataType: 'json',
-    success: function(response){
-      $('#like').html(response['form'])
-      console.log($('#like').html(response['form']));
-    },
-    error: function(rs, e){
-      console.log(rs.responseText);
-    }
-   });
- });
-});
- </script>
+    $(document).ready(function (event) {
+        $(document).on('click', '#like', function (event) {
+            event.preventDefault();
+            var post_id = $(this).attr('value');
+            $.ajax({
+                type: 'POST',
+                url: '{% url "sns:good" %}',
+                data: {
+                    'post_id': post_id,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                dataType: 'json',
+                success: function (response) {
+                    $('#like').html(response['form'])
+                    console.log($('#like').html(response['form']));
+                },
+                error: function (rs, e) {
+                    console.log(rs.responseText);
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>

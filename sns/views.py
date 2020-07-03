@@ -41,7 +41,6 @@ class IndexView(generic.ListView):
         context['category_list'] = Category.objects.all()
         return context
 
-
 class PostDetailView(generic.DetailView):
     """投稿詳細"""
     model = Post
@@ -210,7 +209,10 @@ def comment_edit(request, comment_pk):
 
 def good_func(request):
     post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    print('post: ', post)
+    print('post.good.count(): ', post.good.count())
     liked = False
+    print('post.good.filter(id=request.user.id): ', post.good.filter(id=request.user.id))
     if post.good.filter(id=request.user.id).exists():
         post.good.remove(request.user)
         liked = False
