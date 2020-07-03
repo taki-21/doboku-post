@@ -1,0 +1,11 @@
+{{post.good.count}} いいね
+ {% if request.user.is_authenticated %}
+   <form action="{% url 'sns:good' %}" method="POST">
+     {% csrf_token %}
+     {% if liked %}
+      <button type="submit" id="like" name="post_id" value="{{post.id}}" class="btn"><span uk-icon="heart"></span></button>
+      {% else %}
+      <button type="submit" id="like" name="post_id" value="{{post.id}}" class="btn"><span uk-icon="star"></span></button>
+     {% endif %}
+   </form>
+ {% endif %}

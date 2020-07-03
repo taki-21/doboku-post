@@ -53,6 +53,11 @@ class PostDetailView(generic.DetailView):
         post = Post.objects.get(pk=pk)
         context['comment_list'] = Comment.objects.filter(parent__isnull=True,
                                                          post=post)
+        liked = False
+        if post.good.filter(id=self.request.user.id).exists():
+            liked = True
+        context['post'] = post
+        context['liked'] = liked
         return context
 
 
@@ -202,8 +207,13 @@ def comment_edit(request, comment_pk):
     return render(request, 'sns/comment_form.html', context)
 
 
-def good_func(request, pk):
-    post = Post.objects.get(pk=pk)
-    post.good = post.good + 1
-    post.save()
-    return redirect('sns:index')
+def good_func(request):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.good.filter(id=request.user.id).exists():
+        post.good.remove(request.user)
+        liked = False
+    else:
+        post.good.add(request.user)
+        liked = True
+    return redirect('sns:post_detail', pk=post.id)
