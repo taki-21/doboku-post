@@ -3,9 +3,9 @@
    <form action="{% url 'sns:good' %}" method="POST">
      {% csrf_token %}
      {% if liked %}
-      <button type="submit" id="like" name="post_id" value="{{post.id}}" class="btn"><span uk-icon="heart"></span></button>
+      <span type="submit" id="like" name="post_id" value="{{post.id}}" class="heart_icon" uk-icon="heart"></span>
       {% else %}
-      <button type="submit" id="like" name="post_id" value="{{post.id}}" class="btn"><span uk-icon="star"></span></button>
+      <span type="submit" id="like" name="post_id" value="{{post.id}}" uk-icon="heart" ></span>
      {% endif %}
    </form>
  {% endif %}

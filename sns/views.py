@@ -4,7 +4,8 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
-
+from django.template.loader import render_to_string
+from django.http import JsonResponse
 from .models import Post, Category, Comment
 from . import forms
 
@@ -216,4 +217,12 @@ def good_func(request):
     else:
         post.good.add(request.user)
         liked = True
-    return redirect('sns:post_detail', pk=post.id)
+    # return redirect('sns:post_detail', pk=post.id)
+
+    context = {
+        'post': post,
+        'liked': liked,
+    }
+    if request.is_ajax():
+        html = render_to_string('sns/like.html', context, request=request)
+        return JsonResponse({'form': html})

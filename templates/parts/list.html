@@ -28,10 +28,14 @@
                         <p>{{ post.title }}</p>
                         <p class="post_content">
                             <span>-- </span>{{ post.content }}</p>
-{#                        <div>#}
-{#                            <a href="{% url 'sns:good' post.pk %}"#}
-{#                               uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}#}
-{#                        </div>#}
+                        <div id="like">
+                            {% include 'sns/like.html' %}
+                        </div>
+
+                        {#                        <div>#}
+                        {#                            <a href="{% url 'sns:good' post.pk %}"#}
+                        {#                               uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}#}
+                        {#                        </div>#}
                     </div>
                 </a>
             </div>
