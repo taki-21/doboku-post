@@ -361,3 +361,17 @@ p {
     cursor: pointer;
     background-color: #E6E6FA;
 }
+
+
+.heart_icon.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve){
+    stroke: indianred;
+    fill: indianred;
+}
+
+#like-count{
+    line-height:30px;
+    font-size: 17px;
+}
+#heart-button{
+    line-height:30px;
+}

@@ -51,9 +51,10 @@
                                     <span>-- </span>{{ post.content }}</p>
                                 <div>
                                     <div class="like_left">
-                                        <span class="likes"><a
-                                                href="{% url 'sns:good' post.pk %}"
-                                                uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}</span>
+                            <div>
+                                <i id="heart-button" uk-icon="heart"></i>
+                                <span id="like-count">{{ post.like.count }}</span>
+                            </div>
                                     </div>
                                     <div class="comment_icon">
                                         {% if user.is_superuser or post.author.username == user.username %}

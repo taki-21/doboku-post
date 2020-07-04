@@ -18,7 +18,7 @@ class Post(models.Model):
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='upload/', null=True, blank=True)
-    good = models.IntegerField(default=0)
+    like = models.ManyToManyField(to=get_user_model(), related_name='like', blank=True)
 
     class Meta:
         ordering = ['-published_at']

@@ -15,6 +15,9 @@
     <div class="title_detail">{{ object.title }}</div>
     <img src="{{ object.image.url }}" width="80%" height="50%" id="card_top">
     <p>{{ object.content }}</p>
+    <div id="like">
+        {% include 'sns/like.html' %}
+    </div>
 {% endblock %}
 
 {% block aside %}
