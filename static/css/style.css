@@ -14,7 +14,7 @@ body {
     /* position: fixed; */
     top: 0;
     width: 100%;
-    background-color: #997C7A;
+    background-color: #5a544b;
     display: flex;
     align-items: center;
     margin-bottom: 20px;
@@ -52,11 +52,11 @@ a:hover {
 }
 
 .title {
-    color: #333333;
+    color: black;
 }
 
 a.title:hover {
-    color: #4b4b4b;
+    color: black;
 }
 
 ul {
