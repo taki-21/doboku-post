@@ -36,9 +36,10 @@
         $(document).on('click', '#like', function (event) {
             event.preventDefault();
             var post_id = $(this).attr('value');
+            console.log(post_id)
             $.ajax({
                 type: 'POST',
-                url: '{% url "sns:good" %}',
+                url: '{% url "sns:like" %}',
                 data: {
                     'post_id': post_id,
                     'csrfmiddlewaretoken': '{{ csrf_token }}'

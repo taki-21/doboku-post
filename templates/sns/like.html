@@ -1,17 +1,17 @@
 {% if request.user.is_authenticated %}
-    <form action="{% url 'sns:good' %}" method="POST">
+    <form action="{% url 'sns:like' %}" method="POST">
         {% csrf_token %}
         {% if liked %}
             <span type="submit" id="like" name="post_id" value="{{ post.id }}"
                   class="heart_icon" uk-icon="heart"></span>
             {{ post.id }}
-            {{ post.good.count }}
+            {{ post.like.count }}
         {% else %}
             <span type="submit" id="like" name="post_id" value="{{ post.id }}"
                   uk-icon="heart"></span>
             {{ post.id }}
 
-            {{ post.good.count }}
+            {{ post.like.count }}
         {% endif %}
     </form>
 {% endif %}

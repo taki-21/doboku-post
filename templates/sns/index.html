@@ -38,9 +38,9 @@
                                 <span>-- </span>{{ post.content }}
                             </p>
                             <div id="like">
-                                {% if user in post.good.all %}
+                                {% if user in post.like.all %}
                                     {% include 'sns/like.html' with liked=True %}
-                                {% elif user not in post.good.all %}
+                                {% elif user not in post.like.all %}
                                     {% include 'sns/like.html' with liked=False %}
                                 {% endif %}
                             </div>
