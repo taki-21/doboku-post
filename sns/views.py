@@ -226,6 +226,14 @@ def like(request):
         'post': post,
         'liked': liked,
     }
+
+    context_index = {
+        'click_post': post,
+    }
+    print('click_post.id: ', post.id)
+    render(request, 'sns/index.html', context_index)
+
     if request.is_ajax():
         html = render_to_string('sns/like.html', context, request=request)
         return JsonResponse({'form': html})
+

@@ -28,6 +28,7 @@
                                             <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
                                         </div>
                                     </a>
+                                    <p>{{ post.id }}</p>
                                     <div class="timestamp">
                                         <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
                                     </div>
@@ -37,13 +38,23 @@
                             <p class="post_content">
                                 <span>-- </span>{{ post.content }}
                             </p>
-                            <div id="like">
-                                {% if user in post.like.all %}
-                                    {% include 'sns/like.html' with liked=True %}
-                                {% elif user not in post.like.all %}
-                                    {% include 'sns/like.html' with liked=False %}
-                                {% endif %}
-                            </div>
+                            {% if post.id == click_post.id %}
+                                <div id="like">
+                                    {% if user in post.like.all %}
+                                        {% include 'sns/like.html' with liked=True %}
+                                    {% elif user not in post.like.all %}
+                                        {% include 'sns/like.html' with liked=False %}
+                                    {% endif %}
+                                </div>
+                            {% elif post.id != click_post.id%}
+                                <div>
+                                    {% if user in post.like.all %}
+                                        {% include 'sns/like.html' with liked=True %}
+                                    {% elif user not in post.like.all %}
+                                        {% include 'sns/like.html' with liked=False %}
+                                    {% endif %}
+                                </div>
+                            {% endif %}
                         </div>
                     </a>
                 </div>

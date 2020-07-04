@@ -52,8 +52,8 @@
                                 <div>
                                     <div class="like_left">
                                         <span class="likes"><a
-                                                href="{% url 'sns:good' post.pk %}"
-                                                uk-icon="icon: heart; ratio: 1"></a> {{ post.good }}</span>
+                                                href="{% url 'sns:like' post.pk %}"
+                                                uk-icon="icon: heart; ratio: 1"></a> {{ post.like }}</span>
                                     </div>
                                     <div class="comment_icon">
                                         {% if user.is_superuser or post.author.username == user.username %}
