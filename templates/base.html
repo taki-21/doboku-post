@@ -3,32 +3,34 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--IE対策：互換表示させない。-->
-    <title>DOBOKU_SNS</title>
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/css/uikit.min.css">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit-icons.min.js"></script>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge"/><!--IE対策：互換表示させない。-->
+  <title>DOBOKU_SNS</title>
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/css/uikit.min.css">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/uikit@3.5.3/dist/js/uikit-icons.min.js"></script>
 </head>
 
 <body>
+<a href="{% url 'sns:form_view' %}" class="fixed-btn">新規投稿</a>
 <header class="title-header">
-    <h1>
-        <a href="{% url 'sns:index' %}" class='title'>DOBOKU_Post</a>
-    </h1>
-    <nav>
-        {% include 'parts/header.html' %}
-    </nav>
+  <h1>
+    <a href="{% url 'sns:index' %}" class='title'>DOBOKU_Post</a>
+  </h1>
+  <nav>
+    {% include 'parts/header.html' %}
+  </nav>
 </header>
+
 <div uk-grid class='content'>
-    <div class="uk-width-3-4">
-        <main>{% block content %}{% endblock %}</main>
-    </div>
-    <div class="uk-width-1-4">
-        <aside>{% block aside %}{% endblock %}</aside>
-    </div>
+  <div class="uk-width-3-4">
+    <main>{% block content %}{% endblock %}</main>
+  </div>
+  <div class="uk-width-1-4">
+    <aside>{% block aside %}{% endblock %}</aside>
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script type="text/javascript">
