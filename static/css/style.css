@@ -367,3 +367,11 @@ p {
     stroke: indianred;
     fill: indianred;
 }
+
+#like-count{
+    line-height:30px;
+    font-size: 17px;
+}
+#heart-button{
+    line-height:30px;
+}

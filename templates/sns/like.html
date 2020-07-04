@@ -4,13 +4,10 @@
         {% if liked %}
             <span type="submit" id="like" name="post_id" value="{{ post.id }}"
                   class="heart_icon" uk-icon="heart"></span>
-            {{ post.id }}
             {{ post.like.count }}
         {% else %}
             <span type="submit" id="like" name="post_id" value="{{ post.id }}"
                   uk-icon="heart"></span>
-            {{ post.id }}
-
             {{ post.like.count }}
         {% endif %}
     </form>
