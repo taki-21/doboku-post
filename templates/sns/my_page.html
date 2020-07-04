@@ -25,10 +25,10 @@
                          id="card">
                         <a href="{% url 'sns:post_detail' post.id %}">
                             <div class="uk-card-media-top">
-                            {% if post.image %}
-                                <img src="{{ post.image.url }}" width="100%"
-                                     height="50%">
-                            {% endif %}
+                                {% if post.image %}
+                                    <img src="{{ post.image.url }}" width="100%"
+                                         height="50%">
+                                {% endif %}
                             </div>
                             <div class="uk-card-body">
                                 <header class="uk-comment-header uk-position-relative">
@@ -51,10 +51,11 @@
                                     <span>-- </span>{{ post.content }}</p>
                                 <div>
                                     <div class="like_left">
-                            <div>
-                                <i id="heart-button" uk-icon="heart"></i>
-                                <span id="like-count">{{ post.like.count }}</span>
-                            </div>
+                                        <div>
+                                            <i id="heart-button"
+                                               uk-icon="heart"></i>
+                                            <span id="like-count">{{ post.like.count }}</span>
+                                        </div>
                                     </div>
                                     <div class="comment_icon">
                                         {% if user.is_superuser or post.author.username == user.username %}
@@ -64,22 +65,32 @@
                                                 <a uk-icon="icon: pencil"
                                                    href="{% url 'sns:my_page_edit' post.pk %}"></a>
                                                 <a uk-icon="icon: trash"
-                                                   href="#modal-delete" uk-toggle></a>
-                                            </div>
-                                            <div id="modal-delete" uk-modal>
-                                                <div class="uk-modal-dialog uk-modal-body">
-                                                    <h2 class="uk-modal-title">投稿削除確認</h2>
-                                                    <p>投稿を削除します。よろしいですか？</p>
-                                                    <p class="uk-text-right">
-                                                        <button class="uk-button uk-button-default uk-modal-close" type="button">
-                                                            キャンセル
-                                                        </button>
-                                                        <a href="{% url 'sns:my_page_remove' post.pk %}">
-                                                            <button class="uk-button uk-button-primary" type="button" %}>
-                                                                OK
+                                                   href="#modal{{ post.pk }}"
+                                                   uk-toggle></a>
+                                                <div id="modal{{ post.pk }}"
+                                                     uk-modal>
+                                                    <div class="uk-modal-dialog uk-modal-body">
+                                                        <h2 class="uk-modal-title">
+                                                            投稿削除確認
+                                                        </h2>
+                                                        <p>
+                                                            投稿: {{ post.title }} を削除します。よろしいですか？
+                                                        </p>
+                                                        <p class="uk-text-right">
+                                                            <button class="uk-button uk-button-default uk-modal-close"
+                                                                    type="button">
+                                                                キャンセル
                                                             </button>
-                                                        </a>
-                                                    </p>
+                                                            <a href="{% url 'sns:my_page_remove' post.pk %}">
+                                                                <button class="uk-button uk-button-primary"
+                                                                        type="button"
+                                                                        %}>
+                                                                    OK
+                                                                </button>
+                                                            </a>
+
+                                                        </p>
+                                                    </div>
                                                 </div>
                                             </div>
 

@@ -41,6 +41,7 @@ class IndexView(generic.ListView):
         context['category_list'] = Category.objects.all()
         return context
 
+
 class PostDetailView(generic.DetailView):
     """投稿詳細"""
     model = Post
@@ -128,7 +129,7 @@ def post_edit(request, post_pk):
         form = forms.PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
             form.save()
-            return redirect('sns:my_page',)
+            return redirect('sns:my_page', )
     else:
         form = forms.PostForm(instance=post)
 
@@ -157,6 +158,7 @@ def comment_create(request, post_pk):
         'post': post
     }
     return render(request, 'sns/comment_form.html', context)
+
 
 @login_required
 def reply_create(request, comment_pk):
@@ -213,7 +215,8 @@ def like(request):
     print('post: ', post)
     print('post.like.count(): ', post.like.count())
     liked = False
-    print('post.like.filter(id=request.user.id): ', post.like.filter(id=request.user.id))
+    print('post.like.filter(id=request.user.id): ',
+          post.like.filter(id=request.user.id))
     if post.like.filter(id=request.user.id).exists():
         post.like.remove(request.user)
         liked = False
@@ -236,4 +239,3 @@ def like(request):
     if request.is_ajax():
         html = render_to_string('sns/like.html', context, request=request)
         return JsonResponse({'form': html})
-
