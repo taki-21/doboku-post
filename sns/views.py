@@ -42,25 +42,56 @@ class IndexView(generic.ListView):
         return context
 
 
-class PostDetailView(generic.DetailView):
+def post_detail(request, pk):
     """投稿詳細"""
-    model = Post
-    template_name = 'sns/post_detail.html'
+    post = get_object_or_404(Post, pk=pk)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # どのコメントにも紐づかないコメント=記事自体へのコメント を取得する
-        pk = self.kwargs.get('pk')
-        post = Post.objects.get(pk=pk)
-        context['comment_list'] = Comment.objects.filter(parent__isnull=True,
-                                                         post=post)
-        liked = False
-        if post.like.filter(id=self.request.user.id).exists():
-            liked = True
-        context['post'] = post
-        context['liked'] = liked
+    # コメント機能
+    comment_list = Comment.objects.filter(parent__isnull=True, post=post)
 
-        return context
+    # いいね機能
+    liked = False
+    if post.like.filter(id=request.user.id).exists():
+        liked = True
+
+    context = {
+        'comment_list': comment_list,
+        'post': post,
+        'liked': liked,
+    }
+
+    if request.method == 'POST':
+        form = forms.CommentForm(request.POST or None)
+        comment = form.save(commit=False)
+        comment.author = request.user
+        comment.post = post
+        comment.save()
+        return redirect('sns:post_detail', pk=post.pk)
+    else:
+        form = forms.CommentForm()
+
+    context['form'] = form
+    return render(request, 'sns/post_detail.html', context)
+
+# class PostDetailView(generic.DetailView):
+#     """投稿詳細"""
+#     model = Post
+#     template_name = 'sns/post_detail.html'
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         # どのコメントにも紐づかないコメント=記事自体へのコメント を取得する
+#         pk = self.kwargs.get('pk')
+#         post = Post.objects.get(pk=pk)
+#         context['comment_list'] = Comment.objects.filter(parent__isnull=True,
+#                                                          post=post)
+#         liked = False
+#         if post.like.filter(id=self.request.user.id).exists():
+#             liked = True
+#         context['post'] = post
+#         context['liked'] = liked
+#
+#         return context
 
 
 class CategoryPostView(generic.ListView):
@@ -152,7 +183,7 @@ def comment_create(request, post_pk):
         comment.author = request.user
         comment.post = post
         comment.save()
-        return redirect('sns:post_detail', pk=post.pk)
+        return redirect('sns:comment_form', pk=post.pk)
 
     context = {
         'form': form,

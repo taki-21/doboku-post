@@ -12,10 +12,10 @@
       </a>
     </div>
   </header>
-  <div class="title_detail">{{ object.title }}</div>
+  <div class="title_detail">{{ post.title }}</div>
   <div uk-lightbox>
-    <a class="uk-button uk-button-default" href="{{ object.image.url }}"><img
-            src="{{ object.image.url }}" id="card_top"></a>
+    <a class="uk-button uk-button-default" href="{{ post.image.url }}"><img
+            src="{{ post.image.url }}" id="card_top"></a>
   </div>
 
   <p>{{ object.content }}</p>
@@ -26,14 +26,14 @@
 
 {% block aside %}
   <div>
-    <a class="" href="{% url 'sns:comment_create' post.pk %}">
+{#    <a class="" href="{% url 'sns:comment_create' post.pk %}">#}
       <button class="uk-button uk-button-default" type="button"
               uk-toggle="target: #toggle-usage">
         <span uk-icon="icon: comment"></span>
         コメントを投稿する
       </button>
       <div id="toggle-usage">{% include 'sns/comment_form.html' %}</div>
-    </a>
+{#    </a>#}
   </div>
 
   <ul class="uk-comment-list">
