@@ -1,75 +1,79 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <header class="uk-comment-header uk-position-relative">
+  <header class="uk-comment-header uk-position-relative">
+    <div class="">
+      <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
         <div class="">
-            <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
-                <div class="">
-                    <img class="user_icon"
-                         src="{{ post.author.icon_image.url }}">
-                    <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
-                </div>
-            </a>
+          <img class="user_icon"
+               src="{{ post.author.icon_image.url }}">
+          <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
         </div>
-    </header>
-    <div class="title_detail">{{ object.title }}</div>
-    <img src="{{ object.image.url }}" width="60%" height="60%" id="card_top">
-    <p>{{ object.content }}</p>
-    <div id="like">
-        {% include 'sns/like.html' %}
+      </a>
     </div>
+  </header>
+  <div class="title_detail">{{ object.title }}</div>
+  <div uk-lightbox>
+    <a class="uk-button uk-button-default" href="{{ object.image.url }}"><img
+            src="{{ object.image.url }}" id="card_top"></a>
+  </div>
+
+  <p>{{ object.content }}</p>
+  <div id="like">
+    {% include 'sns/like.html' %}
+  </div>
 {% endblock %}
 
 {% block aside %}
-    <a class="" href="{% url 'sns:comment_create' post.pk %}">
-        <button class="uk-button uk-button-default">
-            <span uk-icon="icon: comment"></span>
-            コメントを投稿する
-        </button>
-    </a>
-    <ul class="uk-comment-list">
-        <li>
-            {% for comment in comment_list %}
-                <article class="uk-comment uk-comment-primary uk-visible-toggle"
-                         tabindex="-1">
-                    <header class="uk-comment-header uk-position-relative">
-                        <div class="">
-                            <a class="show_user"
-                               href="{% url 'sns:my_page' comment.author.id %}">
-                                <div class="">
-                                    <img class="user_icon"
-                                         src="{{ comment.author.icon_image.url }}">
-                                    <strong class="uk-comment-title uk-margin-remove">{{ comment.author }}</strong>
-                                    <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
-                                    <span class="comment_num">{{ comment.comment_set.count }}</span>
-                                </div>
-                            </a>
-                        </div>
-                    </header>
-                    <div class='comment_text'>
-                        <p>{{ comment.text|linebreaksbr }}</p>
-                    </div>
+  <a class="" href="{% url 'sns:comment_create' post.pk %}">
+    <button class="uk-button uk-button-default">
+      <span uk-icon="icon: comment"></span>
+      コメントを投稿する
+    </button>
+  </a>
+  <ul class="uk-comment-list">
+    <li>
+      {% for comment in comment_list %}
+        <article class="uk-comment uk-comment-primary uk-visible-toggle"
+                 tabindex="-1">
+          <header class="uk-comment-header uk-position-relative">
+            <div class="">
+              <a class="show_user"
+                 href="{% url 'sns:my_page' comment.author.id %}">
+                <div class="">
+                  <img class="user_icon"
+                       src="{{ comment.author.icon_image.url }}">
+                  <strong class="uk-comment-title uk-margin-remove">{{ comment.author }}</strong>
+                  <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
+                  <span class="uk-badge">{{ comment.comment_set.count }}</span>
+                </div>
+              </a>
+            </div>
+          </header>
+          <div class='comment_text'>
+            <p>{{ comment.text|linebreaksbr }}</p>
+          </div>
 
-                    <div class="comment_icon">
-                        <span class="more-icon" uk-icon="icon: more"></span>
-                        <div uk-drop="pos: left-center; mode:click">
-                            {% if user.is_superuser or comment.author.username == user.username %}
-                                <a uk-icon="icon: pencil"
-                                   href="{% url 'sns:comment_edit' comment.pk %}"></a>
-                                <a uk-icon="icon: trash"
-                                   href="{% url 'sns:comment_remove' comment.pk %}"></a>
-                            {% endif %}
-                            <a uk-icon="icon: reply"
-                               href="{% url 'sns:reply_create' comment.pk %}"></a>
-                        </div>
-                    </div>
-                </article>
-                {% with reply_list=comment.comment_set.all %}
-                    {% include 'sns/includes/reply.html' %}
-                {% endwith %}
-                <br>
-            {% endfor %}
-        </li>
-    </ul>
+          <div class="comment_icon">
+            <span class="more-icon" uk-icon="icon: more"></span>
+            <div uk-drop="pos: left-center; mode:click">
+              {% if user.is_superuser or comment.author.username == user.username %}
+                <a uk-icon="icon: pencil"
+                   href="{% url 'sns:comment_edit' comment.pk %}"></a>
+                <a uk-icon="icon: trash"
+                   href="{% url 'sns:comment_remove' comment.pk %}"></a>
+              {% endif %}
+              <a uk-icon="icon: reply"
+                 href="{% url 'sns:reply_create' comment.pk %}"></a>
+            </div>
+          </div>
+        </article>
+        {% with reply_list=comment.comment_set.all %}
+          {% include 'sns/includes/reply.html' %}
+        {% endwith %}
+        <br>
+      {% endfor %}
+    </li>
+  </ul>
 {% endblock %}
 
