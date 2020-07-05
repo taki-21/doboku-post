@@ -51,7 +51,7 @@
                        src="{{ comment.author.icon_image.url }}">
                   <strong class="uk-comment-title uk-margin-remove">{{ comment.author }}</strong>
                   <span class="timestamp">{{ comment.timestamp|date:"y/n/j H:i" }}</span>
-                  <span class="uk-badge">{{ comment.comment_set.count }}</span>
+{#                  <span class="uk-badge">{{ comment.comment_set.count }}</span>#}
                 </div>
               </a>
             </div>
@@ -61,23 +61,22 @@
           </div>
 
           <div class="comment_icon">
-            <span class="more-icon" uk-icon="icon: more"></span>
-            <div uk-drop="pos: left-center; mode:click">
+{#            <span class="more-icon" uk-icon="icon: more"></span>#}
+{#            <div uk-drop="pos: left-center; mode:click">#}
               {% if user.is_superuser or comment.author.username == user.username %}
-                <a uk-icon="icon: pencil"
-                   href="{% url 'sns:comment_edit' comment.pk %}"></a>
-                <a uk-icon="icon: trash"
-                   href="{% url 'sns:comment_remove' comment.pk %}"></a>
+{#                <a uk-icon="icon: pencil"#}
+{#                   href="{% url 'sns:comment_edit' comment.pk %}"></a>#}
+                <a uk-icon="icon: trash" href="{% url 'sns:comment_remove' comment.pk %}"></a>
               {% endif %}
-              <a uk-icon="icon: reply"
-                 href="{% url 'sns:reply_create' comment.pk %}"></a>
-            </div>
+{#              <a uk-icon="icon: reply"#}
+{#                 href="{% url 'sns:reply_create' comment.pk %}"></a>#}
+            {#            </div>#}
           </div>
         </article>
-        {% with reply_list=comment.comment_set.all %}
-          {% include 'sns/includes/reply.html' %}
-        {% endwith %}
-        <br>
+{#        {% with reply_list=comment.comment_set.all %}#}
+{#          {% include 'sns/includes/reply.html' %}#}
+{#        {% endwith %}#}
+{#        <br>#}
       {% endfor %}
     </li>
   </ul>
