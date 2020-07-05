@@ -73,26 +73,6 @@ def post_detail(request, pk):
     context['form'] = form
     return render(request, 'sns/post_detail.html', context)
 
-# class PostDetailView(generic.DetailView):
-#     """投稿詳細"""
-#     model = Post
-#     template_name = 'sns/post_detail.html'
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         # どのコメントにも紐づかないコメント=記事自体へのコメント を取得する
-#         pk = self.kwargs.get('pk')
-#         post = Post.objects.get(pk=pk)
-#         context['comment_list'] = Comment.objects.filter(parent__isnull=True,
-#                                                          post=post)
-#         liked = False
-#         if post.like.filter(id=self.request.user.id).exists():
-#             liked = True
-#         context['post'] = post
-#         context['liked'] = liked
-#
-#         return context
-
 
 class CategoryPostView(generic.ListView):
     model = Post

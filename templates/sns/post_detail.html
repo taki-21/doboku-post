@@ -25,17 +25,18 @@
 {% endblock %}
 
 {% block aside %}
-  <div>
-{#    <a class="" href="{% url 'sns:comment_create' post.pk %}">#}
+  {% if user.is_authenticated %}
+    <div>
       <button class="uk-button uk-button-default" type="button"
-              uk-toggle="target: #toggle-usage">
+              uk-toggle="target: .toggle-usage">
         <span uk-icon="icon: comment"></span>
         コメントを投稿する
       </button>
-      <div id="toggle-usage">{% include 'sns/comment_form.html' %}</div>
-{#    </a>#}
-  </div>
-
+      <div class="toggle-usage"></div>
+      <div class="toggle-usage"
+           hidden>{% include 'sns/comment_form.html' %}</div>
+    </div>
+  {% endif %}
   <ul class="uk-comment-list">
     <li>
       {% for comment in comment_list %}
