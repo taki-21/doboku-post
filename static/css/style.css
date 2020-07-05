@@ -217,8 +217,8 @@ p {
 }
 
 .user_icon {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     margin-right: 5px;
     border-radius: 50%;
 }
@@ -285,6 +285,11 @@ p {
     color: blue;
 }
 
+#comment-btn{
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+}
 /* UIkitの上書き */
 .uk-card-body {
     padding: 10px 20px;
@@ -399,8 +404,8 @@ p {
     border-bottom: solid 3px black;
     transition: .4s;
     position: fixed;
-    bottom: 100px;
-    right: 150px;
+    bottom: 80px;
+    right: 100px;
 }
 
 .fixed-btn:active{
@@ -411,6 +416,7 @@ p {
 }
 a.fixed-btn:hover{
     color: #fff;
+    opacity:0.8;
 }
 .fixed-btn:focus {
 	outline:none;

@@ -5,7 +5,7 @@ app_name = 'sns'
 urlpatterns = [
     path('', views.IndexView.as_view(), name='index'),
     path('<int:condition>/', views.IndexView.as_view(), name='index'),
-    path('detail/<int:pk>/', views.PostDetailView.as_view(), name='post_detail'),
+    path('detail/<int:pk>/', views.post_detail, name='post_detail'),
     path('category/<str:category_slug>/',
          views.CategoryPostView.as_view(), name='category_post'),
     path('category/<str:category_slug>/<int:condition>',
