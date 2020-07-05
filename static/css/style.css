@@ -285,6 +285,11 @@ p {
     color: blue;
 }
 
+#comment-btn{
+    position:absolute;
+    right: 0px;
+    bottom: 0px;
+}
 /* UIkitの上書き */
 .uk-card-body {
     padding: 10px 20px;
@@ -411,6 +416,7 @@ p {
 }
 a.fixed-btn:hover{
     color: #fff;
+    opacity:0.8;
 }
 .fixed-btn:focus {
 	outline:none;
