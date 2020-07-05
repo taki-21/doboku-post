@@ -59,6 +59,7 @@ class PostDetailView(generic.DetailView):
             liked = True
         context['post'] = post
         context['liked'] = liked
+
         return context
 
 
