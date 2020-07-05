@@ -8,7 +8,11 @@ body {
     font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #fff;
 }
-
+.doboku_icon{
+    position: relative;
+    top:-5px;
+    margin-right: 8px;
+}
 .title-header {
     padding: 15px 4% 15px;
     /* position: fixed; */
@@ -43,7 +47,7 @@ h1 {
 
 a {
     text-decoration: none;
-    color: #4b4b4b;
+    color: black;
 }
 
 a:hover {
@@ -381,7 +385,7 @@ p {
 .fixed-btn {
     display: inline-block;
     text-decoration: none;
-    background: #ff8181;
+    background: #5a544b;
     font-size: 20px;
     color: #fff;
     width: 200px;
@@ -392,7 +396,7 @@ p {
     font-weight: bold;
     overflow: hidden;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
-    border-bottom: solid 3px #bd6565;
+    border-bottom: solid 3px black;
     transition: .4s;
     position: fixed;
     bottom: 100px;

@@ -17,7 +17,9 @@
 <a href="{% url 'sns:form_view' %}" class="fixed-btn">新規投稿</a>
 <header class="title-header">
   <h1>
-    <a href="{% url 'sns:index' %}" class='title'><img src='media/doboku.png' width="40" height="40">DOBOKU_Post</a>
+    <div>
+      <a href="{% url 'sns:index' %}" class='title'><img class="doboku_icon" src='/media/doboku.png' width="40" height="40">DOBOKU_Post</a>
+    </div>
   </h1>
   <nav>
     {% include 'parts/header.html' %}
