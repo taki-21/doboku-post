@@ -382,6 +382,11 @@ p {
     line-height: 30px;
     font-size: 17px;
 }
+.like_count{
+    position: relative;
+    top: 5px;
+    font-size:30px;
+}
 
 #heart-button {
     line-height: 30px;

@@ -15,13 +15,13 @@
   <div class="title_detail">{{ post.title }}</div>
   <div uk-lightbox>
     <a class="" href="{{ post.image.url }}">
-      <img src="{{ post.image.url }}" id="card_top">
+      <img src="{{ post.image.url }}" id="card_top" width="60%" height="45%">
     </a>
   </div>
 
-  <p>{{ object.content }}</p>
+  <p>{{ post.content }}</p>
   <div id="like">
-    {% include 'sns/like.html' %}
+    {% include 'sns/like.html' with detail=True %}
   </div>
 {% endblock %}
 

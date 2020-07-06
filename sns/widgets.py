@@ -18,10 +18,10 @@ class FileInputWithPreview(forms.ClearableFileInput):
 
     def get_context(self, name, value, attrs):
         context = super().get_context(name, value, attrs)
-        print(context)
+        # print(context)
         context['widget'].update({
             'include_preview': self.include_preview,
         })
-        print("context_new: ", context)
+        # print("context_new: ", context)
         return context
 

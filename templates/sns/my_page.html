@@ -26,8 +26,7 @@
                         <a href="{% url 'sns:post_detail' post.id %}">
                             <div class="uk-card-media-top">
                                 {% if post.image %}
-                                    <img src="{{ post.image.url }}" width="100%"
-                                         height="50%">
+                                    <img src="{{ post.image.url }}" width="100%" height="50%">
                                 {% endif %}
                             </div>
                             <div class="uk-card-body">
