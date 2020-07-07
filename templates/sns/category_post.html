@@ -35,6 +35,8 @@
                         <span>-- </span>{{ post.content }}
                     </p>
                     <div>
+                        <i id="heart-button" uk-icon="comment"></i>
+                        <span id="comment-count">{{ post.comment_set.count }}</span>
                         <i id="heart-button" uk-icon="heart"></i>
                         <span id="like-count">{{ post.like.count }}</span>
                     </div>

@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+html{
+    /* スクロールバーによるずれを修正 */
+    overflow-y: overlay;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -110,6 +115,7 @@ section {
     overflow: hidden;
     border-radius: 5px;
     background-color: #f7fcfc;
+    margin-bottom: 20px;
 
 }
 
@@ -380,6 +386,9 @@ p {
 .heart_icon.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
     stroke: indianred;
     fill: indianred;
+}
+#comment-count{
+    margin-right: 5px;
 }
 
 #like-count {
