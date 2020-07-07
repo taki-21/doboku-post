@@ -26,14 +26,15 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sns.apps.SnsConfig',
+    'django.forms',
 
     # カスタムユーザー
     'accounts.apps.AccountsConfig',
 
     # 3rd party app
     'widget_tweaks',
+    'imagekit'
 
-    'django.forms',
 
 
 ]

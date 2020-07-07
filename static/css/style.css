@@ -347,6 +347,11 @@ p {
     pointer-events: none;
 }
 
+.preview img#image-preview{
+    width: 556px;
+    height: 414px;
+}
+
 .default-preview-img {
     max-width: 100%;
     height: auto;
@@ -429,5 +434,3 @@ a.fixed-btn:hover{
 .comment_button{
     width: 100%;
 }
-
-
