@@ -37,12 +37,9 @@
                             <p class="post_content">
                                 <span>-- </span>{{ post.content }}
                             </p>
-                            <div id="like">
-                                {% if user in post.like.all %}
-                                    {% include 'sns/like.html' with liked=True %}
-                                {% elif user not in post.like.all %}
-                                    {% include 'sns/like.html' with liked=False %}
-                                {% endif %}
+                            <div>
+                                <i id="heart-button" uk-icon="heart"></i>
+                                <span id="like-count">{{ post.like.count }}</span>
                             </div>
                         </div>
                     </a>
@@ -57,7 +54,9 @@
     <div class="uk-margin">
         <form class="uk-search uk-search-default" action="" method="get">
             <a type="submit" uk-search-icon></a>
-            <input class="uk-search-input" name="query" value="{{ request.GET.query }}" type="search" placeholder="Search...">
+            <input class="uk-search-input" name="query"
+                   value="{{ request.GET.query }}" type="search"
+                   placeholder="Search...">
         </form>
     </div>
     <!--検索フォーム-->
@@ -67,8 +66,10 @@
         <ul>
             <li class="uk-nav-divider"></li>
             {% for category in category_list %}
-                <li><a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a></li>
-            <li class="uk-nav-divider"></li>
+                <li>
+                    <a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a>
+                </li>
+                <li class="uk-nav-divider"></li>
             {% endfor %}
         </ul>
     </ul>

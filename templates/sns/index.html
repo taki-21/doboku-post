@@ -25,7 +25,7 @@
                     <div class="">
                       <img class="user_icon"
                            src="{{ post.author.icon_image.url }}">
-                      <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
+                      <span class="uk-comment-title uk-margin-remove">{{ post.author }}</span>
                     </div>
                   </a>
                   <div class="timestamp">
@@ -33,7 +33,7 @@
                   </div>
                 </div>
               </header>
-              <p>{{ post.title }}</p>
+              <strong>{{ post.title }}</strong>
               <p class="post_content">
                 <span>-- </span>{{ post.content }}
               </p>
