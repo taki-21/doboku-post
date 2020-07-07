@@ -1,107 +1,96 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div>
-        <header class="uk-comment-header uk-position-relative">
-            <div class="">
-                <a class="show_user" href="{% url 'sns:my_page' author.id %}">
-                    <div class="">
-                        <img class="user_icon"
-                             src="{{ author.icon_image.url }}">
-                        <strong class="uk-comment-title uk-margin-remove">{{ author }}</strong>
+<div>
+    <header class="uk-comment-header uk-position-relative">
+        <div class="">
+            <a class="show_user" href="{% url 'sns:my_page' author.id %}">
+                <div class="">
+                    <img class="user_icon" src="{{ author.icon_image.url }}">
+                    <strong class="uk-comment-title uk-margin-remove">{{ author }}</strong>
+                </div>
+            </a>
+        </div>
+    </header>
+    <h3>これまでの投稿</h3>
+    <p>
+        <a href="">新しい順</a>
+        <a href="">古い順</a>
+    </p>
+    <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
+        {% for post in user_post %}
+        <div>
+            <div class="uk-card uk-card-hover uk-card-default" id="card">
+                <a href="{% url 'sns:post_detail' post.id %}">
+                    <div class="uk-card-media-top">
+                        {% if post.image %}
+                        <img src="{{ post.image.url }}" width="100%" height="50%">
+                        {% endif %}
                     </div>
-                </a>
-            </div>
-        </header>
-        <h3>これまでの投稿</h3>
-        <p>
-            <a href="">新しい順</a>
-            <a href="">古い順</a>
-        </p>
-        <div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
-            {% for post in user_post %}
-                <div>
-                    <div class="uk-card uk-card-hover uk-card-default"
-                         id="card">
-                        <a href="{% url 'sns:post_detail' post.id %}">
-                            <div class="uk-card-media-top">
-                                {% if post.image %}
-                                    <img src="{{ post.image.url }}" width="100%" height="50%">
-                                {% endif %}
-                            </div>
-                            <div class="uk-card-body">
-                                <header class="uk-comment-header uk-position-relative">
+                    <div class="uk-card-body">
+                        <header class="uk-comment-header uk-position-relative">
+                            <div class="">
+                                <a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
                                     <div class="">
-                                        <a class="show_user"
-                                           href="{% url 'sns:my_page' post.author.id %}">
-                                            <div class="">
-                                                <img class="user_icon"
-                                                     src="{{ post.author.icon_image.url }}">
-                                                <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
-                                            </div>
-                                        </a>
-                                        <div class="timestamp">
-                                            <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
-                                        </div>
+                                        <img class="user_icon" src="{{ post.author.icon_image.url }}">
+                                        <strong class="uk-comment-title uk-margin-remove">{{ post.author }}</strong>
                                     </div>
-                                </header>
-                                <p>{{ post.title }}</p>
-                                <p class="post_content">
-                                    <span>-- </span>{{ post.content }}</p>
+                                </a>
+                                <div class="timestamp">
+                                    <span>{{ post.published_at|date:"y/n/j H:i" }}</span>
+                                </div>
+                            </div>
+                        </header>
+                        <p>{{ post.title }}</p>
+                        <p class="post_content">
+                            <span>-- </span>{{ post.content }}</p>
+                        <div>
+                            <div class="like_left">
                                 <div>
-                                    <div class="like_left">
-                                        <div>
-                                            <i id="heart-button"
-                                               uk-icon="heart"></i>
-                                            <span id="like-count">{{ post.like.count }}</span>
+                                    <i id="heart-button" uk-icon="heart"></i>
+                                    <span id="like-count">{{ post.like.count }}</span>
+                                </div>
+                            </div>
+                            <div class="comment_icon">
+                                {% if user.is_superuser or post.author.username == user.username %}
+                                <span class="more-icon" uk-icon="icon: more"></span>
+                                <div uk-drop="pos: left-center; mode:click">
+                                    <a uk-icon="icon: pencil" href="{% url 'sns:my_page_edit' post.pk %}"></a>
+                                    <a uk-icon="icon: trash" href="#modal{{ post.pk }}" uk-toggle></a>
+                                    <div id="modal{{ post.pk }}" uk-modal>
+                                        <div class="uk-modal-dialog uk-modal-body">
+                                            <h2 class="uk-modal-title">
+                                                投稿削除確認
+                                            </h2>
+                                            <p>
+                                                投稿: {{ post.title }} を削除します。よろしいですか？
+                                            </p>
+                                            <p class="uk-text-right">
+                                                <button class="uk-button uk-button-default uk-modal-close"
+                                                    type="button">
+                                                    キャンセル
+                                                </button>
+                                                <a href="{% url 'sns:my_page_remove' post.pk %}">
+                                                    <button class="uk-button uk-button-primary" type="button" %}>
+                                                        OK
+                                                    </button>
+                                                </a>
+
+                                            </p>
                                         </div>
-                                    </div>
-                                    <div class="comment_icon">
-                                        {% if user.is_superuser or post.author.username == user.username %}
-                                            <span class="more-icon"
-                                                  uk-icon="icon: more"></span>
-                                            <div uk-drop="pos: left-center; mode:click">
-                                                <a uk-icon="icon: pencil"
-                                                   href="{% url 'sns:my_page_edit' post.pk %}"></a>
-                                                <a uk-icon="icon: trash"
-                                                   href="#modal{{ post.pk }}"
-                                                   uk-toggle></a>
-                                                <div id="modal{{ post.pk }}"
-                                                     uk-modal>
-                                                    <div class="uk-modal-dialog uk-modal-body">
-                                                        <h2 class="uk-modal-title">
-                                                            投稿削除確認
-                                                        </h2>
-                                                        <p>
-                                                            投稿: {{ post.title }} を削除します。よろしいですか？
-                                                        </p>
-                                                        <p class="uk-text-right">
-                                                            <button class="uk-button uk-button-default uk-modal-close"
-                                                                    type="button">
-                                                                キャンセル
-                                                            </button>
-                                                            <a href="{% url 'sns:my_page_remove' post.pk %}">
-                                                                <button class="uk-button uk-button-primary"
-                                                                        type="button"
-                                                                        %}>
-                                                                    OK
-                                                                </button>
-                                                            </a>
-
-                                                        </p>
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                        {% endif %}
                                     </div>
                                 </div>
 
+                                {% endif %}
                             </div>
-                        </a>
+                        </div>
+
                     </div>
-                </div>
-            {% endfor %}
+                </a>
+            </div>
         </div>
+        {% endfor %}
     </div>
+</div>
 {% endblock %}
+
