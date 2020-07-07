@@ -1,44 +1,21 @@
 {% if request.user.is_authenticated %}
-    {% if detail %}
-        <form action="{% url 'sns:like' %}" method="POST">
-            {% csrf_token %}
-            {% if liked %}
-                <div>
-                    <span type="submit" id="like" name="post_id"
-                          value="{{ post.id }}"
-                          class="heart_icon"
-                          uk-icon="icon: heart; ratio: 2"></span>
-                    <span class="like_count">{{ post.like.count }}</span>
-                </div>
-            {% else %}
-                <div>
-                    <span type="submit" id="like" name="post_id"
-                          value="{{ post.id }}"
-                          uk-icon="icon: heart; ratio: 2"></span>
-                    <span class="like_count">{{ post.like.count }}</span>
-                </div>
-            {% endif %}
-        </form>
-    {% else %}
-        <form action="{% url 'sns:like' %}" method="POST">
-            {% csrf_token %}
-            {% if liked %}
-                <div>
-                    <span type="submit" id="like" name="post_id"
-                          value="{{ post.id }}"
-                          class="heart_icon"
-                          uk-icon="icon: heart; ratio: 2"></span>
-                    <span class="like_count">{{ post.like.count }}</span>
-                </div>
-            {% else %}
-                <div>
-                    <span type="submit" id="like" name="post_id"
-                          value="{{ post.id }}"
-                          uk-icon="icon: heart; ratio: 2"></span>
-                    <span class="like_count">{{ post.like.count }}</span>
-                </div>
-
-            {% endif %}
-        </form>
-    {% endif %}
+    <form action="{% url 'sns:like' %}" method="POST">
+        {% csrf_token %}
+        {% if liked %}
+            <div>
+                <span type="submit" id="like" name="post_id"
+                      value="{{ post.id }}"
+                      class="heart_icon"
+                      uk-icon="icon: heart; ratio: 2"></span>
+                <span class="like_count">{{ post.like.count }}</span>
+            </div>
+        {% else %}
+            <div>
+                <span type="submit" id="like" name="post_id"
+                      value="{{ post.id }}"
+                      uk-icon="icon: heart; ratio: 2"></span>
+                <span class="like_count">{{ post.like.count }}</span>
+            </div>
+        {% endif %}
+    </form>
 {% endif %}

@@ -322,7 +322,7 @@ p {
 .uk-placeholder {
     margin-bottom: 0px;
     height: 100%;
-    padding: 30px 30px;
+    padding: 0px 0px;
     background: 0 0;
     position: relative;
 }
@@ -347,6 +347,11 @@ p {
     pointer-events: none;
 }
 
+.preview img#image-preview{
+    width: 556px;
+    height: 414px;
+}
+
 .default-preview-img {
     max-width: 100%;
     height: auto;
@@ -357,13 +362,12 @@ p {
     margin-top: 10px;
     font-size: 25px;
 }
-
 .uk-form-custom {
     display: block;
     position: relative;
     max-width: 100%;
     vertical-align: middle;
-    height: 100%;
+    height: 420px;
     border: 2px dashed gray;
 }
 
@@ -430,5 +434,3 @@ a.fixed-btn:hover{
 .comment_button{
     width: 100%;
 }
-
-
