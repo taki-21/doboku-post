@@ -23,7 +23,7 @@ body {
     /* position: fixed; */
     top: 0;
     width: 100%;
-    background-color: #5a544b;
+    background-color: rgba(90, 84, 75, 0.85);
     display: flex;
     align-items: center;
     margin-bottom: 30px;
@@ -116,7 +116,14 @@ section {
     border-radius: 5px;
     background-color: #f7fcfc;
     margin-bottom: 20px;
+}
 
+#profile_card{
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #f3f5f5;
+    margin-top: 20px;
+    margin-bottom: 30px;
 }
 
 p {
@@ -212,7 +219,10 @@ p {
     padding-left: 25px;
 }
 
+.comment_like_icon{
+        text-align: right;
 
+}
 .like_left {
     text-align: left;
     float: left;
@@ -228,6 +238,13 @@ p {
     margin-right: 5px;
     border-radius: 50%;
 }
+
+/* .mypage_user_icon{
+    width: 200px;
+    height: 00px;
+    margin-right: 5px;
+    border-radius: 50%;
+} */
 
 .show_user {
     line-height: 45px;
@@ -321,7 +338,7 @@ p {
     background: 0 0;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
-    width: 200%;
+    width: 260px;
 }
 
 /* 新規投稿フォーム */
@@ -408,7 +425,7 @@ p {
 .fixed-btn {
     display: inline-block;
     text-decoration: none;
-    background: #5a544b;
+    background-color: rgba(90, 84, 75, 0.85);
     font-size: 20px;
     color: #fff;
     width: 200px;
