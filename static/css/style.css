@@ -313,6 +313,7 @@ p {
     right: 0px;
     bottom: 0px;
 }
+
 /* UIkitの上書き */
 .uk-card-body {
     padding: 10px 20px;
@@ -365,7 +366,7 @@ p {
 
 .preview {
     position: absolute;
-    z-index: 2;
+    z-index: 100;
     pointer-events: none;
 }
 
@@ -374,6 +375,10 @@ p {
     height: 414px;
 }
 
+.preview img#icon_image-preview{
+    width: 404px;
+    height: 414px;
+}
 .default-preview-img {
     max-width: 100%;
     height: auto;
@@ -458,4 +463,9 @@ a.fixed-btn:hover{
 
 .comment_button{
     width: 100%;
+}
+
+
+.textarea-input{
+    padding-left: 40px;
 }

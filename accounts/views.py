@@ -27,11 +27,14 @@ class SignUpView(generic.CreateView):
 def profile_edit(request, author_id):
     author = get_object_or_404(get_user_model(), pk=author_id)
     if request.method == 'POST':
-        form = UserProfileForm(
-            request.POST, request.FILES, instance=author)
+        form = UserProfileForm(request.POST, request.FILES, instance=author)
+        print(form.errors)
+        print(form.is_valid())
         if form.is_valid():
+            print('セーブ前')
             form.save()
-            return redirect('sns:my_page', )
+            print('セーブ後')
+            return redirect('sns:my_page', pk=author.pk)
     else:
         form = UserProfileForm(instance=author)
 
