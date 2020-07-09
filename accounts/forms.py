@@ -12,3 +12,8 @@ class UserCreateForm(UserCreationForm):
             fields = ('email',)
         else:
             fields = ('username', 'email')
+
+class UserProfileForm(UserCreationForm):
+    class Meta:
+        model = User
+        fields = ('username', 'icon_image', 'introduction')

@@ -13,6 +13,7 @@
             <div class="uk-card-body">
                 <h2 class="uk-card-title"><strong class="uk-comment-title uk-margin-remove">{{ author }}</strong></h2>
                 <p>{{ author.introduction }}</p>
+                <a href="{% url 'accounts:profile_edit' author.id %}">プロフィール編集</a>
             </div>
         </div>
     </div>

@@ -1,10 +1,11 @@
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth import get_user_model
 from django.contrib.auth import login, authenticate
 
-from .forms import UserCreateForm
+from .forms import UserCreateForm, UserProfileForm
 
 User = get_user_model()
 
@@ -21,3 +22,21 @@ class SignUpView(generic.CreateView):
         user = authenticate(username=username, password=password)
         login(self.request, user)
         return response
+
+
+def profile_edit(request, author_id):
+    author = get_object_or_404(get_user_model(), pk=author_id)
+    if request.method == 'POST':
+        form = UserProfileForm(
+            request.POST, request.FILES, instance=author)
+        if form.is_valid():
+            form.save()
+            return redirect('sns:my_page', )
+    else:
+        form = UserProfileForm(instance=author)
+
+    context = {
+        'form': form,
+        'author': author,
+    }
+    return render(request, 'registration/profile_edit.html', context)
