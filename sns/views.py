@@ -140,7 +140,9 @@ def post_edit(request, post_pk):
     if request.method == 'POST':
         form = forms.PostForm(request.POST, request.FILES, instance=post)
         if form.is_valid():
+            print('セーブ前')
             form.save()
+            print('セーブ後')
             return redirect('sns:my_page', )
     else:
         form = forms.PostForm(instance=post)

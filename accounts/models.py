@@ -27,7 +27,7 @@ class CustomUser(AbstractUser):
         max_length=150,
         blank=True, null=True
     )
-    icon_image = models.FileField(
+    icon_image = models.ImageField(
         verbose_name='アイコン画像',
         blank=True,
         null=True,
@@ -43,4 +43,3 @@ class CustomUser(AbstractUser):
 
     def __str__(self):
         return self.username
-
