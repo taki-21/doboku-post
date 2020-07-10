@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.db.models import Count
 from .models import Post, Category, Comment
 from . import forms
 
@@ -39,6 +40,10 @@ class IndexView(generic.ListView):
 
         # conditionが指定されていない場合
         context['category_list'] = Category.objects.all()
+
+        # いいねの数でソート
+        context['post_like_list'] = Post.objects.annotate(like_count=Count('like')).order_by('-like_count')
+        # print("context['post_like_list'], ", Post.objects.order_by('like'))
         return context
 
 
