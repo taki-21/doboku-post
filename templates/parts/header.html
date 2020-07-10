@@ -37,9 +37,15 @@
 </div>
 {% else %}
 <ul class='header'>
-    <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a>
+    <li class='header'>
+        <a href="{% url 'accounts:signup' %}" class="signup">
+            <i id="signup_icon" uk-icon="plus-circle"></i>新規登録
+        </a>
     </li>
-    <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a>
+    <li class='header'>
+        <a href="{% url 'login' %}" class="login">
+            <i id="login_icon" uk-icon="sign-in"></i>ログイン
+        </a>
     </li>
 </ul>
 {% endif %}
