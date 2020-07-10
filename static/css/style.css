@@ -2,7 +2,7 @@
     box-sizing: border-box;
 }
 
-html{
+html {
     /* スクロールバーによるずれを修正 */
     overflow-y: overlay;
 }
@@ -13,11 +13,13 @@ body {
     font-family: "Hiragino Kaku Gothic Pro", "ヒラギノ角ゴ Pro W3", メイリオ, Meiryo, "ＭＳ Ｐゴシック", "Helvetica Neue", Helvetica, Arial, sans-serif;
     background-color: #fff;
 }
-.doboku_icon{
+
+.doboku_icon {
     position: relative;
-    top:-5px;
+    top: -5px;
     margin-right: 8px;
 }
+
 .title-header {
     padding: 10px 4% 10px;
     /* position: fixed; */
@@ -118,7 +120,7 @@ section {
     margin-bottom: 20px;
 }
 
-#profile_card{
+#profile_card {
     overflow: hidden;
     border-radius: 5px;
     background-color: #f3f5f5;
@@ -219,10 +221,11 @@ p {
     padding-left: 25px;
 }
 
-.comment_like_icon{
-        text-align: right;
+.comment_like_icon {
+    text-align: right;
 
 }
+
 .like_left {
     text-align: left;
     float: left;
@@ -308,8 +311,8 @@ p {
     color: blue;
 }
 
-#comment-btn{
-    position:absolute;
+#comment-btn {
+    position: absolute;
     right: 0px;
     bottom: 0px;
 }
@@ -370,15 +373,16 @@ p {
     pointer-events: none;
 }
 
-.preview img#image-preview{
+.preview img#image-preview {
     width: 556px;
     height: 414px;
 }
 
-.preview img#icon_image-preview{
+.preview img#icon_image-preview {
     width: 404px;
     height: 414px;
 }
+
 .default-preview-img {
     max-width: 100%;
     height: auto;
@@ -389,6 +393,7 @@ p {
     margin-top: 10px;
     font-size: 25px;
 }
+
 .uk-form-custom {
     display: block;
     position: relative;
@@ -408,7 +413,8 @@ p {
     stroke: indianred;
     fill: indianred;
 }
-#comment-count{
+
+#comment-count {
     margin-right: 5px;
 }
 
@@ -416,10 +422,11 @@ p {
     line-height: 30px;
     font-size: 17px;
 }
-.like_count{
+
+.like_count {
     position: relative;
     top: 5px;
-    font-size:30px;
+    font-size: 30px;
 }
 
 #heart-button {
@@ -447,25 +454,38 @@ p {
     right: 100px;
 }
 
-.fixed-btn:active{
-  -webkit-transform: translateY(2px);
-  transform: translateY(2px);
-  box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
-  border-bottom: none;
-}
-a.fixed-btn:hover{
-    color: #fff;
-    opacity:0.8;
-}
-.fixed-btn:focus {
-	outline:none;
+.fixed-btn:active {
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+    border-bottom: none;
 }
 
-.comment_button{
+a.fixed-btn:hover {
+    color: #fff;
+    opacity: 0.8;
+}
+
+.fixed-btn:focus {
+    outline: none;
+}
+
+.comment_button {
     width: 100%;
 }
 
 
-.textarea-input{
+.textarea-input {
     padding-left: 40px;
+}
+
+.profile_content {
+    width: 100%;
+}
+
+.profile_edit_button{
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+
 }

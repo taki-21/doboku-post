@@ -12,8 +12,13 @@
         <div class="uk-width-3-4">
             <div class="uk-card-body">
                 <h2 class="uk-card-title"><strong class="uk-comment-title uk-margin-remove">{{ author }}</strong></h2>
-                <p>{{ author.introduction }}</p>
-                <a href="{% url 'accounts:profile_edit' author.id %}">プロフィール編集</a>
+                <div class="profile_content">
+                    <p>{{ author.introduction }}</p>
+                </div>
+                <p  class="profile_edit_button" uk-margin>
+                    <a class="uk-button uk-button-default"
+                        href="{% url 'accounts:profile_edit' author.id %}">プロフィール編集</a>
+                </p>
             </div>
         </div>
     </div>
