@@ -60,7 +60,47 @@
 		</div>
 	</li>
 	<li>
-		ああああ
+		<div class="uk-grid-small uk-child-width-1-3@m" uk-grid>
+			{% for post in post_like_list %}
+			<div>
+				<div class="uk-card uk-card-hover uk-card-default" id="card">
+					<a href="{% url 'sns:post_detail' post.id %}">
+						<div class="uk-card-media-top">
+							{% if post.image %}
+							<img src="{{ post.image_change.url }}">
+							{% endif %}
+						</div>
+						<div class="uk-card-body">
+							<header class="uk-comment-header uk-position-relative">
+								<div class="">
+									<a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
+										<div class="">
+											<img class="user_icon" src="{{ post.author.icon_image.url }}">
+											<span class="uk-comment-title uk-margin-remove">{{ post.author }}</span>
+										</div>
+									</a>
+									<div class="timestamp">
+										<span>{{ post.published_at|date:"y/n/j H:i" }}</span>
+									</div>
+								</div>
+							</header>
+							<strong>{{ post.title }}</strong>
+							<p class="post_content">
+								<span>-- </span>{{ post.content }}
+							</p>
+							<div class="comment_like_icon">
+								<i id="heart-button" uk-icon="comment"></i>
+								<span id="comment-count">{{ post.comment_set.count }}</span>
+								<i id="heart-button" uk-icon="heart"></i>
+								<span id="like-count">{{ post.like.count }}</span>
+							</div>
+						</div>
+					</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+
 	</li>
 </ul>
 {% endblock %}
