@@ -353,6 +353,7 @@ p {
     padding: 0px 0px;
     background: 0 0;
     position: relative;
+    border: 1px solid #ccc;
 }
 
 
@@ -366,17 +367,23 @@ p {
     transform: translate(-50%, -50%);
 }
 
+.uk-form-custom input[type=file] {
+    font-size: 500px;
+    overflow: hidden;
 
+}
 
 .preview {
     position: absolute;
+    /* 現在:, 変更:, クリア表示を隠す  */
+    top: 0px;
     z-index: 100;
     pointer-events: none;
 }
 
 .preview img#image-preview {
-    width: 556px;
-    height: 414px;
+    width: 558px;
+    height: 418px;
 }
 
 .preview img#icon_image-preview {
@@ -401,7 +408,7 @@ p {
     max-width: 100%;
     vertical-align: middle;
     height: 420px;
-    border: 2px dashed gray;
+    /* border: 2px dashed gray; */
 }
 
 .uk-form-custom:hover {
@@ -518,17 +525,17 @@ a.fixed-btn:hover {
     margin-right: 5px;
 }
 
-#header_post_icon{
+#header_post_icon {
     color: #333333;
     margin-right: 5px;
 }
 
-#mypage_icon{
+#mypage_icon {
     color: #333333;
     margin-right: 5px;
 }
 
-#logout_icon{
+#logout_icon {
     margin-right: 5px;
 }
 
@@ -551,7 +558,7 @@ a.fixed-btn:hover {
     border-radius: 5px;
 }
 
-.dropdown{
+.dropdown {
     text-align: center;
     width: 140px;
     margin: 10px auto;
