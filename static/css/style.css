@@ -38,6 +38,7 @@ header {
     width: 100%;
     display: flex;
     align-items: center;
+    height: 66px;
 }
 
 span#name {
@@ -491,7 +492,9 @@ a.fixed-btn:hover {
 }
 
 /* header */
-.signup {
+.signup,
+.header_post,
+.show_user {
     font-size: large;
     font-weight: bold;
     color: #333333;
@@ -503,6 +506,8 @@ a.fixed-btn:hover {
     color: #333333;
 }
 
+
+
 #signup_icon {
     color: #333333;
     margin-right: 5px;
@@ -511,5 +516,43 @@ a.fixed-btn:hover {
 #login_icon {
     color: #333333;
     margin-right: 5px;
+}
 
+#header_post_icon{
+    color: #333333;
+    margin-right: 5px;
+}
+
+#mypage_icon{
+    color: #333333;
+    margin-right: 5px;
+}
+
+#logout_icon{
+    margin-right: 5px;
+}
+
+.header_user_button {
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.uk-dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1020;
+    box-sizing: border-box;
+    min-width: 100px;
+    width: 160px;
+    padding: 10px 10px;
+    background: #f7fcfc;
+    color: #666;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .15);
+    border-radius: 5px;
+}
+
+.dropdown{
+    text-align: center;
+    width: 140px;
+    margin: 10px auto;
 }
