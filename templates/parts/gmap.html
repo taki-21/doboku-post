@@ -5,31 +5,20 @@
         <meta charset="utf-8">
         <title>Placeサーチ</title>
         <style>
-            #header {
-                background-color: darkblue;
-                padding: 3px;
-                width: 1195px;
-                font-family: Meriyo UI;
-                font-size: 14px;
-                color: white;
-            }
-
             #target {
-                width: 1200px;
+                width: 100px;
                 height: 700px;
             }
         </style>
     </head>
 
     <body>
-        <div id="header"><b>Google Maps - 場所検索</b></div>
-        <div>施設名称検索 （例：マチュピチュ、万里の長城）</div>
         <input type="text" id="keyword"><button id="search">検索実行</button>
         <button id="clear">結果クリア</button>
         <div id="target"></div>
 
-        <script src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=キーをセット&callback=initMap" async
-            defer></script>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?language=ja&region=JP&key=AIzaSyCxKZVAJt84HACs5kN6xVm6YB4Yp-igvVU&callback=initMap" async defer></script>
 
         <script>
             var map;
@@ -48,7 +37,7 @@
                 //マップ表示
                 map = new google.maps.Map(target, {
                     center: centerp,
-                    zoom: 2,
+                    zoom: 5,
                 });
 
                 // 検索実行ボタンが押下されたとき
