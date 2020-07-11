@@ -14,7 +14,7 @@
                                 <div class="uk-width-1-2">
                                     <div uk-form-custom>
                                         <div class="uk-placeholder uk-text-center">
-                                            {{ form.image }}
+                                            {{ form.image|remove_attr:"label" }}
                                             <div class="preview">
                                                 {{ form.media }}
                                                 <img id="image-preview">
