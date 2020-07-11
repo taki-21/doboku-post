@@ -2,6 +2,11 @@
     box-sizing: border-box;
 }
 
+html {
+    /* スクロールバーによるずれを修正 */
+    overflow-y: overlay;
+}
+
 body {
     margin: 0;
     padding: 0;
@@ -9,15 +14,21 @@ body {
     background-color: #fff;
 }
 
+.doboku_icon {
+    position: relative;
+    top: -5px;
+    margin-right: 8px;
+}
+
 .title-header {
-    padding: 20px 4% 20px;
+    padding: 10px 4% 10px;
     /* position: fixed; */
     top: 0;
     width: 100%;
-    background-color: #e6e6e6;
+    background-color: rgba(90, 84, 75, 0.85);
     display: flex;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 header {
@@ -27,33 +38,41 @@ header {
     width: 100%;
     display: flex;
     align-items: center;
+    height: 66px;
 }
 
-span#name{
+span#name {
     font-size: 20px;
     font-weight: 900;
 }
+
 h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'Hiragino Kaku Gothic Pro','ヒラギノ角ゴ Pro W3','メイリオ',Meiryo,'ＭＳ Ｐゴシック',sans-serif;
+    font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
 }
+
 a {
     text-decoration: none;
-    color: #4b4b4b;
+    color: black;
 }
 
 a:hover {
     text-decoration: none;
+    color: #333333;
 }
 
-a.title:hover{
-    color: #4b4b4b;
+.title {
+    color: black;
+}
+
+a.title:hover {
+    color: black;
 }
 
 ul {
-     list-style: none;
+    list-style: none;
 }
 
 ul.header {
@@ -67,7 +86,7 @@ li.header {
     font-size: 14px;
 }
 
-.time{
+.time {
     font-size: small;
     text-align: right;
     color: rgb(238, 94, 94);
@@ -76,7 +95,7 @@ li.header {
 }
 
 .logout {
-    color:red;
+    color: #ff0000;
 }
 
 nav {
@@ -85,7 +104,7 @@ nav {
 
 .content {
     width: 1500px;
-    margin:0 auto;
+    margin: 10px auto;
 }
 
 
@@ -96,18 +115,26 @@ section {
 }
 
 #card {
-    overflow:hidden;
+    overflow: hidden;
     border-radius: 5px;
     background-color: #f7fcfc;
-
+    margin-bottom: 20px;
 }
 
-p{
+#profile_card {
+    overflow: hidden;
+    border-radius: 5px;
+    background-color: #f3f5f5;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+p {
     margin: 0;
 }
 
 
-.post_content{
+.post_content {
     width: 100%;
     font-size: small;
     height: 40px;
@@ -186,40 +213,53 @@ p{
     text-align: center;
     width: 130px;
 }
+
 .title_detail {
-    font-size:35px;
+    font-size: 35px;
 }
 
-.reply_text{
+.reply_text {
     padding-left: 25px;
 }
 
+.comment_like_icon {
+    text-align: right;
 
-.like_left{
+}
+
+.like_left {
     text-align: left;
     float: left;
 }
 
-.comment_icon{
+.comment_icon {
     text-align: right;
 }
 
 .user_icon {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     margin-right: 5px;
     border-radius: 50%;
 }
 
-.show_user{
+/* .mypage_user_icon{
+    width: 200px;
+    height: 00px;
+    margin-right: 5px;
+    border-radius: 50%;
+} */
+
+.show_user {
     line-height: 45px;
     float: left;
 
 }
 
-.more-icon:hover{
+.more-icon:hover {
     color: black;
 }
+
 /**
  * Create, Update
  */
@@ -261,15 +301,21 @@ p{
 }
 
 
-.timestamp{
+.timestamp {
     font-size: 12px;
     text-align: right;
 }
 
-.comment_num{
+.comment_num {
     font-size: 13px;
     margin-left: 10px;
     color: blue;
+}
+
+#comment-btn {
+    position: absolute;
+    right: 0px;
+    bottom: 0px;
 }
 
 /* UIkitの上書き */
@@ -278,16 +324,14 @@ p{
 }
 
 
-
-
-.uk-comment-primary{
+.uk-comment-primary {
     padding: 15px;
     border-left: 4px solid black;
     border-bottom: 1px solid black;
 
 }
 
-.uk-comment-header{
+.uk-comment-header {
     margin-bottom: 10px;
 }
 
@@ -299,7 +343,227 @@ p{
     background: 0 0;
     border: 1px solid #e5e5e5;
     border-radius: 5px;
-    width: 200%;
+    width: 260px;
 }
 
-/* ログインフォーム */
+/* 新規投稿フォーム */
+.uk-placeholder {
+    margin-bottom: 0px;
+    height: 100%;
+    padding: 0px 0px;
+    background: 0 0;
+    position: relative;
+    border: 1px solid #ccc;
+}
+
+
+.camera-choice {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: table-cell;
+    vertical-align: middle;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+}
+
+.uk-form-custom input[type=file] {
+    font-size: 500px;
+    overflow: hidden;
+
+}
+
+.preview {
+    position: absolute;
+    /* 現在:, 変更:, クリア表示を隠す  */
+    top: 0px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+.preview img#image-preview {
+    width: 558px;
+    height: 418px;
+}
+
+.preview img#icon_image-preview {
+    width: 404px;
+    height: 414px;
+}
+
+.default-preview-img {
+    max-width: 100%;
+    height: auto;
+
+}
+
+.post-button {
+    margin-top: 10px;
+    font-size: 25px;
+}
+
+.uk-form-custom {
+    display: block;
+    position: relative;
+    max-width: 100%;
+    vertical-align: middle;
+    height: 420px;
+    /* border: 2px dashed gray; */
+}
+
+.uk-form-custom:hover {
+    cursor: pointer;
+    background-color: #E6E6FA;
+}
+
+
+.heart_icon.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: indianred;
+    fill: indianred;
+}
+
+#comment-count {
+    margin-right: 5px;
+}
+
+#like-count {
+    line-height: 30px;
+    font-size: 17px;
+}
+
+.like_count {
+    position: relative;
+    top: 5px;
+    font-size: 30px;
+}
+
+#heart-button {
+    line-height: 30px;
+}
+
+.fixed-btn {
+    display: inline-block;
+    text-decoration: none;
+    background-color: rgba(90, 84, 75, 0.85);
+    font-size: 20px;
+    color: #fff;
+    width: 200px;
+    height: 200px;
+    line-height: 200px;
+    border-radius: 50%;
+    text-align: center;
+    font-weight: bold;
+    overflow: hidden;
+    box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+    border-bottom: solid 3px black;
+    transition: .4s;
+    position: fixed;
+    bottom: 80px;
+    right: 100px;
+}
+
+.fixed-btn:active {
+    -webkit-transform: translateY(2px);
+    transform: translateY(2px);
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.15);
+    border-bottom: none;
+}
+
+a.fixed-btn:hover {
+    color: #fff;
+    opacity: 0.8;
+}
+
+.fixed-btn:focus {
+    outline: none;
+}
+
+.button_post_icon.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: #fff;
+}
+
+.comment_button {
+    width: 100%;
+}
+
+
+.textarea-input {
+    padding-left: 40px;
+}
+
+.profile_content {
+    width: 100%;
+}
+
+.profile_edit_button {
+    position: absolute;
+    bottom: 50px;
+    right: 50px;
+
+}
+
+/* header */
+.signup,
+.header_post,
+.show_user {
+    font-size: large;
+    font-weight: bold;
+    color: #333333;
+}
+
+.login {
+    font-size: large;
+    font-weight: bold;
+    color: #333333;
+}
+
+
+
+#signup_icon {
+    color: #333333;
+    margin-right: 5px;
+}
+
+#login_icon {
+    color: #333333;
+    margin-right: 5px;
+}
+
+#header_post_icon {
+    color: #333333;
+    margin-right: 5px;
+}
+
+#mypage_icon {
+    color: #333333;
+    margin-right: 5px;
+}
+
+#logout_icon {
+    margin-right: 5px;
+}
+
+.header_user_button {
+    overflow: hidden;
+    border-radius: 5px;
+}
+
+.uk-dropdown {
+    display: none;
+    position: absolute;
+    z-index: 1020;
+    box-sizing: border-box;
+    min-width: 100px;
+    width: 160px;
+    padding: 10px 10px;
+    background: #f7fcfc;
+    color: #666;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, .15);
+    border-radius: 5px;
+}
+
+.dropdown {
+    text-align: center;
+    width: 140px;
+    margin: 10px auto;
+}

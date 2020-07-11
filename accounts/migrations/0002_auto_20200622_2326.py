@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='icon_image',
-            field=models.FileField(blank=True, default='images/custom_user/icon_image/icon.png', null=True, upload_to=accounts.models.get_icon_image_path, verbose_name='アイコン画像'),
+            field=models.FileField(blank=True, default='images/custom_user/icon_image/default_icon.png', null=True, upload_to=accounts.models.get_icon_image_path, verbose_name='アイコン画像'),
         ),
     ]

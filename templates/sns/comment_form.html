@@ -1,16 +1,37 @@
-{% extends "base.html" %}
+{#{% extends "base.html" %}#}
+{##}
+{#{% block content %}#}
+{#<div class="container">#}
+{#  <div class="row">#}
+{#    <main class="col-md-8">#}
+{#      <h1 class="mb-4">コメント投稿フォーム</h1>#}
+{#      <p>To:「{{ post.title }}」</p>#}
+{#      <form method="POST">{% csrf_token %}#}
+{#        {{ form.as_p }}#}
+{#        <button type="submit" class="btn btn-primary">送信</button>#}
+{#      </form>#}
+{#    </main>#}
+{#  </div>#}
+{#</div>#}
+{#{% endblock %}#}
 
-{% block content %}
+{% load widget_tweaks %}
+
+
 <div class="container">
   <div class="row">
     <main class="col-md-8">
-      <h1 class="mb-4">コメント投稿フォーム</h1>
-      <p>To:「{{ post.title }}」</p>
       <form method="POST">{% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">送信</button>
+        <div class="uk-margin">
+          <div class="uk-inline uk-width-1-1">
+            {{ form.text|attr:"class:uk-textarea"|attr:"rows: 3" }}
+          <button type="submit"
+                  class="uk-button uk-button-primary uk-button-small" id="comment-btn">
+            送信
+          </button>
+          </div>
+        </div>
       </form>
     </main>
   </div>
 </div>
-{% endblock %}

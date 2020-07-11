@@ -26,10 +26,20 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'sns.apps.SnsConfig',
+    'django.forms',
 
     # カスタムユーザー
-    'accounts.apps.AccountsConfig'
+    'accounts.apps.AccountsConfig',
+
+    # 3rd party app
+    'widget_tweaks',
+    'imagekit'
+
+
+
 ]
+
+FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -128,6 +138,9 @@ MEDIA_URL = '/media/'
 
 # ログイン後トップページにリダイレクト
 LOGIN_REDIRECT_URL = 'sns:index'
+
+# ログアウト後トップページにリダイレクト
+LOGOUT_REDIRECT_URL = 'sns:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
