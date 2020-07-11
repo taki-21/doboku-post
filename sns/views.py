@@ -125,12 +125,21 @@ class MyPage(generic.TemplateView):
         context = super().get_context_data(**kwargs)
         user = self.kwargs.get('pk')
         if user:
-            context['user_post'] = Post.objects.filter(author=user)
-            context['author'] = get_object_or_404(get_user_model(), pk=user)
+            user_post = Post.objects.filter(author=user)
+            author = get_object_or_404(get_user_model(), pk=user)
         else:
             user = self.request.user
-            context['user_post'] = Post.objects.filter(author=user)
-            context['author'] = user
+            user_post = Post.objects.filter(author=user)
+            author = user
+
+        user_like_post = Post.objects.filter(like=author)
+
+        context = {
+            'user_post': user_post,
+            'author': author,
+            'user_like_post': user_like_post,
+        }
+
         return context
 
 
