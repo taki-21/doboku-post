@@ -46,7 +46,7 @@
 							{% endif %}
 						</div>
 						<div class="uk-card-body">
-							<header class="uk-comment-header uk-position-relative">
+							<div class="uk-comment-header uk-position-relative">
 								<div class="">
 									<a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
 										<div class="">
@@ -58,7 +58,7 @@
 										<span>{{ post.published_at|date:"y/n/j H:i" }}</span>
 									</div>
 								</div>
-							</header>
+							</div>
 							<strong>{{ post.title }}</strong>
 							<p class="post_content">
 								<span>-- </span>{{ post.content }}
@@ -87,8 +87,8 @@
 							<img src="{{ post.image_change.url }}">
 							{% endif %}
 						</div>
-						<div class="uk-card-body">
-							<header class="uk-comment-header uk-position-relative">
+						<div class="uk-card-body post_header">
+							<div class="uk-comment-header uk-position-relative">
 								<div class="">
 									<a class="show_user" href="{% url 'sns:my_page' post.author.id %}">
 										<div class="">
@@ -100,7 +100,7 @@
 										<span>{{ post.published_at|date:"y/n/j H:i" }}</span>
 									</div>
 								</div>
-							</header>
+							</div>
 							<strong>{{ post.title }}</strong>
 							<p class="post_content">
 								<span>-- </span>{{ post.content }}

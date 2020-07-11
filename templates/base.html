@@ -15,8 +15,11 @@
   </head>
 
   <body>
-    <a href="{% url 'sns:form_view' %}" class="fixed-btn">新規投稿</a>
+    <a href="{% url 'sns:form_view' %}" class="fixed-btn">
+        <i id="header_post_icon" uk-icon="pencil" class="button_post_icon"></i>新規投稿
+    </a>
     <header class="title-header" uk-sticky>
+
       <h1>
         <div>
           <a href="{% url 'sns:index' %}" class='title'><img class="doboku_icon" src='/media/doboku.png' width="40"

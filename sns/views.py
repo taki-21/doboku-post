@@ -267,3 +267,7 @@ def like(request):
     if request.is_ajax():
         html = render_to_string('sns/like.html', context, request=request)
         return JsonResponse({'form': html})
+
+
+class Gmap(generic.TemplateView):
+    template_name = 'sns/gmap.html'

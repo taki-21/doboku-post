@@ -478,6 +478,10 @@ a.fixed-btn:hover {
     outline: none;
 }
 
+.button_post_icon.uk-icon:not(.uk-preserve) [stroke*='#']:not(.uk-preserve) {
+    stroke: #fff;
+}
+
 .comment_button {
     width: 100%;
 }

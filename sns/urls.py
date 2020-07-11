@@ -20,4 +20,5 @@ urlpatterns = [
     path('comment/<int:comment_pk>/remove/', views.comment_remove, name='comment_remove'),
     path('comment/<int:comment_pk>/edit/', views.comment_edit, name='comment_edit'),
     path('like/', views.like, name='like'),
+    path('gmap/', views.Gmap.as_view(), name='gmap'),
 ]
