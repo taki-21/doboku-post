@@ -2,25 +2,33 @@
 <ul class='header'>
     <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-            <div class="">
-                <a class="show_user" href="{% url 'sns:my_page' %}">
-                    <div class="">
+            <a href="{% url 'sns:form_view' %}" class='header_post'>
+            <i id="header_post_icon" uk-icon="pencil"></i>投稿する</a>
+            <div class="uk-inline">
+                <a class="show_user">
+                    <div class="uk-card header_user_buttonuk-margin">
                         <img class="user_icon" src="{{ user.icon_image.url }}">
-                        <strong class="uk-comment-title uk-margin-remove">{{ user.get_username }}</strong>
+                        {{ user.get_username }}
+                        <i id="chevron-down" uk-icon="chevron-down"></i>
                     </div>
                 </a>
+                <div uk-dropdown="pos: bottom-center; mode: click">
+                    <div class="dropdown">
+                        <a href="{% url 'sns:my_page' %}" class='username'>
+                            <i id="mypage_icon" uk-icon="user"></i>マイページ
+                        </a>
+                    </div>
+                    <div class="dropdown">
+                        <a href="#modal-logout" class="logout" uk-toggle>
+                            <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
     </li>
 </ul>
 
-<ul class='header'>
-    <li class='header'><a href="{% url 'sns:my_page' %}" class='username'>マイページ</a>
-    </li>
-    <li class='header'><a href="{% url 'sns:form_view' %}" class='username'>投稿する</a>
-    </li>
-    <li class='header logout'><a href="#modal-logout" class="logout" uk-toggle>ログアウト</a></li>
-</ul>
 <div id="modal-logout" uk-modal>
     <div class="uk-modal-dialog uk-modal-body">
         <h2 class="uk-modal-title">ログアウト確認</h2>
@@ -37,9 +45,15 @@
 </div>
 {% else %}
 <ul class='header'>
-    <li class='header'><a href="{% url 'accounts:signup' %}" class="signup">新規登録</a>
+    <li class='header'>
+        <a href="{% url 'accounts:signup' %}" class="signup">
+            <i id="signup_icon" uk-icon="plus-circle"></i>新規登録
+        </a>
     </li>
-    <li class='header'><a href="{% url 'login' %}" class="login">ログイン</a>
+    <li class='header'>
+        <a href="{% url 'login' %}" class="login">
+            <i id="login_icon" uk-icon="sign-in"></i>ログイン
+        </a>
     </li>
 </ul>
 {% endif %}

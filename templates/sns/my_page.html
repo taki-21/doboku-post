@@ -11,11 +11,12 @@
         </div>
         <div class="uk-width-3-4">
             <div class="uk-card-body">
-                <h2 class="uk-card-title"><strong class="uk-comment-title uk-margin-remove">{{ author }}</strong></h2>
+                <h1 class="uk-heading-medium"><strong class="uk-margin-remove">{{ author }}</strong>
+                </h1>
                 <div class="profile_content">
                     <p>{{ author.introduction }}</p>
                 </div>
-                <p  class="profile_edit_button" uk-margin>
+                <p class="profile_edit_button" uk-margin>
                     <a class="uk-button uk-button-default"
                         href="{% url 'accounts:profile_edit' author.id %}">プロフィール編集</a>
                 </p>
@@ -33,15 +34,26 @@
         </div>
     </header> {% endcomment %}
     <ul class="uk-flex-center" uk-tab>
-        <li><a href="">
+        <li>
+            <a href="">
                 <p class="uk-text-large">これまでの投稿</p>
-            </a></li>
-        <li><a href="">
+            </a>
+        </li>
+        <li>
+            <a href="">
                 <p class="uk-text-large">いいねした投稿</p>
-            </a></li>
-        <li><a href="">
+            </a>
+        </li>
+        <li>
+            <a href="">
                 <p class="uk-text-large">カテゴリ</p>
-            </a></li>
+            </a>
+        </li>
+        <li>
+            <a href="">
+                <p class="uk-text-large">マイマップ</p>
+            </a>
+        </li>
     </ul>
 
     {% comment %} <p>
