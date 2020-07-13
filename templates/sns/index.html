@@ -119,9 +119,21 @@
 		</div>
 	</li>
 	<li>
+		<ul class="uk-nav uk-nav-default">
+			<ul>
+				<li class="uk-nav-divider"></li>
+				{% for category in category_list %}
+				<li>
+					<a href="{% url 'sns:category_post' category.slug %}">{{ category }}</a>
+				</li>
+				<li class="uk-nav-divider"></li>
+				{% endfor %}
+			</ul>
+		</ul>
+
 	</li>
 	<li>
-	{% include 'parts/gmap.html' %}
+		{% include 'parts/gmap.html' %}
 	</li>
 	<li>
 	</li>

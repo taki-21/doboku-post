@@ -32,13 +32,13 @@
       </nav>
     </header>
 
-    <div uk-grid class='content'>
-      <div class="uk-width-4-5">
+    <div class='content'>
+      <div class="">
         <main>{% block content %}{% endblock %}</main>
       </div>
-      <div class="uk-width-1-5">
+      {% comment %} <div class="uk-width-1-5">
         <aside>{% block aside %}{% endblock %}</aside>
-      </div>
+      </div> {% endcomment %}
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
