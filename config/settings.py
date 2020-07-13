@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
 
     # 3rd party app
+    'rest_framework',
     'widget_tweaks',
     'imagekit'
 
