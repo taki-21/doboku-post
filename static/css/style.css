@@ -459,8 +459,8 @@ p {
     border-bottom: solid 3px black;
     transition: .4s;
     position: fixed;
-    bottom: 80px;
-    right: 80px;
+    bottom: 50px;
+    right: 50px;
 }
 
 .fixed-btn:active {
