@@ -34,8 +34,8 @@ INSTALLED_APPS = [
     # 3rd party app
     'rest_framework',
     'widget_tweaks',
-    'imagekit'
-
+    'imagekit',
+    'corsheaders',
 
 
 ]
@@ -50,6 +50,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -145,3 +148,8 @@ LOGOUT_REDIRECT_URL = 'sns:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+
+CORS_ORIGIN_WHITELIST = (
+    'http://127.0.0.1:8080',
+)
