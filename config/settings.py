@@ -1,5 +1,5 @@
 import os
-import datetime  # 追加
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sns.apps.SnsConfig',
+    'apiv1.apps.Apiv1Config',
     'django.forms',
 
     # カスタムユーザー
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'imagekit',
     'corsheaders',
+    'djoser',
 
 
 ]
@@ -142,17 +143,18 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 
-# ログイン後トップページにリダイレクト
-LOGIN_REDIRECT_URL = 'sns:index'
+# # ログイン後トップページにリダイレクト
+# LOGIN_REDIRECT_URL = 'apiv1:index'
 
-# ログアウト後トップページにリダイレクト
-LOGOUT_REDIRECT_URL = 'sns:index'
+# # ログアウト後トップページにリダイレクト
+# LOGOUT_REDIRECT_URL = 'apiv1:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
     'http://127.0.0.1:8080',
 )
 
@@ -160,21 +162,12 @@ CORS_ORIGIN_WHITELIST = (
 # Django REST Framework
 # =================================
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # インストールしたJWTライブリ
-        'rest_framework.authentication.SessionAuthentication',  # デフォルトの認証方式
-        'rest_framework.authentication.BasicAuthentication'  # デフォルトの認証方式
-    ),
 }
 
-JWT_AUTH = {
-    'JWT_VERIFY': True,
-    'JWT_VERIFY_EXPIRATION': True,
-    'JWT_LEEWAY': 0,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),
-    'JWT_ALLOW_REFRESH': True,
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
 }

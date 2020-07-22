@@ -3,7 +3,7 @@ from django import forms
 
 class FileInputWithPreview(forms.ClearableFileInput):
     """プレビュー表示されるinput type=file"""
-    template_name = 'sns/widgets/file_input_with_preview.html'
+    template_name = 'apiv1/widgets/file_input_with_preview.html'
 
     class Media:
         js = ['js/preview.js']
@@ -24,4 +24,3 @@ class FileInputWithPreview(forms.ClearableFileInput):
         })
         # print("context_new: ", context)
         return context
-

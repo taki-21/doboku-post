@@ -16,14 +16,14 @@
   </head>
 
   <body>
-    <a href="{% url 'sns:form_view' %}" class="fixed-btn">
+    <a href="{% url 'apiv1:form_view' %}" class="fixed-btn">
         <i id="header_post_icon" uk-icon="pencil" class="button_post_icon"></i>新規投稿
     </a>
     <header class="title-header" uk-sticky>
 
       <h1>
         <div>
-          <a href="{% url 'sns:index' %}" class='title'><img class="doboku_icon" src='/media/doboku.png' width="40"
+          <a href="{% url 'apiv1:index' %}" class='title'><img class="doboku_icon" src='/media/doboku.png' width="40"
               height="40">DOBOKU_Post</a>
         </div>
       </h1>
@@ -49,7 +49,7 @@
           console.log(post_id)
           $.ajax({
             type: 'POST',
-            url: '{% url "sns:like" %}',
+            url: '{% url "apiv1:like" %}',
             data: {
               'post_id': post_id,
               'csrfmiddlewaretoken': '{{ csrf_token }}'

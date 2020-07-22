@@ -1,9 +1,20 @@
-from django.urls import path
+from django.urls import path, include
+
 from . import views
 
 
-app_name = 'sns'
+app_name = 'apiv1'
 urlpatterns = [
+    path('posts/', views.PostList.as_view()),
+    path('categories/', views.CategoryList.as_view()),
+    path('users/', views.UserList.as_view()),
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.jwt')),
+
+
+]
+
+
 #     path('', views.IndexView.as_view(), name='index'),
 #     path('<int:condition>/', views.IndexView.as_view(), name='index'),
 #     path('detail/<int:pk>/', views.post_detail, name='post_detail'),
@@ -21,9 +32,3 @@ urlpatterns = [
 #     path('comment/<int:comment_pk>/remove/', views.comment_remove, name='comment_remove'),
 #     path('comment/<int:comment_pk>/edit/', views.comment_edit, name='comment_edit'),
 #     path('like/', views.like, name='like'),
-    path('api/posts/', views.PostList.as_view(), name='post_list'),
-    path('api/categories/', views.CategoryList.as_view(), name='category_list'),
-    path('api/users/', views.UserList.as_view(), name='user_list'),
-
-
-]
