@@ -1,4 +1,5 @@
 import os
+import datetime  # 追加
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -33,6 +34,7 @@ INSTALLED_APPS = [
 
     # 3rd party app
     'rest_framework',
+    'rest_framework.authtoken',
     'widget_tweaks',
     'imagekit',
     'corsheaders',
@@ -153,3 +155,26 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 CORS_ORIGIN_WHITELIST = (
     'http://127.0.0.1:8080',
 )
+
+# =================================
+# Django REST Framework
+# =================================
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication', # インストールしたJWTライブリ
+        'rest_framework.authentication.SessionAuthentication',  # デフォルトの認証方式
+        'rest_framework.authentication.BasicAuthentication'  # デフォルトの認証方式
+    ),
+}
+
+JWT_AUTH = {
+    'JWT_VERIFY': True,
+    'JWT_VERIFY_EXPIRATION': True,
+    'JWT_LEEWAY': 0,
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=86400),
+    'JWT_ALLOW_REFRESH': True,
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+}

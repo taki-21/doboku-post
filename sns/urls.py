@@ -1,6 +1,7 @@
 from django.urls import path
 from . import views
 
+
 app_name = 'sns'
 urlpatterns = [
 #     path('', views.IndexView.as_view(), name='index'),
@@ -23,5 +24,6 @@ urlpatterns = [
     path('api/posts/', views.PostList.as_view(), name='post_list'),
     path('api/categories/', views.CategoryList.as_view(), name='category_list'),
     path('api/users/', views.UserList.as_view(), name='user_list'),
+
 
 ]

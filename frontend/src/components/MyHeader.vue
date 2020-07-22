@@ -1,14 +1,16 @@
 <template>
-  <header class="title-header" uk-sticky>
-    <div id="header-text">
-      <a href class="title">
-        <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" />DOBOKU_Post
-      </a>
+    <div>
+      <header class="title-header" uk-sticky>
+        <div>
+          <a class="title">
+            <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" /><span>DOBOKU_Post</span>
+          </a>
+        </div>
+        <nav>
+          <HeaderSide />
+        </nav>
+      </header>
     </div>
-    <nav>
-      <HeaderSide />
-    </nav>
-  </header>
 </template>
 
 <style scoped>
@@ -25,15 +27,17 @@
   top: -5px;
   margin-right: 8px;
 }
-#header-text {
-  margin: 0;
-  padding: 0;
-  font-size: 40px;
-  font-family: "Economica";
-}
-#header-text a {
+
+.title {
   text-decoration: none;
   color: black;
+  margin: 0;
+  padding: 0;
+}
+.title span{
+  font-size: 40px;
+  font-family: "Economica";
+
 }
 
 .title-header {
@@ -47,9 +51,8 @@
   margin-bottom: 30px;
 }
 nav {
-    margin: 0 0 0 auto;
+  margin: 0 0 0 auto;
 }
-
 </style>
 
 <script>
