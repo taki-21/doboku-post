@@ -22,5 +22,6 @@ urlpatterns = [
 #     path('like/', views.like, name='like'),
     path('api/posts/', views.PostList.as_view(), name='post_list'),
     path('api/categories/', views.CategoryList.as_view(), name='category_list'),
+    path('api/users/', views.UserList.as_view(), name='user_list'),
 
 ]

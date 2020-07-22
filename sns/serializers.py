@@ -1,16 +1,24 @@
 from rest_framework import serializers
+from django.contrib.auth import get_user_model
 from .models import Category, Post, Comment
 
 
-class CategorySerializer(serializers.ModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
+    """ユーザー一覧シリアライザー"""
+    class Meta:
+        model = get_user_model()
+        fields = '__all__'
 
+class CategorySerializer(serializers.ModelSerializer):
+    """カテゴリ一覧シリアライザ"""
     class Meta:
         model = Category
         fields = ('id', 'name')
 
 
 class PostSerializer(serializers.ModelSerializer):
-    category = CategorySerializer
+    category = CategorySerializer()
+    author = UserSerializer()
 
     class Meta:
         model = Post

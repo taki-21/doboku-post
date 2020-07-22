@@ -11,7 +11,8 @@
             <div class="uk-card-body">
               <div class="uk-comment-header uk-position-relative">
                 <div>
-                  <span class="uk-comment-title uk-margin-remove">{{ post.author }}</span>
+                  <img class="user_icon" v-bind:src="post.author.icon_image">
+                  <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                 </div>
               </div>
               <strong>{{ post.title }}</strong>
@@ -34,6 +35,15 @@
   </div>
 </template>
 
+<style scoped>
+.user_icon {
+    width: 40px;
+    height: 40px;
+    margin-right: 5px;
+    border-radius: 50%;
+}
+
+</style>
 <script>
 import MyHeader from "../components/MyHeader";
 export default {
