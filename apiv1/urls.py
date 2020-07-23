@@ -8,6 +8,8 @@ urlpatterns = [
     path('posts/', views.PostList.as_view()),
     path('categories/', views.CategoryList.as_view()),
     path('users/', views.UserList.as_view()),
+    path('comments/', views.CommentList.as_view()),
+
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 

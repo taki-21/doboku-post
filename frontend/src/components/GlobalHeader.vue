@@ -15,27 +15,29 @@
 </template>
 
 <script>
-  export default {
-    computed: {
-      username: function () {
-        return this.$store.getters['auth/username']
-      },
-      isLoggedIn: function () {
-        return this.$store.getters['auth/isLoggedIn']
-      }
+export default {
+  computed: {
+    username: function() {
+      return this.$store.getters["auth/username"];
     },
-    methods: {
-      // ログアウトリンク押下
-      clickLogout: function () {
-        this.$store.dispatch('auth/logout')
-        this.$store.dispatch('message/setInfoMessage', { message: 'ログアウトしました。' })
-        this.$router.replace('/login')
-      },
-      // ログインリンク押下
-      clickLogin: function () {
-        this.$store.dispatch('message/clearMessages')
-        this.$router.replace('/login')
-      }
+    isLoggedIn: function() {
+      return this.$store.getters["auth/isLoggedIn"];
+    }
+  },
+  methods: {
+    // ログアウトリンク押下
+    clickLogout: function() {
+      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("message/setInfoMessage", {
+        message: "ログアウトしました。"
+      });
+      this.$router.replace("/login");
+    },
+    // ログインリンク押下
+    clickLogin: function() {
+      this.$store.dispatch("message/clearMessages");
+      this.$router.replace("/login");
     }
   }
+};
 </script>

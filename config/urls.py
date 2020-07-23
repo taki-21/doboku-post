@@ -10,7 +10,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # path('', TemplateView.as_view(template_name='index.html')),
     path('api/v1/', include('apiv1.urls')),
-    re_path('', RedirectView.as_view(url='/')),
+    # re_path('', RedirectView.as_view(url='/')),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\

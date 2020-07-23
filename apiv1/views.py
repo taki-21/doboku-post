@@ -13,7 +13,7 @@
 from rest_framework import generics
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment
-from .serializers import UserSerializer, CategorySerializer, PostSerializer
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
 
 
 class UserList(generics.ListAPIView):
@@ -28,3 +28,7 @@ class PostList(generics.ListAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
+
+class CommentList(generics.ListAPIView):
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
