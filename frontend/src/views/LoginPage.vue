@@ -1,7 +1,7 @@
 <template>
   <div id="login-page">
     <MyHeader />
-    <GlobalMessage />
+    <!-- <GlobalMessage /> -->
 
     <!-- メインエリア -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
@@ -17,13 +17,13 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <span class="uk-form-icon" uk-icon="icon: user"></span>
-                      <input class="uk-input" type="text" v-model="form.username" required />
+                      <input class="uk-input" type="text" v-model="form.username" placeholder="ユーザー名" required />
                     </div>
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                      <input class="uk-input" type="password" v-model="form.password" required />
+                      <input class="uk-input" type="password" v-model="form.password" placeholder="パスワード" required />
                     </div>
                   </div>
                   <div class="uk-margin">
@@ -31,6 +31,10 @@
                       class="uk-button uk-button-primary uk-button-large uk-width-1-1"
                       type="submit"
                     >ログイン</button>
+                  </div>
+                  <div class="uk-text-small uk-text-center">
+                    登録していない方
+                    <a href="#">アカウント作成</a>
                   </div>
                 </form>
               </div>
@@ -44,12 +48,12 @@
 
 <script>
 import MyHeader from "@/components/MyHeader.vue";
-import GlobalMessage from "@/components/GlobalMessage.vue";
+// import GlobalMessage from "@/components/GlobalMessage.vue";
 
 export default {
   components: {
     MyHeader,
-    GlobalMessage
+    // GlobalMessage
   },
   data() {
     return {

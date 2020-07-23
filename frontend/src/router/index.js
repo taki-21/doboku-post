@@ -4,55 +4,38 @@ import VueRouter from 'vue-router'
 import LoginPage from '@/views/LoginPage'
 import store from '@/store'
 import HomePage from '@/views/HomePage'
+import MyPage from '@/views/MyPage'
+import NewPostPage from '@/views/NewPostPage'
 
 
 Vue.use(VueRouter)
 
-// const routes = [
-//   // ログインが必要なページには「requiresAuth」フラグを付けておく
-//   {
-//     path: '/',
-//     name: 'Home',
-//     component: Home,
-//     meta: {
-//       requiresAuth: true
-//     }
-//   },
-  // {
-  //   path: '/about',
-  //   name: 'About',
-  //   // route level code-splitting
-  //   // this generates a separate chunk (about.[hash].js) for this route
-  //   // which is lazy-loaded when the route is visited.
-  //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
-  // },
-  // {
-  //   path: '/login',
-  //   name: 'Login',
-  //   component: LoginPage,
-  // },
-  // {
-  //   path: '*',
-  //   redirect: '/'
-  // }
-// ]
-
 const router = new VueRouter({
   mode: 'history',
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: HomePage,
       meta: {
         requiresAuth: true
       }
-    }, {
+    },
+    {
       path: '/login',
       component: LoginPage
-    }, {
+    },
+    {
+      path: '/mypage',
+      component: MyPage
+
+    },
+    {
+      path: '/newpostpage',
+      component: NewPostPage
+    },
+    {
       path: '*',
       redirect: '/'
-    }
+    },
   ]
 })
 
