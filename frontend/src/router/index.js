@@ -1,21 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
-import LoginPage from '../views/LoginPage.vue'
+// import Home from '@/views/Home'
+import LoginPage from '@/views/LoginPage'
 import store from '@/store'
+import HomePage from '@/views/HomePage'
+
 
 Vue.use(VueRouter)
 
-const routes = [
-  // ログインが必要なページには「requiresAuth」フラグを付けておく
-  {
-    path: '/',
-    name: 'Home',
-    component: Home,
-    meta: {
-      requiresAuth: true
-    }
-  },
+// const routes = [
+//   // ログインが必要なページには「requiresAuth」フラグを付けておく
+//   {
+//     path: '/',
+//     name: 'Home',
+//     component: Home,
+//     meta: {
+//       requiresAuth: true
+//     }
+//   },
   // {
   //   path: '/about',
   //   name: 'About',
@@ -24,17 +26,34 @@ const routes = [
   //   // which is lazy-loaded when the route is visited.
   //   component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
   // },
-  {
-    path: '/login',
-    name: 'Login',
-    component: LoginPage,
-  },
-]
+  // {
+  //   path: '/login',
+  //   name: 'Login',
+  //   component: LoginPage,
+  // },
+  // {
+  //   path: '*',
+  //   redirect: '/'
+  // }
+// ]
 
 const router = new VueRouter({
   mode: 'history',
-  base: './',
-  routes,
+  routes: [
+    {
+      path: '/',
+      component: HomePage,
+      meta: {
+        requiresAuth: true
+      }
+    }, {
+      path: '/login',
+      component: LoginPage
+    }, {
+      path: '*',
+      redirect: '/'
+    }
+  ]
 })
 
 

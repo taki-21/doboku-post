@@ -1,16 +1,16 @@
 <template>
   <!-- ヘッダナビゲーション -->
   <div id="header">
-    <div type="dark" variant="dark">
+    <b-navbar type="dark" variant="dark">
       <a class="navbar-brand" href="/">DRF Sample</a>
-      <div class="ml-auto" v-if="$route.meta.requiresAuth">
-        <div right v-if="isLoggedIn">
+      <b-navbar-nav class="ml-auto" v-if="$route.meta.requiresAuth">
+        <b-nav-item-dropdown right v-if="isLoggedIn">
           <template slot="button-content">{{ username }}</template>
-          <div href="#" @click="clickLogout">ログアウト</div>
-        </div>
-        <div href="#" @click="clickLogin" v-else>ログイン</div>
-      </div>
-    </div>
+          <b-dropdown-item href="#" @click="clickLogout">ログアウト</b-dropdown-item>
+        </b-nav-item-dropdown>
+        <b-nav-item href="#" @click="clickLogin" v-else>ログイン</b-nav-item>
+      </b-navbar-nav>
+    </b-navbar>
   </div>
 </template>
 

@@ -1,8 +1,9 @@
 <template>
-  <div id="home-page">
-    <GlobalHeader />
-    <GlobalMessage />
-    <MyHeader></MyHeader>
+  <div>
+    <GlobalHeader/>
+    <GlobalMessage/>
+
+    <!-- メインエリア -->
     <div>
       <div
         class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center"
@@ -36,27 +37,16 @@
         </div>
       </div>
     </div>
-    <p>{{ posts }}</p>
+    <!-- <p>{{ posts }}</p> -->
   </div>
 </template>
 
-<style scoped>
-.user_icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-</style>
 <script>
 import GlobalHeader from "@/components/GlobalHeader.vue";
 import GlobalMessage from "@/components/GlobalMessage.vue";
 
-import MyHeader from "../components/MyHeader";
-import router from "../router";
 export default {
   components: {
-    MyHeader,
     GlobalHeader,
     GlobalMessage
   },
@@ -71,13 +61,5 @@ export default {
     });
     this.checkLoggedIn();
   },
-  methods: {
-    checkLoggedIn() {
-      this.$session.start();
-      if (!this.$session.has("token")) {
-        router.push("/login");
-      }
-    }
-  }
 };
 </script>

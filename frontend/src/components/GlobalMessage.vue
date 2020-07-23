@@ -1,16 +1,16 @@
 <template>
   <!-- メッセージエリア -->
   <div id="messages">
-    <div variant="danger" show v-show="message.error" class="mb-0">
+    <b-alert variant="danger" show v-show="message.error" class="mb-0">
       {{ message.error }}
-    </div>
-    <div
+    </b-alert>
+    <b-alert
       variant="warning" show v-show="message.warnings.length > 0" class="mb-0">
-      <p v-for="(warning, key) in message.warnings" class="mb-0" v-bind:key='key'>{{ warning }}</p>
-    </div>
-    <div variant="info" show v-show="message.info" class="mb-0">
+      <p v-for="(warning, key) in message.warnings" v-bind:key='key' class="mb-0">{{ warning }}</p>
+    </b-alert>
+    <b-alert variant="info" show v-show="message.info" class="mb-0">
       {{ message.info }}
-    </div>
+    </b-alert>
   </div>
 </template>
 

@@ -17,9 +17,17 @@ import Vuetify from 'vuetify'
 // vue_sessionの導入
 import VueSession from 'vue-session'
 
+// BootstrapVue
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+Vue.use(BootstrapVue)
+
 UIkit.use(Icons);
 
-Vue.config.productionTip = process.env.NODE_ENV === 'production'
+Vue.config.productionTip = false
+// Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 const vuetifyOption = {}
 Vue.use(VueSession)
