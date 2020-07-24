@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
-        
+
 
 class CategorySerializer(serializers.ModelSerializer):
     """カテゴリ一覧シリアライザ"""
@@ -20,13 +20,21 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     category = CategorySerializer()
     author = UserSerializer()
+    like_count = serializers.IntegerField(
+        source='like.count',
+        read_only=True
+    )
 
     class Meta:
         model = Post
-        fields = '__all__'
+        fields = ('id', 'category', 'author', 'title', 'content',
+                  'published_at', 'image', 'like', 'like_count')
+        # fields = '__all__'
+
 
 class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        fields = '__all__'
+        # fields = '__all__'
+        fields = ('id', 'post', 'author', 'timestamp')

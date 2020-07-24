@@ -43,6 +43,12 @@
             <a class="uk-text-large uk-text-secondary">検索</a>
           </li>
         </ul>
+        <ul class="uk-switcher uk-margin">
+          <li>
+            <PreviousPosts/>
+          </li>
+
+        </ul>
       </div>
     </div>
   </div>
@@ -50,6 +56,7 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import PreviousPosts from "@/components/PreviousPosts";
 export default {
   data() {
     return {
@@ -58,7 +65,8 @@ export default {
     };
   },
   components:{
-    MyHeader
+    MyHeader,
+    PreviousPosts
   },
   computed: {
     username: function() {

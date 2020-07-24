@@ -1,42 +1,62 @@
 <template>
-  <ul>
-    <li>
-      <div class="uk-grid-medium uk-flex-middle" uk-grid>
-  <!-- <pre>{{ user }}</pre> -->
-        <!-- <pre>{{ user.username }}</pre> -->
-        <!-- <pre>{{ id }}</pre> -->
-        <router-link class="router-link" to="/newpostpage">
-          <div class="link">
-            <i id="header_post_icon" uk-icon="pencil"></i>投稿する
-          </div>
-        </router-link>
-        <div class="uk-inline">
-          <a class="show_user">
-            <div class="uk-card header_user_buttonuk-margin">
-              <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image " />
-              {{ username }}
-              <i id="chevron-down" uk-icon="chevron-down"></i>
+  <div v-if="isLoggedIn">
+    <ul>
+      <li>
+        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+          <!-- <pre>{{ user }}</pre> -->
+          <!-- <pre>{{ user.username }}</pre> -->
+          <!-- <pre>{{ id }}</pre> -->
+          <router-link class="router-link" to="/newpostpage">
+            <div class="link">
+              <i id="header_post_icon" uk-icon="pencil"></i>投稿する
             </div>
-          </a>
-          <div uk-dropdown="pos: bottom-center; mode: click">
-            <div class="dropdown">
-              <router-link class="router-link" to="/mypage">
-                <div class="link">
-                  <i id="mypage_icon" uk-icon="user"></i>
-                  <span>マイページ</span>
-                </div>
-              </router-link>
-            </div>
-            <div class="dropdown">
-              <a href="#modal-logout" class="logout link" uk-toggle @click="clickLogout">
-                <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
-              </a>
+          </router-link>
+          <div class="uk-inline">
+            <a class="show_user">
+              <div class="uk-card header_user_buttonuk-margin">
+                <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image " />
+                {{ username }}
+                <i id="chevron-down" uk-icon="chevron-down"></i>
+              </div>
+            </a>
+            <div uk-dropdown="pos: bottom-center; mode: click">
+              <div class="dropdown">
+                <router-link class="router-link" to="/mypage">
+                  <div class="link">
+                    <i id="mypage_icon" uk-icon="user"></i>
+                    <span>マイページ</span>
+                  </div>
+                </router-link>
+              </div>
+              <div class="dropdown">
+                <a href="#modal-logout" class="logout link" uk-toggle @click="clickLogout">
+                  <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </li>
-  </ul>
+      </li>
+    </ul>
+  </div>
+  <div v-else>
+    <ul>
+      <li>
+        <div class="uk-grid-medium uk-flex-middle" uk-grid>
+          <router-link class="router-link" to="/signup">
+            <div class="link">
+              <i id="signup_icon" uk-icon="plus-circle"></i>新規登録
+            </div>
+          </router-link>
+          <router-link class="router-link" to="/login">
+            <div class="link">
+              <i id="login_icon" uk-icon="sign-in"></i>ログイン
+            </div>
+          </router-link>
+        </div>
+      </li>
+    </ul>
+  </div>
 </template>
 
 <script>
@@ -80,7 +100,7 @@ export default {
 </script>
 
 <style scoped>
-.router-link{
+.router-link {
   text-decoration: none;
 }
 .signup,

@@ -15,9 +15,9 @@ const router = new VueRouter({
   routes: [{
       path: '/',
       component: HomePage,
-      meta: {
-        requiresAuth: true
-      }
+      // meta: {
+      //   requiresAuth: true
+      // }
     },
     {
       path: '/login',

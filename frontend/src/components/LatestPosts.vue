@@ -1,4 +1,4 @@
-      <template>
+<template>
   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
     <div v-for="(post, key) in posts" :key="key">
       <div class="uk-card uk-card-hover uk-card-default" id="card">
@@ -21,11 +21,11 @@
             <i id="heart-button" uk-icon="comment"></i>
             <span id="comment-count"></span>
             <i id="heart-button" uk-icon="heart"></i>
-            <span id="like-count">{{ Object.keys(post.like).length}}</span>
+            <span id="like-count">{{ post.like_count}}</span>
           </div>
         </div>
       </div>
-    <pre>{{ posts }}</pre>
+      <pre>{{ posts }}</pre>
     </div>
   </div>
 </template>

@@ -17,6 +17,8 @@ from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
 
+from django.db.models import Count
+
 
 class UserList(generics.ListAPIView):
     queryset = get_user_model().objects.all()
@@ -33,6 +35,7 @@ class UserDetail(views.APIView):
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+
 
 class PostList(generics.ListAPIView):
     queryset = Post.objects.all()
