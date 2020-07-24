@@ -29,7 +29,7 @@ export default {
 <style scoped>
 
 .content {
-  margin: 10px 30px;
+  margin: 10px 40px;
 }
 
 </style>

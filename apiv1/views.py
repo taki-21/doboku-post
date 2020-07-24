@@ -10,7 +10,9 @@
 # from .models import Post, Category, Comment
 # from . import forms
 
-from rest_framework import generics
+from django.shortcuts import get_object_or_404
+from rest_framework import authentication, permissions, generics, views, status
+from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
@@ -19,6 +21,14 @@ from .serializers import UserSerializer, CategorySerializer, PostSerializer, Com
 class UserList(generics.ListAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
+
+
+class UserDetail(views.APIView):
+
+    def get(self, request, pk, *args, **kwargs):
+        user = get_object_or_404(get_user_model(), id=pk)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status.HTTP_200_OK)
 
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()

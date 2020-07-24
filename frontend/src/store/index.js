@@ -10,20 +10,25 @@ const authModule = {
   namespaced: true,
   state: {
     username: '',
-    isLoggedIn: false
+    isLoggedIn: false,
+    id: '',
   },
   getters: {
     username: state => state.username,
-    isLoggedIn: state => state.isLoggedIn
+    isLoggedIn: state => state.isLoggedIn,
+    id: state => state.id,
+
   },
   mutations: {
     set(state, payload) {
       state.username = payload.user.username
+      state.id = payload.user.id
       state.isLoggedIn = true
     },
     clear(state) {
       state.username = ''
       state.isLoggedIn = false
+      state.id = false
     }
   },
   actions: {
@@ -32,16 +37,16 @@ const authModule = {
      */
     login(context, payload) {
       return api.post('/auth/jwt/create/', {
-          'username': payload.username,
-          'password': payload.password
-        })
-        .then(response => {
-          // 認証用トークンをlocalStorageに保存
-          localStorage.setItem('access', response.data.access)
-          // ユーザー情報を取得してstoreのユーザー情報を更新
-          return context.dispatch('reload')
-            .then(user => user)
-        })
+        'username': payload.username,
+        'password': payload.password
+      })
+      .then(response => {
+        // 認証用トークンをlocalStorageに保存
+        localStorage.setItem('access', response.data.access)
+        // ユーザー情報を取得してstoreのユーザー情報を更新
+        return context.dispatch('reload')
+          .then(user => user)
+      })
       .catch(error => {
         console.log(error)
       })
@@ -60,17 +65,17 @@ const authModule = {
      */
     reload(context) {
       return api.get('/auth/users/me/')
-        .then(response => {
-          const user = response.data
-          // storeのユーザー情報を更新
-          context.commit('set', {
+      .then(response => {
+        const user = response.data
+        // storeのユーザー情報を更新
+        context.commit('set', {
             user: user
           })
           return user
         })
-      .catch(error => {
-        console.log(error)
-      })
+        .catch(error => {
+          console.log(error)
+        })
     }
   }
 }
@@ -147,7 +152,7 @@ const messageModule = {
 const store = new Vuex.Store({
   modules: {
     auth: authModule,
-    message: messageModule
+    message: messageModule,
   }
 })
 

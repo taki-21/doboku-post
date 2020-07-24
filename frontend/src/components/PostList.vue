@@ -9,10 +9,10 @@
     </ul>
     <ul class="uk-switcher uk-margin">
       <li><LatestPost/></li>
-      <li><PopularPost/></li>
+      <!-- <li><PopularPost/></li>
       <li><Category/></li>
       <li><Map/></li>
-      <li><Search/></li>
+      <li><Search/></li> -->
     </ul>
   </div>
 </template>
@@ -42,4 +42,5 @@ export default {
     text-transform: uppercase;
     transition: color .1s ease-in-out;
     font-size: 120%;
-}</style>
+}
+</style>

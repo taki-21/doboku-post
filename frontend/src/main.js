@@ -17,12 +17,7 @@ import Vuetify from 'vuetify'
 // vue_sessionの導入
 import VueSession from 'vue-session'
 
-// BootstrapVue
-import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
 
-Vue.use(BootstrapVue)
 
 UIkit.use(Icons);
 

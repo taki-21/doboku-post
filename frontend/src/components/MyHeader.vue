@@ -1,26 +1,33 @@
 <template>
-    <div>
-      <header class="title-header" uk-sticky>
-        <div>
-          <a class="title">
-            <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" /><span>DOBOKU_Post</span>
-          </a>
+  <div>
+    <header class="title-header" uk-sticky>
+      <router-link class='router-link' to="/">
+        <div class="title">
+          <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" />
+          <span>DOBOKU_Post</span>
         </div>
-        <nav>
-          <HeaderSide />
-        </nav>
-      </header>
-    </div>
+      </router-link>
+      <nav>
+        <HeaderSide />
+      </nav>
+    </header>
+  </div>
 </template>
 
 <style scoped>
-.header {
-  padding: 0px;
+.router-link {
+  text-decoration: none;
+}
+.title-header {
+  padding: 5px 5%;
   /* position: fixed; */
   top: 0;
   width: 100%;
+  background-color: rgba(90, 84, 75, 0.85);
   display: flex;
   align-items: center;
+  height: 60px;
+  /* position: fixed; */
 }
 .doboku_icon {
   position: relative;
@@ -34,24 +41,16 @@
   margin: 0;
   padding: 0;
 }
-.title span{
+.title span {
   font-size: 40px;
   font-family: "Economica";
-
+  position: relative;
+  top: 4px;
 }
 
-.title-header {
-  padding: 10px 4% 10px;
-  /* position: fixed; */
-  top: 0;
-  width: 100%;
-  background-color: rgba(90, 84, 75, 0.85);
-  display: flex;
-  align-items: center;
-  margin-bottom: 30px;
-}
 nav {
   margin: 0 0 0 auto;
+  padding-top: 22px;
 }
 </style>
 
