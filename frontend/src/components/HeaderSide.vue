@@ -2,7 +2,7 @@
   <ul>
     <li>
       <div class="uk-grid-medium uk-flex-middle" uk-grid>
-        <!-- <pre>{{ user }}</pre> -->
+  <!-- <pre>{{ user }}</pre> -->
         <!-- <pre>{{ user.username }}</pre> -->
         <!-- <pre>{{ id }}</pre> -->
         <router-link class="router-link" to="/newpostpage">

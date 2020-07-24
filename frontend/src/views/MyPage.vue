@@ -3,7 +3,7 @@
     <MyHeader />
     <!-- ヘッダー -->
     <div class="mypage">
-      <pre>{{user}}</pre>
+      <!-- <pre>{{user}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
@@ -54,11 +54,22 @@ export default {
   data() {
     return {
       user: "",
-      id: this.$store.getters["auth/id"],
+      id: this.$store.getters["auth/id"]
     };
   },
-  components: {
+  components:{
     MyHeader
+  },
+  computed: {
+    username: function() {
+      return this.$store.getters["auth/username"];
+    },
+    isLoggedIn: function() {
+      return this.$store.getters["auth/isLoggedIn"];
+    }
+    // id: function() {
+    //   return this.$store.getters["auth/id"];
+    // }
   },
   mounted() {
     this.axios
@@ -67,6 +78,16 @@ export default {
         this.user = response.data;
       });
   },
+  methods: {
+    // ログアウトリンク押下
+    clickLogout: function() {
+      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("message/setInfoMessage", {
+        message: "ログアウトしました。"
+      });
+      this.$router.replace("/login");
+    }
+  }
 };
 </script>
 

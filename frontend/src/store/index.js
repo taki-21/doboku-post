@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '@/services/api'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -149,11 +150,85 @@ const messageModule = {
   }
 }
 
+// ユーザー情報
+const userModule = {
+  strict: process.env.NODE_ENV !== 'production',
+  namespaced: true,
+  state: {
+    id: '',
+    name: '',
+    introduction: '',
+    icon_image: '',
+    home_image: '',
+  },
+  getters: {
+    id: state => state.id,
+    name: state => state.name,
+    introduction: state => state.introduction,
+    icon_image: state => state.icon_image,
+    home_image: state => state.home_image,
+    getUser: state => {
+      return {
+        id: state.id,
+        name: state.name,
+        introduction: state.introduction,
+        icon_image: state.icon_image,
+        home_image: state.home_image,
+      }
+    }
+  },
+  mutations: {
+    set(state, payload) {
+      state.id = payload.user.id
+      state.name = payload.user.name
+      state.introduction = payload.user.introduction
+      state.icon_image = payload.user.icon_image
+      state.home_image = payload.user.home_image
+    },
+    clear(state) {
+      state.id = ''
+      state.name = ''
+      state.introduction = ''
+      state.icon_image = ''
+      state.home_image = ''
+    }
+  },
+  actions: {
+    load(context, payload) {
+      return api.get('api/v1/users/' + payload.id + '/')
+        .catch(error => {
+          console.log(error)
+        })
+        .then(response => {
+          console.log('あいうえお')
+          console.log(response.data)
+          alert('user/load : ' + payload.user_id)
+          const user = response.data
+          // storeのユーザー情報を更新
+          context.commit('set', {
+            user: user
+          })
+          return user
+        })
+    },
+    logout(context) {
+      // storeのユーザー情報をクリア
+      context.commit('clear')
+    }
+  }
+}
+
+
 const store = new Vuex.Store({
   modules: {
     auth: authModule,
     message: messageModule,
-  }
+    user: userModule
+  },
+  plugins: [createPersistedState({
+    key: 'example',
+    storage: window.sessionStorage
+  })]
 })
 
 export default store
