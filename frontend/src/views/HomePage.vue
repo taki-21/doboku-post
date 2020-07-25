@@ -29,7 +29,9 @@ export default {
 <style scoped>
 
 .content {
-  margin: 10px 140px;
+  margin: 10px auto;
+  max-width:1040px;
 }
+
 
 </style>

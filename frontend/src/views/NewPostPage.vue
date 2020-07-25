@@ -127,7 +127,7 @@ export default {
       this.axios
         .post("http://127.0.0.1:8000/api/v1/posts/", formData)
         .then(response => {
-          console.log("送信内容: " + response.data.params);
+          console.log("送信内容: " + response.data);
         })
         .catch(error => {
           console.log("response: ", error.response.data);
