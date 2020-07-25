@@ -24,11 +24,12 @@ class PostSerializer(serializers.ModelSerializer):
         source='like.count',
         read_only=True
     )
+    image_change = serializers.ImageField()
 
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'title', 'content',
-                  'published_at', 'image', 'like', 'like_count')
+                  'published_at', 'image_change', 'like', 'like_count')
         # fields = '__all__'
 
 

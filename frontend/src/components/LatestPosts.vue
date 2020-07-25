@@ -3,7 +3,7 @@
     <div v-for="(post, key) in posts" :key="key">
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
-          <img v-bind:src="post.image" />
+          <img v-bind:src="post.image_change" />
         </div>
         <div class="uk-card-body">
           <div class="uk-comment-header uk-position-relative">
@@ -25,7 +25,7 @@
           </div>
         </div>
       </div>
-      <pre>{{ posts }}</pre>
+      <!-- <pre>{{ posts }}</pre> -->
     </div>
   </div>
 </template>

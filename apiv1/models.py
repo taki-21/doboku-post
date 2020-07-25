@@ -22,7 +22,7 @@ class Post(models.Model):
     published_at = models.DateTimeField(auto_now_add=True)
     image = models.ImageField(upload_to='upload/', null=True, blank=True)
     image_change = ImageSpecField(source='image',
-                                  processors=[ResizeToFill(560, 420)],
+                                  processors=[ResizeToFill(640, 480)],
                                   format='JPEG'
                                   )
     like = models.ManyToManyField(

@@ -1,6 +1,6 @@
 <template>
   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-    <div v-for="(post, key) in previousPosts" :key="key">
+    <div v-for="(post, key) in likedPosts" :key="key">
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
           <img :src="post.image_change" />
@@ -34,7 +34,8 @@
 export default {
   data() {
     return {
-      posts: []
+      posts: [],
+      id: this.$store.getters["auth/id"]
     };
   },
   mounted() {
@@ -46,12 +47,11 @@ export default {
     username: function() {
       return this.$store.getters["auth/username"];
     },
-    previousPosts: function() {
+    likedPosts: function() {
       return this.posts.filter(x =>
-        x.author.username === this.username
+        x.like.includes(this.id)
       );
     },
-
   }
 };
 </script>

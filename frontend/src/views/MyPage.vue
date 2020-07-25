@@ -47,6 +47,9 @@
           <li>
             <PreviousPosts/>
           </li>
+          <li>
+            <LikedPosts/>
+          </li>
 
         </ul>
       </div>
@@ -57,6 +60,7 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import PreviousPosts from "@/components/PreviousPosts";
+import LikedPosts from "@/components/LikedPosts";
 export default {
   data() {
     return {
@@ -66,7 +70,8 @@ export default {
   },
   components:{
     MyHeader,
-    PreviousPosts
+    PreviousPosts,
+    LikedPosts
   },
   computed: {
     username: function() {
