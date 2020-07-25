@@ -20,7 +20,7 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all())
-    author = UserSerializer()
+    author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
     like_count = serializers.IntegerField(
