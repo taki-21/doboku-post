@@ -11,7 +11,7 @@
               class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <h2 class="uk-card-title uk-text-center">新規投稿</h2>
-              <form>
+              <form @submit.prevent='submitPost'>
                 <div uk-grid>
                   <div class="uk-width-1-2">
                     <div uk-form-custom>
@@ -30,13 +30,15 @@
                     <div class="uk-margin">
                       <div class="uk-inline uk-width-1-1">
                         <label>カテゴリ</label>
-                        <input class="uk-input" type="text" required />
+                        {{category}}
+                        <input class="uk-input" type="text" v-model='category' required />
                       </div>
                     </div>
                     <div class="uk-margin">
                       <div class="uk-inline uk-width-1-1">
                         <label>タイトル</label>
-                        <input class="uk-input" type="text" required />
+                        {{title}}
+                        <input class="uk-input" type="text" v-model='title' required />
                       </div>
                     </div>
                     <div class="uk-margin">
@@ -67,6 +69,25 @@ import MyHeader from "@/components/MyHeader"
 export default {
   components: {
     MyHeader
+  },
+  data(){
+    return{
+      author: "",
+      form:{
+        image: "",
+        category: "",
+        title: "",
+        caption:"",
+      },
+      loading: false,
+    }
+  },
+  methods: {
+    submitPost:function(){
+      this.loading = true;
+      this.axios.post('http://127.0.0.1:8000/api/v1/posts/')
+
+    }
   }
 }
 </script>

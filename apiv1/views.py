@@ -37,8 +37,14 @@ class CategoryList(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
-class PostList(generics.ListAPIView):
+class PostListAPIView(generics.ListAPIView):
+    """投稿モデルの取得（一覧）APIクラス"""
     queryset = Post.objects.all()
+    serializer_class = PostSerializer
+
+
+class PostCreateAPIView(generics.CreateAPIView):
+    """投稿モデルの登録APIクラス"""
     serializer_class = PostSerializer
 
 

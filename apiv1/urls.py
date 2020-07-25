@@ -5,7 +5,8 @@ from . import views
 
 app_name = 'apiv1'
 urlpatterns = [
-    path('posts/', views.PostList.as_view()),
+    path('posts/', views.PostListAPIView.as_view()),
+    path('posts/create/', views.PostCreateAPIView.as_view()),
     path('categories/', views.CategoryList.as_view()),
     path('users/', views.UserList.as_view()),
     path('users/<int:pk>/', views.UserDetail.as_view()),
