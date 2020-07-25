@@ -17,6 +17,7 @@
                     <div uk-form-custom>
                       <div class="uk-placeholder uk-text-center">
                         <div class="preview">
+                          <input type="file" @change="selectedFile">
                           <img id="image-preview" />
                         </div>
                         <div class="camera-choice">
@@ -111,26 +112,20 @@ export default {
       });
   },
   methods: {
-    submitPost: function() {
-      console.log("Hello");
-      console.log('author_name:' + this.author_name);
-      // this.loading = true;
-      // const params = new URLSearchParams();
-      // params.append("category", this.category);
-      // params.append("author_name", this.$store.getters["auth/username"]);
-      // params.append("title", this.title);
-      // params.append("content", this.content);
-      // params.append("image", this.image);
-      // console.log("送信内容: " + params);
+    selectedFile(event){
+      event.preventDefault();
+      this.image = event.target.files[0]
 
+    },
+    submitPost: function() {
+      const formData = new FormData();
+      formData.append("category", this.category);
+      formData.append("author_name", this.author_name);
+      formData.append("title", this.title);
+      formData.append("content", this.content);
+      formData.append("image", this.image);
       this.axios
-        .post("http://127.0.0.1:8000/api/v1/posts/", {
-          "category": this.category,
-          "author_name": this.author_name,
-          "title": this.title,
-          "content": this.content,
-          "image": this.image
-        })
+        .post("http://127.0.0.1:8000/api/v1/posts/", formData)
         .then(response => {
           console.log("送信内容: " + response.data.params);
         })
