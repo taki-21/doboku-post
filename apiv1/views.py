@@ -20,7 +20,8 @@ from .serializers import UserSerializer, CategorySerializer, PostSerializer, Com
 from django.db.models import Count
 
 
-class UserList(generics.ListAPIView):
+class UserListCreateAPIView(generics.ListCreateAPIView):
+    """カスタムユーザーモデルの取得（一覧）・登録APIクラス"""
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
@@ -38,7 +39,7 @@ class CategoryList(generics.ListAPIView):
 
 
 class PostListCreateAPIView(generics.ListCreateAPIView):
-    """投稿モデルの取得（一覧）・登録APIクラス"""
+    """投稿モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 

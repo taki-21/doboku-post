@@ -42,6 +42,7 @@
   <div v-else>
     <ul>
       <li>
+          <!-- <pre>{{ id }}</pre> -->
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
             <div class="link">

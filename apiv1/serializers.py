@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Category, Post, Comment
+from django.contrib.auth.hashers import make_password  # 追加
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -8,6 +9,14 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
+        # read_only_fields = ('last_login', 'is_superuser', 'is_staff', 'is_active', 'first_name', 'last_name', 'date_joined', 'groups', 'user_permissions')
+
+    def create(self, validated_data):
+        password = validated_data.get('password', None)
+        if password is not None:
+            validated_data['password'] = make_password(password)
+        return super().create(validated_data)
+
 
 
 class CategorySerializer(serializers.ModelSerializer):

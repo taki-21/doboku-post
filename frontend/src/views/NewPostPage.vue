@@ -2,22 +2,21 @@
   <div>
     <MyHeader />
     <!-- ヘッダー -->
-
-    <div class="uk-width-1-1">
-      <div class="uk-container">
-        <div class="uk-grid-margin uk-grid-stack">
-          <div class="uk-width-1-1@m">
+    <div id="new_post">
+      <div class="uk-width-1-1">
+        <div class="uk-container">
+          <div class="uk-grid-margin uk-grid-stack">
             <div
               class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
-              <h2 class="uk-card-title uk-text-center">新規投稿</h2>
+              <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
               <form @submit.prevent="submitPost()">
                 <div uk-grid>
                   <div class="uk-width-1-2">
                     <div uk-form-custom>
                       <div class="uk-placeholder uk-text-center">
                         <div class="preview">
-                          <input type="file" @change="selectedFile">
+                          <input type="file" @change="selectedFile" />
                           <img id="image-preview" />
                         </div>
                         <div class="camera-choice">
@@ -112,10 +111,9 @@ export default {
       });
   },
   methods: {
-    selectedFile(event){
+    selectedFile(event) {
       event.preventDefault();
-      this.image = event.target.files[0]
-
+      this.image = event.target.files[0];
     },
     submitPost: function() {
       const formData = new FormData();
@@ -136,3 +134,19 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#new_post {
+  padding-top: 50px;
+}
+
+.post-button {
+  margin-top: 10px;
+  font-size: 25px;
+}
+
+h2#new_post_title{
+  position: relative;
+  top:-15px;
+}
+</style>

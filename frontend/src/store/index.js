@@ -23,8 +23,8 @@ const authModule = {
   mutations: {
     set(state, payload) {
       state.username = payload.user.username
-      state.id = payload.user.id
       state.isLoggedIn = true
+      state.id = payload.user.id
     },
     clear(state) {
       state.username = ''
@@ -48,7 +48,8 @@ const authModule = {
         return context.dispatch('reload')
           .then(user => user)
       })
-      .catch(error => {
+        .catch(error => {
+        console.log('えらー！！！！')
         console.log(error)
       })
     },

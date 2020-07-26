@@ -6,6 +6,7 @@ import store from '@/store'
 import HomePage from '@/views/HomePage'
 import MyPage from '@/views/MyPage'
 import NewPostPage from '@/views/NewPostPage'
+import SignUpPage from '@/views/SignUpPage'
 
 
 Vue.use(VueRouter)
@@ -31,6 +32,10 @@ const router = new VueRouter({
     {
       path: '/newpostpage',
       component: NewPostPage
+    },
+    {
+      path:'/signup',
+      component: SignUpPage
     },
     {
       path: '*',
