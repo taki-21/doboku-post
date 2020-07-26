@@ -31,7 +31,7 @@
                       <span class="uk-form-icon" uk-icon="icon: mail"></span>
                       <input
                         class="uk-input"
-                        type
+                        type='email'
                         placeholder="メールアドレス"
                         v-model="email_adress"
                         required

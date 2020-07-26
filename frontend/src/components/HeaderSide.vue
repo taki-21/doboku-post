@@ -15,7 +15,7 @@
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
                 <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image " />
-                {{ username }}
+                {{ user.username }}
                 <i id="chevron-down" uk-icon="chevron-down"></i>
               </div>
             </a>

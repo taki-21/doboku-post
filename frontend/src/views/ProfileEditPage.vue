@@ -7,22 +7,23 @@
         <div class="uk-width-1-1">
           <div class="uk-container">
             <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
-            <div class="uk-width-1-1@m">
+            <div class="uk-width-1-1@s">
               <div
                 class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
               >
                 <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
-                <pre>{{ user }}</pre>
-                <form method="post" enctype="multipart/form-data">
-                    <div uk-form-custom id="form_custom">
-                      <div class="uk-placeholder uk-text-center">
-                        <input type="file"/>
-                        <div id="preview">
-                          <img/>
+                <!-- <pre>{{ user }}</pre> -->
+                <form @submit.prevent="submitPost()">
+                  <div uk-form-custom id="form_custom">
+                    <div class="uk-placeholder uk-text-center">
+                      <input type="file" @change="selectedFile" />
+                      <div id="preview">
+                        <div v-if="previewImage">
+                          <img id="preview_image" :src="previewImage" />
                         </div>
-                      <div class="camera-choice">
-                        <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
-                        <p>画像を選択してください</p>
+                        <div v-else>
+                          <img id="preview_image" :src="'http://127.0.0.1:8000' + user.icon_image " />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -43,7 +44,7 @@
                       <span class="uk-form-icon" uk-icon="icon: mail"></span>
                       <input
                         class="uk-input"
-                        type
+                        type='email'
                         placeholder="メールアドレス"
                         v-model="user.email"
                         required
@@ -53,7 +54,14 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
-                      <textarea class="uk-textarea" rows="8" type="text" v-model="user.introduction" required></textarea>
+                      <textarea
+                        class="uk-textarea textarea-input"
+                        rows="8"
+                        type="text"
+                        placeholder="自己紹介文"
+                        v-model="user.introduction"
+                        required
+                      ></textarea>
                     </div>
                   </div>
                   <div class="uk-margin">
@@ -78,19 +86,96 @@ export default {
   components: {
     MyHeader
   },
-  data(){
-    return{
+  data() {
+    return {
       user: "",
-      id: this.$store.getters["auth/id"]
-    }
-
+      id: this.$store.getters["auth/id"],
+      icon_image: "",
+      previewImage: ""
+    };
   },
-  mounted(){
+  mounted() {
     this.axios
-    .get('http://127.0.0.1:8000/api/v1/users/' + this.id + '/')
-    .then(response => {
-      this.user = response.data
-    })
+      .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
+      .then(response => {
+        this.user = response.data;
+      });
+  },
+  methods: {
+    selectedFile(event) {
+      event.preventDefault();
+      this.icon_image = event.target.files[0];
+      this.createImage(event.target.files[0]);
+    },
+    submitPost: function() {
+      const formData = new FormData();
+      formData.append("icon_image", this.icon_image);
+      formData.append("username", this.user.username);
+      formData.append("password", this.user.password);
+      formData.append("email", this.user.email);
+      formData.append("introduction", this.user.introduction);
+      this.axios
+        .put("http://127.0.0.1:8000/api/v1/users/" + this.id + "/", formData)
+        .then(response => {
+          console.log("送信内容: " + response.data);
+        })
+        .catch(error => {
+          console.log("response: ", error.response.data);
+        });
+    },
+    createImage(file) {
+      const reader = new FileReader();
+      reader.onload = event => {
+        this.previewImage = event.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
 };
 </script>
+<style scoped>
+#form_custom {
+  width: 100%;
+  height: 370px;
+}
+
+.uk-placeholder {
+  width: 100%;
+  margin-bottom: 0px;
+  height: 100%;
+  padding: 0px 0px;
+  background: 0 0;
+  position: relative;
+  border: 3px solid #ccc;
+}
+
+.camera-choice {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: table-cell;
+  vertical-align: middle;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#preview {
+  position: absolute;
+  /* 現在:, 変更:, クリア表示を隠す  */
+  top: 0px;
+  z-index: 100;
+  pointer-events: none;
+  width: 100%;
+  height: 100%;
+}
+
+#preview_image {
+  width: 100%;
+  height: 364px;
+}
+
+.textarea-input {
+    padding-left: 40px;
+}
+
+</style>
