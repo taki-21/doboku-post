@@ -2,7 +2,7 @@
   <div>
     <MyHeader />
     <!-- ヘッダー -->
-    <div class="mypage">
+    <div class="content">
       <!-- <pre>{{user}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
@@ -19,9 +19,9 @@
             <div class="profile_content">
               <p>{{ user.introduction }}</p>
             </div>
-            <div class="profile_edit_button" uk-margin>
-              <div class="uk-button uk-button-default">プロフィール編集</div>
-            </div>
+            <router-link class="router-link" to="/profile_edit">
+              <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
+            </router-link>
           </div>
         </div>
       </div>
@@ -45,12 +45,11 @@
         </ul>
         <ul class="uk-switcher uk-margin">
           <li>
-            <PreviousPosts/>
+            <PreviousPosts />
           </li>
           <li>
-            <LikedPosts/>
+            <LikedPosts />
           </li>
-
         </ul>
       </div>
     </div>
@@ -68,7 +67,7 @@ export default {
       id: this.$store.getters["auth/id"]
     };
   },
-  components:{
+  components: {
     MyHeader,
     PreviousPosts,
     LikedPosts
@@ -105,9 +104,11 @@ export default {
 </script>
 
 <style scoped>
-.mypage {
-  margin: 10px 5%;
+.content {
+  margin: 10px auto;
+  max-width: 1040px;
 }
+
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
@@ -130,5 +131,11 @@ export default {
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
   font-size: 120%;
+}
+
+#profile_edit_button {
+  position: absolute;
+  bottom: 50px;
+  right: 50px;
 }
 </style>

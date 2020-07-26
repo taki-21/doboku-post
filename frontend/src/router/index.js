@@ -7,6 +7,7 @@ import HomePage from '@/views/HomePage'
 import MyPage from '@/views/MyPage'
 import NewPostPage from '@/views/NewPostPage'
 import SignUpPage from '@/views/SignUpPage'
+import ProfileEditPage from '@/views/ProfileEditPage'
 
 
 Vue.use(VueRouter)
@@ -34,8 +35,12 @@ const router = new VueRouter({
       component: NewPostPage
     },
     {
-      path:'/signup',
+      path: '/signup',
       component: SignUpPage
+    },
+    {
+      path: '/profile_edit',
+      component: ProfileEditPage
     },
     {
       path: '*',

@@ -26,12 +26,16 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserDetail(views.APIView):
+class UserRetrieveUpdate(generics.RetrieveUpdateAPIView):
+    """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
 
     def get(self, request, pk, *args, **kwargs):
         user = get_object_or_404(get_user_model(), id=pk)
         serializer = UserSerializer(instance=user)
         return Response(serializer.data, status.HTTP_200_OK)
+
 
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()
