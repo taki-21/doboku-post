@@ -10,14 +10,18 @@
               class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
+              <!-- <pre>{{image}}</pre> -->
               <form @submit.prevent="submitPost()">
                 <div uk-grid>
                   <div class="uk-width-1-2">
-                    <div uk-form-custom>
+                    <div uk-form-custom id="form_custom">
                       <div class="uk-placeholder uk-text-center">
-                        <div class="preview">
-                          <input type="file" @change="selectedFile" />
-                          <img id="image-preview" />
+                        <input type="file" @change="selectedFile" />
+                        <div id="preview">
+                          <img
+                          id="preview_image"
+                          v-show="previewImage"
+                          :src="previewImage" />
                         </div>
                         <div class="camera-choice">
                           <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
@@ -62,8 +66,9 @@
                         <label>キャプション</label>
                         {{content}}
                         <textarea
-                          class="uk-input"
-                          type="textarea"
+                          class="uk-textarea"
+                          rows="8"
+                          type="text"
                           v-model="content"
                           required
                         ></textarea>
@@ -98,6 +103,7 @@ export default {
       category: "",
       author_name: this.$store.getters["auth/id"],
       image: null,
+      previewImage:null,
       title: "",
       content: "",
       loading: false
@@ -114,6 +120,7 @@ export default {
     selectedFile(event) {
       event.preventDefault();
       this.image = event.target.files[0];
+      this.createImage(event.target.files[0]);
     },
     submitPost: function() {
       const formData = new FormData();
@@ -130,6 +137,13 @@ export default {
         .catch(error => {
           console.log("response: ", error.response.data);
         });
+    },
+    createImage(file) {
+      const reader = new FileReader();
+      reader.onload = event =>{
+        this.previewImage = event.target.result;
+      };
+      reader.readAsDataURL(file);
     }
   }
 };
@@ -145,8 +159,46 @@ export default {
   font-size: 25px;
 }
 
-h2#new_post_title{
+h2#new_post_title {
   position: relative;
-  top:-15px;
+  top: -15px;
+}
+
+#form_custom {
+  width: 525px;
+  height: 393px;
+}
+
+.uk-placeholder {
+  width: 100%;
+  margin-bottom: 0px;
+  height: 100%;
+  padding: 0px 0px;
+  background: 0 0;
+  position: relative;
+  border: 3px solid #ccc;
+}
+
+.camera-choice {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: table-cell;
+  vertical-align: middle;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+#preview{
+    position: absolute;
+    /* 現在:, 変更:, クリア表示を隠す  */
+    top: 0px;
+    z-index: 100;
+    pointer-events: none;
+}
+
+#preview_image{
+  width: 521px;
+  height: 387px;
 }
 </style>

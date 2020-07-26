@@ -81,11 +81,13 @@ export default {
     // }
   },
   mounted() {
-    this.axios
-      .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
-      .then(response => {
-        this.user = response.data;
-      });
+    if (this.isLoggedIn) {
+      this.axios
+        .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
+        .then(response => {
+          this.user = response.data;
+        });
+    }
   },
   methods: {
     // ログアウトリンク押下
