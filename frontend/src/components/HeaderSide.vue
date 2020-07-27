@@ -14,7 +14,7 @@
           <div class="uk-inline">
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
-                <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image " />
+                <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image ">
                 {{ user.username }}
                 <i id="chevron-down" uk-icon="chevron-down"></i>
               </div>
@@ -42,7 +42,7 @@
   <div v-else>
     <ul>
       <li>
-          <!-- <pre>{{ id }}</pre> -->
+        <!-- <pre>{{ id }}</pre> -->
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
             <div class="link">
@@ -87,7 +87,6 @@ export default {
         .then(response => {
           this.user = response.data;
         });
-
     }
   },
   methods: {
@@ -104,6 +103,9 @@ export default {
 </script>
 
 <style scoped>
+[v-cloak] {
+  display: none;
+}
 .router-link {
   text-decoration: none;
 }

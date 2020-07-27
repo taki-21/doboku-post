@@ -21,10 +21,14 @@
       <li>
         <LatestPosts />
       </li>
-      <li><PopularPosts/></li>
-      <!-- <li><Category/></li> -->
+      <li>
+        <PopularPosts />
+      </li>
+      <li>
+        <CategoryPosts />
+      </li>
       <!-- <li><Map/></li> -->
-      <!-- <li><Search/></li>--> 
+      <!-- <li><Search/></li>-->
     </ul>
   </div>
 </template>
@@ -32,10 +36,12 @@
 <script>
 import LatestPosts from "@/components/LatestPosts";
 import PopularPosts from "@/components/PopularPosts";
+import CategoryPosts from "@/components/CategoryPosts";
 export default {
   components: {
     LatestPosts,
-    PopularPosts
+    PopularPosts,
+    CategoryPosts
   }
 };
 </script>
