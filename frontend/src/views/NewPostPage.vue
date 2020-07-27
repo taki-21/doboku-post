@@ -202,4 +202,10 @@ h2#new_post_title {
   width: 521px;
   height: 387px;
 }
+
+.uk-form-custom:hover {
+    cursor: pointer;
+    background-color: #E6E6FA;
+}
+
 </style>

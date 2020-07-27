@@ -21,7 +21,7 @@
         </div>
       </div>
     </div>
-    <pre>{{ post }}</pre>
+    <!-- <pre>{{ post }}</pre> -->
   </div>
 </template>
 
