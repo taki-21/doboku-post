@@ -151,6 +151,9 @@ const messageModule = {
   }
 }
 
+// 投稿情報
+
+
 // ユーザー情報
 const userModule = {
   strict: process.env.NODE_ENV !== 'production',

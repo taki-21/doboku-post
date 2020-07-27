@@ -11,10 +11,17 @@ urlpatterns = [
     # path('', TemplateView.as_view(template_name='index.html')),
     path('api/v1/', include('apiv1.urls')),
     # re_path('', RedirectView.as_view(url='/')),
+]
+
+# 開発環境でのメディアファイルの配信設定
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)
 
 
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
-    + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
+# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
+#     + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 
 
     # path('', include('apiv1.urls')),

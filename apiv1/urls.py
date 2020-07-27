@@ -6,9 +6,9 @@ from . import views
 app_name = 'apiv1'
 urlpatterns = [
     path('posts/', views.PostListCreateAPIView.as_view()),
-    # path('posts/create/', views.PostCreateAPIView.as_view()),
+    path('posts/<int:pk>/', views.PostRetrieveUpdateAPIView.as_view()),
     path('users/', views.UserListCreateAPIView.as_view()),
-    path('users/<int:pk>/', views.UserRetrieveUpdate.as_view()),
+    path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
     path('categories/', views.CategoryList.as_view()),
     path('comments/', views.CommentList.as_view()),
     path('auth/', include('djoser.urls')),

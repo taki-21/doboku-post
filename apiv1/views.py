@@ -26,7 +26,7 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserRetrieveUpdate(generics.RetrieveUpdateAPIView):
+class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
@@ -51,6 +51,11 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
 # class PostCreateAPIView(generics.CreateAPIView):
 #     """投稿モデルの登録APIクラス"""
 #     serializer_class = PostSerializer
+
+
+class PostRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 
 class CommentList(generics.ListAPIView):

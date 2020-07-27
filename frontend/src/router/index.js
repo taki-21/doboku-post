@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 import LoginPage from '@/views/LoginPage'
 import store from '@/store'
 import HomePage from '@/views/HomePage'
+import DetailPage from '@/views/DetailPage'
 import MyPage from '@/views/MyPage'
 import NewPostPage from '@/views/NewPostPage'
 import SignUpPage from '@/views/SignUpPage'
@@ -14,12 +15,23 @@ Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
+  base: process.env.BASE_URL,
   routes: [{
       path: '/',
+      name: 'homepage',
       component: HomePage,
       // meta: {
       //   requiresAuth: true
       // }
+    },
+    {
+      path: '/detail/:id',
+      name: 'detail',
+      component: DetailPage,
+      props: routes => ({
+        id: Number(routes.params.id)
+      })
+
     },
     {
       path: '/login',
