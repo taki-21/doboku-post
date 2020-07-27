@@ -49,7 +49,7 @@ const authModule = {
           .then(user => user)
       })
         .catch(error => {
-        console.log('えらー！！！！')
+        console.log('ログインえらー！！！！')
         console.log(error)
       })
     },
@@ -71,11 +71,13 @@ const authModule = {
         const user = response.data
         // storeのユーザー情報を更新
         context.commit('set', {
-            user: user
-          })
+          user: user
+        })
+        console.log('user!!' + user)
           return user
         })
         .catch(error => {
+          console.log('ユーザー情報更新えらー！！')
           console.log(error)
         })
     }
@@ -160,21 +162,21 @@ const userModule = {
   namespaced: true,
   state: {
     id: '',
-    name: '',
+    username: '',
     introduction: '',
     icon_image: '',
     home_image: '',
   },
   getters: {
     id: state => state.id,
-    name: state => state.name,
+    username: state => state.username,
     introduction: state => state.introduction,
     icon_image: state => state.icon_image,
     home_image: state => state.home_image,
     getUser: state => {
       return {
         id: state.id,
-        name: state.name,
+        username: state.username,
         introduction: state.introduction,
         icon_image: state.icon_image,
         home_image: state.home_image,
@@ -184,14 +186,14 @@ const userModule = {
   mutations: {
     set(state, payload) {
       state.id = payload.user.id
-      state.name = payload.user.name
+      state.username = payload.user.username
       state.introduction = payload.user.introduction
       state.icon_image = payload.user.icon_image
       state.home_image = payload.user.home_image
     },
     clear(state) {
       state.id = ''
-      state.name = ''
+      state.username = ''
       state.introduction = ''
       state.icon_image = ''
       state.home_image = ''
@@ -199,14 +201,12 @@ const userModule = {
   },
   actions: {
     load(context, payload) {
-      return api.get('api/v1/users/' + payload.id + '/')
+      return api.get('/users/' + payload.id + '/')
         .catch(error => {
           console.log(error)
         })
         .then(response => {
-          console.log('あいうえお')
-          console.log(response.data)
-          alert('user/load : ' + payload.user_id)
+          console.log('response.data: ' + response.data)
           const user = response.data
           // storeのユーザー情報を更新
           context.commit('set', {

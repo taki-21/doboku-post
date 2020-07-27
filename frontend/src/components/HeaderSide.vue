@@ -3,18 +3,18 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <!-- <pre>{{ user }}</pre> -->
           <!-- <pre>{{ user.username }}</pre> -->
           <!-- <pre>{{ id }}</pre> -->
           <router-link class="router-link" to="/newpostpage">
             <div class="link">
               <i id="header_post_icon" uk-icon="pencil"></i>投稿する
+    <!-- <pre>{{ user }}</pre> -->
             </div>
           </router-link>
           <div class="uk-inline">
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
-                <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image ">
+                <img class="user_icon" :src="'http://127.0.0.1:8000' + user.icon_image " />
                 {{ user.username }}
                 <i id="chevron-down" uk-icon="chevron-down"></i>
               </div>
@@ -61,42 +61,55 @@
 </template>
 
 <script>
-// import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
-  data() {
-    return {
-      user: "",
-      id: this.$store.getters["auth/id"]
-    };
-  },
-  computed: {
-    username: function() {
-      return this.$store.getters["auth/username"];
-    },
-    isLoggedIn: function() {
-      return this.$store.getters["auth/isLoggedIn"];
-    }
+  // data() {
+  //   return {
+  //     user: "",
+  //     id: this.$store.getters["auth/id"]
+  //   };
+  // },
+  // computed: {
+  //   // username: function() {
+  //   //   return this.$store.getters["auth/username"];
+  //   // },
+  //   isLoggedIn: function() {
+  //     return this.$store.getters["auth/isLoggedIn"];
+  //   }
     // id: function() {
     //   return this.$store.getters["auth/id"];
     // }
-  },
-  mounted() {
-    if (this.isLoggedIn) {
-      this.axios
-        .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
-        .then(response => {
-          this.user = response.data;
-        });
-    }
-  },
+  // },
+  // mounted() {
+  //   if (this.isLoggedIn) {
+  //     this.axios
+  //       .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
+  //       .then(response => {
+  //         this.user = response.data;
+  //       });
+  //   }
+  // },
   methods: {
     // ログアウトリンク押下
     clickLogout: function() {
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました。"
-      });
-      this.$router.replace("/login");
+      var result = window.confirm("ログアウトしてよろしですか？");
+      if (result) {
+        this.$store.dispatch("auth/logout");
+        this.$store.dispatch("user/logout");
+        this.$store.dispatch("message/setInfoMessage", {
+          message: "ログアウトしました。"
+        });
+        this.$router.replace("/login");
+      }
+    }
+  },
+  computed: {
+    // 1:storeのuserModule, 2:このコンポーネント内で使えるcomputed, 3:userModuleのgetters
+    ...mapGetters('user', {
+      'user': "getUser"
+    }),
+    isLoggedIn: function() {
+      return this.$store.getters["auth/isLoggedIn"];
     }
   }
 };

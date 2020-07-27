@@ -1,7 +1,7 @@
 <template>
   <div id="login-page">
     <MyHeader />
-    <!-- <GlobalMessage /> -->
+    <GlobalMessage />
 
     <!-- メインエリア -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
@@ -13,17 +13,29 @@
                 class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
               >
                 <h2 class="uk-card-title uk-text-center">ログイン</h2>
-                <form @submit.prevent="submitLogin">
+                <form @submit.prevent="submitLogin(form.username,form.password)">
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <span class="uk-form-icon" uk-icon="icon: user"></span>
-                      <input class="uk-input" type="text" v-model="form.username" placeholder="ユーザー名" required />
+                      <input
+                        class="uk-input"
+                        type="text"
+                        v-model="form.username"
+                        placeholder="ユーザー名"
+                        required
+                      />
                     </div>
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                      <input class="uk-input" type="password" v-model="form.password" placeholder="パスワード" required />
+                      <input
+                        class="uk-input"
+                        type="password"
+                        v-model="form.password"
+                        placeholder="パスワード"
+                        required
+                      />
                     </div>
                   </div>
                   <div class="uk-margin">
@@ -47,41 +59,73 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader.vue";
-// import GlobalMessage from "@/components/GlobalMessage.vue";
+import GlobalMessage from "@/components/GlobalMessage.vue";
 
 export default {
   components: {
     MyHeader,
-    // GlobalMessage
+    GlobalMessage
   },
   data() {
     return {
       form: {
         username: "",
         password: ""
-      }
+      },
+      // id: this.$store.getters["auth/id"],
+      isLoading: false
     };
   },
   methods: {
     // ログインボタン押下
-    submitLogin: function() {
+    submitLogin: function(username = "sample1", password = "doboku1") {
       // ログイン
+      this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
-          username: this.form.username,
-          password: this.form.password
+          username: username,
+          password: password
         })
         .then(() => {
-          console.log("Login succeeded.");
-          this.$store.dispatch("message/setInfoMessage", {
-            message: "ログインしました。"
-          });
+          if (this.isLoggedIn) {
+            console.log("Login succeed.");
+            this.$store.dispatch("message/setInfoMessage", {
+              message: "ログインしました。"
+            });
+            console.log("this.id: " + this.id);
+            this.$store.dispatch("user/load", { id: this.id }).catch(error => {
+              if (process.env.NODE_ENV !== "production") console.log(error);
+            });
+          }
+        })
+        .catch(error => {
+          if (process.env.NODE_ENV !== "production") console.log(error);
+        })
+        .then(() => {
+          this.Loading = false;
           // クエリ文字列に「next」がなければ、ホーム画面へ
           const next = this.$route.query.next || "/";
-          this.$router.replace(next);
+          this.$router.push(next).catch(error => {
+            // navigationが失敗するとエラーを吐くことを知った
+            // test環境はどうしようか迷ったが今の所除外
+            if (process.env.NODE_ENV === "development") console.log(error);
+          });
         });
+
+      // // クエリ文字列に「next」がなければ、ホーム画面へ
+      // const next = this.$route.query.next || "/";
+      // this.$router.replace(next);
     }
+  },
+  computed: {
+    ...mapGetters("auth", {
+      'username': "username",
+      'isLoggedIn': "isLoggedIn",
+      'id': 'id'
+
+    })
   }
 };
 </script>

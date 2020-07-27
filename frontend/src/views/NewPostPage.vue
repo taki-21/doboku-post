@@ -93,6 +93,7 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import api from '@/services/api'
 export default {
   components: {
     MyHeader
@@ -129,7 +130,7 @@ export default {
       formData.append("title", this.title);
       formData.append("content", this.content);
       formData.append("image", this.image);
-      this.axios
+      api
         .post("http://127.0.0.1:8000/api/v1/posts/", formData)
         .then(response => {
           console.log("送信内容: " + response.data);

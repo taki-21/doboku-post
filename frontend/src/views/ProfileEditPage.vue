@@ -81,26 +81,33 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 import MyHeader from "@/components/MyHeader";
+
 export default {
   components: {
     MyHeader
   },
+  computed: {
+    ...mapGetters('user', {
+      user: 'getUser'
+    })
+  },
   data() {
     return {
-      user: "",
-      id: this.$store.getters["auth/id"],
+  //     user: "",
+      // id: this.$store.getters["auth/id"],
       icon_image: "",
       previewImage: ""
     };
   },
-  mounted() {
-    this.axios
-      .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
-      .then(response => {
-        this.user = response.data;
-      });
-  },
+  // mounted() {
+  //   this.axios
+  //     .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
+  //     .then(response => {
+  //       this.user = response.data;
+  //     });
+  // },
   methods: {
     selectedFile(event) {
       event.preventDefault();
@@ -115,7 +122,7 @@ export default {
       formData.append("email", this.user.email);
       formData.append("introduction", this.user.introduction);
       this.axios
-        .put("http://127.0.0.1:8000/api/v1/users/" + this.id + "/", formData)
+        .put("http://127.0.0.1:8000/api/v1/users/" + this.user.id + "/", formData)
         .then(response => {
           console.log("送信内容: " + response.data);
 
