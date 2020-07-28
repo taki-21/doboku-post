@@ -7,18 +7,23 @@
         uk-grid
       >
         <div v-for="category in categories" :key="category.id">
-          <button class="uk-button uk-button-default uk-button-large uk-width-1-1" @click='categoryPost(category.id)'>
+          <button class="uk-button uk-button-default uk-button-large uk-width-1-1" @click='selectedCategory(category.id)'>
             <span>{{category.name}}</span>
           </button>
         </div>
         <span>Selected: {{ selected }}</span>
       </div>
     </div>
+  <div v-for="post in categoryPosts" :key="post.id">
+    {{ post.title }}
+  </div>
   </div>
 </template>
 
 
 <script>
+import api from '@/services/api'
+
 export default {
   data() {
     return {
@@ -28,15 +33,28 @@ export default {
     };
   },
   mounted() {
-    this.axios
+    api
       .get("http://127.0.0.1:8000/api/v1/categories/")
       .then(response => {
         this.categories = response.data;
       });
+    api
+    .get("http://127.0.0.1:8000/api/v1/posts/")
+    .then(response => {
+      this.posts = response.data;
+    })
+
   },
   methods: {
-    categoryPost(category_post){
+    selectedCategory(category_post){
       this.selected = category_post
+    }
+  },
+  computed: {
+    categoryPosts: function() {
+      return this.posts.filter(x =>
+        x.category === this.selected
+      );
     }
   }
 };
