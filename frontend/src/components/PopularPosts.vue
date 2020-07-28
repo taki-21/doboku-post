@@ -1,6 +1,6 @@
 <template>
-  <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-    <div v-for="(post, key) in popularPosts" :key="key">
+  <div class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center" uk-grid>
+    <router-link class="router-link" :to="{name: 'detail', params:{id: post.id }}" v-for="(post, key) in popularPosts" :key="key">
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
           <img v-bind:src="post.image_change" />
@@ -26,7 +26,7 @@
         </div>
       </div>
       <!-- <pre>{{ posts }}</pre> -->
-    </div>
+    </router-link>
   </div>
 </template>
 

@@ -92,7 +92,7 @@ export default {
   methods: {
     // ログアウトリンク押下
     clickLogout: function() {
-      var result = window.confirm("ログアウトしてよろしですか？");
+      var result = window.confirm("ログアウトします。よろしいですか？");
       if (result) {
         this.$store.dispatch("auth/logout");
         this.$store.dispatch("user/logout");

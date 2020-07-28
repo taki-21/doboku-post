@@ -2,10 +2,16 @@
   <div>
     <!-- <pre>{{ categories }}</pre> -->
     <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m">
-      <div class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center" uk-grid>
-          <div v-for="category in categories" :key="category.id">
-            <button class="uk-button uk-button-default uk-button-large uk-width-1-1"><span>{{category.name}}</span></button>
-          </div>
+      <div
+        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center"
+        uk-grid
+      >
+        <div v-for="category in categories" :key="category.id">
+          <button class="uk-button uk-button-default uk-button-large uk-width-1-1" @click='categoryPost(category.id)'>
+            <span>{{category.name}}</span>
+          </button>
+        </div>
+        <span>Selected: {{ selected }}</span>
       </div>
     </div>
   </div>
@@ -16,7 +22,9 @@
 export default {
   data() {
     return {
-      categories: []
+      categories: [],
+      selected: [],
+      posts: [],
     };
   },
   mounted() {
@@ -25,12 +33,17 @@ export default {
       .then(response => {
         this.categories = response.data;
       });
+  },
+  methods: {
+    categoryPost(category_post){
+      this.selected = category_post
+    }
   }
 };
 </script>
 
 <style scoped>
-span{
+span {
   font-size: 20px;
 }
 </style>
