@@ -31,10 +31,10 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
-    def get(self, request, pk, *args, **kwargs):
-        user = get_object_or_404(get_user_model(), id=pk)
-        serializer = UserSerializer(instance=user)
-        return Response(serializer.data, status.HTTP_200_OK)
+    # def get(self, request, pk, *args, **kwargs):
+    #     user = get_object_or_404(get_user_model(), id=pk)
+    #     serializer = UserSerializer(instance=user)
+    #     return Response(serializer.data, status.HTTP_200_OK)
 
 
 class CategoryList(generics.ListAPIView):

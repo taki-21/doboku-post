@@ -73,7 +73,7 @@ const authModule = {
         context.commit('set', {
           user: user
         })
-        console.log('user!!' + user)
+        console.log('user!!.password' + user.password)
           return user
         })
         .catch(error => {
@@ -163,6 +163,7 @@ const userModule = {
   state: {
     id: '',
     username: '',
+    email: '',
     introduction: '',
     icon_image: '',
     home_image: '',
@@ -170,6 +171,7 @@ const userModule = {
   getters: {
     id: state => state.id,
     username: state => state.username,
+    email: state => state.email,
     introduction: state => state.introduction,
     icon_image: state => state.icon_image,
     home_image: state => state.home_image,
@@ -177,6 +179,7 @@ const userModule = {
       return {
         id: state.id,
         username: state.username,
+        email: state.email,
         introduction: state.introduction,
         icon_image: state.icon_image,
         home_image: state.home_image,
@@ -187,6 +190,7 @@ const userModule = {
     set(state, payload) {
       state.id = payload.user.id
       state.username = payload.user.username
+      state.email = payload.user.email
       state.introduction = payload.user.introduction
       state.icon_image = payload.user.icon_image
       state.home_image = payload.user.home_image
@@ -194,6 +198,7 @@ const userModule = {
     clear(state) {
       state.id = ''
       state.username = ''
+      state.email = ''
       state.introduction = ''
       state.icon_image = ''
       state.home_image = ''

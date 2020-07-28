@@ -3,11 +3,11 @@
     <MyHeader />
     <!-- ヘッダー -->
     <div class="content">
-      <!-- <pre>{{user}}</pre> -->
+      <pre>{{user}}</pre>
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
-            <img class="mypage_user_icon" :src="'http://127.0.0.1:8000' + user.icon_image" uk-cover />
+            <img class="mypage_user_icon" :src="user.icon_image" uk-cover />
             <canvas width="500" height="500"></canvas>
           </div>
         </div>

@@ -22,7 +22,7 @@
                           <img id="preview_image" :src="previewImage" />
                         </div>
                         <div v-else>
-                          <img id="preview_image" :src="'http://127.0.0.1:8000' + user.icon_image " />
+                          <img id="preview_image" :src="beforeIconImage " />
                         </div>
                       </div>
                     </div>
@@ -34,7 +34,7 @@
                         class="uk-input"
                         type="text"
                         placeholder="ユーザー名"
-                        v-model="user.username"
+                        v-model="username"
                         required
                       />
                     </div>
@@ -44,9 +44,9 @@
                       <span class="uk-form-icon" uk-icon="icon: mail"></span>
                       <input
                         class="uk-input"
-                        type='email'
+                        type="email"
                         placeholder="メールアドレス"
-                        v-model="user.email"
+                        v-model="email"
                         required
                       />
                     </div>
@@ -59,7 +59,7 @@
                         rows="8"
                         type="text"
                         placeholder="自己紹介文"
-                        v-model="user.introduction"
+                        v-model="introduction"
                         required
                       ></textarea>
                     </div>
@@ -81,7 +81,9 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
+import api from "@/services/api";
+
 import MyHeader from "@/components/MyHeader";
 
 export default {
@@ -89,16 +91,19 @@ export default {
     MyHeader
   },
   computed: {
-    ...mapGetters('user', {
-      user: 'getUser'
+    ...mapGetters("auth", {
+      id: "id"
     })
   },
   data() {
     return {
-  //     user: "",
-      // id: this.$store.getters["auth/id"],
+      isLoading: false,
+      beforeIconImage: "",
       icon_image: "",
-      previewImage: ""
+      previewImage: "",
+      username: "",
+      email: "",
+      introduction: ""
     };
   },
   // mounted() {
@@ -116,19 +121,26 @@ export default {
     },
     submitPost: function() {
       const formData = new FormData();
-      formData.append("icon_image", this.icon_image);
-      formData.append("username", this.user.username);
-      formData.append("password", this.user.password);
-      formData.append("email", this.user.email);
-      formData.append("introduction", this.user.introduction);
-      this.axios
-        .put("http://127.0.0.1:8000/api/v1/users/" + this.user.id + "/", formData)
-        .then(response => {
-          console.log("送信内容: " + response.data);
-
-        })
-        .catch(error => {
-          console.log("response: ", error.response.data);
+      if (this.icon_image) formData.append("icon_image", this.icon_image);
+      formData.append("username", this.username);
+      formData.append("email", this.email);
+      formData.append("introduction", this.introduction);
+      api
+        .patch("http://127.0.0.1:8000/api/v1/users/" + this.id + "/", formData)
+        .then(async () => {
+          this.$store.dispatch("message/setInfoMessage", {
+            message: "更新完了"
+          });
+          // ここで一度更新してないとユーザーIDを変更した際にエラーが出る
+          // storeのユーザー情報を更新
+          await this.$store.dispatch("auth/reload");
+          await this.$store.dispatch("user/load", {
+            id: this.$store.getters["auth/id"]
+          });
+          this.$router.replace(
+            "/mypage/" + this.$store.getters["auth/username"]
+          );
+          this.isLoading = false;
         });
     },
     createImage(file) {
@@ -138,6 +150,15 @@ export default {
       };
       reader.readAsDataURL(file);
     }
+  },
+  mounted() {
+    this.isLoading = true;
+    this.$store.dispatch("user/load", { id: this.id }).then(resUser => {
+      this.beforeIconImage = resUser.icon_image;
+      this.username = resUser.username;
+      this.email = resUser.email;
+      this.introduction = resUser.introduction;
+    });
   }
 };
 </script>
@@ -183,7 +204,6 @@ export default {
 }
 
 .textarea-input {
-    padding-left: 40px;
+  padding-left: 40px;
 }
-
 </style>

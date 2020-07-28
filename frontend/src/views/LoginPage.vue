@@ -44,9 +44,16 @@
                       type="submit"
                     >ログイン</button>
                   </div>
-                  <div class="uk-text-small uk-text-center">
+                  <div @click='submitLogin()'>
+                    <button class="uk-button uk-button-secondary uk-width-1-1">
+                    かんたんログイン
+                    </button>
+                  </div>
+                  <div class="uk-text-small uk-text-center" id="create_account">
                     登録していない方
-                    <a href="#">アカウント作成</a>
+                    <router-link class="router-link" to="/signup">
+                      アカウント作成
+                    </router-link>
                   </div>
                 </form>
               </div>
@@ -129,3 +136,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+#create_account{
+  margin-top: 20px;
+}
+</style>
