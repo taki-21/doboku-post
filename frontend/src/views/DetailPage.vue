@@ -11,6 +11,7 @@
             </a>
             <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
               <div>
+                {{post.author.icon_image}}
                 <div>
                   <img class="user_icon" v-bind:src="post.author.icon_image" />
                   <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
@@ -29,6 +30,8 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import api from "@/services/api";
+
 export default {
   name: "detail",
   components: {
@@ -42,9 +45,9 @@ export default {
       post: ""
     };
   },
-  created() {
-    this.axios
-      .get("http://127.0.0.1:8000/api/v1/posts/" + this.id + "/")
+  mounted() {
+    api
+      .get("/posts/" + this.id + "/")
       .then(response => {
         this.post = response.data;
       });

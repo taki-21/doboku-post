@@ -1,5 +1,6 @@
 <template>
   <div>
+    <pre>{{selected}}</pre>
     <div v-if="selected == false">
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m">
         <div
@@ -9,25 +10,25 @@
           <div v-for="category in categories" :key="category.id">
             <button
               class="uk-button uk-button-default uk-button-large uk-width-1-1"
-              @click="selectedCategory(category.id)"
+              @click="selectedCategory(category)"
+              key="input"
             >
               <span>{{category.name}}</span>
             </button>
           </div>
-          <span>Selected: {{ selected }}</span>
+          <!-- <span>Selected: {{ selected }}</span> -->
         </div>
       </div>
     </div>
-    <a
+    <button
       class="uk-button uk-button-default"
-      href="#modal-center"
+      type="button"
       id="selected_category"
-      uk-toggle
-    >{{ categoryName[selected - 1]}}</a>
+      uk-toggle="target: #modal-center"
+    >{{ selected.name }}</button>
+
     <div id="modal-center" class="uk-flex-top" uk-modal>
       <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-        <button class="uk-modal-close-default" type="button" uk-close></button>
-
         <div
           class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center"
           uk-grid
@@ -35,15 +36,15 @@
           <div v-for="category in categories" :key="category.id">
             <button
               class="uk-button uk-button-default uk-button-large uk-width-1-1 uk-modal-close"
-              @click="selectedCategory(category.id)"
+              @click="selectedCategory(category)"
             >
               <span>{{category.name}}</span>
             </button>
           </div>
-          <span>Selected: {{ selected }}</span>
         </div>
       </div>
     </div>
+    <!-- <pre>Selected: {{ selected }}</pre> -->
 
     <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
@@ -105,16 +106,17 @@ export default {
     });
   },
   methods: {
-    selectedCategory(category_post) {
-      this.selected = category_post;
+    selectedCategory(category) {
+      console.log("代入前" + this.selected);
+      this.selected = category;
+      // this.$set(this.selected, 'id',  category.id);
+      // this.$set(this.selected, 'name', category.name);
+      console.log("代入後" + this.selected);
     }
   },
   computed: {
     categoryPosts: function() {
-      return this.posts.filter(x => x.category === this.selected);
-    },
-    categoryName: function() {
-      return this.categories.map(x => x.name);
+      return this.posts.filter(x => x.category === this.selected.id);
     }
   }
 };
@@ -123,7 +125,15 @@ export default {
 <style scoped>
 #selected_category {
   font-size: 32px;
+  color: black;
+  padding: 5px 35px;
+  margin-bottom: 20px;
 }
+
+a#selected_category :hover {
+  background-color: red;
+}
+
 span {
   font-size: 20px;
 }
