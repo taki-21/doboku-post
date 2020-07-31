@@ -11,7 +11,6 @@
             </a>
             <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
               <div>
-                {{post.author.icon_image}}
                 <div>
                   <img class="user_icon" v-bind:src="post.author.icon_image" />
                   <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>

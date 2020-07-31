@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- <pre>{{selected}}</pre> -->
       <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
         <div
           class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
@@ -14,36 +13,8 @@
               <span>{{category.name}}</span>
             </button>
           </div>
-          <!-- <span>Selected: {{ selected.name }}</span> -->
         </div>
       </div>
-      <!-- <div>{{ selected.name }}</div> -->
-    <!-- <div>
-      <button
-        class="uk-button uk-button-default"
-        type="button"
-        id="selected_category"
-        uk-toggle="target: #modal-center"
-      >{{ selected.name }}</button>
-    </div> -->
-    <!-- <div id="modal-center" class="uk-flex-top" uk-modal>
-      <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-        <div
-          class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center"
-          uk-grid
-        >
-          <div v-for="category in categories" :key="category.id">
-            <button
-              class="uk-button uk-button-default uk-button-large uk-width-1-1 uk-modal-close"
-              @click="selectedCategory(category)"
-            >
-              <span>{{category.name}}</span>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div> -->
-    <!-- <pre>Selected: {{ selected }}</pre> -->
 
     <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
@@ -106,11 +77,7 @@ export default {
   },
   methods: {
     selectedCategory(category) {
-      console.log("代入前" + this.selected);
-      // this.selected = category;
-      this.$set(this.selected, 'id',  category.id);
-      this.$set(this.selected, 'name', category.name);
-      console.log("代入後" + this.selected);
+      this.selected = category;
     }
   },
   computed: {
