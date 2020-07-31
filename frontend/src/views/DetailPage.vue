@@ -5,14 +5,16 @@
     <div id="detail_post">
       <div class="uk-width-1-1">
         <div class="uk-container">
-          <div class="">
+          <div class>
             <a @click="goBack" title="前ページへ戻る">
               <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
-            <div
-              class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
+            <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
               <div>
+                <div>
+                  <img class="user_icon" v-bind:src="post.author.icon_image" />
+                  <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                </div>
                 <p id="post_title">{{post.title}}</p>
                 <img :src="post.image_change" alt />
               </div>
@@ -27,6 +29,8 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import api from "@/services/api";
+
 export default {
   name: "detail",
   components: {
@@ -40,9 +44,9 @@ export default {
       post: ""
     };
   },
-  created() {
-    this.axios
-      .get("http://127.0.0.1:8000/api/v1/posts/" + this.id + "/")
+  mounted() {
+    api
+      .get("/posts/" + this.id + "/")
       .then(response => {
         this.post = response.data;
       });
@@ -60,6 +64,13 @@ export default {
 </script>
 
 <style scoped>
+.user_icon {
+  width: 40px;
+  height: 40px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
 #detail_post {
   padding-top: 10px;
 }

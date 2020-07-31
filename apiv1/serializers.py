@@ -17,13 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
             validated_data['password'] = make_password(password)
         return super().create(validated_data)
 
-    def update(self, instance, validated_data):
-        if 'password' in validated_data:
-            instance.set_password(validated_data['password'])
-        else:
-            instance = super().update(instance, validated_data)
-        instance.save()
-        return instance
+    # def update(self, instance, validated_data):
+    #     if 'password' in validated_data:
+    #         instance.set_password(validated_data['password'])
+    #     else:
+    #         instance = super().update(instance, validated_data)
+    #     instance.save()
+    #     return instance
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -34,9 +34,9 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class PostSerializer(serializers.ModelSerializer):
-    # category = serializers.PrimaryKeyRelatedField(
-    #     queryset=Category.objects.all())
-    category = CategorySerializer()
+    category = serializers.PrimaryKeyRelatedField(
+        queryset=Category.objects.all())
+    # category = CategorySerializer()
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
