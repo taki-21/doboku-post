@@ -58,6 +58,6 @@ class PostRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     serializer_class = PostSerializer
 
 
-class CommentList(generics.ListAPIView):
+class CommentListCreateAPIView(generics.ListCreateAPIView):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

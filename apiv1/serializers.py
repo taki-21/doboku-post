@@ -65,8 +65,21 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    author_name = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(), write_only=True)
+
+    def create(self, validated_data):
+        validated_data['author'] = validated_data.get('author_name', None)
+
+        if validated_data['author'] is None:
+            raise serializers.ValidationError('author not found.')
+
+        del validated_data['author_name']
+
+        return Post.objects.create(**validated_data)
 
     class Meta:
         model = Comment
         # fields = '__all__'
-        fields = ('id', 'post', 'author', 'timestamp')
+        fields = ('id', 'post', 'author', 'author_name', 'text', 'timestamp')

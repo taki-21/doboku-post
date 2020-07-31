@@ -10,7 +10,9 @@
               class="uk-button uk-button-default uk-button-large uk-width-1-1"
               @click="selectedCategory(category)"
             >
-              <span>{{category.name}}</span>
+              <span>{{category.name}}
+              <span class="uk-badge">{{posts.filter(x => x.category === category.id).length}}</span>
+              </span>
             </button>
           </div>
         </div>
@@ -115,16 +117,28 @@ span {
   margin-bottom: 20px;
 }
 
-.uk-modal-dialog {
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 1000px;
-  max-width: calc(100% - 0.01px) !important;
-  background: #fff;
-  opacity: 0;
-  transform: translateY(-100px);
-  transition: 0.3s linear;
-  transition-property: opacity, transform;
+.uk-badge {
+    box-sizing: border-box;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 5px;
+    margin-left: 5px;
+    border-radius: 500px;
+    vertical-align: middle;
+    background: black;
+    color: #fff;
+    font-size: .875rem;
+    font-weight: bold;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+.uk-button-large {
+    padding: 0 20px;
+    line-height: 53px;
+    font-size: .875rem;
+}
+.uk-card-body {
+    padding: 20px 20px;
 }
 </style>
