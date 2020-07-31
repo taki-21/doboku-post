@@ -1,33 +1,32 @@
 <template>
   <div>
-    <pre>{{selected}}</pre>
-    <div v-if="selected == false">
-      <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m">
+    <!-- <pre>{{selected}}</pre> -->
+      <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
         <div
-          class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center"
+          class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
           uk-grid
         >
           <div v-for="category in categories" :key="category.id">
             <button
               class="uk-button uk-button-default uk-button-large uk-width-1-1"
               @click="selectedCategory(category)"
-              key="input"
             >
               <span>{{category.name}}</span>
             </button>
           </div>
-          <!-- <span>Selected: {{ selected }}</span> -->
+          <!-- <span>Selected: {{ selected.name }}</span> -->
         </div>
       </div>
-    </div>
-    <button
-      class="uk-button uk-button-default"
-      type="button"
-      id="selected_category"
-      uk-toggle="target: #modal-center"
-    >{{ selected.name }}</button>
-
-    <div id="modal-center" class="uk-flex-top" uk-modal>
+      <!-- <div>{{ selected.name }}</div> -->
+    <!-- <div>
+      <button
+        class="uk-button uk-button-default"
+        type="button"
+        id="selected_category"
+        uk-toggle="target: #modal-center"
+      >{{ selected.name }}</button>
+    </div> -->
+    <!-- <div id="modal-center" class="uk-flex-top" uk-modal>
       <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
         <div
           class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2@s uk-text-center"
@@ -43,7 +42,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- <pre>Selected: {{ selected }}</pre> -->
 
     <div
@@ -108,9 +107,9 @@ export default {
   methods: {
     selectedCategory(category) {
       console.log("代入前" + this.selected);
-      this.selected = category;
-      // this.$set(this.selected, 'id',  category.id);
-      // this.$set(this.selected, 'name', category.name);
+      // this.selected = category;
+      this.$set(this.selected, 'id',  category.id);
+      this.$set(this.selected, 'name', category.name);
       console.log("代入後" + this.selected);
     }
   },
@@ -123,15 +122,8 @@ export default {
 </script>
 
 <style scoped>
-#selected_category {
-  font-size: 32px;
-  color: black;
-  padding: 5px 35px;
+#category_card{
   margin-bottom: 20px;
-}
-
-a#selected_category :hover {
-  background-color: red;
 }
 
 span {
