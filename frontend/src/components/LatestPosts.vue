@@ -16,8 +16,15 @@
         <div class="uk-card-body">
           <div class="uk-comment-header uk-position-relative">
             <div>
-              <img class="user_icon" v-bind:src="post.author.icon_image" />
-              <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+              <a class="show_user" herf="#">
+                <div>
+                  <img class="user_icon" v-bind:src="post.author.icon_image" />
+                  <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                </div>
+              </a>
+              <div class="timestamp">
+                <span>{{ post.published_at | moment }}</span>
+              </div>
             </div>
           </div>
           <strong>{{ post.title }}</strong>
@@ -38,13 +45,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import moment from "moment";
+import { mapState } from "vuex";
 export default {
-  computed:{
-    ...mapState('post', {'posts':'posts'})
+  computed: {
+    ...mapState("post", { posts: "posts" })
   },
   created() {
     this.$store.dispatch("post/getAllPosts");
+  },
+  filters: {
+    moment: function(date) {
+      return moment(date).format("YYYY/MM/DD HH:MM");
+    }
   }
 };
 </script>
@@ -68,4 +81,52 @@ export default {
   background-color: #f7fcfc;
   margin-bottom: 20px;
 }
+
+.timestamp {
+  font-size: 12px;
+  text-align: right;
+}
+
+.show_user {
+  line-height: 45px;
+  float: left;
+  font-size: large;
+  font-weight: bold;
+  color: #333333;
+}
+
+.post_content {
+  width: 100%;
+  font-size: small;
+  height: 40px;
+}
+
+p {
+    margin: 0;
+}
+
+.comment_like_icon {
+    text-align: right;
+
+}
+
+#comment-count {
+    margin-right: 5px;
+}
+
+#like-count {
+    line-height: 30px;
+    font-size: 17px;
+}
+
+/* UIkitの上書き */
+.uk-card-body {
+  padding: 10px 20px;
+}
+
+.uk-comment-header {
+    display: flow-root;
+    margin-bottom: 0px;
+}
+
 </style>
