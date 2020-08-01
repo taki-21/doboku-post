@@ -1,13 +1,19 @@
 <template>
   <div>
     <!-- ヘッダー -->
-    <MyHeader/>
+    <MyHeader />
     <!-- <GlobalMessage/> -->
-
 
     <!-- メインエリア -->
     <div class="content">
-      <PostList/>
+      <ul class="uk-flex-center" id="nav" uk-tab>
+        <router-link class="router-link" to="/">新着投稿</router-link>
+        <router-link class="router-link" to="/popular">人気投稿</router-link>
+        <router-link class="router-link"  to="/category">カテゴリ</router-link>
+      </ul>
+      <div>
+        <router-view />
+      </div>
     </div>
   </div>
 </template>
@@ -15,23 +21,34 @@
 <script>
 // import GlobalMessage from "@/components/GlobalMessage.vue";
 import MyHeader from "@/components/MyHeader";
-import PostList from "@/components/PostList";
+// import PostList from "@/components/PostList";
 
 export default {
   components: {
     // GlobalMessage,
-    MyHeader,
-    PostList
-  },
+    MyHeader
+    // PostList
+  }
 };
 </script>
 
 <style scoped>
-
-.content {
-  margin: 10px auto;
-  max-width:1040px;
+.router-link {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
 }
 
-
+.router-link-exact-active {
+  border-bottom: solid 2px black;
+}
+.uk-tab > * {
+    flex: none;
+    padding: 0px 20px;
+    position: relative;
+}
+.content {
+  margin: 10px auto;
+  max-width: 1040px;
+}
 </style>

@@ -138,7 +138,7 @@ export default {
             id: this.$store.getters["auth/id"]
           });
           this.$router.replace(
-            "/mypage/" + this.$store.getters["auth/username"]
+            "/mypage/"
           );
           this.isLoading = false;
         });

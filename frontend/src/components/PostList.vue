@@ -1,20 +1,16 @@
 <template>
   <div>
     <ul class="uk-flex-center" uk-tab>
-      <li>
-        <a class="uk-text-large uk-text-secondary">新着投稿</a>
-      </li>
-      <li>
-        <a class="uk-text-large uk-text-secondary">人気投稿</a>
-      </li>
-      <li>
-        <a class="uk-text-large uk-text-secondary">カテゴリ</a>
-      </li>
-      <li>
-        <a class="uk-text-large uk-text-secondary">マップ</a>
-      </li>
-      <li>
-        <a class="uk-text-large uk-text-secondary">検索</a>
+      <router-link class="router-link" to="/">新着投稿</router-link> |
+      <router-link class="uk-text-large uk-text-secondary" to="/popular">人気投稿</router-link> |
+      <router-link class="uk-text-large uk-text-secondary" to="/category">カテゴリ</router-link>
+    </ul>
+    <div>
+      <router-view/>
+    </div>
+    <!-- <ul class="uk-flex-center" uk-tab>
+      <li v-for="item in items" :key="item.id">
+        <a class="uk-text-large uk-text-secondary" @click="tabIndex()">{{ item.name }}</a>
       </li>
     </ul>
     <ul class="uk-switcher uk-margin">
@@ -27,25 +23,56 @@
       <li>
         <CategoryPosts />
       </li>
-      <!-- <li><Map/></li> -->
-      <!-- <li><Search/></li>-->
-    </ul>
+      <li>
+        <Map />
+      </li>
+      <li>
+        <Search />
+      </li>
+    </ul>-->
   </div>
 </template>
 
 <script>
-import LatestPosts from "@/components/LatestPosts";
-import PopularPosts from "@/components/PopularPosts";
-import CategoryPosts from "@/components/CategoryPosts";
+// import LatestPosts from "@/components/LatestPosts";
+// import PopularPosts from "@/components/PopularPosts";
+// import CategoryPosts from "@/components/CategoryPosts";
 export default {
   components: {
-    LatestPosts,
-    PopularPosts,
-    CategoryPosts
+    // LatestPosts,
+    // PopularPosts,
+    // CategoryPosts
+  },
+  data() {
+    return {
+      items: [
+        { id: 1, name: "新着投稿" },
+        { id: 2, name: "人気投稿" },
+        { id: 3, name: "カテゴリ" },
+        { id: 4, name: "マップ" },
+        { id: 5, name: "検索" }
+      ],
+      isActive: ""
+    };
+  },
+  methods: {
+    tabIndex() {}
+  },
+  computed: {
+    selectedItem() {
+      // 選択されたアイテムのデータを取得する
+      return this.items.find(item => item.id === this.selectedItemId);
+    }
+  },
+  mounted() {
+    console.log("あああ");
+    window.addEventListener("hashchange", this.parseHash);
+    console.log();
+    this.parseHash();
+    console.log("あああ");
   }
 };
 </script>
-
 <style scoped>
 .uk-tab > .uk-active > a {
   color: #333;

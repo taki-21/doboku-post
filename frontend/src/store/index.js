@@ -228,11 +228,13 @@ const userModule = {
 }
 
 
+
+
 const store = new Vuex.Store({
   modules: {
     auth: authModule,
     message: messageModule,
-    user: userModule
+    user: userModule,
   },
   plugins: [createPersistedState({
     key: 'example',

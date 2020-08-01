@@ -9,6 +9,9 @@ import MyPage from '@/views/MyPage'
 import NewPostPage from '@/views/NewPostPage'
 import SignUpPage from '@/views/SignUpPage'
 import ProfileEditPage from '@/views/ProfileEditPage'
+import LatestPosts from '@/components/LatestPosts'
+import PopularPosts from '@/components/PopularPosts'
+import CategoryPosts from '@/components/CategoryPosts'
 
 
 Vue.use(VueRouter)
@@ -16,13 +19,25 @@ Vue.use(VueRouter)
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [{
+  routes: [
+    {
       path: '/',
       name: 'homepage',
       component: HomePage,
-      // meta: {
-      //   requiresAuth: true
-      // }
+      children: [
+        {
+          path: '',
+            component: LatestPosts
+        },
+        {
+          path: 'popular',
+          component: PopularPosts
+        },
+        {
+          path: 'category',
+          component: CategoryPosts
+        }
+      ]
     },
     {
       path: '/detail/:id',

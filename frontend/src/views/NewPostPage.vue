@@ -134,6 +134,7 @@ export default {
         .post("http://127.0.0.1:8000/api/v1/posts/", formData)
         .then(response => {
           console.log("送信内容: " + response.data);
+          this.$router.replace("/");
         })
         .catch(error => {
           console.log("response: ", error.response.data);

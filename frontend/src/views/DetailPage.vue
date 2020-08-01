@@ -6,7 +6,7 @@
       <div class="uk-width-1-1">
         <div class="uk-container">
           <div class>
-            <a @click="goBack" title="前ページへ戻る">
+            <a @click="$router.back()" title="前ページへ戻る">
               <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
             <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
@@ -84,6 +84,7 @@ export default {
   },
   props: {
     id: { type: Number }
+
   },
   data() {
     return {
@@ -115,12 +116,9 @@ export default {
     });
   },
   methods: {
-    goBack() {
-      if (this.hasBefore) {
-        this.$router.go(-1);
-      } else {
-        this.$router.push({ name: "homepage" });
-      }
+    back() {
+      // 1つ前へ
+      this.$router.back();
     }
   }
 };
