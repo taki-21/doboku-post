@@ -65,6 +65,8 @@ class PostSerializer(serializers.ModelSerializer):
 
 
 class CommentSerializer(serializers.ModelSerializer):
+    post = serializers.PrimaryKeyRelatedField(
+        queryset=Post.objects.all())
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
@@ -77,7 +79,7 @@ class CommentSerializer(serializers.ModelSerializer):
 
         del validated_data['author_name']
 
-        return Post.objects.create(**validated_data)
+        return Comment.objects.create(**validated_data)
 
     class Meta:
         model = Comment

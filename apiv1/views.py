@@ -59,5 +59,6 @@ class PostRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
 
 
 class CommentListCreateAPIView(generics.ListCreateAPIView):
+    """コメントモデルの取得（一覧）・投稿APIクラス"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer

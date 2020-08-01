@@ -17,7 +17,11 @@
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                   </div>
                   <p id="post_title">{{post.title}}</p>
-                  <img :src="post.image_change" alt />
+                  <div uk-lightbox>
+                    <a :href="post.image">
+                      <img :src="post.image_change" />
+                    </a>
+                  </div>
                 </div>
                 <div class="uk-width-2-5">
                   <div>
@@ -31,9 +35,8 @@
                     </button>
                     <div class="toggle-usage"></div>
                     <div class="toggle-usage" hidden>
-                      <CommentForm/>
+                      <CommentForm :post="post" />
                     </div>
-
                   </div>
 
                   <ul class="uk-comment-list">
@@ -44,9 +47,9 @@
                       >
                         <header class="uk-comment-header uk-position-relative">
                           <div>
-                            <img class="user_icon" :src="comment.author.icon_image" />
+                            <img class="comment_user_icon" :src="comment.author.icon_image" />
                             <strong>{{comment.author.username}}</strong>
-                            <span>{{comment.timestamp}}</span>
+                            <span>{{comment.timestamp | moment }}</span>
                           </div>
                         </header>
                         <div>
@@ -67,6 +70,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 
@@ -87,7 +91,22 @@ export default {
       comments: []
     };
   },
-  mounted() {
+  filters: {
+    moment: function(date) {
+      return moment(date).format("YYYY/MM/DD HH:mm");
+    }
+  },
+  watch: {
+    comments: {
+      immediate: true,
+      handler: function() {
+        api.get("/comments/").then(response => {
+          this.comments = response.data.filter(x => x.post === this.id);
+        });
+      }
+    }
+  },
+  created() {
     api.get("/posts/" + this.id + "/").then(response => {
       this.post = response.data;
     });
@@ -108,12 +127,19 @@ export default {
 </script>
 
 <style scoped>
-.v-application ol, .v-application ul {
-    /* padding-left: 24px; */
+.v-application ol,
+.v-application ul {
+  padding-left: 0px;
 }
 .user_icon {
   width: 40px;
   height: 40px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+.comment_user_icon {
+  width: 30px;
+  height: 30px;
   margin-right: 5px;
   border-radius: 50%;
 }
@@ -130,5 +156,16 @@ export default {
   padding: 15px;
   border-left: 4px solid black;
   border-bottom: 1px solid black;
+}
+.uk-comment-header {
+  margin-bottom: 10px;
+}
+
+.uk-comment-list > :nth-child(n + 2) {
+  margin-top: 0px;
+}
+
+.comment_button {
+  width: 100%;
 }
 </style>
