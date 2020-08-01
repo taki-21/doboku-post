@@ -1,6 +1,14 @@
 <template>
-  <div class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center" uk-grid>
-    <router-link class="router-link" :to="{name: 'detail', params:{id: post.id }}" v-for="(post, key) in posts" :key="key">
+  <div
+    class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
+    uk-grid
+  >
+    <router-link
+      class="router-link"
+      :to="{name: 'detail', params:{id: post.id }}"
+      v-for="(post, key) in posts"
+      :key="key"
+    >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
           <img v-bind:src="post.image_change" />
@@ -25,22 +33,18 @@
           </div>
         </div>
       </div>
-      <!-- <pre>{{ posts }}</pre> -->
     </router-link>
   </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-  data() {
-    return {
-      posts: null
-    };
+  computed:{
+    ...mapState('post', {'posts':'posts'})
   },
-  mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
-    });
+  created() {
+    this.$store.dispatch("post/getAllPosts");
   }
 };
 </script>

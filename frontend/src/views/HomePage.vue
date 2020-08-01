@@ -10,6 +10,8 @@
         <router-link class="router-link" to="/">新着投稿</router-link>
         <router-link class="router-link" to="/popular">人気投稿</router-link>
         <router-link class="router-link"  to="/category">カテゴリ</router-link>
+        <router-link class="router-link"  to="/map">マップ</router-link>
+        <router-link class="router-link"  to="/search">検索</router-link>
       </ul>
       <div>
         <router-view />

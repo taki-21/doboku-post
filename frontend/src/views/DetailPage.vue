@@ -97,23 +97,23 @@ export default {
       return moment(date).format("YYYY/MM/DD HH:mm");
     }
   },
-  watch: {
-    comments: {
-      immediate: true,
-      handler: function() {
-        api.get("/comments/").then(response => {
-          this.comments = response.data.filter(x => x.post === this.id);
-        });
-      }
-    }
-  },
+  // watch: {
+  //   comments: {
+  //     immediate: true,
+  //     handler: function() {
+  //       api.get("/comments/").then(response => {
+  //         this.comments = response.data.filter(x => x.post === this.id);
+  //       });
+  //     }
+  //   }
+  // },
   created() {
     api.get("/posts/" + this.id + "/").then(response => {
       this.post = response.data;
     });
-    api.get("/comments/").then(response => {
-      this.comments = response.data.filter(x => x.post === this.id);
-    });
+    // api.get("/comments/").then(response => {
+    //   this.comments = response.data.filter(x => x.post === this.id);
+    // });
   },
   methods: {
     back() {

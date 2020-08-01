@@ -38,20 +38,20 @@ const authModule = {
      */
     login(context, payload) {
       return api.post('/auth/jwt/create/', {
-        'username': payload.username,
-        'password': payload.password
-      })
-      .then(response => {
-        // 認証用トークンをlocalStorageに保存
-        localStorage.setItem('access', response.data.access)
-        // ユーザー情報を取得してstoreのユーザー情報を更新
-        return context.dispatch('reload')
-          .then(user => user)
-      })
+          'username': payload.username,
+          'password': payload.password
+        })
+        .then(response => {
+          // 認証用トークンをlocalStorageに保存
+          localStorage.setItem('access', response.data.access)
+          // ユーザー情報を取得してstoreのユーザー情報を更新
+          return context.dispatch('reload')
+            .then(user => user)
+        })
         .catch(error => {
-        console.log('ログインえらー！！！！')
-        console.log(error)
-      })
+          console.log('ログインえらー！！！！')
+          console.log(error)
+        })
     },
     /**
      * ログアウト
@@ -67,13 +67,13 @@ const authModule = {
      */
     reload(context) {
       return api.get('/auth/users/me/')
-      .then(response => {
-        const user = response.data
-        // storeのユーザー情報を更新
-        context.commit('set', {
-          user: user
-        })
-        console.log('user!!.password' + user.password)
+        .then(response => {
+          const user = response.data
+          // storeのユーザー情報を更新
+          context.commit('set', {
+            user: user
+          })
+          console.log('user!!.password' + user.password)
           return user
         })
         .catch(error => {
@@ -155,6 +155,30 @@ const messageModule = {
 
 // 投稿情報
 
+const postModule = {
+  strict: process.env.NODE_ENV !== 'production',
+  namespaced: true,
+  state: {
+    posts: [],
+  },
+  mutations: {
+    // 投稿を一括登録
+    setPosts(state, posts){
+      state.posts = posts
+    },
+  },
+  actions: {
+    getAllPosts(context) {
+    api.get('http://127.0.0.1:8000/api/v1/posts/')
+    .then(posts => {
+      context.commit('setPosts', posts.data);
+    })
+    .catch(error => {
+      console.log(error);
+    });
+  },
+}
+}
 
 // ユーザー情報
 const userModule = {
@@ -235,6 +259,7 @@ const store = new Vuex.Store({
     auth: authModule,
     message: messageModule,
     user: userModule,
+    post: postModule
   },
   plugins: [createPersistedState({
     key: 'example',

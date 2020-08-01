@@ -63,32 +63,7 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-  // data() {
-  //   return {
-  //     user: "",
-  //     id: this.$store.getters["auth/id"]
-  //   };
-  // },
-  // computed: {
-  //   // username: function() {
-  //   //   return this.$store.getters["auth/username"];
-  //   // },
-  //   isLoggedIn: function() {
-  //     return this.$store.getters["auth/isLoggedIn"];
-  //   }
-    // id: function() {
-    //   return this.$store.getters["auth/id"];
-    // }
-  // },
-  // mounted() {
-  //   if (this.isLoggedIn) {
-  //     this.axios
-  //       .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
-  //       .then(response => {
-  //         this.user = response.data;
-  //       });
-  //   }
-  // },
+
   methods: {
     // ログアウトリンク押下
     clickLogout: function() {

@@ -12,6 +12,8 @@ import ProfileEditPage from '@/views/ProfileEditPage'
 import LatestPosts from '@/components/LatestPosts'
 import PopularPosts from '@/components/PopularPosts'
 import CategoryPosts from '@/components/CategoryPosts'
+import Map from '@/components/Map'
+import Search from '@/components/Search'
 
 
 Vue.use(VueRouter)
@@ -22,7 +24,6 @@ const router = new VueRouter({
   routes: [
     {
       path: '/',
-      name: 'homepage',
       component: HomePage,
       children: [
         {
@@ -36,7 +37,15 @@ const router = new VueRouter({
         {
           path: 'category',
           component: CategoryPosts
-        }
+        },
+        {
+          path: 'map',
+          component: Map
+        },
+        {
+          path: 'search',
+          component: Search
+        },
       ]
     },
     {
