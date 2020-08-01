@@ -206,5 +206,4 @@ h2#new_post_title {
     cursor: pointer;
     background-color: #E6E6FA;
 }
-
 </style>

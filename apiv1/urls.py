@@ -10,7 +10,7 @@ urlpatterns = [
     path('users/', views.UserListCreateAPIView.as_view()),
     path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
     path('categories/', views.CategoryList.as_view()),
-    path('comments/', views.CommentList.as_view()),
+    path('comments/', views.CommentListCreateAPIView.as_view()),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 

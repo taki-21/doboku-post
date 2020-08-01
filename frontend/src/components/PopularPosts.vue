@@ -58,6 +58,10 @@ export default {
 
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+}
+
 .user_icon {
   width: 40px;
   height: 40px;
