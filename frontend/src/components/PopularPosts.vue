@@ -32,25 +32,9 @@
 
 <script>
 export default {
-  data() {
-    return {
-      posts: []
-    };
-  },
-  mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
-    });
-  },
   computed: {
     popularPosts: function() {
-      return this.posts.slice().sort(function (a, b) {
-        return a.like_count < b.like_count
-          ? 1
-          : a.like_count > b.like_count
-          ? -1
-          : 0;
-      });
+      return this.$store.getters['post/popularPosts']
     }
   }
 };

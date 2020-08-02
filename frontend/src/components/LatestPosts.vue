@@ -48,9 +48,7 @@
 import moment from "moment";
 import { mapState } from "vuex";
 export default {
-  computed: {
-    ...mapState("post", { posts: "posts" })
-  },
+  computed: mapState("post", ["posts"]),
   created() {
     this.$store.dispatch("post/getAllPosts");
   },

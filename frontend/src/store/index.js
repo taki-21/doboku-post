@@ -153,34 +153,48 @@ const messageModule = {
   }
 }
 
-// 投稿情報
-
+///////////////
+//  投稿情報  //
+//////////////
 const postModule = {
   strict: process.env.NODE_ENV !== 'production',
   namespaced: true,
   state: {
     posts: [],
   },
+  getters: {
+    popularPosts: function (state) {
+      return state.posts.slice().sort(function (a, b) {
+        return a.like_count < b.like_count ?
+          1 :
+          a.like_count > b.like_count ?
+          -1 :
+          0;
+      });
+    }
+  },
   mutations: {
     // 投稿を一括登録
-    setPosts(state, posts){
+    setPosts(state, posts) {
       state.posts = posts
     },
   },
   actions: {
     getAllPosts(context) {
-    api.get('http://127.0.0.1:8000/api/v1/posts/')
-    .then(posts => {
-      context.commit('setPosts', posts.data);
-    })
-    .catch(error => {
-      console.log(error);
-    });
-  },
-}
+      api.get('http://127.0.0.1:8000/api/v1/posts/')
+        .then(posts => {
+          context.commit('setPosts', posts.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  }
 }
 
-// ユーザー情報
+//////////////////
+//  ユーザー情報  //
+/////////////////
 const userModule = {
   strict: process.env.NODE_ENV !== 'production',
   namespaced: true,
