@@ -6,7 +6,7 @@
     <router-link
       class="router-link"
       :to="{name: 'detail', params:{id: post.id }}"
-      v-for="(post, key) in posts"
+      v-for="(post, key) in latestPosts"
       :key="key"
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
@@ -46,9 +46,9 @@
 
 <script>
 import moment from "moment";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
-  computed: mapState("post", ["posts"]),
+  computed: mapGetters("post", ["latestPosts"]),
   created() {
     this.$store.dispatch("post/getAllPosts");
   },

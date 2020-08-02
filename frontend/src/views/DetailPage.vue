@@ -58,7 +58,6 @@
                       </article>
                     </li>
                   </ul>
-                  <!-- <p>{{comments}}</p> -->
                 </div>
               </div>
             </div>
@@ -75,6 +74,7 @@ import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 
 import api from "@/services/api";
+import { mapGetters } from "vuex";
 
 export default {
   name: "detail",
@@ -84,11 +84,10 @@ export default {
   },
   props: {
     id: { type: Number }
-
   },
   data() {
     return {
-      post: "",
+      // post: "",
       comments: []
     };
   },
@@ -107,13 +106,17 @@ export default {
   //     }
   //   }
   // },
+  computed: {
+    ...mapGetters("post", ["latestPosts"]),
+    post() {
+      return this.latestPosts.find(post => post.id === this.id)
+    }
+  },
+
   created() {
-    api.get("/posts/" + this.id + "/").then(response => {
-      this.post = response.data;
+    api.get("/comments/").then(response => {
+      this.comments = response.data.filter(x => x.post === this.id);
     });
-    // api.get("/comments/").then(response => {
-    //   this.comments = response.data.filter(x => x.post === this.id);
-    // });
   },
   methods: {
     back() {

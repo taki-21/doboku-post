@@ -163,6 +163,9 @@ const postModule = {
     posts: [],
   },
   getters: {
+    latestPosts: function (state) {
+      return state.posts
+    },
     popularPosts: function (state) {
       return state.posts.slice().sort(function (a, b) {
         return a.like_count < b.like_count ?
@@ -171,7 +174,7 @@ const postModule = {
           -1 :
           0;
       });
-    }
+    },
   },
   mutations: {
     // 投稿を一括登録
@@ -182,8 +185,8 @@ const postModule = {
   actions: {
     getAllPosts(context) {
       api.get('http://127.0.0.1:8000/api/v1/posts/')
-        .then(posts => {
-          context.commit('setPosts', posts.data);
+        .then(response => {
+          context.commit('setPosts', response.data);
         })
         .catch(error => {
           console.log(error);
