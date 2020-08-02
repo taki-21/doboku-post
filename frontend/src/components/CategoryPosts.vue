@@ -91,6 +91,7 @@ export default {
 </script>
 
 <style scoped>
+
 #category_card{
   margin-bottom: 20px;
 }

@@ -161,6 +161,8 @@ const postModule = {
   namespaced: true,
   state: {
     posts: [],
+    // 検索パラメーター
+    filterQuery: {}
   },
   getters: {
     latestPosts: function (state) {
@@ -175,12 +177,29 @@ const postModule = {
           0;
       });
     },
+    filteredPosts(state) {
+      let data = state.posts;
+
+      // タイトルの検索
+      if (state.filterQuery.title !== "") {
+        data = data.filter(function (row) {
+          return row['title'].indexOf(state.filterQuery.title) !== -1;
+        });
+      }
+      return data;
+    }
   },
   mutations: {
     // 投稿を一括登録
     setPosts(state, posts) {
       state.posts = posts
     },
+    // 引数を展開してステートに入れる
+    setFilterQuery(state, filterQuery) {
+      state.filterQuery = {
+        ...filterQuery
+      }
+    }
   },
   actions: {
     getAllPosts(context) {
