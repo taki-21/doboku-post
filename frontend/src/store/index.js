@@ -186,6 +186,13 @@ const postModule = {
           return row['title'].indexOf(state.filterQuery.title) !== -1;
         });
       }
+
+      // カテゴリの検索
+      if (state.filterQuery.category !== '') {
+        data = data.filter(function (row) {
+          return row['category'] === state.filterQuery.category
+        })
+      }
       return data;
     }
   },
