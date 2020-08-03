@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '@/services/api'
+import moment from "moment";
+
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
@@ -161,6 +163,8 @@ const postModule = {
   namespaced: true,
   state: {
     posts: [],
+    // 検索パラメーター
+    filterQuery: {}
   },
   getters: {
     latestPosts: function (state) {
@@ -175,12 +179,46 @@ const postModule = {
           0;
       });
     },
+    filteredPosts(state) {
+      let data = state.posts;
+
+      // タイトルの検索
+      if (state.filterQuery.title !== "") {
+        data = data.filter(function (row) {
+          return row['title'].indexOf(state.filterQuery.title) !== -1;
+        });
+      }
+
+      // カテゴリの検索
+      if (state.filterQuery.category !== '') {
+        data = data.filter(function (row) {
+          return row['category'] === state.filterQuery.category
+        })
+      }
+
+      // 期間の検索
+      var now = moment()
+      var designatedDate = moment(now).subtract(state.filterQuery.period, 'days').format()
+      if (state.filterQuery.period !== '') {
+        data = data.filter(function (row) {
+          return row['published_at'] > designatedDate
+        })
+      }
+
+      return data;
+    }
   },
   mutations: {
     // 投稿を一括登録
     setPosts(state, posts) {
       state.posts = posts
     },
+    // 引数を展開してステートに入れる
+    setFilterQuery(state, filterQuery) {
+      state.filterQuery = {
+        ...filterQuery
+      }
+    }
   },
   actions: {
     getAllPosts(context) {

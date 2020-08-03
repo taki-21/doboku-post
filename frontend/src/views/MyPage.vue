@@ -34,13 +34,13 @@
             <a class="uk-text-large uk-text-secondary">いいねした投稿</a>
           </li>
           <li>
-            <a class="uk-text-large uk-text-secondary">カテゴリ</a>
+            <!-- <a class="uk-text-large uk-text-secondary">カテゴリ</a> -->
           </li>
           <li>
             <a class="uk-text-large uk-text-secondary">マイマップ</a>
           </li>
           <li>
-            <a class="uk-text-large uk-text-secondary">検索</a>
+            <!-- <a class="uk-text-large uk-text-secondary">検索</a> -->
           </li>
         </ul>
         <ul class="uk-switcher uk-margin">
