@@ -3,18 +3,18 @@
     <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
       <form class="uk-grid-small" uk-grid>
         <div class="uk-width-1-5@s">
-          <label>タイトル</label>
+          <strong>タイトル</strong>
           <input
             v-model="filterQuery.title"
             @change="handleChangeQuery"
             class="uk-input"
             type="search"
-            placeholder
+            placeholder="キーワードを入力してください"
           />
-          <div>{{ filterQuery.title }}</div>
+          <!-- <div>{{ filterQuery.title }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
-          <label>カテゴリ</label>
+          <strong>カテゴリ</strong>
           <select
             class="uk-select"
             type="text"
@@ -22,28 +22,31 @@
             @change="handleChangeQuery"
             placeholder
           >
+            <option value>選択してください</option>
             <option v-for="(ctg,key) in categories" :key="key" v-bind:value="ctg.id">{{ctg.name}}</option>
           </select>
-          <div>{{ filterQuery.category }}</div>
+          <!-- <div>{{ filterQuery.category }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
-          <label>投稿日</label>
+          <strong>投稿日</strong>
           <select
             class="uk-select"
             type="text"
-            v-model="filterQuery.category"
+            v-model="filterQuery.period"
             @change="handleChangeQuery"
-            placeholder
+            clearable
           >
-            <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.id">{{prd.name}}</option>
+            <option value>選択してください</option>
+            <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
           </select>
+          <!-- <div>{{ filterQuery.period }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
-          <label>都道府県</label>
+          <strong>都道府県</strong>
           <input class="uk-input" type="search" placeholder />
         </div>
         <div class="uk-width-1-5@s">
-          <label>市町村</label>
+          <strong>市町村</strong>
           <input class="uk-input" type="search" placeholder />
         </div>
       </form>
@@ -85,7 +88,7 @@
       </router-link>
     </div>
 
-    <div>{{ filteredPosts }}</div>
+    <!-- <div>{{ filteredPosts }}</div> -->
   </div>
 </template>
 
@@ -99,7 +102,8 @@ export default {
       categories: [],
       filterQuery: {
         title: "",
-        category: ""
+        category: "",
+        period: ""
       },
       period: [
         {

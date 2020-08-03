@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '@/services/api'
+import moment from "moment";
+
 import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
@@ -193,6 +195,16 @@ const postModule = {
           return row['category'] === state.filterQuery.category
         })
       }
+
+      // 期間の検索
+      var now = moment()
+      var designatedDate = moment(now).subtract(state.filterQuery.period, 'days').format()
+      if (state.filterQuery.period !== '') {
+        data = data.filter(function (row) {
+          return row['published_at'] > designatedDate
+        })
+      }
+
       return data;
     }
   },
