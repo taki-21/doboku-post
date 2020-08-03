@@ -31,27 +31,20 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+
 export default {
-  data() {
-    return {
-      posts: []
-    };
-  },
-  mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
-    });
-  },
   computed: {
+    ...mapGetters("post", {
+      posts: "latestPosts"
+    }),
+
     username: function() {
       return this.$store.getters["auth/username"];
     },
     previousPosts: function() {
-      return this.posts.filter(x =>
-        x.author.username === this.username
-      );
-    },
-
+      return this.posts.filter(x => x.author.username === this.username);
+    }
   }
 };
 </script>

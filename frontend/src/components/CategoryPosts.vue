@@ -60,21 +60,18 @@
 
 <script>
 import api from "@/services/api";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
       categories: [],
       selected: [],
-      posts: []
     };
   },
   mounted() {
     api.get("http://127.0.0.1:8000/api/v1/categories/").then(response => {
       this.categories = response.data;
-    });
-    api.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
     });
   },
   methods: {
@@ -83,6 +80,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("post",{
+      'posts': "latestPosts"
+    }),
     categoryPosts: function() {
       return this.posts.filter(x => x.category === this.selected.id);
     }
@@ -95,6 +95,7 @@ export default {
 #category_card{
   margin-bottom: 20px;
 }
+
 
 span {
   font-size: 20px;

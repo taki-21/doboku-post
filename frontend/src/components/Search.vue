@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
+    <div class="uk-card uk-card-default uk-width-1-1@m" id="search_card">
       <form class="uk-grid-small" uk-grid>
         <div class="uk-width-1-5@s">
           <strong>タイトル</strong>
@@ -68,8 +68,15 @@
           <div class="uk-card-body">
             <div class="uk-comment-header uk-position-relative">
               <div>
-                <img class="user_icon" v-bind:src="post.author.icon_image" />
-                <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                <a class="show_user" herf="#">
+                  <div>
+                    <img class="user_icon" v-bind:src="post.author.icon_image" />
+                    <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                  </div>
+                </a>
+                <div class="timestamp">
+                  <span>{{ post.published_at | moment }}</span>
+                </div>
               </div>
             </div>
             <strong>{{ post.title }}</strong>
@@ -93,6 +100,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { mapGetters } from "vuex";
 import api from "@/services/api";
 
@@ -134,15 +142,82 @@ export default {
     handleChangeQuery() {
       this.$store.commit("post/setFilterQuery", this.filterQuery);
     }
+  },
+  filters: {
+    moment: function(date) {
+      return moment(date).format("YYYY/MM/DD HH:MM");
+    }
   }
 };
 </script>
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+}
+
+#search_card{
+  margin-bottom: 20px;
+  padding: 20px;
+}
+
 .user_icon {
   width: 40px;
   height: 40px;
   margin-right: 5px;
   border-radius: 50%;
+}
+
+#card {
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #f7fcfc;
+  margin-bottom: 20px;
+}
+
+.timestamp {
+  font-size: 12px;
+  text-align: right;
+}
+
+.show_user {
+  line-height: 45px;
+  float: left;
+  font-size: large;
+  font-weight: bold;
+  color: #333333;
+}
+
+.post_content {
+  width: 100%;
+  font-size: small;
+  height: 40px;
+}
+
+p {
+  margin: 0;
+}
+
+.comment_like_icon {
+  text-align: right;
+}
+
+#comment-count {
+  margin-right: 5px;
+}
+
+#like-count {
+  line-height: 30px;
+  font-size: 17px;
+}
+
+/* UIkitの上書き */
+.uk-card-body {
+  padding: 10px 20px;
+}
+
+.uk-comment-header {
+  display: flow-root;
+  margin-bottom: 0px;
 }
 </style>
