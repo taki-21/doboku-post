@@ -155,6 +155,42 @@ const messageModule = {
   }
 }
 
+/////////////////
+//  カテゴリ情報  //
+/////////////////
+const categoryModule = {
+  strict: process.env.NODE_ENV !== 'production',
+  namespaced: true,
+  state: {
+    categories: [],
+  },
+  getters: {
+    categories: function (state) {
+      return state.categories
+    },
+
+  },
+  mutations: {
+    // カテゴリを一括登録
+    setCategories(state, categories) {
+      state.categories = categories
+    },
+
+  },
+  actions: {
+    getAllCategories(context) {
+      api.get('http://127.0.0.1:8000/api/v1/categories/')
+        .then(response => {
+          context.commit('setCategories', response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+  }
+}
+
 ///////////////
 //  投稿情報  //
 //////////////
@@ -314,6 +350,7 @@ const store = new Vuex.Store({
     auth: authModule,
     message: messageModule,
     user: userModule,
+    category: categoryModule,
     post: postModule
   },
   plugins: [createPersistedState({

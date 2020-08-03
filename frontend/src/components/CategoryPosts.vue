@@ -1,22 +1,25 @@
 <template>
   <div>
-      <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
-        <div
-          class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
-          uk-grid
-        >
-          <div v-for="category in categories" :key="category.id">
-            <button
-              class="uk-button uk-button-default uk-button-large uk-width-1-1"
-              @click="selectedCategory(category)"
-            >
-              <span>{{category.name}}
-              <span class="uk-badge">{{posts.filter(x => x.category === category.id).length}}</span>
-              </span>
-            </button>
-          </div>
+    <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
+      <div
+        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
+        uk-grid
+      >
+        <div v-for="category in categories" :key="category.id">
+          <button
+            class="uk-button uk-button-default uk-button-large uk-width-1-1"
+            @click="selectedCategory(category)"
+          >
+            <span>
+              {{category.name}}
+              <span
+                class="uk-badge"
+              >{{posts.filter(x => x.category === category.id).length}}</span>
+            </span>
+          </button>
         </div>
       </div>
+    </div>
 
     <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
@@ -59,20 +62,13 @@
 
 
 <script>
-import api from "@/services/api";
 import { mapGetters } from "vuex";
 
 export default {
   data() {
     return {
-      categories: [],
-      selected: [],
+      selected: []
     };
-  },
-  mounted() {
-    api.get("http://127.0.0.1:8000/api/v1/categories/").then(response => {
-      this.categories = response.data;
-    });
   },
   methods: {
     selectedCategory(category) {
@@ -80,22 +76,26 @@ export default {
     }
   },
   computed: {
-    ...mapGetters("post",{
-      'posts': "latestPosts"
+    ...mapGetters("post", {
+      posts: "latestPosts"
+    }),
+    ...mapGetters("category", {
+      categories: "categories"
     }),
     categoryPosts: function() {
       return this.posts.filter(x => x.category === this.selected.id);
     }
+  },
+  created() {
+    this.$store.dispatch("category/getAllCategories");
   }
 };
 </script>
 
 <style scoped>
-
-#category_card{
+#category_card {
   margin-bottom: 20px;
 }
-
 
 span {
   font-size: 20px;
@@ -120,27 +120,27 @@ span {
 }
 
 .uk-badge {
-    box-sizing: border-box;
-    min-width: 15px;
-    height: 15px;
-    padding: 0 5px;
-    margin-left: 5px;
-    border-radius: 500px;
-    vertical-align: middle;
-    background: black;
-    color: #fff;
-    font-size: .875rem;
-    font-weight: bold;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
+  box-sizing: border-box;
+  min-width: 15px;
+  height: 15px;
+  padding: 0 5px;
+  margin-left: 5px;
+  border-radius: 500px;
+  vertical-align: middle;
+  background: black;
+  color: #fff;
+  font-size: 0.875rem;
+  font-weight: bold;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 .uk-button-large {
-    padding: 0 20px;
-    line-height: 53px;
-    font-size: .875rem;
+  padding: 0 20px;
+  line-height: 53px;
+  font-size: 0.875rem;
 }
 .uk-card-body {
-    padding: 20px 20px;
+  padding: 20px 20px;
 }
 </style>
