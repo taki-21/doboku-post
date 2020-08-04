@@ -102,9 +102,9 @@ export default {
       baseUrl: "/search",
       posts: [],
       query: {
-        title: "",
-        category: "",
-        period: ""
+        title: this.$route.query.title || '',
+        category: this.$route.query.category || '',
+        period: this.$route.query.published_at || '',
       },
       period: [
         {
@@ -125,6 +125,9 @@ export default {
   watch: {
     $route() {
       this.getPosts();
+      this.query.title = this.$route.query.title || "";
+      this.query.category = this.$route.query.category || "";
+      this.query.period = this.$route.query.published_at || "";
     }
   },
 
@@ -133,7 +136,7 @@ export default {
   },
   computed: {
     // ...mapGetters("post", ["filteredPosts"]),
-    ...mapGetters("category", ["categories"]),
+    ...mapGetters("category", ["categories"])
     // getKey() {
     //   return `${this.$route.query.title} ${this.$route.query.category} ${this.$route.query.published_at}`;
     // },
