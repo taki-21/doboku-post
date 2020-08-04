@@ -16,7 +16,7 @@ from rest_framework import authentication, permissions, generics, views, status
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
-
+from django_filters import rest_framework as filters
 from django.db.models import Count
 
 
@@ -31,11 +31,6 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
-    # def get(self, request, pk, *args, **kwargs):
-    #     user = get_object_or_404(get_user_model(), id=pk)
-    #     serializer = UserSerializer(instance=user)
-    #     return Response(serializer.data, status.HTTP_200_OK)
-
 
 class CategoryListAPIView(generics.ListAPIView):
     """投稿モデルの取得（一覧）APIクラス"""
@@ -43,10 +38,20 @@ class CategoryListAPIView(generics.ListAPIView):
     serializer_class = CategorySerializer
 
 
+class PostFilter(filters.FilterSet):
+    title = filters.CharFilter(lookup_expr='contains')
+    published_at = filters.DateTimeFilter(lookup_expr='gt')
+
+    class Meta:
+        model = Post
+        fields = ['title', 'category', 'published_at']
+
+
 class PostListCreateAPIView(generics.ListCreateAPIView):
     """投稿モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
+    filter_class = PostFilter
 
 
 # class PostCreateAPIView(generics.CreateAPIView):

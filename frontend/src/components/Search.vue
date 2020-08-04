@@ -5,8 +5,8 @@
         <div class="uk-width-1-5@s">
           <strong>タイトル</strong>
           <input
-            v-model="filterQuery.title"
-            @change="handleChangeQuery"
+            v-model="query.title"
+            @change="search"
             class="uk-input"
             type="search"
             placeholder="キーワードを入力してください"
@@ -18,8 +18,8 @@
           <select
             class="uk-select"
             type="text"
-            v-model="filterQuery.category"
-            @change="handleChangeQuery"
+            v-model="query.category"
+            @change="search"
             placeholder
           >
             <option value>選択してください</option>
@@ -29,13 +29,7 @@
         </div>
         <div class="uk-width-1-5@s">
           <strong>投稿日</strong>
-          <select
-            class="uk-select"
-            type="text"
-            v-model="filterQuery.period"
-            @change="handleChangeQuery"
-            clearable
-          >
+          <select class="uk-select" type="text" v-model="query.period" @change="search" clearable>
             <option value>選択してください</option>
             <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
           </select>
@@ -57,7 +51,7 @@
     >
       <router-link
         class="router-link"
-        v-for="post in filteredPosts"
+        v-for="post in posts"
         :key="post.id"
         :to="{name: 'detail', params:{id: post.id }}"
       >
@@ -94,19 +88,20 @@
         </div>
       </router-link>
     </div>
-
-    <!-- <div>{{ filteredPosts }}</div> -->
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import api from "@/services/api";
 
 export default {
   data() {
     return {
-      filterQuery: {
+      baseUrl: "/search",
+      posts: [],
+      query: {
         title: "",
         category: "",
         period: ""
@@ -114,11 +109,11 @@ export default {
       period: [
         {
           name: "3日前",
-          date: 3
+          date: "2020-08-01"
         },
         {
           name: "1週間前",
-          date: 7
+          date: "2020-07-28"
         },
         {
           name: "1ヶ月前",
@@ -127,17 +122,134 @@ export default {
       ]
     };
   },
-  computed: {
-    ...mapGetters("post", ["filteredPosts"]),
-    ...mapGetters("category", ["categories"])
-  },
-  mounted() {
-    this.$store.commit("post/setFilterQuery", this.filterQuery);
-  },
-  methods: {
-    handleChangeQuery() {
-      this.$store.commit("post/setFilterQuery", this.filterQuery);
+  watch: {
+    $route() {
+      this.getPosts();
     }
+  },
+
+  created() {
+    this.getPosts();
+  },
+  computed: {
+    // ...mapGetters("post", ["filteredPosts"]),
+    ...mapGetters("category", ["categories"]),
+    // getKey() {
+    //   return `${this.$route.query.title} ${this.$route.query.category} ${this.$route.query.published_at}`;
+    // },
+    // getPostPreviousURL() {
+    //   const url = new URL(this.getPreviousURL);
+    //   const title = url.searchParams.get("title") || "";
+    //   const category = url.searchParams.get("category") || "";
+    //   const period = url.searchParams.get("published_at") || "";
+    //   return this.$router.resolve({
+    //     name: "search",
+    //     query: { title, category, period }
+    //   }).route.fullPath;
+    // },
+    // getPostNextURL() {
+    //   const url = new URL(this.getNextURL);
+    //   const title = url.searchParams.get("title") || "";
+    //   const category = url.searchParams.get("category") || "";
+    //   const period = url.searchParams.get("published_at") || "";
+    //   return this.$router.resolve({
+    //     name: "search",
+    //     query: { title, category, period }
+    //   }).route.fullPath;
+    // }
+  },
+  // mounted() {
+  //   const url = this.makeUrl(this.baseUrl, this.$route.filterQuery);
+  //   this.fetchPostList(url)
+  //   // this.$store.commit("post/setFilterQuery", this.filterQuery);
+  // },
+  // beforeRouteUpdate(to, from, next) {
+  //   const url = this.makeUrl(this.baseUrl, to.filterQuery);
+  //   this.fetchUserList(url);
+  //   next();
+  // },
+  methods: {
+    ...mapActions("post", ["updatePosts"]),
+    getPosts() {
+      let postURL = "http://127.0.0.1:8000/api/v1/posts/";
+      const params = this.$route.query;
+      const queryString = Object.keys(params)
+        .map(key => key + "=" + params[key])
+        .join("&");
+      if (queryString) {
+        postURL += "?" + queryString;
+      }
+      console.log("postURL" + postURL);
+      api.get(postURL, { credentials: "include" }).then(data => {
+        return (this.posts = data.data);
+      });
+    },
+
+    // getPostPrevious() {
+    //   const url = new URL(this.$store.getters.getPreviousURL);
+    //   const keyword = url.searchParams.get("title") || "";
+    //   console.log(keyword);
+    //   const category = url.searchParams.get("category") || "";
+    //   console.log(category);
+
+    //   const published_at = url.searchParams.get("published_at") || "";
+
+    //   this.$router.push({
+    //     name: "search",
+    //     query: { keyword, category, published_at }
+    //   });
+    //   api.get("this.getPreviousURL").then(response => {
+    //     this.$store.dispatch("post/updatePosts", response);
+    //   });
+    // },
+    // getPostNext() {
+    //   const url = new URL(this.$store.getters.getPreviousURL);
+    //   const keyword = url.searchParams.get("title") || "";
+    //   const category = url.searchParams.get("category") || "";
+    //   const published_at = url.searchParams.get("published_at") || "";
+
+    //   this.$router.push({
+    //     name: "search",
+    //     query: { keyword, category, published_at }
+    //   });
+    //   api.get("this.getNextURL").then(response => {
+    //     this.$store.dispatch("post/updatePosts", response);
+    //   });
+    // },
+    search() {
+      // this.$store.commit("post/setFilterQuery", this.filterQuery);
+      // const url = this.makeUrl(this.baseUrl, this.filterQuery);
+      // console.log(url)
+      // this.$router.push(url);
+      this.$router.push({
+        name: "search",
+        query: {
+          title: this.query.title,
+          category: this.query.category,
+          published_at: this.query.period
+        }
+      });
+      // api.get("http://127.0.0.1:8000/api/v1/posts/", {
+      //   params: {
+      //     title: this.filterQuery.title,
+      //     category: this.filterQuery.category,
+      //     published_at: this.filterQuery.period
+      //   }
+      // })
+    }
+    // created() {
+    //   api
+    //     .get("http://127.0.0.1:8000/api/v1/posts/", {
+    //       params: {
+    //         title: this.query.title,
+    //         category: this.query.category,
+    //         published_at: this.query.period
+    //       }
+    //     })
+    //     .then(response => {
+    //       return (this.posts = response.data);
+    //     });
+    // },
   },
   filters: {
     moment: function(date) {
