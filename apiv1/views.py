@@ -12,7 +12,7 @@
 
 from django.shortcuts import get_object_or_404
 from rest_framework import authentication, permissions, generics, views, status
-from rest_framework.response import Response
+# from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
@@ -37,7 +37,8 @@ class UserRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
     #     return Response(serializer.data, status.HTTP_200_OK)
 
 
-class CategoryList(generics.ListAPIView):
+class CategoryListAPIView(generics.ListAPIView):
+    """投稿モデルの取得（一覧）APIクラス"""
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 

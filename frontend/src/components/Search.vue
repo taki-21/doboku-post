@@ -102,12 +102,10 @@
 <script>
 import moment from "moment";
 import { mapGetters } from "vuex";
-import api from "@/services/api";
 
 export default {
   data() {
     return {
-      categories: [],
       filterQuery: {
         title: "",
         category: "",
@@ -130,13 +128,11 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("post", ["filteredPosts"])
+    ...mapGetters("post", ["filteredPosts"]),
+    ...mapGetters("category", ["categories"])
   },
   mounted() {
     this.$store.commit("post/setFilterQuery", this.filterQuery);
-    api.get("http://127.0.0.1:8000/api/v1/categories/").then(response => {
-      this.categories = response.data;
-    });
   },
   methods: {
     handleChangeQuery() {
@@ -156,7 +152,7 @@ export default {
   text-decoration: none;
 }
 
-#search_card{
+#search_card {
   margin-bottom: 20px;
   padding: 20px;
 }
