@@ -18,13 +18,15 @@
             class="uk-button uk-button-default uk-button-large uk-width-1-1"
             :for="category.id"
           >
-          <span>{{category.name}}</span></label>
+            <span>
+              {{category.name}}
+              <span
+                class="uk-badge"
+              >{{latestposts.filter(x => x.category === category.id).length}}</span>
+            </span>
+          </label>
           <!-- <span>
           {{category.name}}-->
-          <!-- <span -->
-          <!-- class="uk-badge" -->
-          <!-- >{{posts.filter(x => x.category === category.id).length}}</span> -->
-          <!-- </span> -->
         </div>
         <pre>{{query.category}}</pre>
         <!-- </div> -->
@@ -118,6 +120,9 @@ export default {
     }
   },
   computed: {
+    ...mapGetters("post", {
+      latestposts: "latestPosts"
+    }),
     ...mapGetters("post", {
       posts: "filterPosts"
     }),

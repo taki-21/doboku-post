@@ -9,9 +9,9 @@
       <ul class="uk-flex-center" id="nav" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
         <router-link class="router-link" to="/popular">人気投稿</router-link>
-        <router-link class="router-link"  to="/category">カテゴリ</router-link>
+        <router-link id="category" class="router-link" to="/category">カテゴリ</router-link>
         <router-link class="router-link"  to="/map">マップ</router-link>
-        <router-link id="search" class="router-link"  to="/search">検索</router-link>
+        <router-link id="search" class="router-link" to="/search">検索</router-link>
       </ul>
       <div>
         <router-view />
@@ -44,10 +44,11 @@ export default {
 
 
 .router-link-exact-active {
-  border-bottom: solid 2px black;
+  border-bottom: solid 3px rgba(90, 84, 75, 0.85);;
 }
-#search.router-link-active{
-  border-bottom: solid 2px black;
+#search.router-link-active,
+#category.router-link-active{
+  border-bottom: solid 3px rgba(90, 84, 75, 0.85);;
 }
 .uk-tab > * {
     flex: none;
