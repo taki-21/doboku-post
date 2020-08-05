@@ -11,7 +11,6 @@
             type="search"
             placeholder="キーワードを入力してください"
           />
-          <!-- <div>{{ filterQuery.title }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
           <strong>カテゴリ</strong>
@@ -25,7 +24,6 @@
             <option value>選択してください</option>
             <option v-for="(ctg,key) in categories" :key="key" v-bind:value="ctg.id">{{ctg.name}}</option>
           </select>
-          <!-- <div>{{ filterQuery.category }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
           <strong>投稿日</strong>
@@ -33,7 +31,6 @@
             <option value>選択してください</option>
             <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
           </select>
-          <!-- <div>{{ filterQuery.period }}</div> -->
         </div>
         <div class="uk-width-1-5@s">
           <strong>都道府県</strong>
@@ -55,37 +52,39 @@
         :key="post.id"
         :to="{name: 'detail', params:{id: post.id }}"
       >
-        <div class="uk-card uk-card-hover uk-card-default" id="card">
-          <div class="uk-card-media-top">
-            <img v-bind:src="post.image_change" />
-          </div>
-          <div class="uk-card-body">
-            <div class="uk-comment-header uk-position-relative">
-              <div>
-                <a class="show_user" herf="#">
-                  <div>
-                    <img class="user_icon" v-bind:src="post.author.icon_image" />
-                    <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+        <!-- <transition appear> -->
+          <div class="uk-card uk-card-hover uk-card-default" id="card">
+            <div class="uk-card-media-top">
+              <img v-bind:src="post.image_change" />
+            </div>
+            <div class="uk-card-body">
+              <div class="uk-comment-header uk-position-relative">
+                <div>
+                  <a class="show_user" herf="#">
+                    <div>
+                      <img class="user_icon" v-bind:src="post.author.icon_image" />
+                      <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                    </div>
+                  </a>
+                  <div class="timestamp">
+                    <span>{{ post.published_at | moment }}</span>
                   </div>
-                </a>
-                <div class="timestamp">
-                  <span>{{ post.published_at | moment }}</span>
                 </div>
               </div>
-            </div>
-            <strong>{{ post.title }}</strong>
-            <p class="post_content">
-              <span>--</span>
-              {{ post.content }}
-            </p>
-            <div class="comment_like_icon">
-              <i id="heart-button" uk-icon="comment"></i>
-              <span id="comment-count"></span>
-              <i id="heart-button" uk-icon="heart"></i>
-              <span id="like-count">{{ post.like_count}}</span>
+              <strong>{{ post.title }}</strong>
+              <p class="post_content">
+                <span>--</span>
+                {{ post.content }}
+              </p>
+              <div class="comment_like_icon">
+                <i id="heart-button" uk-icon="comment"></i>
+                <span id="comment-count"></span>
+                <i id="heart-button" uk-icon="heart"></i>
+                <span id="like-count">{{ post.like_count}}</span>
+              </div>
             </div>
           </div>
-        </div>
+        <!-- </transition> -->
       </router-link>
     </div>
   </div>
@@ -93,18 +92,16 @@
 
 <script>
 import moment from "moment";
-import { mapGetters, mapActions } from "vuex";
-import api from "@/services/api";
+import { mapGetters } from "vuex";
+// import api from "@/services/api";
 
 export default {
   data() {
     return {
-      baseUrl: "/search",
-      posts: [],
       query: {
-        title: this.$route.query.title || '',
-        category: this.$route.query.category || '',
-        period: this.$route.query.published_at || '',
+        title: this.$route.query.title || "",
+        category: this.$route.query.category || "",
+        period: this.$route.query.published_at || ""
       },
       period: [
         {
@@ -130,100 +127,37 @@ export default {
       this.query.period = this.$route.query.published_at || "";
     }
   },
-
+  // mounted() {
+  //   this.$store.commit("post/setFilterQuery", this.query);
+  // },
   created() {
     this.getPosts();
+    // this.$store.dispatch("post/getPosts");
   },
   computed: {
-    // ...mapGetters("post", ["filteredPosts"]),
-    ...mapGetters("category", ["categories"])
-    // getKey() {
-    //   return `${this.$route.query.title} ${this.$route.query.category} ${this.$route.query.published_at}`;
-    // },
-    // getPostPreviousURL() {
-    //   const url = new URL(this.getPreviousURL);
-    //   const title = url.searchParams.get("title") || "";
-    //   const category = url.searchParams.get("category") || "";
-    //   const period = url.searchParams.get("published_at") || "";
-    //   return this.$router.resolve({
-    //     name: "search",
-    //     query: { title, category, period }
-    //   }).route.fullPath;
-    // },
-    // getPostNextURL() {
-    //   const url = new URL(this.getNextURL);
-    //   const title = url.searchParams.get("title") || "";
-    //   const category = url.searchParams.get("category") || "";
-    //   const period = url.searchParams.get("published_at") || "";
-    //   return this.$router.resolve({
-    //     name: "search",
-    //     query: { title, category, period }
-    //   }).route.fullPath;
-    // }
+    ...mapGetters("category", ["categories"]),
+    ...mapGetters("post", { posts: "filterPosts" }),
+    // ...mapState("post", ["loading"])
   },
-  // mounted() {
-  //   const url = this.makeUrl(this.baseUrl, this.$route.filterQuery);
-  //   this.fetchPostList(url)
-  //   // this.$store.commit("post/setFilterQuery", this.filterQuery);
-  // },
-  // beforeRouteUpdate(to, from, next) {
-  //   const url = this.makeUrl(this.baseUrl, to.filterQuery);
-  //   this.fetchUserList(url);
-  //   next();
-  // },
   methods: {
-    ...mapActions("post", ["updatePosts"]),
     getPosts() {
-      let postURL = "http://127.0.0.1:8000/api/v1/posts/";
-      const params = this.$route.query;
-      const queryString = Object.keys(params)
-        .map(key => key + "=" + params[key])
-        .join("&");
-      if (queryString) {
-        postURL += "?" + queryString;
-      }
-      console.log("postURL" + postURL);
-      api.get(postURL, { credentials: "include" }).then(data => {
-        return (this.posts = data.data);
-      });
+      // let postURL = "http://127.0.0.1:8000/api/v1/posts/";
+      // const params = this.$route.query;
+      // const queryString = Object.keys(params)
+      //   .map(key => key + "=" + params[key])
+      //   .join("&");
+      // if (queryString) {
+      //   postURL += "?" + queryString;
+      // }
+
+      // api.get(postURL).then(response => {
+      //   this.posts = response.data
+      //   // this.$store.commit("post/setFilterPosts", response.data);
+      // });
+
+      this.$store.dispatch("post/getFilterPosts", this.$route.query);
     },
-
-    // getPostPrevious() {
-    //   const url = new URL(this.$store.getters.getPreviousURL);
-    //   const keyword = url.searchParams.get("title") || "";
-    //   console.log(keyword);
-    //   const category = url.searchParams.get("category") || "";
-    //   console.log(category);
-
-    //   const published_at = url.searchParams.get("published_at") || "";
-
-    //   this.$router.push({
-    //     name: "search",
-    //     query: { keyword, category, published_at }
-    //   });
-    //   api.get("this.getPreviousURL").then(response => {
-    //     this.$store.dispatch("post/updatePosts", response);
-    //   });
-    // },
-    // getPostNext() {
-    //   const url = new URL(this.$store.getters.getPreviousURL);
-    //   const keyword = url.searchParams.get("title") || "";
-    //   const category = url.searchParams.get("category") || "";
-    //   const published_at = url.searchParams.get("published_at") || "";
-
-    //   this.$router.push({
-    //     name: "search",
-    //     query: { keyword, category, published_at }
-    //   });
-    //   api.get("this.getNextURL").then(response => {
-    //     this.$store.dispatch("post/updatePosts", response);
-    //   });
-    // },
     search() {
-      // this.$store.commit("post/setFilterQuery", this.filterQuery);
-      // const url = this.makeUrl(this.baseUrl, this.filterQuery);
-      // console.log(url)
-      // this.$router.push(url);
       this.$router.push({
         name: "search",
         query: {
@@ -232,27 +166,7 @@ export default {
           published_at: this.query.period
         }
       });
-      // api.get("http://127.0.0.1:8000/api/v1/posts/", {
-      //   params: {
-      //     title: this.filterQuery.title,
-      //     category: this.filterQuery.category,
-      //     published_at: this.filterQuery.period
-      //   }
-      // })
     }
-    // created() {
-    //   api
-    //     .get("http://127.0.0.1:8000/api/v1/posts/", {
-    //       params: {
-    //         title: this.query.title,
-    //         category: this.query.category,
-    //         published_at: this.query.period
-    //       }
-    //     })
-    //     .then(response => {
-    //       return (this.posts = response.data);
-    //     });
-    // },
   },
   filters: {
     moment: function(date) {
@@ -331,4 +245,28 @@ p {
   display: flow-root;
   margin-bottom: 0px;
 }
+
+/* 以下の v-enter, v-enter-to, v-enter-active がトランジションクラス
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 1s ease-out;
+}
+
+.v-enter,
+.v-leave-to {
+  opacity: 0;
+}
+.v-enter {
+  opacity: 0;
+}
+
+.v-enter-to {
+  opacity: 1;
+}
+
+.v-leave,
+.v-leave-active,
+.v-leave-to {
+  opacity: 0;
+} */
 </style>

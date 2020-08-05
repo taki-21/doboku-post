@@ -198,8 +198,9 @@ const postModule = {
   namespaced: true,
   state: {
     posts: [],
+    filterPosts: [],
     // 検索パラメーター
-    filterQuery: {}
+    query: {},
   },
   getters: {
     latestPosts: function (state) {
@@ -214,22 +215,9 @@ const postModule = {
           0;
       });
     },
-    getPreviousURL(state) {
-      return state.posts.previous
-    },
-
-    getNextURL(state) {
-      return state.posts.next
-    },
-
-    hasPrevious(state) {
-      return !!state.posts.previous
-    },
-
-    hasNext(state) {
-      return !!state.posts.next
-    },
-
+    filterPosts: function (state) {
+      return state.filterPosts
+    }
   },
   mutations: {
     // 投稿を一括登録
@@ -237,11 +225,14 @@ const postModule = {
       state.posts = posts
     },
     // 引数を展開してステートに入れる
-    setFilterQuery(state, filterQuery) {
-      state.filterQuery = {
-        ...filterQuery
+    setFilterQuery(state, query) {
+      state.query = {
+        ...query
       }
-    }
+    },
+    setFilterPosts(state, posts) {
+      state.filterPosts = posts
+    },
   },
   actions: {
     getAllPosts(context) {
@@ -253,12 +244,27 @@ const postModule = {
           console.log(error);
         });
     },
-    updatePosts(context, payload) {
-      context.commit('setPosts', payload)
+
+    getFilterPosts(context, payload) {
+      let postURL = "http://127.0.0.1:8000/api/v1/posts/";
+      const params = payload
+      const queryString = Object.keys(params)
+        .map(key => key + "=" + params[key])
+        .join("&");
+      if (queryString) {
+        postURL += "?" + queryString;
+      }
+      console.log(postURL)
+      api.get(postURL, {
+        credentials: "include"
+      }).then(response => {
+        context.commit('setFilterPosts', response.data);
+      });
+
+
     }
   }
 }
-
 //////////////////
 //  ユーザー情報  //
 /////////////////

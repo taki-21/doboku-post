@@ -36,6 +36,7 @@ const router = new VueRouter({
         },
         {
           path: 'category',
+          name: 'category',
           component: CategoryPosts
         },
         {
