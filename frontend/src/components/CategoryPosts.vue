@@ -18,12 +18,8 @@
             class="uk-button uk-button-default uk-button-large uk-width-1-1"
             :for="category.id"
           >
-            <span>
-              {{category.name}}
-              <span
-                class="uk-badge"
-              >{{latestposts.filter(x => x.category === category.id).length}}</span>
-            </span>
+            <span id="category_name">{{category.name}}</span>
+            <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span>
           </label>
           <!-- <span>
           {{category.name}}-->
@@ -149,11 +145,9 @@ export default {
 #category_card {
   margin-bottom: 20px;
 }
-
-span {
+#category_name {
   font-size: 20px;
 }
-
 .router-link {
   text-decoration: none;
 }
@@ -172,6 +166,52 @@ span {
   margin-bottom: 20px;
 }
 
+input[type="radio"] {
+  display: none; /* ラジオボタンを非表示にする */
+}
+
+.timestamp {
+  font-size: 12px;
+  text-align: right;
+}
+
+.show_user {
+  line-height: 45px;
+  float: left;
+  font-size: large;
+  font-weight: bold;
+  color: #333333;
+}
+
+.post_content {
+  width: 100%;
+  font-size: small;
+  height: 40px;
+}
+
+p {
+  margin: 0;
+}
+
+.comment_like_icon {
+  text-align: right;
+}
+
+#comment-count {
+  margin-right: 5px;
+}
+
+#like-count {
+  line-height: 30px;
+  font-size: 17px;
+}
+
+/* UIkitの上書き */
+
+.uk-comment-header {
+  display: flow-root;
+  margin-bottom: 0px;
+}
 .uk-badge {
   box-sizing: border-box;
   min-width: 15px;
@@ -194,10 +234,6 @@ span {
   font-size: 0.875rem;
 }
 .uk-card-body {
-  padding: 20px 20px;
-}
-
-input[type="radio"] {
-  display: none; /* ラジオボタンを非表示にする */
+  padding: 10px 20px;
 }
 </style>
