@@ -24,8 +24,6 @@ class Post(models.Model):
                                   processors=[ResizeToFill(640, 480)],
                                   format='JPEG'
                                   )
-    like = models.ManyToManyField(
-        to=get_user_model(), related_name='like', blank=True)
 
     class Meta:
         ordering = ['-published_at']
@@ -48,3 +46,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return f'{self.author} -  {self.text}'
+
+class Like(models.Model):
+    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='like_user')
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)

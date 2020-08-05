@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Category, Post, Comment
+from .models import Category, Post, Comment, Like
 from django.contrib.auth.hashers import make_password  # 追加
 
 
@@ -40,10 +40,10 @@ class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
-    like_count = serializers.IntegerField(
-        source='like.count',
-        read_only=True
-    )
+    # like_count = serializers.IntegerField(
+    #     source='like.count',
+    #     read_only=True
+    # )
     image_change = serializers.ImageField(read_only=True)
 
     def create(self, validated_data):
@@ -59,9 +59,9 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'image', 'image_change', 'like', 'like_count')
+                  'published_at', 'image', 'image_change',)
         # fields = '__all__'
-        read_only_fields = ('like',)
+        # read_only_fields = ('like',)
 
 
 class CommentSerializer(serializers.ModelSerializer):
@@ -85,3 +85,10 @@ class CommentSerializer(serializers.ModelSerializer):
         model = Comment
         # fields = '__all__'
         fields = ('id', 'post', 'author', 'author_name', 'text', 'timestamp')
+
+
+class LikeSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Like
+        fields = ('id', 'user', 'post')
