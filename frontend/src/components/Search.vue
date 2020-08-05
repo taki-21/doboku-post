@@ -184,6 +184,9 @@ export default {
 #search_card {
   margin-bottom: 20px;
   padding: 20px;
+  background-color: #d4d1d0;
+  border-radius: 10px;
+  border: 2px solid black
 }
 
 .user_icon {
