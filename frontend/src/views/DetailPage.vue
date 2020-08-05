@@ -17,7 +17,7 @@
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                   </div>
                   <div>
-                    <a class="heart_icon" uk-icon="icon: heart; ratio: 2" @click="addLike"></a>
+                    <a class="heart_icon" uk-icon="icon: heart; ratio: 2" @click="toggleLike"></a>
                     <span>{{ likeCount }}</span>
                   </div>
                   <p id="post_title">{{post.title}}</p>
@@ -93,7 +93,7 @@ export default {
     return {
       // post: "",
       comments: [],
-    };
+    }
   },
   filters: {
     moment: function(date) {
@@ -121,7 +121,9 @@ export default {
     post() {
       return this.latestPosts.find(post => post.id === this.id);
     },
-    ...mapGetters("post", ["likeCount"])
+    ...mapGetters("post", {
+      'likeCount': 'likeCount',
+      'likes': 'likes'})
   },
 
   mounted() {
@@ -131,12 +133,27 @@ export default {
     this.$store.dispatch("post/getAllLikes", this.id);
   },
   methods: {
+    toggleLike(){
+      const userIdList = this.likes.map((obj) => obj.user)
+      userIdList.includes(this.$store.getters["auth/id"])
+        ? this.removeLike()
+        : this.addLike();
+    },
     addLike() {
       api
         .post("/likes/", {
           user: this.$store.getters["auth/id"],
           post: this.post.id
         })
+        .then(() => {
+          this.$store.dispatch("post/getAllLikes", this.id);
+        });
+    },
+    removeLike(){
+      console.log('おおお' + this.likes.filter(x => x.user === this.$store.getters["auth/id"]))
+      const path = this.likes.filter(x => x.user == this.$store.getters["auth/id"])[0].id
+      api
+        .delete("/likes/" + path + '/')
         .then(() => {
           this.$store.dispatch("post/getAllLikes", this.id);
         });

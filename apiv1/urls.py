@@ -12,6 +12,7 @@ urlpatterns = [
     path('categories/', views.CategoryListAPIView.as_view()),
     path('comments/', views.CommentListCreateAPIView.as_view()),
     path('likes/', views.LikeListCreateAPIView.as_view()),
+    path('likes/<int:pk>/', views.LikeDestroyAPIView.as_view()),
     path('auth/', include('djoser.urls')),
     path('auth/', include('djoser.urls.jwt')),
 

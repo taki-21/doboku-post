@@ -81,3 +81,9 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     filter_class = LikeFilter
+
+
+class LikeDestroyAPIView(generics.DestroyAPIView):
+    """いいねモデルの削除APIクラス"""
+    queryset = Like.objects.all()
+

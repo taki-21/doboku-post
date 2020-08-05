@@ -218,6 +218,9 @@ const postModule = {
     filterPosts: function (state) {
       return state.filterPosts
     },
+    likes: function (state) {
+      return state.likes
+    },
     likeCount: function (state) {
       console.log(state.likes)
       return Object.keys(state.likes).length;
