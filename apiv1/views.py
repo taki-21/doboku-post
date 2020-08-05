@@ -70,7 +70,14 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
 
 
+class LikeFilter(filters.FilterSet):
+    class Meta:
+        model = Like
+        fields = ['user', 'post']
+
+
 class LikeListCreateAPIView(generics.ListCreateAPIView):
     """いいねモデルの取得（一覧）・投稿APIクラス"""
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
+    filter_class = LikeFilter

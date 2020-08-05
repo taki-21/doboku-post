@@ -16,6 +16,10 @@
                     <img class="user_icon" v-bind:src="post.author.icon_image" />
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                   </div>
+                  <div>
+                    <a class="heart_icon" uk-icon="icon: heart; ratio: 2" @click="addLike"></a>
+                    <span>{{ likeCount }}</span>
+                  </div>
                   <p id="post_title">{{post.title}}</p>
                   <div uk-lightbox>
                     <a :href="post.image">
@@ -88,7 +92,7 @@ export default {
   data() {
     return {
       // post: "",
-      comments: []
+      comments: [],
     };
   },
   filters: {
@@ -97,6 +101,11 @@ export default {
     }
   },
   // watch: {
+  //   likeCount() {
+  //     api.get("/likes/?post=" + this.id).then(response => {
+  //       this.likeCount = response.data.length;
+  //       console.log("watchのapi.get: " + this.likeCount);
+  //     });
   //   comments: {
   //     immediate: true,
   //     handler: function() {
@@ -105,20 +114,44 @@ export default {
   //       });
   //     }
   //   }
+  // }
   // },
   computed: {
     ...mapGetters("post", ["latestPosts"]),
     post() {
-      return this.latestPosts.find(post => post.id === this.id)
-    }
+      return this.latestPosts.find(post => post.id === this.id);
+    },
+    ...mapGetters("post", ["likeCount"])
   },
 
-  created() {
+  mounted() {
     api.get("/comments/").then(response => {
       this.comments = response.data.filter(x => x.post === this.id);
     });
+    this.$store.dispatch("post/getAllLikes", this.id);
   },
   methods: {
+    addLike() {
+      api
+        .post("/likes/", {
+          user: this.$store.getters["auth/id"],
+          post: this.post.id
+        })
+        .then(() => {
+          this.$store.dispatch("post/getAllLikes", this.id);
+        });
+    },
+    // api
+    //   .get("/likes/", {
+    //     params: {
+    //       post: this.id
+    //     }
+    //   })
+    //   .then(response => {
+    //     console.log("!!!!methodsのapi.get: " + response.data);
+    //     this.likeCount = response.data.length;
+    //     console.log("methodsのapi.get: " + this.likeCount);
+    //   });
     back() {
       // 1つ前へ
       this.$router.back();
