@@ -21,7 +21,7 @@
             </a>
             <div uk-dropdown="pos: bottom-center; mode: click">
               <div class="dropdown">
-                <router-link class="router-link" to="/mypage">
+                <router-link class="router-link" :to="{name: 'mypage', params:{person: user}}">
                   <div class="link">
                     <i id="mypage_icon" uk-icon="user"></i>
                     <span>マイページ</span>

@@ -64,9 +64,10 @@ const router = new VueRouter({
       component: LoginPage
     },
     {
-      path: '/mypage',
-      component: MyPage
-
+      path: '/mypage/:person',
+      name: 'mypage',
+      component: MyPage,
+      props: true
     },
     {
       path: '/newpostpage',

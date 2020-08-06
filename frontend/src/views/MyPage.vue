@@ -3,21 +3,21 @@
     <MyHeader />
     <!-- ヘッダー -->
     <div class="content">
-      <!-- <pre>{{user}}</pre> -->
+      <pre>{{person}}</pre>
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
-            <img class="mypage_user_icon" :src="user.icon_image" uk-cover />
+            <img class="mypage_user_icon" :src="Person.icon_image" uk-cover />
             <canvas width="500" height="500"></canvas>
           </div>
         </div>
         <div class="uk-width-3-4">
           <div class="uk-card-body">
             <h1 class="uk-heading-medium">
-              <strong class="uk-margin-remove">{{ user.username }}</strong>
+              <strong class="uk-margin-remove">{{ Person.username }}</strong>
             </h1>
             <div class="profile_content">
-              <p>{{ user.introduction }}</p>
+              <p>{{ Person.introduction }}</p>
             </div>
             <router-link class="router-link" to="/profile_edit">
               <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
@@ -62,23 +62,22 @@ import MyHeader from "@/components/MyHeader";
 import PreviousPosts from "@/components/PreviousPosts";
 import LikedPosts from "@/components/LikedPosts";
 export default {
-  // data() {
-  //   return {
-  //     user: "",
-  //     id: this.$store.getters["auth/id"]
-  //   };
-  // },
   components: {
     MyHeader,
     PreviousPosts,
     LikedPosts
   },
+  props: ['person'],
+  data(){
+    return{
+      Person: this.person
+    }
+  },
   computed: {
-    // (storeのuserModule, このコンポーネント内で使えるcomputed, userModuleのgetters)
     ...mapGetters("user", {
       user: "getUser"
     })
-  },
+    },
   methods: {
     // ログアウトリンク押下
     clickLogout: function() {

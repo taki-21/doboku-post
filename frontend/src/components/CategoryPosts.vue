@@ -21,11 +21,7 @@
             <span id="category_name">{{category.name}}</span>
             <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span>
           </label>
-          <!-- <span>
-          {{category.name}}-->
         </div>
-        <pre>{{query.category}}</pre>
-        <!-- </div> -->
       </div>
     </div>
 
@@ -67,7 +63,7 @@
               <i id="heart-button" uk-icon="comment"></i>
               <span id="comment-count"></span>
               <i id="heart-button" uk-icon="heart"></i>
-              <span id="like-count">{{ post.like_count}}</span>
+              <span id="like-count">{{ post.likes_count}}</span>
             </div>
           </div>
         </div>
@@ -162,7 +158,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f7fcfc;
+  background-color: #eaeeee;
   margin-bottom: 20px;
 }
 

@@ -23,7 +23,7 @@
   /* position: fixed; */
   top: 0;
   width: 100%;
-  background-color: rgba(90, 84, 75, 0.85);
+  background-color: rgba(139, 138, 135, 0.85);
   display: flex;
   align-items: center;
   height: 60px;
