@@ -3,7 +3,7 @@
     <MyHeader />
     <!-- ヘッダー -->
     <div class="content">
-      <pre>{{person}}</pre>
+      <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
@@ -25,32 +25,15 @@
           </div>
         </div>
       </div>
-      <div>
-        <ul class="uk-flex-center" uk-tab>
-          <li>
-            <a class="uk-text-large uk-text-secondary">これまでの投稿</a>
-          </li>
-          <li>
-            <a class="uk-text-large uk-text-secondary">いいねした投稿</a>
-          </li>
-          <li>
-            <!-- <a class="uk-text-large uk-text-secondary">カテゴリ</a> -->
-          </li>
-          <li>
-            <a class="uk-text-large uk-text-secondary">マイマップ</a>
-          </li>
-          <li>
-            <!-- <a class="uk-text-large uk-text-secondary">検索</a> -->
-          </li>
+      <div class="content">
+        <ul class="uk-flex-center" id="nav" uk-tab>
+          <router-link class="router-link" to="/mypage/%5Bobject%20Object%5D">これまでの投稿</router-link>
+          <router-link class="router-link" to="/mypage/%5Bobject%20Object%5D/liked">いいねした投稿</router-link>
+          <router-link class="router-link" to="/category">マイマップ</router-link>
         </ul>
-        <ul class="uk-switcher uk-margin">
-          <li>
-            <PreviousPosts />
-          </li>
-          <li>
-            <LikedPosts />
-          </li>
-        </ul>
+        <div>
+          <router-view />
+        </div>
       </div>
     </div>
   </div>
@@ -59,25 +42,21 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
-import PreviousPosts from "@/components/PreviousPosts";
-import LikedPosts from "@/components/LikedPosts";
 export default {
   components: {
-    MyHeader,
-    PreviousPosts,
-    LikedPosts
+    MyHeader
   },
-  props: ['person'],
-  data(){
-    return{
+  props: ["person"],
+  data() {
+    return {
       Person: this.person
-    }
+    };
   },
   computed: {
     ...mapGetters("user", {
       user: "getUser"
     })
-    },
+  },
   methods: {
     // ログアウトリンク押下
     clickLogout: function() {
@@ -92,6 +71,21 @@ export default {
 </script>
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+  color: black;
+  font-size: 20px;
+}
+
+.router-link-exact-active {
+  border-bottom: solid 3px rgba(90, 84, 75, 0.85);
+}
+.uk-tab > * {
+  flex: none;
+  padding: 0px 20px;
+  position: relative;
+}
+
 .content {
   margin: 10px auto;
   max-width: 1040px;
