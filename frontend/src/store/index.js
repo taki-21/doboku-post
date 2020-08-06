@@ -199,7 +199,7 @@ const postModule = {
   state: {
     posts: [],
     filterPosts: [],
-    // 検索パラメーター
+    likes: '',
     query: {},
   },
   getters: {
@@ -217,6 +217,13 @@ const postModule = {
     },
     filterPosts: function (state) {
       return state.filterPosts
+    },
+    likes: function (state) {
+      return state.likes
+    },
+    likeCount: function (state) {
+      console.log(state.likes)
+      return Object.keys(state.likes).length;
     }
   },
   mutations: {
@@ -233,6 +240,9 @@ const postModule = {
     setFilterPosts(state, posts) {
       state.filterPosts = posts
     },
+    setLikes(state, likes) {
+      state.likes = likes
+    }
   },
   actions: {
     getAllPosts(context) {
@@ -260,9 +270,18 @@ const postModule = {
       }).then(response => {
         context.commit('setFilterPosts', response.data);
       });
+    },
+    getAllLikes(context, payload) {
+      api.get('http://127.0.0.1:8000/api/v1/likes/?post=' + payload)
+        .then(response => {
+          context.commit('setLikes', response.data);
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
 
-
-    }
   }
 }
 //////////////////

@@ -14,8 +14,8 @@ from django.shortcuts import get_object_or_404
 from rest_framework import authentication, permissions, generics, views, status
 # from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from .models import Post, Category, Comment
-from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer
+from .models import Post, Category, Comment, Like
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer, LikeSerializer
 from django_filters import rest_framework as filters
 from django.db.models import Count
 
@@ -68,3 +68,22 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     """コメントモデルの取得（一覧）・投稿APIクラス"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+
+class LikeFilter(filters.FilterSet):
+    class Meta:
+        model = Like
+        fields = ['user', 'post']
+
+
+class LikeListCreateAPIView(generics.ListCreateAPIView):
+    """いいねモデルの取得（一覧）・投稿APIクラス"""
+    queryset = Like.objects.all()
+    serializer_class = LikeSerializer
+    filter_class = LikeFilter
+
+
+class LikeDestroyAPIView(generics.DestroyAPIView):
+    """いいねモデルの削除APIクラス"""
+    queryset = Like.objects.all()
+
