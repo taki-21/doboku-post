@@ -208,9 +208,9 @@ const postModule = {
     },
     popularPosts: function (state) {
       return state.posts.slice().sort(function (a, b) {
-        return a.like_count < b.like_count ?
+        return a.likes_count < b.likes_count ?
           1 :
-          a.like_count > b.like_count ?
+          a.likes_count > b.likes_count ?
           -1 :
           0;
       });
@@ -222,7 +222,6 @@ const postModule = {
       return state.likes
     },
     likeCount: function (state) {
-      console.log(state.likes)
       return Object.keys(state.likes).length;
     }
   },

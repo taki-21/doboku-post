@@ -37,7 +37,7 @@
             <i id="heart-button" uk-icon="comment"></i>
             <span id="comment-count"></span>
             <i id="heart-button" uk-icon="heart"></i>
-            <span id="like-count">{{ post.like_count}}</span>
+            <span id="like-count">{{ post.likes_count}}</span>
           </div>
         </div>
       </div>

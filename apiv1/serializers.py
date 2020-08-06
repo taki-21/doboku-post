@@ -40,11 +40,11 @@ class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
-    # like_count = serializers.IntegerField(
-    #     source='like.count',
-    #     read_only=True
-    # )
+    likes_count = serializers.SerializerMethodField()
     image_change = serializers.ImageField(read_only=True)
+
+    def get_likes_count(self, obj):
+        return obj.like_post.count()
 
     def create(self, validated_data):
         validated_data['author'] = validated_data.get('author_name', None)
@@ -59,7 +59,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'image', 'image_change',)
+                  'published_at', 'image', 'likes_count', 'image_change',)
         # fields = '__all__'
         # read_only_fields = ('like',)
 
