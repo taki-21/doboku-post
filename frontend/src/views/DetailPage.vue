@@ -16,15 +16,29 @@
                     <img class="user_icon" v-bind:src="post.author.icon_image" />
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                   </div>
-                  <div>
-                    <a class="heart_icon" uk-icon="icon: heart; ratio: 2" @click="toggleLike"></a>
-                    <span>{{ likeCount }}</span>
-                  </div>
                   <p id="post_title">{{post.title}}</p>
                   <div uk-lightbox>
                     <a :href="post.image">
                       <img :src="post.image_change" />
                     </a>
+                  </div>
+                  <div id="like_buttun">
+                    <div
+                      v-if='this.likes.map((obj) => obj.user).includes(this.$store.getters["auth/id"])'
+                    >
+                    <div>
+                      <span @click="toggleLike">
+                        <svg width="50" height="50" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="heart"><path fill="indianred" stroke="#000" stroke-width="1" d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"></path></svg>
+                      </span>
+                      <span class="like_count">{{ likeCount }}</span>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div>
+                      <span uk-icon="icon: heart; ratio: 2.5" @click="toggleLike"></span>
+                    <span class="like_count">{{ likeCount }}</span>
+                    </div>
+                    </div>
                   </div>
                 </div>
                 <div class="uk-width-2-5">
@@ -92,38 +106,33 @@ export default {
   data() {
     return {
       // post: "",
-      comments: [],
-    }
+      comments: []
+    };
   },
   filters: {
     moment: function(date) {
       return moment(date).format("YYYY/MM/DD HH:mm");
     }
   },
-  // watch: {
-  //   likeCount() {
-  //     api.get("/likes/?post=" + this.id).then(response => {
-  //       this.likeCount = response.data.length;
-  //       console.log("watchのapi.get: " + this.likeCount);
-  //     });
-  //   comments: {
-  //     immediate: true,
-  //     handler: function() {
-  //       api.get("/comments/").then(response => {
-  //         this.comments = response.data.filter(x => x.post === this.id);
-  //       });
-  //     }
-  //   }
-  // }
-  // },
+  watch: {
+    // comments: {
+    //   immediate: true,
+    //   handler: function() {
+    //     api.get("/comments/").then(response => {
+    //       this.comments = response.data.filter(x => x.post === this.id);
+    //     });
+    //   }
+    // }
+  },
   computed: {
     ...mapGetters("post", ["latestPosts"]),
     post() {
       return this.latestPosts.find(post => post.id === this.id);
     },
     ...mapGetters("post", {
-      'likeCount': 'likeCount',
-      'likes': 'likes'})
+      likeCount: "likeCount",
+      likes: "likes"
+    })
   },
 
   mounted() {
@@ -133,8 +142,8 @@ export default {
     this.$store.dispatch("post/getAllLikes", this.id);
   },
   methods: {
-    toggleLike(){
-      const userIdList = this.likes.map((obj) => obj.user)
+    toggleLike() {
+      const userIdList = this.likes.map(obj => obj.user);
       userIdList.includes(this.$store.getters["auth/id"])
         ? this.removeLike()
         : this.addLike();
@@ -149,26 +158,14 @@ export default {
           this.$store.dispatch("post/getAllLikes", this.id);
         });
     },
-    removeLike(){
-      console.log('おおお' + this.likes.filter(x => x.user === this.$store.getters["auth/id"]))
-      const path = this.likes.filter(x => x.user == this.$store.getters["auth/id"])[0].id
-      api
-        .delete("/likes/" + path + '/')
-        .then(() => {
-          this.$store.dispatch("post/getAllLikes", this.id);
-        });
+    removeLike() {
+      const path = this.likes.filter(
+        x => x.user == this.$store.getters["auth/id"]
+      )[0].id;
+      api.delete("/likes/" + path + "/").then(() => {
+        this.$store.dispatch("post/getAllLikes", this.id);
+      });
     },
-    // api
-    //   .get("/likes/", {
-    //     params: {
-    //       post: this.id
-    //     }
-    //   })
-    //   .then(response => {
-    //     console.log("!!!!methodsのapi.get: " + response.data);
-    //     this.likeCount = response.data.length;
-    //     console.log("methodsのapi.get: " + this.likeCount);
-    //   });
     back() {
       // 1つ前へ
       this.$router.back();
@@ -219,4 +216,12 @@ export default {
 .comment_button {
   width: 100%;
 }
+
+.like_count{
+  font-size: 40px;
+  position: relative;
+  top: 8px;
+  left: 8px;
+}
+
 </style>
