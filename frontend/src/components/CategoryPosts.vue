@@ -89,9 +89,7 @@ export default {
   watch: {
     $route() {
       this.getPosts();
-      this.query.title = this.$route.query.title || "";
       this.query.category = this.$route.query.category || "";
-      this.query.period = this.$route.query.published_at || "";
     }
   },
 

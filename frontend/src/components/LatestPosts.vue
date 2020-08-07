@@ -18,7 +18,7 @@
             <div>
               <router-link
                 class="show_user"
-                :to="{name: 'mypage', params:{person: post.author}}">
+                :to="{name: 'mypage', params:{user_id: post.author.id}}">
                 <div>
                   <img class="user_icon" v-bind:src="post.author.icon_image" />
                   <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>

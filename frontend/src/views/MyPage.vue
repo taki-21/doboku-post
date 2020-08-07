@@ -27,8 +27,8 @@
       </div>
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
-          <router-link class="router-link" to="/mypage/%5Bobject%20Object%5D">これまでの投稿</router-link>
-          <router-link class="router-link" to="/mypage/%5Bobject%20Object%5D/liked">いいねした投稿</router-link>
+          <router-link class="router-link" to="/mypage/1">これまでの投稿</router-link>
+          <router-link class="router-link" to="/mypage/1/liked">いいねした投稿</router-link>
           <router-link class="router-link" to="/category">マイマップ</router-link>
         </ul>
         <div>
@@ -42,14 +42,16 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
+import api from "@/services/api";
+
 export default {
   components: {
     MyHeader
   },
-  props: ["person"],
+  props: ["user_id"],
   data() {
     return {
-      Person: this.person
+      Person: {},
     };
   },
   computed: {
@@ -66,6 +68,11 @@ export default {
       });
       this.$router.replace("/login");
     }
+  },
+  mounted() {
+    api.get("/users/" + this.user_id + '/').then(response => {
+      this.Person = response.data
+    })
   }
 };
 </script>
