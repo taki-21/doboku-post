@@ -64,14 +64,18 @@ const router = new VueRouter({
       // name: 'mypage',
       props: true,
       children: [{
-        path: '',
-        name: 'mypage',
-        component: PreviousPosts
-      },
+          path: '',
+          name: 'mypage',
+          component: PreviousPosts,
+          props: true,
+        },
         {
-        path: 'liked',
-          component: LikedPosts
-        } ]
+          path: 'liked',
+          name: 'liked',
+          component: LikedPosts,
+          props: true,
+        }
+      ]
     },
     {
       path: '/login',

@@ -31,27 +31,16 @@
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+// import api from "@/services/api";
+
 export default {
-  data() {
-    return {
-      posts: [],
-      id: this.$store.getters["auth/id"]
-    };
+  props: ["user_id"],
+  computed: {
+    ...mapGetters("post", ["likedPosts"]),
   },
   mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
-    });
-  },
-  computed: {
-    username: function() {
-      return this.$store.getters["auth/username"];
-    },
-    likedPosts: function() {
-      return this.posts.filter(x =>
-        x.like.includes(this.id)
-      );
-    },
+    this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
   }
 };
 </script>

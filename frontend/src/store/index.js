@@ -223,6 +223,9 @@ const postModule = {
     },
     likeCount: function (state) {
       return Object.keys(state.likes).length;
+    },
+    likedPosts: function (state) {
+      return state.likes.map(like => like.post)
     }
   },
   mutations: {
@@ -270,8 +273,13 @@ const postModule = {
         context.commit('setFilterPosts', response.data);
       });
     },
-    getAllLikes(context, payload) {
-      api.get('http://127.0.0.1:8000/api/v1/likes/?post=' + payload)
+    getAllLikes(context, { user_id, post_id }) {
+      api.get('http://127.0.0.1:8000/api/v1/likes/', {
+        params: {
+          user: user_id,
+          post: post_id
+        }
+      })
         .then(response => {
           context.commit('setLikes', response.data);
           console.log(response.data)

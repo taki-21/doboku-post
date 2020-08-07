@@ -88,7 +88,19 @@ class CommentSerializer(serializers.ModelSerializer):
 
 
 class LikeSerializer(serializers.ModelSerializer):
+    post = PostSerializer(read_only=True)
+    post_id = serializers.PrimaryKeyRelatedField(
+        queryset=Post.objects.all(), write_only=True)
+
+    def create(self, validated_date):
+        validated_date['post'] = validated_date.get('post_id', None)
+        if validated_date['post'] is None:
+            raise serializers.ValidationError("post not found.")
+        del validated_date['post_id']
+
+        return Like.objects.create(**validated_date)
+
 
     class Meta:
         model = Like
-        fields = ('id', 'user', 'post')
+        fields = ('id', 'user', 'post', 'post_id')

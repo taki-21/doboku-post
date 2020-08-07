@@ -27,8 +27,8 @@
       </div>
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
-          <router-link class="router-link" to="/mypage/1">これまでの投稿</router-link>
-          <router-link class="router-link" to="/mypage/1/liked">いいねした投稿</router-link>
+          <router-link class="router-link" :to="{name: 'mypage', params: {user_id: user_id}}">これまでの投稿</router-link>
+          <router-link class="router-link" :to="{name: 'liked', params: {user_id: user_id}}">いいねした投稿</router-link>
           <router-link class="router-link" to="/category">マイマップ</router-link>
         </ul>
         <div>

@@ -34,16 +34,13 @@
 import { mapGetters } from "vuex";
 
 export default {
+  props:['user_id'],
   computed: {
     ...mapGetters("post", {
       posts: "latestPosts"
     }),
-
-    username: function() {
-      return this.$store.getters["auth/username"];
-    },
     previousPosts: function() {
-      return this.posts.filter(x => x.author.username === this.username);
+      return this.posts.filter(x => x.author.id === this.user_id);
     }
   }
 };

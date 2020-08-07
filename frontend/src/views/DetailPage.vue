@@ -139,7 +139,7 @@ export default {
     api.get("/comments/").then(response => {
       this.comments = response.data.filter(x => x.post === this.id);
     });
-    this.$store.dispatch("post/getAllLikes", this.id);
+    this.$store.dispatch("post/getAllLikes", {post_id: this.id});
   },
   methods: {
     toggleLike() {
@@ -152,10 +152,10 @@ export default {
       api
         .post("/likes/", {
           user: this.$store.getters["auth/id"],
-          post: this.post.id
+          post_id: this.post.id
         })
         .then(() => {
-          this.$store.dispatch("post/getAllLikes", this.id);
+          this.$store.dispatch("post/getAllLikes", {post_id: this.id});
         });
     },
     removeLike() {
@@ -163,7 +163,7 @@ export default {
         x => x.user == this.$store.getters["auth/id"]
       )[0].id;
       api.delete("/likes/" + path + "/").then(() => {
-        this.$store.dispatch("post/getAllLikes", this.id);
+        this.$store.dispatch("post/getAllLikes", {post_id: this.id});
       });
     },
     back() {
