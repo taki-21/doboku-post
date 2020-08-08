@@ -1,6 +1,12 @@
 <template>
   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-    <div v-for="(post, key) in likedPosts" :key="key">
+    <!-- <pre>{{ likedPosts }}</pre> -->
+    <router-link
+      class="router-link"
+      :to="{name: 'detail', params:{id: post.id }}"
+      v-for="(post, key) in likedPosts"
+      :key="key"
+    >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
           <img :src="post.image_change" />
@@ -26,7 +32,7 @@
         </div>
       </div>
       <!-- <pre>{{ posts }}</pre> -->
-    </div>
+    </router-link>
   </div>
 </template>
 
@@ -36,11 +42,23 @@ import { mapGetters } from "vuex";
 
 export default {
   props: ["user_id"],
+  // data() {
+  //   return{
+  //     likedPosts:[]
+  //   }
+  // },
   computed: {
-    ...mapGetters("post", ["likedPosts"]),
+    ...mapGetters("post", ["likedPosts"])
   },
   mounted() {
     this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
+    // api.get('/likes/', {
+    //   params: {
+    //     user: this.user_id
+    //   }
+    // }).then(response => {
+    //   this.likedPosts = response.data.map(like => like.post)
+    // })
   }
 };
 </script>

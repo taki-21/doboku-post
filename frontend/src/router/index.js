@@ -59,7 +59,7 @@ const router = new VueRouter({
 
     },
     {
-      path: '/mypage/:user_id',
+      path: '/mypage/:user_id/',
       component: MyPage,
       // name: 'mypage',
       props: true,

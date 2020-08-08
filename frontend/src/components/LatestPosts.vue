@@ -11,7 +11,7 @@
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
-          <img v-bind:src="post.image_change" />
+          <img :src="post.image_change" />
         </div>
         <div class="uk-card-body">
           <div class="uk-comment-header uk-position-relative">

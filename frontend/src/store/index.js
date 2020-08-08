@@ -215,6 +215,13 @@ const postModule = {
           0;
       });
     },
+    likedPosts: function (state) {
+      return state.likes.map(like => like.post)
+    },
+    // previousPosts: function (state, user_id) {
+    //   console.log('あああ')
+    //   return state.posts.filter(x => x.author.id === user_id);
+    // },
     filterPosts: function (state) {
       return state.filterPosts
     },
@@ -224,9 +231,6 @@ const postModule = {
     likeCount: function (state) {
       return Object.keys(state.likes).length;
     },
-    likedPosts: function (state) {
-      return state.likes.map(like => like.post)
-    }
   },
   mutations: {
     // 投稿を一括登録
@@ -273,13 +277,16 @@ const postModule = {
         context.commit('setFilterPosts', response.data);
       });
     },
-    getAllLikes(context, { user_id, post_id }) {
+    getAllLikes(context, {
+      user_id,
+      post_id
+    }) {
       api.get('http://127.0.0.1:8000/api/v1/likes/', {
-        params: {
-          user: user_id,
-          post: post_id
-        }
-      })
+          params: {
+            user: user_id,
+            post: post_id
+          }
+        })
         .then(response => {
           context.commit('setLikes', response.data);
           console.log(response.data)
