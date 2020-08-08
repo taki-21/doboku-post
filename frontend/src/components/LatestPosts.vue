@@ -1,48 +1,51 @@
 <template>
-  <div
-    class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
-    uk-grid
-  >
-    <router-link
-      class="router-link"
-      :to="{name: 'detail', params:{id: post.id }}"
-      v-for="(post, key) in latestPosts"
-      :key="key"
+  <div>
+    <div
+      class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
+      uk-grid
     >
-      <div class="uk-card uk-card-hover uk-card-default" id="card">
-        <div class="uk-card-media-top">
-          <img :src="post.image_change" />
-        </div>
-        <div class="uk-card-body">
-          <div class="uk-comment-header uk-position-relative">
-            <div>
-              <router-link
-                class="show_user"
-                :to="{name: 'mypage', params:{user_id: post.author.id}}">
-                <div>
-                  <img class="user_icon" v-bind:src="post.author.icon_image" />
-                  <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+      <router-link
+        class="router-link"
+        :to="{name: 'detail', params:{id: post.id }}"
+        v-for="(post, key) in latestPosts"
+        :key="key"
+      >
+        <div class="uk-card uk-card-hover uk-card-default" id="card">
+          <div class="uk-card-media-top">
+            <img :src="post.image_change" />
+          </div>
+          <div class="uk-card-body">
+            <div class="uk-comment-header uk-position-relative">
+              <div>
+                <router-link
+                  class="show_user"
+                  :to="{name: 'mypage', params:{user_id: post.author.id}}"
+                >
+                  <div>
+                    <img class="user_icon" v-bind:src="post.author.icon_image" />
+                    <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                  </div>
+                </router-link>
+                <div class="timestamp">
+                  <span>{{ post.published_at | moment }}</span>
                 </div>
-              </router-link>
-              <div class="timestamp">
-                <span>{{ post.published_at | moment }}</span>
               </div>
             </div>
-          </div>
-          <strong>{{ post.title }}</strong>
-          <p class="post_content">
-            <span>--</span>
-            {{ post.content }}
-          </p>
-          <div class="comment_like_icon">
-            <i id="heart-button" uk-icon="comment"></i>
-            <span id="comment-count"></span>
-            <i id="heart-button" uk-icon="heart"></i>
-            <span id="like-count">{{ post.likes_count}}</span>
+            <strong>{{ post.title }}</strong>
+            <p class="post_content">
+              <span>--</span>
+              {{ post.content }}
+            </p>
+            <div class="comment_like_icon">
+              <i id="heart-button" uk-icon="comment"></i>
+              <span id="comment-count"></span>
+              <i id="heart-button" uk-icon="heart"></i>
+              <span id="like-count">{{ post.likes_count}}</span>
+            </div>
           </div>
         </div>
-      </div>
-    </router-link>
+      </router-link>
+    </div>
   </div>
 </template>
 

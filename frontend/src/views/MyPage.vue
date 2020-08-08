@@ -32,7 +32,9 @@
           <router-link class="router-link" to="/category">マイマップ</router-link>
         </ul>
         <div>
+          <transition appear>
           <router-view />
+          </transition>
         </div>
       </div>
     </div>

@@ -3,9 +3,6 @@
     class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
     uk-grid
   >
-    <!-- <pre>{{ user_id }}</pre>
-    <pre>{{ posts }}</pre>
-    <pre>{{ previousPosts }}</pre> -->
     <router-link
       class="router-link"
       :to="{name: 'detail', params:{id: post.id }}"
@@ -42,7 +39,7 @@
             <i id="heart-button" uk-icon="comment"></i>
             <span id="comment-count"></span>
             <i id="heart-button" uk-icon="heart"></i>
-            <span id="like-count">{{ post.like_count }}</span>
+            <span id="like-count">{{ post.likes_count }}</span>
           </div>
         </div>
       </div>
@@ -66,14 +63,14 @@ export default {
       // console.log(this.user_id)
       // console.log(this.posts)
       // console.log(this.posts.filter(x => x.author.id == this.user_id))
-      return this.posts.filter(x => x.author.id == this.user_id)
+      return this.posts.filter(x => x.author.id == this.user_id);
     }
   },
   filters: {
     moment: function(date) {
       return moment(date).format("YYYY/MM/DD HH:MM");
     }
-  },
+  }
 };
 </script>
 

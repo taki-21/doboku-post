@@ -42,6 +42,7 @@
         </div>
       </form>
     </div>
+
     <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
       uk-grid
@@ -52,7 +53,7 @@
         :key="post.id"
         :to="{name: 'detail', params:{id: post.id }}"
       >
-        <!-- <transition appear> -->
+        <div>
           <div class="uk-card uk-card-hover uk-card-default" id="card">
             <div class="uk-card-media-top">
               <img v-bind:src="post.image_change" />
@@ -84,7 +85,7 @@
               </div>
             </div>
           </div>
-        <!-- </transition> -->
+        </div>
       </router-link>
     </div>
   </div>
@@ -136,7 +137,7 @@ export default {
   },
   computed: {
     ...mapGetters("category", ["categories"]),
-    ...mapGetters("post", { posts: "filterPosts" }),
+    ...mapGetters("post", { posts: "filterPosts" })
     // ...mapState("post", ["loading"])
   },
   methods: {
@@ -186,7 +187,7 @@ export default {
   padding: 20px;
   background-color: #dbd8d7;
   border-radius: 10px;
-  border: 2px solid black
+  border: 2px solid black;
 }
 
 .user_icon {
@@ -248,28 +249,4 @@ p {
   display: flow-root;
   margin-bottom: 0px;
 }
-
-/* 以下の v-enter, v-enter-to, v-enter-active がトランジションクラス
-.v-enter-active,
-.v-leave-active {
-  transition: opacity 1s ease-out;
-}
-
-.v-enter,
-.v-leave-to {
-  opacity: 0;
-}
-.v-enter {
-  opacity: 0;
-}
-
-.v-enter-to {
-  opacity: 1;
-}
-
-.v-leave,
-.v-leave-active,
-.v-leave-to {
-  opacity: 0;
-} */
 </style>
