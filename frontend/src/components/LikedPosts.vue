@@ -37,28 +37,28 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
-// import api from "@/services/api";
+// import { mapGetters } from "vuex";
+import api from "@/services/api";
 
 export default {
   props: ["user_id"],
-  // data() {
-  //   return{
-  //     likedPosts:[]
-  //   }
-  // },
-  computed: {
-    ...mapGetters("post", ["likedPosts"])
+  data() {
+    return{
+      likedPosts:[]
+    }
   },
+  // computed: {
+  //   ...mapGetters("post", ["likedPosts"])
+  // },
   mounted() {
-    this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
-    // api.get('/likes/', {
-    //   params: {
-    //     user: this.user_id
-    //   }
-    // }).then(response => {
-    //   this.likedPosts = response.data.map(like => like.post)
-    // })
+    // this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
+    api.get('/likes/', {
+      params: {
+        user: this.user_id
+      }
+    }).then(response => {
+      this.likedPosts = response.data.map(like => like.post)
+    })
   }
 };
 </script>

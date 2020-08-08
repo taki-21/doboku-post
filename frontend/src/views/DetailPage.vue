@@ -16,7 +16,7 @@
                     class="router-link"
                     :to="{name: 'mypage', params:{user_id: post.author.id}}"
                   >
-                    <img class="user_icon" v-bind:src="post.author.icon_image" />
+                    <img class="user_icon" :src="post.author.icon_image" />
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                   </router-link>
                   <p id="post_title">{{post.title}}</p>
@@ -145,6 +145,9 @@ export default {
     post() {
       return this.latestPosts.find(post => post.id === this.id);
     },
+    // likeCount(){
+    //   return this.post.likes_count
+    // },
     ...mapGetters("post", {
       likeCount: "likeCount",
       likes: "likes"

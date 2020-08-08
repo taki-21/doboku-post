@@ -125,7 +125,7 @@ export default {
   },
   created() {
     this.getPosts();
-    // this.$store.dispatch("category/getAllCategories");
+    this.$store.dispatch("category/getAllCategories");
   },
   filters: {
     moment: function(date) {
