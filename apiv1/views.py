@@ -59,7 +59,9 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
 #     serializer_class = PostSerializer
 
 
-class PostRetrieveUpdateAPIView(generics.RetrieveUpdateAPIView):
+class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """投稿モデルの取得（詳細）・更新・削除APIクラス"""
+
     queryset = Post.objects.all()
     serializer_class = PostSerializer
 
@@ -86,4 +88,3 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
     queryset = Like.objects.all()
-

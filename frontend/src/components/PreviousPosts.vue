@@ -40,7 +40,21 @@
               <router-link :to="{name: 'post_edit', params:{post_id: post.id }}">
                 <i uk-icon="icon: pencil"></i>
               </router-link>
-              <i uk-icon="icon: trash"></i>
+               <!-- @click="DestroyPost(post.id)"" -->
+              <a :href="'#modal-' + post.id" uk-toggle>
+                <i uk-icon="icon: trash"></i>
+              </a>
+              <div :id="'modal-' + post.id" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                  <h2 class="uk-modal-title">削除確認</h2>
+                  <p>投稿：{{ post.title }}を削除します。よろしいですか？</p>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button class="uk-button uk-button-primary uk-modal-close" type="button" @click="DestroyPost(post.id)">OK
+                    </button>
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
           <div class="comment_like_icon">
@@ -58,6 +72,7 @@
 
 <script>
 import { mapGetters } from "vuex";
+import api from "@/services/api";
 import moment from "moment";
 
 export default {
@@ -72,11 +87,18 @@ export default {
       posts: "latestPosts"
     }),
     previousPosts: function() {
-      // console.log('aaaaa')
-      // console.log(this.user_id)
-      // console.log(this.posts)
-      // console.log(this.posts.filter(x => x.author.id == this.user_id))
       return this.posts.filter(x => x.author.id == this.user_id);
+    }
+  },
+  methods: {
+    DestroyPost: function(post_id) {
+      api
+        .delete("/posts/" + post_id + "/")
+        .then(
+          this.$store.dispatch("post/getAllPosts"),
+          // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
+          this.$router.replace("/")
+          )
     }
   },
   filters: {
