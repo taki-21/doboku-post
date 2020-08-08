@@ -79,7 +79,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f7fcfc;
+  background-color: #eaeeee;
   margin-bottom: 20px;
 }
 

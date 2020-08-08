@@ -11,17 +11,19 @@
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
-          <img v-bind:src="post.image_change" />
+          <img :src="post.image_change" />
         </div>
         <div class="uk-card-body">
           <div class="uk-comment-header uk-position-relative">
             <div>
-              <a class="show_user" herf="#">
+              <router-link
+                class="show_user"
+                :to="{name: 'mypage', params:{user_id: post.author.id}}">
                 <div>
                   <img class="user_icon" v-bind:src="post.author.icon_image" />
                   <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
                 </div>
-              </a>
+              </router-link>
               <div class="timestamp">
                 <span>{{ post.published_at | moment }}</span>
               </div>
@@ -76,7 +78,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f7fcfc;
+  background-color: #eaeeee;
   margin-bottom: 20px;
 }
 
@@ -86,6 +88,7 @@ export default {
 }
 
 .show_user {
+  text-decoration: none;
   line-height: 45px;
   float: left;
   font-size: large;

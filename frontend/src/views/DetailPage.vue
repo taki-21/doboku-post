@@ -12,10 +12,13 @@
             <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
               <div uk-grid>
                 <div class="uk-width-3-5">
-                  <div>
+                  <router-link
+                    class="router-link"
+                    :to="{name: 'mypage', params:{user_id: post.author.id}}"
+                  >
                     <img class="user_icon" v-bind:src="post.author.icon_image" />
                     <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
-                  </div>
+                  </router-link>
                   <p id="post_title">{{post.title}}</p>
                   <div uk-lightbox>
                     <a :href="post.image">
@@ -24,20 +27,33 @@
                   </div>
                   <div id="like_buttun">
                     <div
-                      v-if='this.likes.map((obj) => obj.user).includes(this.$store.getters["auth/id"])'
+                      v-if="this.likes.map((obj) => obj.user).includes(this.$store.getters['auth/id'])"
                     >
-                    <div>
-                      <span @click="toggleLike">
-                        <svg width="50" height="50" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg" data-svg="heart"><path fill="indianred" stroke="currentcolor" stroke-width="1" d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"></path></svg>
-                      </span>
-                      <span class="like_count">{{ likeCount }}</span>
+                      <div>
+                        <span @click="toggleLike">
+                          <svg
+                            width="50"
+                            height="50"
+                            viewBox="0 0 20 20"
+                            xmlns="http://www.w3.org/2000/svg"
+                            data-svg="heart"
+                          >
+                            <path
+                              fill="indianred"
+                              stroke="currentcolor"
+                              stroke-width="1"
+                              d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
+                            />
+                          </svg>
+                        </span>
+                        <span class="like_count">{{ likeCount }}</span>
                       </div>
                     </div>
                     <div v-else>
                       <div>
-                      <span uk-icon="icon: heart; ratio: 2.5" @click="toggleLike"></span>
-                    <span class="like_count">{{ likeCount }}</span>
-                    </div>
+                        <span uk-icon="icon: heart; ratio: 2.5" @click="toggleLike"></span>
+                        <span class="like_count">{{ likeCount }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -139,7 +155,7 @@ export default {
     api.get("/comments/").then(response => {
       this.comments = response.data.filter(x => x.post === this.id);
     });
-    this.$store.dispatch("post/getAllLikes", this.id);
+    this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
     toggleLike() {
@@ -152,10 +168,10 @@ export default {
       api
         .post("/likes/", {
           user: this.$store.getters["auth/id"],
-          post: this.post.id
+          post_id: this.post.id
         })
         .then(() => {
-          this.$store.dispatch("post/getAllLikes", this.id);
+          this.$store.dispatch("post/getAllLikes", { post_id: this.id });
         });
     },
     removeLike() {
@@ -163,7 +179,7 @@ export default {
         x => x.user == this.$store.getters["auth/id"]
       )[0].id;
       api.delete("/likes/" + path + "/").then(() => {
-        this.$store.dispatch("post/getAllLikes", this.id);
+        this.$store.dispatch("post/getAllLikes", { post_id: this.id });
       });
     },
     back() {
@@ -175,6 +191,11 @@ export default {
 </script>
 
 <style scoped>
+.router-link {
+  text-decoration: none;
+  color: black;
+}
+
 .v-application ol,
 .v-application ul {
   padding-left: 0px;
@@ -217,11 +238,10 @@ export default {
   width: 100%;
 }
 
-.like_count{
+.like_count {
   font-size: 40px;
   position: relative;
   top: 8px;
   left: 8px;
 }
-
 </style>

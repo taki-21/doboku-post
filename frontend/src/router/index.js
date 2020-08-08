@@ -14,21 +14,20 @@ import PopularPosts from '@/components/PopularPosts'
 import CategoryPosts from '@/components/CategoryPosts'
 import Map from '@/components/Map'
 import Search from '@/components/Search'
-
+import PreviousPosts from '@/components/PreviousPosts'
+import LikedPosts from '@/components/LikedPosts'
 
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes: [
-    {
+  routes: [{
       path: '/',
       component: HomePage,
-      children: [
-        {
+      children: [{
           path: '',
-            component: LatestPosts
+          component: LatestPosts
         },
         {
           path: 'popular',
@@ -60,13 +59,27 @@ const router = new VueRouter({
 
     },
     {
-      path: '/login',
-      component: LoginPage
+      path: '/mypage/:user_id/',
+      component: MyPage,
+      // name: 'mypage',
+      props: true,
+      children: [{
+          path: '',
+          name: 'mypage',
+          component: PreviousPosts,
+          props: true,
+        },
+        {
+          path: 'liked',
+          name: 'liked',
+          component: LikedPosts,
+          props: true,
+        }
+      ]
     },
     {
-      path: '/mypage',
-      component: MyPage
-
+      path: '/login',
+      component: LoginPage
     },
     {
       path: '/newpostpage',

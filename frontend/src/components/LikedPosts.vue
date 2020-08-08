@@ -1,6 +1,12 @@
 <template>
   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-    <div v-for="(post, key) in likedPosts" :key="key">
+    <!-- <pre>{{ likedPosts }}</pre> -->
+    <router-link
+      class="router-link"
+      :to="{name: 'detail', params:{id: post.id }}"
+      v-for="(post, key) in likedPosts"
+      :key="key"
+    >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
           <img :src="post.image_change" />
@@ -26,32 +32,33 @@
         </div>
       </div>
       <!-- <pre>{{ posts }}</pre> -->
-    </div>
+    </router-link>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
+// import api from "@/services/api";
+
 export default {
-  data() {
-    return {
-      posts: [],
-      id: this.$store.getters["auth/id"]
-    };
+  props: ["user_id"],
+  // data() {
+  //   return{
+  //     likedPosts:[]
+  //   }
+  // },
+  computed: {
+    ...mapGetters("post", ["likedPosts"])
   },
   mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
-      this.posts = response.data;
-    });
-  },
-  computed: {
-    username: function() {
-      return this.$store.getters["auth/username"];
-    },
-    likedPosts: function() {
-      return this.posts.filter(x =>
-        x.like.includes(this.id)
-      );
-    },
+    this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
+    // api.get('/likes/', {
+    //   params: {
+    //     user: this.user_id
+    //   }
+    // }).then(response => {
+    //   this.likedPosts = response.data.map(like => like.post)
+    // })
   }
 };
 </script>
