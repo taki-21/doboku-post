@@ -1,6 +1,6 @@
 <template>
   <div class="uk-grid-column-small uk-grid-row-large uk-child-width-1-3@s uk-text-center" uk-grid>
-    <!-- <pre>{{ likedPosts }}</pre> -->
+    <!-- <pre>{{ likedPosts.map(x => x.title) }}</pre> -->
     <router-link
       class="router-link"
       :to="{name: 'detail', params:{id: post.id }}"
@@ -47,9 +47,9 @@ export default {
       likedPosts:[]
     }
   },
-  // computed: {
-  //   ...mapGetters("post", ["likedPosts"])
-  // },
+  computed: {
+    // ...mapGetters("post", ["likedPosts"])
+  },
   mounted() {
     // this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
     api.get('/likes/', {

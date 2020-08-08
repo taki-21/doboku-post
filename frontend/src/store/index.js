@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import api from '@/services/api'
 
-// import createPersistedState from 'vuex-persistedstate'
+import createPersistedState from 'vuex-persistedstate'
 
 Vue.use(Vuex)
 
@@ -215,9 +215,9 @@ const postModule = {
           0;
       });
     },
-    likedPosts: function (state) {
-      return state.likes.map(like => like.post)
-    },
+    // likedPosts: function (state) {
+    //   return state.likes.map(like => like.post)
+    // },
     filterPosts: function (state) {
       return state.filterPosts
     },
@@ -378,10 +378,10 @@ const store = new Vuex.Store({
     category: categoryModule,
     post: postModule
   },
-  // plugins: [createPersistedState({
-  //   key: 'example',
-  //   storage: window.sessionStorage
-  // })]
+  plugins: [createPersistedState({
+    key: 'example',
+    storage: window.sessionStorage
+  })]
 })
 
 export default store
