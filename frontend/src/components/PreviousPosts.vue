@@ -35,6 +35,14 @@
             <span>--</span>
             {{ post.content }}
           </p>
+          <div v-if="user_id == auth_id">
+            <div>
+              <router-link :to="{name: 'post_edit', params:{post_id: post.id }}">
+                <i uk-icon="icon: pencil"></i>
+              </router-link>
+              <i uk-icon="icon: trash"></i>
+            </div>
+          </div>
           <div class="comment_like_icon">
             <i id="heart-button" uk-icon="comment"></i>
             <span id="comment-count"></span>
@@ -54,6 +62,11 @@ import moment from "moment";
 
 export default {
   props: ["user_id"],
+  data() {
+    return {
+      auth_id: this.$store.getters["auth/id"]
+    };
+  },
   computed: {
     ...mapGetters("post", {
       posts: "latestPosts"

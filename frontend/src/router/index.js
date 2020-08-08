@@ -8,6 +8,7 @@ import DetailPage from '@/views/DetailPage'
 import MyPage from '@/views/MyPage'
 import NewPostPage from '@/views/NewPostPage'
 import SignUpPage from '@/views/SignUpPage'
+import PostEditPage from '@/views/PostEditPage'
 import ProfileEditPage from '@/views/ProfileEditPage'
 import LatestPosts from '@/components/LatestPosts'
 import PopularPosts from '@/components/PopularPosts'
@@ -92,6 +93,12 @@ const router = new VueRouter({
     {
       path: '/profile_edit',
       component: ProfileEditPage
+    },
+    {
+      path: '/post_edit/:post_id',
+      name:'post_edit',
+      component: PostEditPage,
+      props: true,
     },
     {
       path: '*',
