@@ -18,10 +18,7 @@
                       <div class="uk-placeholder uk-text-center">
                         <input type="file" @change="selectedFile" />
                         <div id="preview">
-                          <img
-                          id="preview_image"
-                          v-show="previewImage"
-                          :src="previewImage" />
+                          <img id="preview_image" v-show="previewImage" :src="previewImage" />
                         </div>
                         <div class="camera-choice">
                           <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
@@ -67,7 +64,41 @@
                         {{content}}
                         <textarea
                           class="uk-textarea"
-                          rows="8"
+                          rows="3"
+                          type="text"
+                          v-model="content"
+                          required
+                        ></textarea>
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <label>場所（任意）</label>
+                        <span>
+                          <button class="uk-button uk-button-default">都道府県のみ</button>
+                        </span>
+                        <span>
+                          <a
+                            class="uk-button uk-button-default"
+                            href="#modal-center"
+                            uk-toggle
+                          >タイトルから検索</a>
+                        </span>
+                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div>
+                              <Map/>
+                            </div>
+                          </div>
+                        </div>
+                        <span>
+                          <button class="uk-button uk-button-default">手動</button>
+                        </span>
+                        {{content}}
+                        <textarea
+                          class="uk-textarea"
+                          rows="2"
                           type="text"
                           v-model="content"
                           required
@@ -76,6 +107,13 @@
                     </div>
                   </div>
                 </div>
+                <!-- <div class="uk-margin">
+                  <div>
+                    <input type="text" v-model="address" />
+                    <button type="button" @click="mapSearch">検索</button>
+                    <div id="map"></div>
+                  </div>
+                </div>-->
                 <div class="uk-margin">
                   <button
                     class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
@@ -93,10 +131,12 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
-import api from '@/services/api'
+import Map from "@/components/Map";
+import api from "@/services/api";
 export default {
   components: {
-    MyHeader
+    MyHeader,
+    Map
   },
   data() {
     return {
@@ -104,7 +144,7 @@ export default {
       category: "",
       author_name: this.$store.getters["auth/id"],
       image: null,
-      previewImage:null,
+      previewImage: null,
       title: "",
       content: "",
       loading: false
@@ -142,7 +182,7 @@ export default {
     },
     createImage(file) {
       const reader = new FileReader();
-      reader.onload = event =>{
+      reader.onload = event => {
         this.previewImage = event.target.result;
       };
       reader.readAsDataURL(file);
@@ -191,20 +231,33 @@ h2#new_post_title {
   transform: translate(-50%, -50%);
 }
 
-#preview{
-    position: absolute;
-    /* 現在:, 変更:, クリア表示を隠す  */
-    top: 0px;
-    z-index: 100;
-    pointer-events: none;
+#preview {
+  position: absolute;
+  /* 現在:, 変更:, クリア表示を隠す  */
+  top: 0px;
+  z-index: 100;
+  pointer-events: none;
 }
 
-#preview_image{
+#preview_image {
   width: 521px;
   height: 387px;
 }
 .uk-form-custom:hover {
-    cursor: pointer;
-    background-color: #E6E6FA;
+  cursor: pointer;
+  background-color: #e6e6fa;
+}
+
+.uk-modal-dialog {
+    position: relative;
+    box-sizing: border-box;
+    margin: 0 auto;
+    width: 1000px;
+    max-width: calc(100% - .01px)!important;
+    background: #fff;
+    opacity: 0;
+    transform: translateY(-100px);
+    transition: .3s linear;
+    transition-property: opacity,transform;
 }
 </style>
