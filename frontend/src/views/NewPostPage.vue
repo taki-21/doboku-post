@@ -75,11 +75,9 @@
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
                         <span>
-                          <button class="uk-button uk-button-default">都道府県のみ</button>
-                        </span>
-                        <span>
                           <a
                             class="uk-button uk-button-default"
+                            @click="callChildMethod"
                             href="#modal-center"
                             uk-toggle
                           >タイトルから検索</a>
@@ -88,21 +86,22 @@
                           <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                             <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div>
-                              <Map/>
+                              <Map ref="map" :address="title" @callPrent="callPrent" />
                             </div>
                           </div>
                         </div>
                         <span>
                           <button class="uk-button uk-button-default">手動</button>
                         </span>
+                        <span>
+                          <button class="uk-button uk-button-default">都道府県のみ</button>
+                        </span>
                         {{content}}
-                        <textarea
-                          class="uk-textarea"
-                          rows="2"
+                        <input
+                          class="uk-input"
                           type="text"
-                          v-model="content"
-                          required
-                        ></textarea>
+                          v-model="address"
+                        />
                       </div>
                     </div>
                   </div>
@@ -147,6 +146,8 @@ export default {
       previewImage: null,
       title: "",
       content: "",
+      address: "",
+      prefecture:"",
       loading: false
     };
   },
@@ -158,6 +159,14 @@ export default {
       });
   },
   methods: {
+    callChildMethod() {
+      this.$refs.map.mapSearch();
+    },
+    callPrent(text, prefecture) {
+      this.address = text;
+      this.prefecture = prefecture;
+
+    },
     selectedFile(event) {
       event.preventDefault();
       this.image = event.target.files[0];
@@ -249,15 +258,15 @@ h2#new_post_title {
 }
 
 .uk-modal-dialog {
-    position: relative;
-    box-sizing: border-box;
-    margin: 0 auto;
-    width: 1000px;
-    max-width: calc(100% - .01px)!important;
-    background: #fff;
-    opacity: 0;
-    transform: translateY(-100px);
-    transition: .3s linear;
-    transition-property: opacity,transform;
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 1000px;
+  max-width: calc(100% - 0.01px) !important;
+  background: #fff;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
 }
 </style>
