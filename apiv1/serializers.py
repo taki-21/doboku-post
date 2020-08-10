@@ -41,6 +41,11 @@ class PostSerializer(serializers.ModelSerializer):
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
     image_change = serializers.ImageField(read_only=True)
+    address = serializers.CharField(required=False)
+    lat = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
+    lng = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
 
     def get_likes_count(self, obj):
         return obj.like_post.count()

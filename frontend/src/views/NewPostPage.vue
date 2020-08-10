@@ -101,7 +101,7 @@
                           <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                             <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div>
-                              <TitleSearchMap ref="map" :title="title" @callPrent="callPrent" />
+                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
                             </div>
                           </div>
                         </div>
@@ -129,13 +129,6 @@
                     </div>
                   </div>
                 </div>
-                <!-- <div class="uk-margin">
-                  <div>
-                    <input type="text" v-model="address" />
-                    <button type="button" @click="mapSearch">検索</button>
-                    <div id="map"></div>
-                  </div>
-                </div>-->
                 <div class="uk-margin">
                   <button
                     class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
@@ -191,7 +184,7 @@ export default {
     callChildMethod() {
       this.$refs.map.mapSearch();
     },
-    callPrent(address, prefecture, lat, lng) {
+    callParent(address, prefecture, lat, lng) {
       this.address = address;
       this.prefecture = prefecture[0].long_name;
       this.lat = lat;

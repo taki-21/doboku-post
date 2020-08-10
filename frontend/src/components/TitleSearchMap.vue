@@ -62,7 +62,7 @@ export default {
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: "AIzaSyCdx1aWnTQiNgvV8rdGdvS_RQYG1biJQoQ"
+      apiKey: ""
     });
     this.initializeMap();
   },
@@ -97,7 +97,7 @@ export default {
       );
     },
     call_parent() {
-      this.$emit("callPrent", this.address, this.prefecture, this.lat, this.lng);
+      this.$emit("callParent", this.address, this.prefecture, this.lat, this.lng);
     }
   }
 };

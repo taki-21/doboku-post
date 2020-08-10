@@ -69,11 +69,73 @@
                         {{content}}
                         <textarea
                           class="uk-textarea"
-                          rows="8"
+                          rows="3"
                           type="text"
                           v-model="content"
                           required
                         ></textarea>
+                      </div>
+                    </div>
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <!-- <div class="uk-flex"> -->
+                        <label>場所</label>
+                        <!-- <div> -->
+                        <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
+                        <!-- <ul
+                          class="uk-subnav uk-subnav-pill"
+                          uk-switcher="animation: uk-animation-slide-left-medium"
+                        >
+                        <li>-->
+                        <div uk-switcher="animation: uk-animation-fade; toggle: > *">
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            href="#modal-center"
+                            @click="callChildMethod"
+                            type="button"
+                            uk-toggle
+                          >タイトルから検索</button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >手動</button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >都道府県のみ</button>
+                          <!-- </li> -->
+                          <!-- </ul> -->
+                        </div>
+                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div>
+                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
+                            </div>
+                          </div>
+                        </div>
+                        <ul id="address_form" class="uk-switcher">
+                          <li>
+                            <input class="uk-input" type="text" v-model="address" />
+                          </li>
+                          <li>
+                            <input
+                              id="manual_search"
+                              class="uk-input"
+                              type="text"
+                              v-model="address"
+                            />
+                          </li>
+                          <li>
+                            <select class="uk-select" v-model="prefecture">
+                              <option>都道府県を選択してください</option>
+                              <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
+                            </select>
+                          </li>
+                        </ul>
+                        <!-- </div> -->
                       </div>
                     </div>
                   </div>
@@ -95,13 +157,19 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
+import TitleSearchMap from "@/components/TitleSearchMap";
+
 import api from "@/services/api";
+import prefs from "../mixins/PrefsMixin";
+
 import { mapGetters } from "vuex";
 
 export default {
   components: {
-    MyHeader
+    MyHeader,
+    TitleSearchMap
   },
+  mixins: [prefs],
   props: ["post_id"],
   data() {
     return {
@@ -111,7 +179,12 @@ export default {
       category: "",
       title: "",
       content: "",
-      // author_name: this.$store.getters["auth/id"],
+
+      address: "",
+      prefecture: "",
+      lat: "",
+      lng: "",
+
       loading: false
     };
   },
@@ -124,9 +197,23 @@ export default {
       this.category = response.data.category;
       this.title = response.data.title;
       this.content = response.data.content;
+      this.prefecture = response.data.prefecture;
+      this.address = response.data.address;
+      this.lat = response.data.lat;
+      this.lng = response.data.lng;
     });
   },
   methods: {
+    callChildMethod() {
+      this.$refs.map.mapSearch();
+    },
+    callParent(address, prefecture, lat, lng) {
+      this.address = address;
+      this.prefecture = prefecture[0].long_name;
+      this.lat = lat;
+      this.lng = lng;
+    },
+
     selectedFile(event) {
       event.preventDefault();
       this.image = event.target.files[0];
@@ -139,8 +226,16 @@ export default {
       formData.append("category", this.category);
       formData.append("title", this.title);
       formData.append("content", this.content);
+      formData.append("prefecture", this.prefecture);
+      if(this.address){formData.append("address", this.address);}
+      if(this.lat){formData.append("lat", this.lat);}
+      if(this.lng){formData.append("lng", this.lng);}
+
       api
-        .patch("http://127.0.0.1:8000/api/v1/posts/" + this.post_id + '/', formData)
+        .patch(
+          "http://127.0.0.1:8000/api/v1/posts/" + this.post_id + "/",
+          formData
+        )
         .then(response => {
           console.log("送信内容: " + response.data);
           this.$router.replace("/");
@@ -215,5 +310,21 @@ h2#new_post_title {
 .uk-form-custom:hover {
   cursor: pointer;
   background-color: #e6e6fa;
+}
+
+.uk-modal-dialog {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 1000px;
+  max-width: calc(100% - 0.01px) !important;
+  background: #fff;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
+}
+#address_form {
+  margin-top: 4px;
 }
 </style>
