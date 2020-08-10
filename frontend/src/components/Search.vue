@@ -34,12 +34,15 @@
         </div>
         <div class="uk-width-1-5@s">
           <strong>都道府県</strong>
-          <input class="uk-input" type="search" placeholder />
+          <select class="uk-select" type="text" v-model="query.prefecture" @change="search" clearable>
+            <option value>選択してください</option>
+            <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
+          </select>
         </div>
         <!-- <div class="uk-width-1-5@s">
           <strong>市町村</strong>
           <input class="uk-input" type="search" placeholder />
-        </div> -->
+        </div>-->
       </form>
     </div>
 
@@ -94,15 +97,20 @@
 <script>
 import moment from "moment";
 import { mapGetters } from "vuex";
+import prefs from "../mixins/PrefsMixin";
+
 // import api from "@/services/api";
 
 export default {
+  mixins: [prefs],
+
   data() {
     return {
       query: {
         title: this.$route.query.title || "",
         category: this.$route.query.category || "",
-        period: this.$route.query.published_at || ""
+        period: this.$route.query.published_at || "",
+        prefecture: this.$route.query.prefecture || "",
       },
       period: [
         {
@@ -126,6 +134,7 @@ export default {
       this.query.title = this.$route.query.title || "";
       this.query.category = this.$route.query.category || "";
       this.query.period = this.$route.query.published_at || "";
+      this.query.prefecture = this.$route.query.prefecture || "";
     }
   },
   // mounted() {
@@ -164,7 +173,9 @@ export default {
         query: {
           title: this.query.title,
           category: this.query.category,
-          published_at: this.query.period
+          published_at: this.query.period,
+          prefecture: this.query.prefecture,
+
         }
       });
     }

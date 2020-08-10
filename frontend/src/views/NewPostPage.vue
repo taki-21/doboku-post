@@ -70,43 +70,57 @@
                         <!-- <div class="uk-flex"> -->
                         <label>場所</label>
                         <!-- <div> -->
+                        <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
+                        <!-- <ul
+                          class="uk-subnav uk-subnav-pill"
+                          uk-switcher="animation: uk-animation-slide-left-medium"
+                        >
+                        <li>-->
                         <div uk-switcher="animation: uk-animation-fade; toggle: > *">
-                          <a
+                          <button
                             class="uk-button uk-button-secondary uk-button-small"
                             href="#modal-center"
                             @click="callChildMethod"
                             type="button"
                             uk-toggle
-                          >タイトルから検索</a>
-                          <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
-                            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                              <button class="uk-modal-close-default" type="button" uk-close></button>
-                              <div>
-                                <TitleSearchMap ref="map" :title="title" @callPrent="callPrent" />
-                              </div>
-                            </div>
-                          </div>or
-                          <a
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
-                          >手動</a>
+                          >タイトルから検索</button>
                           or
-                          <a
+                          <button
                             class="uk-button uk-button-secondary uk-button-small"
                             type="button"
-                          >都道府県のみ</a>
+                          >手動</button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >都道府県のみ</button>
+                          <!-- </li> -->
+                          <!-- </ul> -->
+                        </div>
+                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div>
+                              <TitleSearchMap ref="map" :title="title" @callPrent="callPrent" />
+                            </div>
+                          </div>
                         </div>
                         <ul id="address_form" class="uk-switcher">
                           <li>
                             <input class="uk-input" type="text" v-model="address" />
                           </li>
                           <li>
-                            <input class="uk-input" type="text" v-model="address" />
+                            <input
+                              id="manual_search"
+                              class="uk-input"
+                              type="text"
+                              v-model="address"
+                            />
                           </li>
                           <li>
                             <select class="uk-select" v-model="prefecture">
                               <option value>都道府県を選択してください</option>
-                              <option>Option 02</option>
+                              <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
                             </select>
                           </li>
                         </ul>
@@ -140,8 +154,10 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
+import prefs from "../mixins/PrefsMixin";
 import api from "@/services/api";
 export default {
+  mixins: [prefs],
   components: {
     MyHeader,
     TitleSearchMap
