@@ -27,7 +27,6 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
-    """カテゴリ一覧シリアライザ"""
     class Meta:
         model = Category
         fields = ('id', 'name')
@@ -42,6 +41,11 @@ class PostSerializer(serializers.ModelSerializer):
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
     image_change = serializers.ImageField(read_only=True)
+    address = serializers.CharField(required=False)
+    lat = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
+    lng = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
 
     def get_likes_count(self, obj):
         return obj.like_post.count()
@@ -59,7 +63,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'image', 'likes_count', 'image_change',)
+                  'published_at', 'image', 'likes_count', 'image_change', 'prefecture', 'address', 'lat', 'lng')
         # fields = '__all__'
         # read_only_fields = ('like',)
 
@@ -99,7 +103,6 @@ class LikeSerializer(serializers.ModelSerializer):
         del validated_date['post_id']
 
         return Like.objects.create(**validated_date)
-
 
     class Meta:
         model = Like

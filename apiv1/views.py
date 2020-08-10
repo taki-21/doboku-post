@@ -44,7 +44,7 @@ class PostFilter(filters.FilterSet):
 
     class Meta:
         model = Post
-        fields = ['title', 'category', 'published_at']
+        fields = ['title', 'category', 'published_at', 'prefecture']
 
 
 class PostListCreateAPIView(generics.ListCreateAPIView):
