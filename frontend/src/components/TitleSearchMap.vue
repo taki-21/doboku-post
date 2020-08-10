@@ -1,7 +1,7 @@
 <template>
   <div>
-    <!-- <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
-    <button type="button" @click="mapSearch">検索</button> -->
+    <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
+    <button type="button" @click="mapSearch">検索</button>
     <div class="uk-margin" uk-margin>
       <div v-if="results[0]">
         <input

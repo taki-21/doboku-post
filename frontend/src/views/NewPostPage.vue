@@ -49,13 +49,7 @@
                     <div class="uk-margin">
                       <div class="uk-inline uk-width-1-1">
                         <label>タイトル</label>
-                        {{title}}
-                        <input
-                          class="uk-input"
-                          type="text"
-                          v-model="title"
-                          required
-                        />
+                        <input class="uk-input" type="text" v-model="title" required />
                       </div>
                     </div>
                     <div class="uk-margin">
@@ -73,35 +67,50 @@
                     </div>
                     <div class="uk-margin">
                       <div class="uk-inline uk-width-1-1">
-                        <label>場所（任意）</label>
-                        <span>
+                        <!-- <div class="uk-flex"> -->
+                        <label>場所</label>
+                        <!-- <div> -->
+                        <div uk-switcher="animation: uk-animation-fade; toggle: > *">
                           <a
-                            class="uk-button uk-button-default"
-                            @click="callChildMethod"
+                            class="uk-button uk-button-secondary uk-button-small"
                             href="#modal-center"
+                            @click="callChildMethod"
+                            type="button"
                             uk-toggle
                           >タイトルから検索</a>
-                        </span>
-                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
-                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div>
-                              <Map ref="map" :address="title" @callPrent="callPrent" />
+                          <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                              <button class="uk-modal-close-default" type="button" uk-close></button>
+                              <div>
+                                <TitleSearchMap ref="map" :title="title" @callPrent="callPrent" />
+                              </div>
                             </div>
-                          </div>
+                          </div>or
+                          <a
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >手動</a>
+                          or
+                          <a
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >都道府県のみ</a>
                         </div>
-                        <span>
-                          <button class="uk-button uk-button-default">手動</button>
-                        </span>
-                        <span>
-                          <button class="uk-button uk-button-default">都道府県のみ</button>
-                        </span>
-                        {{content}}
-                        <input
-                          class="uk-input"
-                          type="text"
-                          v-model="address"
-                        />
+                        <ul id="address_form" class="uk-switcher">
+                          <li>
+                            <input class="uk-input" type="text" v-model="address" />
+                          </li>
+                          <li>
+                            <input class="uk-input" type="text" v-model="address" />
+                          </li>
+                          <li>
+                            <select class="uk-select" v-model="prefecture">
+                              <option value>都道府県を選択してください</option>
+                              <option>Option 02</option>
+                            </select>
+                          </li>
+                        </ul>
+                        <!-- </div> -->
                       </div>
                     </div>
                   </div>
@@ -130,12 +139,12 @@
 
 <script>
 import MyHeader from "@/components/MyHeader";
-import Map from "@/components/Map";
+import TitleSearchMap from "@/components/TitleSearchMap";
 import api from "@/services/api";
 export default {
   components: {
     MyHeader,
-    Map
+    TitleSearchMap
   },
   data() {
     return {
@@ -146,8 +155,12 @@ export default {
       previewImage: null,
       title: "",
       content: "",
+
       address: "",
-      prefecture:"",
+      prefecture: "",
+      lat: "",
+      lng: "",
+
       loading: false
     };
   },
@@ -162,10 +175,11 @@ export default {
     callChildMethod() {
       this.$refs.map.mapSearch();
     },
-    callPrent(text, prefecture) {
-      this.address = text;
-      this.prefecture = prefecture;
-
+    callPrent(address, prefecture, lat, lng) {
+      this.address = address;
+      this.prefecture = prefecture[0].long_name;
+      this.lat = lat;
+      this.lng = lng;
     },
     selectedFile(event) {
       event.preventDefault();
@@ -179,6 +193,16 @@ export default {
       formData.append("title", this.title);
       formData.append("content", this.content);
       formData.append("image", this.image);
+      formData.append("prefecture", this.prefecture);
+      formData.append("address", this.address);
+      formData.append("lat", this.lat);
+      formData.append("lng", this.lng);
+      // formData.append("location",this.location);
+      // "prefecture": this.prefecture,
+      // "address": this.address,
+      // "lat": this.lat,
+      // "lng": this.lng
+
       api
         .post("http://127.0.0.1:8000/api/v1/posts/", formData)
         .then(response => {
@@ -269,4 +293,18 @@ h2#new_post_title {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
+#address_form {
+  margin-top: 4px;
+}
+/* #title_search {
+  margin-left: 40px;
+  margin-right: 20px;
+}
+#manual_search {
+  margin-left: 20px;
+  margin-right: 20px;
+}
+#prefecture_search {
+  margin-left: 20px;
+} */
 </style>
