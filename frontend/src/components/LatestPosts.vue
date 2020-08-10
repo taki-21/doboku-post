@@ -23,7 +23,7 @@
                 >
                   <div>
                     <img class="user_icon" v-bind:src="post.author.icon_image" />
-                    <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                    <span id="author_name">{{ post.author.username }}</span>
                   </div>
                 </router-link>
                 <div class="timestamp">
@@ -32,10 +32,10 @@
               </div>
             </div>
             <strong>{{ post.title }}</strong>
-            <p class="post_content">
+            <!-- <p class="post_content">
               <span>--</span>
               {{ post.content }}
-            </p>
+            </p> -->
             <div class="comment_like_icon">
               <i id="heart-button" uk-icon="comment"></i>
               <span id="comment-count"></span>
@@ -72,9 +72,8 @@ export default {
 }
 
 .user_icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
+  width: 35px;
+  height: 35px;
   border-radius: 50%;
 }
 
@@ -98,15 +97,14 @@ export default {
   font-weight: bold;
   color: #333333;
 }
+.show_user:hover{
+  color: rgba(90, 84, 75, 0.70);
+}
 
 .post_content {
   width: 100%;
   font-size: small;
   height: 40px;
-}
-
-p {
-  margin: 0;
 }
 
 .comment_like_icon {
@@ -122,6 +120,13 @@ p {
   font-size: 17px;
 }
 
+#author_name{
+  position:relative;
+  top:3px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;
@@ -130,5 +135,9 @@ p {
 .uk-comment-header {
   display: flow-root;
   margin-bottom: 0px;
+}
+
+*+.uk-grid-margin, .uk-grid+.uk-grid, .uk-grid>.uk-grid-margin {
+    margin-top: 20px;
 }
 </style>

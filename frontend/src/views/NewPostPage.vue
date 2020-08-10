@@ -131,7 +131,7 @@
                 </div>
                 <div class="uk-margin">
                   <button
-                    class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
+                    class="uk-button uk-button-default uk-button-large uk-width-1-1 post-button"
                     type="submit"
                   >投稿</button>
                 </div>
@@ -287,7 +287,7 @@ h2#new_post_title {
 }
 .uk-form-custom:hover {
   cursor: pointer;
-  background-color: #e6e6fa;
+  background-color: rgba(212, 217, 220, 0.3);
 }
 
 .uk-modal-dialog {
@@ -316,4 +316,16 @@ h2#new_post_title {
 #prefecture_search {
   margin-left: 20px;
 } */
+.uk-button-default {
+  background-color: rgba(212, 217, 220, 0.4);
+  color: #333;
+  border: 2px solid rgb(112, 110, 110);
+  border-radius: 7px;
+}
+.uk-button-default:hover {
+  background-color: rgb(212, 217, 220);
+  color: #333;
+  border: 2px solid #333;
+  border-radius: 7px;
+}
 </style>

@@ -196,7 +196,7 @@ export default {
 #search_card {
   margin-bottom: 20px;
   padding: 20px;
-  background-color: #dbd8d7;
+  background-color: rgb(212, 217, 220);
   border-radius: 10px;
   border: 2px solid black;
 }
