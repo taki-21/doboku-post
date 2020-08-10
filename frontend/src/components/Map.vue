@@ -20,7 +20,7 @@ export default {
       infoWindow: [],
       mapConfig: {
         center: {
-          lat: 35.68944,
+          lat: 36.8,
           lng: 139.69167
         },
         zoom: 5,
@@ -62,7 +62,7 @@ export default {
         marker.addListener("click", () => {
           currentWindow && currentWindow.close();
           const infoWindow = new this.google.maps.InfoWindow({
-            content: '<div class="map">' + data.title + "</div>"
+            content: "<div>" + data.title + "</div>"
           });
           infoWindow.open(this.map, marker);
           currentWindow = infoWindow;
@@ -76,7 +76,7 @@ export default {
 <style scoped>
 #map {
   width: 100%;
-  height: 600px;
+  height: 700px;
 }
 
 #OK_button {
