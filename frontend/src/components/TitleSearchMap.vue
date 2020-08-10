@@ -54,15 +54,15 @@ export default {
       return this.results[0].formatted_address;
     },
     lat: function() {
-      return this.results[0].geometry.viewport.Va.i;
+      return this.results[0].geometry.viewport.Za.i;
     },
     lng: function() {
-      return this.results[0].geometry.viewport.Za.i
+      return this.results[0].geometry.viewport.Va.i
     }
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: ""
+      apiKey: "AIzaSyCdx1aWnTQiNgvV8rdGdvS_RQYG1biJQoQ"
     });
     this.initializeMap();
   },

@@ -1,27 +1,12 @@
 <template>
   <div>
-    <!-- <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
-    <button type="button" @click="mapSearch">検索</button> -->
-    <div class="uk-margin" uk-margin>
-      <div v-if="results[0]">
-        <input
-          class="uk-input uk-form-width-large"
-          type="text"
-          v-model="results[0].formatted_address"
-        />
-        <button
-          id="OK_button"
-          class="uk-button uk-button-default uk-modal-close"
-          @click="call_parent"
-        >OK</button>
-      </div>
-    </div>
     <div id="map" ref="googleMap"></div>
   </div>
 </template>
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
+import { mapGetters } from "vuex";
 
 export default {
   name: "Map",
@@ -30,9 +15,9 @@ export default {
     return {
       google: null,
       map: {},
-      marker: null,
+      marker: [],
       geocoder: {},
-      results: {},
+      infoWindow: [],
       mapConfig: {
         center: {
           lat: 35.68944,
@@ -45,20 +30,9 @@ export default {
     };
   },
   computed: {
-    prefecture: function() {
-      return this.results[0].address_components.filter(function(component) {
-        return component.types.indexOf("administrative_area_level_1") > -1;
-      });
-    },
-    address: function() {
-      return this.results[0].formatted_address;
-    },
-    lat: function() {
-      return this.results[0].geometry.viewport.Va.i;
-    },
-    lng: function() {
-      return this.results[0].geometry.viewport.Za.i
-    }
+    ...mapGetters("post", {
+      markerData: "latestPosts"
+    })
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
@@ -67,37 +41,33 @@ export default {
     this.initializeMap();
   },
   methods: {
+    // 地図の作成
     initializeMap() {
       this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
       this.geocoder = new this.google.maps.Geocoder();
+      this.setMarkers();
     },
-    mapSearch() {
-      if (this.marker) {
-        this.marker.setMap(null);
-      }
-      this.geocoder.geocode(
-        {
-          address: this.title
-        },
-        (results, status) => {
-          if (status === this.google.maps.GeocoderStatus.OK) {
-            this.results = results;
+    // マーカーごとの処理
+    setMarkers() {
+      let currentWindow;
+      this.markerData.map(data => {
+        const marker = new this.google.maps.Marker({
+          position: {
+            lat: Number(data.lat),
+            lng: Number(data.lng)
+          },
+          map: this.map
+        });
 
-            this.map.setCenter(results[0].geometry.location);
-            // 緯度経度の取得
-            // results[0].geometry.location.lat();
-            // results[0].geometry.location.lng();
-            this.marker = new this.google.maps.Marker({
-              map: this.map,
-              position: results[0].geometry.location
-            });
-          }
-          console.log(results[0]);
-        }
-      );
-    },
-    call_parent() {
-      this.$emit("callPrent", this.address, this.prefecture, this.lat, this.lng);
+        marker.addListener("click", () => {
+          currentWindow && currentWindow.close();
+          const infoWindow = new this.google.maps.InfoWindow({
+            content: '<div class="map">' + data.title + "</div>"
+          });
+          infoWindow.open(this.map, marker);
+          currentWindow = infoWindow;
+        });
+      });
     }
   }
 };
