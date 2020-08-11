@@ -18,7 +18,6 @@
 import api from '@/services/api'
 
 export default {
-
   props:['post'],
   data() {
     return{
