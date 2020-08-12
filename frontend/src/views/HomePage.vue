@@ -25,14 +25,12 @@
 <script>
 // import GlobalMessage from "@/components/GlobalMessage.vue";
 import MyHeader from "@/components/MyHeader";
-// import PostList from "@/components/PostList";
 
 export default {
   components: {
     // GlobalMessage,
-    MyHeader
-    // PostList
-  }
+    MyHeader,
+  },
 };
 </script>
 

@@ -67,15 +67,7 @@
                     </div>
                     <div class="uk-margin">
                       <div class="uk-inline uk-width-1-1">
-                        <!-- <div class="uk-flex"> -->
                         <label>場所</label>
-                        <!-- <div> -->
-                        <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
-                        <!-- <ul
-                          class="uk-subnav uk-subnav-pill"
-                          uk-switcher="animation: uk-animation-slide-left-medium"
-                        >
-                        <li>-->
                         <div uk-switcher="animation: uk-animation-fade; toggle: > *">
                           <button
                             class="uk-button uk-button-secondary uk-button-small"

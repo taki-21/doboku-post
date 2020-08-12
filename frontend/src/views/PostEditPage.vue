@@ -144,7 +144,7 @@
                   <button
                     class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
                     type="submit"
-                  >投稿</button>
+                  >変更を保存</button>
                 </div>
               </form>
             </div>
