@@ -36,33 +36,34 @@ export default {
       mapConfig: {
         center: {
           lat: 35.68944,
-          lng: 139.69167
+          lng: 139.69167,
         },
         zoom: 5,
         streetViewControl: false,
-        mapTypeId: "roadmap"
-      }
+        mapTypeId: "roadmap",
+        language: "ja",
+      },
     };
   },
   computed: {
-    prefecture: function() {
-      return this.results[0].address_components.filter(function(component) {
+    prefecture: function () {
+      return this.results[0].address_components.filter(function (component) {
         return component.types.indexOf("administrative_area_level_1") > -1;
       });
     },
-    address: function() {
+    address: function () {
       return this.results[0].formatted_address;
     },
-    lat: function() {
+    lat: function () {
       return this.results[0].geometry.viewport.Za.i;
     },
-    lng: function() {
-      return this.results[0].geometry.viewport.Va.i
-    }
+    lng: function () {
+      return this.results[0].geometry.viewport.Va.i;
+    },
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: ""
+      apiKey: "",
     });
     this.initializeMap();
   },
@@ -77,7 +78,9 @@ export default {
       }
       this.geocoder.geocode(
         {
-          address: this.title
+          address: this.title,
+          // 検索時英語で表記されるのを防ぐためregionの設定を行う
+          region: 'jp',
         },
         (results, status) => {
           if (status === this.google.maps.GeocoderStatus.OK) {
@@ -89,7 +92,7 @@ export default {
             // results[0].geometry.location.lng();
             this.marker = new this.google.maps.Marker({
               map: this.map,
-              position: results[0].geometry.location
+              position: results[0].geometry.location,
             });
           }
           console.log(results[0]);
@@ -97,9 +100,15 @@ export default {
       );
     },
     call_parent() {
-      this.$emit("callParent", this.address, this.prefecture, this.lat, this.lng);
-    }
-  }
+      this.$emit(
+        "callParent",
+        this.address,
+        this.prefecture,
+        this.lat,
+        this.lng
+      );
+    },
+  },
 };
 </script>
 

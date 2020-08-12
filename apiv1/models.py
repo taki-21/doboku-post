@@ -24,7 +24,7 @@ class Post(models.Model):
                                   processors=[ResizeToFill(640, 480)],
                                   format='JPEG'
                                   )
-    prefecture = models.CharField(max_length=3, null=True, blank=True)
+    prefecture = models.CharField(max_length=10, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     lat = models.DecimalField(max_digits=20, decimal_places=15, null=True, blank=True)
     lng = models.DecimalField(max_digits=20, decimal_places=15, null=True, blank=True)
