@@ -31,7 +31,7 @@
 }
 .doboku_icon {
   position: relative;
-  top: -5px;
+  top: -10px;
   margin-right: 8px;
 }
 
@@ -45,7 +45,7 @@
   font-size: 40px;
   font-family: "Economica";
   position: relative;
-  top: 4px;
+  top: 2px;
 }
 
 nav {
