@@ -82,7 +82,7 @@
               </p>
               <div class="comment_like_icon">
                 <i id="heart-button" uk-icon="comment"></i>
-                <span id="comment-count"></span>
+                <span id="comment-count">{{ post.comments_count}}</span>
                 <i id="heart-button" uk-icon="heart"></i>
                 <span id="like-count">{{ post.likes_count}}</span>
               </div>
