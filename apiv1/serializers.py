@@ -35,11 +35,11 @@ class CategorySerializer(serializers.ModelSerializer):
 class PostSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(
         queryset=Category.objects.all())
-    # category = CategorySerializer()
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
+    comments_count = serializers.SerializerMethodField()
     image_change = serializers.ImageField(read_only=True)
     address = serializers.CharField(required=False)
     lat = serializers.DecimalField(
@@ -49,6 +49,9 @@ class PostSerializer(serializers.ModelSerializer):
 
     def get_likes_count(self, obj):
         return obj.like_post.count()
+
+    def get_comments_count(self, obj):
+        return obj.comment_post.count()
 
     def create(self, validated_data):
         validated_data['author'] = validated_data.get('author_name', None)
@@ -63,7 +66,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'image', 'likes_count', 'image_change', 'prefecture', 'address', 'lat', 'lng')
+                  'published_at', 'image', 'likes_count', 'comments_count', 'image_change', 'prefecture', 'address', 'lat', 'lng')
         # fields = '__all__'
         # read_only_fields = ('like',)
 

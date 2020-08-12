@@ -38,7 +38,7 @@ class Post(models.Model):
 
 class Comment(models.Model):
     post = models.ForeignKey(to=Post, verbose_name='対象記事',
-                             on_delete=models.CASCADE)
+                             on_delete=models.CASCADE, related_name='comment_post')
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
