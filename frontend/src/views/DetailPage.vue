@@ -69,7 +69,7 @@
                     </button>
                     <div class="toggle-usage"></div>
                     <div class="toggle-usage" hidden>
-                      <CommentForm :post="post" />
+                      <CommentForm :post="post" @CommentGet="CommentGet" />
                     </div>
                   </div>
 
@@ -114,55 +114,41 @@ export default {
   name: "detail",
   components: {
     MyHeader,
-    CommentForm
+    CommentForm,
   },
   props: {
-    id: { type: Number }
+    id: { type: Number },
   },
   data() {
     return {
-      // post: "",
-      comments: []
+      comments: [],
     };
   },
   filters: {
-    moment: function(date) {
+    moment: function (date) {
       return moment(date).format("YYYY/MM/DD HH:mm");
-    }
-  },
-  watch: {
-    // comments: {
-    //   immediate: true,
-    //   handler: function() {
-    //     api.get("/comments/").then(response => {
-    //       this.comments = response.data.filter(x => x.post === this.id);
-    //     });
-    //   }
-    // }
+    },
   },
   computed: {
     ...mapGetters("post", ["latestPosts"]),
     post() {
-      return this.latestPosts.find(post => post.id === this.id);
+      return this.latestPosts.find((post) => post.id === this.id);
     },
-    // likeCount(){
-    //   return this.post.likes_count
-    // },
     ...mapGetters("post", {
       likeCount: "likeCount",
-      likes: "likes"
-    })
+      likes: "likes",
+    }),
   },
 
   mounted() {
-    api.get("/comments/").then(response => {
-      this.comments = response.data.filter(x => x.post === this.id);
+    api.get("/comments/").then((response) => {
+      this.comments = response.data.filter((x) => x.post === this.id);
     });
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
     toggleLike() {
-      const userIdList = this.likes.map(obj => obj.user);
+      const userIdList = this.likes.map((obj) => obj.user);
       userIdList.includes(this.$store.getters["auth/id"])
         ? this.removeLike()
         : this.addLike();
@@ -171,7 +157,7 @@ export default {
       api
         .post("/likes/", {
           user: this.$store.getters["auth/id"],
-          post_id: this.post.id
+          post_id: this.post.id,
         })
         .then(() => {
           this.$store.dispatch("post/getAllLikes", { post_id: this.id });
@@ -179,17 +165,22 @@ export default {
     },
     removeLike() {
       const path = this.likes.filter(
-        x => x.user == this.$store.getters["auth/id"]
+        (x) => x.user == this.$store.getters["auth/id"]
       )[0].id;
       api.delete("/likes/" + path + "/").then(() => {
         this.$store.dispatch("post/getAllLikes", { post_id: this.id });
       });
     },
+    CommentGet() {
+      api.get("/comments/").then((response) => {
+        this.comments = response.data.filter((x) => x.post === this.id);
+      });
+    },
     back() {
       // 1つ前へ
       this.$router.back();
-    }
-  }
+    },
+  },
 };
 </script>
 

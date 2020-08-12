@@ -15,36 +15,36 @@
   </div>
 </template>
 <script>
-import api from '@/services/api'
+import api from "@/services/api";
 
 export default {
-  props:['post'],
+  props: ["post"],
   data() {
-    return{
-      text: '',
+    return {
+      text: "",
       author_name: this.$store.getters["auth/id"],
-    }
+    };
   },
-  methods:{
-    submitText: function() {
+  methods: {
+    submitText: function () {
       api
-        .post("http://127.0.0.1:8000/api/v1/comments/",{
+        .post("http://127.0.0.1:8000/api/v1/comments/", {
           post: this.post.id,
           author_name: this.author_name,
           text: this.text,
         })
-        .then(response => {
+        .then((response) => {
+          this.$emit("CommentGet");
           console.log("送信内容: " + response.data);
         })
-        .catch(error =>{
+        .catch((error) => {
           console.log("response: ", error.response.data);
-        })
+        });
       // 入力後、フォーム内の文字列をクリア
-      this.text = ''
-    }
-  }
-
-}
+      this.text = "";
+    },
+  },
+};
 </script>
 
 <style scoped>
