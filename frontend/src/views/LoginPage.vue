@@ -87,7 +87,7 @@ export default {
   },
   methods: {
     // ログインボタン押下
-    submitLogin: function(username = "sample1", password = "doboku1") {
+    submitLogin: function(username = "GuestUser", password = "testtest") {
       // ログイン
       this.isLoading = true;
       this.$store
