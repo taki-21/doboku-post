@@ -111,14 +111,14 @@
                           <li>
                             <input class="uk-input" type="text" v-model="address" />
                           </li>
-                          <li>
+                          <!-- <li>
                             <input
                               id="manual_search"
                               class="uk-input"
                               type="text"
                               v-model="address"
                             />
-                          </li>
+                          </li> -->
                           <li>
                             <select class="uk-select" v-model="prefecture">
                               <option value>都道府県を選択してください</option>

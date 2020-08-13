@@ -40,6 +40,32 @@
             <i id="heart-button" uk-icon="heart"></i>
             <span id="like-count">{{ post.likes_count}}</span>
           </div>
+          <div v-if="post.author.id == user_id">
+            <div id="edit-delete">
+              <router-link class="edit-link" :to="{name: 'post_edit', params:{post_id: post.id }}">
+                <i id="edit-icon" uk-icon="icon: pencil"></i>
+                <span id="edit-word">編集</span>
+              </router-link>
+              <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
+                <i id="delete-icon" uk-icon="icon: trash"></i>
+                <span id="delete-word">削除</span>
+              </a>
+              <div :id="'modal-' + post.id" uk-modal>
+                <div class="uk-modal-dialog uk-modal-body">
+                  <h2 class="uk-modal-title">削除確認</h2>
+                  <p>投稿：{{ post.title }}を削除します。よろしいですか？</p>
+                  <p class="uk-text-right">
+                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button
+                      class="uk-button uk-button-primary uk-modal-close"
+                      type="button"
+                      @click="DestroyPost(post.id)"
+                    >OK</button>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </router-link>
@@ -50,7 +76,7 @@
 import moment from "moment";
 
 export default {
-  props: ["postType"],
+  props: ["postType", "user_id"],
   filters: {
     moment: function (date) {
       return moment(date).format("YYYY/MM/DD HH:MM");
@@ -100,6 +126,7 @@ export default {
 }
 .comment_like_icon {
   text-align: right;
+  margin-bottom: 5px;
 }
 #comment-count {
   margin-left: 3px;
@@ -118,6 +145,41 @@ export default {
   margin-left: 10px;
   font-size: 20px;
 }
+.edit-link,
+.delete-link {
+  text-decoration: none;
+  color: rgb(51, 51, 51);
+}
+.edit-link:hover,
+.delete-link:hover {
+  text-decoration: none;
+  color: rgba(51, 51, 51, 0.5);
+}
+
+#edit-delete {
+  padding-top: 5px;
+  border-top: 1px solid #b1aeae;
+}
+
+#edit-icon {
+  margin-right: 3px;
+}
+#edit-word {
+  position: relative;
+  top: 3px;
+  margin-right: 5px;
+}
+#delete-icon {
+  margin-left: 5px;
+  margin-right: 3px;
+}
+
+#delete-word {
+  position: relative;
+  top: 3px;
+  margin-right: 10px;
+}
+
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;

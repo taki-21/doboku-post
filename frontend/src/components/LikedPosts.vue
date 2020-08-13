@@ -1,6 +1,8 @@
 <template>
   <div>
-    <div
+    <PostList :postType="likedPosts" />
+
+    <!-- <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
       uk-grid
     >
@@ -44,22 +46,27 @@
             </div>
           </div>
         </div>
-        <!-- <pre>{{ posts }}</pre> -->
       </router-link>
-    </div>
+    </div>-->
   </div>
 </template>
 
 <script>
 // import { mapGetters } from "vuex";
+import PostList from "@/components/PostList";
+
 import api from "@/services/api";
 import moment from "moment";
 
 export default {
   props: ["user_id"],
+  components: {
+    PostList,
+  },
+
   data() {
     return {
-      likedPosts: []
+      likedPosts: [],
     };
   },
   computed: {
@@ -70,18 +77,18 @@ export default {
     api
       .get("/likes/", {
         params: {
-          user: this.user_id
-        }
+          user: this.user_id,
+        },
       })
-      .then(response => {
-        this.likedPosts = response.data.map(like => like.post);
+      .then((response) => {
+        this.likedPosts = response.data.map((like) => like.post);
       });
   },
   filters: {
-    moment: function(date) {
+    moment: function (date) {
       return moment(date).format("YYYY/MM/DD HH:MM");
-    }
-  }
+    },
+  },
 };
 </script>
 

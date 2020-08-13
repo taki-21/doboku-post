@@ -27,13 +27,16 @@
       </div>
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
-          <router-link class="router-link" :to="{name: 'mypage', params: {user_id: user_id}}">これまでの投稿</router-link>
+          <router-link
+            class="router-link"
+            :to="{name: 'mypage', params: {user_id: user_id}}"
+          >これまでの投稿</router-link>
           <router-link class="router-link" :to="{name: 'liked', params: {user_id: user_id}}">いいねした投稿</router-link>
           <router-link class="router-link" :to="{name: 'mymap', params: {user_id: user_id}}">マイマップ</router-link>
         </ul>
         <div>
           <transition appear>
-          <router-view />
+            <router-view />
           </transition>
         </div>
       </div>
@@ -48,7 +51,7 @@ import api from "@/services/api";
 
 export default {
   components: {
-    MyHeader
+    MyHeader,
   },
   props: ["user_id"],
   data() {
@@ -58,24 +61,31 @@ export default {
   },
   computed: {
     ...mapGetters("user", {
-      user: "getUser"
-    })
+      user: "getUser",
+    }),
+  },
+  watch: {
+    $route() {
+      api.get("/users/" + this.user_id + "/").then((response) => {
+        this.Person = response.data;
+      });
+    },
   },
   methods: {
     // ログアウトリンク押下
-    clickLogout: function() {
+    clickLogout: function () {
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました。"
+        message: "ログアウトしました。",
       });
       this.$router.replace("/login");
-    }
+    },
   },
   mounted() {
-    api.get("/users/" + this.user_id + '/').then(response => {
-      this.Person = response.data
-    })
-  }
+    api.get("/users/" + this.user_id + "/").then((response) => {
+      this.Person = response.data;
+    });
+  },
 };
 </script>
 

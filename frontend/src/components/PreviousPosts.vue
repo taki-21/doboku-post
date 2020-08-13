@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div
+    <PostList :postType="previousPosts" :user_id="auth_id" />
+    <!-- <div
       class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
       uk-grid
     >
@@ -41,7 +42,6 @@
                 <router-link :to="{name: 'post_edit', params:{post_id: post.id }}">
                   <i uk-icon="icon: pencil"></i>
                 </router-link>
-                <!-- @click="DestroyPost(post.id)"" -->
                 <a :href="'#modal-' + post.id" uk-toggle>
                   <i uk-icon="icon: trash"></i>
                 </a>
@@ -72,19 +72,23 @@
             </div>
           </div>
         </div>
-        <!-- <pre>{{ posts }}</pre> -->
       </router-link>
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import PostList from "@/components/PostList";
+
 import api from "@/services/api";
 import moment from "moment";
 
 export default {
   props: ["user_id"],
+  components: {
+    PostList,
+  },
   data() {
     return {
       auth_id: this.$store.getters["auth/id"]

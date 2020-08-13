@@ -238,7 +238,7 @@ export default {
 #post_content {
   margin: 0px 0px 10px 0px;
   border-radius: 5px;
-  background-color: rgb(245, 242, 236);
+  background-color: rgb(238, 237, 235);
   padding: 10px 10px 10px 30px;
   max-width: 640px;
   font-size: 15px;

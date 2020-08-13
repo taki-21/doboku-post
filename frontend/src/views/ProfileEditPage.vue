@@ -3,75 +3,75 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div>
+          <div class="uk-width-1-1@s">
       <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
-        <div class="uk-width-1-1">
-          <div class="uk-container">
-            <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
-            <div class="uk-width-1-1@s">
-              <div
-                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-              >
-                <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
-                <!-- <pre>{{ user }}</pre> -->
-                <form @submit.prevent="submitPost()">
-                  <div uk-form-custom id="form_custom">
-                    <div class="uk-placeholder uk-text-center">
-                      <input type="file" @change="selectedFile" />
-                      <div id="preview">
-                        <div v-if="previewImage">
-                          <img id="preview_image" :src="previewImage" />
-                        </div>
-                        <div v-else>
-                          <img id="preview_image" :src="beforeIconImage " />
-                        </div>
+        <div class="uk-container">
+          <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
+            <a @click="$router.back()" title="前ページへ戻る">
+              <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
+            </a>
+            <div
+              class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+            >
+              <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
+              <form @submit.prevent="submitPost()">
+                <div uk-form-custom id="form_custom">
+                  <div class="uk-placeholder uk-text-center">
+                    <input type="file" @change="selectedFile" />
+                    <div id="preview">
+                      <div v-if="previewImage">
+                        <img id="preview_image" :src="previewImage" />
+                      </div>
+                      <div v-else>
+                        <img id="preview_image" :src="beforeIconImage " />
                       </div>
                     </div>
                   </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: user"></span>
-                      <input
-                        class="uk-input"
-                        type="text"
-                        placeholder="ユーザー名"
-                        v-model="username"
-                        required
-                      />
-                    </div>
+                </div>
+                <div class="uk-margin">
+                  <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" uk-icon="icon: user"></span>
+                    <input
+                      class="uk-input"
+                      type="text"
+                      placeholder="ユーザー名"
+                      v-model="username"
+                      required
+                    />
                   </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                      <input
-                        class="uk-input"
-                        type="email"
-                        placeholder="メールアドレス"
-                        v-model="email"
-                        required
-                      />
-                    </div>
+                </div>
+                <div class="uk-margin">
+                  <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                    <input
+                      class="uk-input"
+                      type="email"
+                      placeholder="メールアドレス"
+                      v-model="email"
+                      required
+                    />
                   </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
-                      <textarea
-                        class="uk-textarea textarea-input"
-                        rows="8"
-                        type="text"
-                        placeholder="自己紹介文"
-                        v-model="introduction"
-                        required
-                      ></textarea>
-                    </div>
+                </div>
+                <div class="uk-margin">
+                  <div class="uk-inline uk-width-1-1">
+                    <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
+                    <textarea
+                      class="uk-textarea textarea-input"
+                      rows="8"
+                      type="text"
+                      placeholder="自己紹介文"
+                      v-model="introduction"
+                      required
+                    ></textarea>
                   </div>
-                  <div class="uk-margin">
-                    <button
-                      class="uk-button uk-button-primary uk-button-large uk-width-1-1"
-                      type="submit"
-                    >変更を保存する</button>
-                  </div>
-                </form>
-              </div>
+                </div>
+                <div class="uk-margin">
+                  <button
+                    class="uk-button uk-button-primary uk-button-large uk-width-1-1"
+                    type="submit"
+                  >変更を保存する</button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
@@ -88,12 +88,12 @@ import MyHeader from "@/components/MyHeader";
 
 export default {
   components: {
-    MyHeader
+    MyHeader,
   },
   computed: {
     ...mapGetters("auth", {
-      id: "id"
-    })
+      id: "id",
+    }),
   },
   data() {
     return {
@@ -103,7 +103,7 @@ export default {
       previewImage: "",
       username: "",
       email: "",
-      introduction: ""
+      introduction: "",
     };
   },
   // mounted() {
@@ -119,7 +119,7 @@ export default {
       this.icon_image = event.target.files[0];
       this.createImage(event.target.files[0]);
     },
-    submitPost: function() {
+    submitPost: function () {
       const formData = new FormData();
       if (this.icon_image) formData.append("icon_image", this.icon_image);
       formData.append("username", this.username);
@@ -129,37 +129,39 @@ export default {
         .patch("http://127.0.0.1:8000/api/v1/users/" + this.id + "/", formData)
         .then(async () => {
           this.$store.dispatch("message/setInfoMessage", {
-            message: "更新完了"
+            message: "更新完了",
           });
           // ここで一度更新してないとユーザーIDを変更した際にエラーが出る
           // storeのユーザー情報を更新
           await this.$store.dispatch("auth/reload");
           await this.$store.dispatch("user/load", {
-            id: this.$store.getters["auth/id"]
+            id: this.$store.getters["auth/id"],
           });
-          this.$router.replace(
-            "/mypage/"
-          );
+          this.$router.replace("/mypage/");
           this.isLoading = false;
         });
     },
     createImage(file) {
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         this.previewImage = event.target.result;
       };
       reader.readAsDataURL(file);
-    }
+    },
+    back() {
+      // 1つ前へ
+      this.$router.back();
+    },
   },
   mounted() {
     this.isLoading = true;
-    this.$store.dispatch("user/load", { id: this.id }).then(resUser => {
+    this.$store.dispatch("user/load", { id: this.id }).then((resUser) => {
       this.beforeIconImage = resUser.icon_image;
       this.username = resUser.username;
       this.email = resUser.email;
       this.introduction = resUser.introduction;
     });
-  }
+  },
 };
 </script>
 <style scoped>

@@ -5,149 +5,145 @@
     <div id="new_post">
       <div class="uk-width-1-1">
         <div class="uk-container">
-          <div class="uk-grid-margin uk-grid-stack">
-            <div
-              class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <h2 class="uk-text-center" id="new_post_title">投稿編集</h2>
-              <!-- <pre>{{image}}</pre> -->
-              <form @submit.prevent="submitPost()">
-                <div uk-grid>
-                  <div class="uk-width-1-2">
-                    <div uk-form-custom id="form_custom">
-                      <div class="uk-placeholder uk-text-center">
-                        <input type="file" @change="selectedFile" />
-                        <div id="preview">
-                          <div v-if="previewImage">
-                            <img id="preview_image" :src="previewImage" />
-                          </div>
-                          <div v-else>
-                            <img id="preview_image" :src="beforeImage " />
-                          </div>
+          <a @click="$router.back()" title="前ページへ戻る">
+            <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
+          </a>
+          <div
+            class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+          >
+            <h2 class="uk-text-center" id="new_post_title">投稿編集</h2>
+            <!-- <pre>{{image}}</pre> -->
+            <form @submit.prevent="submitPost()">
+              <div uk-grid>
+                <div class="uk-width-1-2">
+                  <div uk-form-custom id="form_custom">
+                    <div class="uk-placeholder uk-text-center">
+                      <input type="file" @change="selectedFile" />
+                      <div id="preview">
+                        <div v-if="previewImage">
+                          <img id="preview_image" :src="previewImage" />
                         </div>
-                        <div class="camera-choice">
-                          <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
-                          <p>画像を選択してください</p>
+                        <div v-else>
+                          <img id="preview_image" :src="beforeImage " />
                         </div>
+                      </div>
+                      <div class="camera-choice">
+                        <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
+                        <p>画像を選択してください</p>
                       </div>
                     </div>
                   </div>
-                  <div class="uk-width-1-2">
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>カテゴリ</label>
-                        {{category}}
-                        <select
-                          class="uk-select"
-                          type="text"
-                          v-model="category"
-                          required
-                        >
-                          <option
-                            v-for="(ctg,key) in categories"
-                            :key="key"
-                            v-bind:value="ctg.id"
-                          >{{ctg.name}}</option>
-                        </select>
-                      </div>
+                </div>
+                <div class="uk-width-1-2">
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>カテゴリ</label>
+                      {{category}}
+                      <select
+                        class="uk-select"
+                        type="text"
+                        v-model="category"
+                        required
+                      >
+                        <option
+                          v-for="(ctg,key) in categories"
+                          :key="key"
+                          v-bind:value="ctg.id"
+                        >{{ctg.name}}</option>
+                      </select>
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>タイトル</label>
-                        {{title}}
-                        <input
-                          class="uk-input"
-                          type="text"
-                          v-model="title"
-                          required
-                        />
-                      </div>
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>タイトル</label>
+                      {{title}}
+                      <input
+                        class="uk-input"
+                        type="text"
+                        v-model="title"
+                        required
+                      />
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>キャプション</label>
-                        {{content}}
-                        <textarea
-                          class="uk-textarea"
-                          rows="3"
-                          type="text"
-                          v-model="content"
-                          required
-                        ></textarea>
-                      </div>
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>キャプション</label>
+                      {{content}}
+                      <textarea
+                        class="uk-textarea"
+                        rows="3"
+                        type="text"
+                        v-model="content"
+                        required
+                      ></textarea>
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <!-- <div class="uk-flex"> -->
-                        <label>場所</label>
-                        <!-- <div> -->
-                        <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
-                        <!-- <ul
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <!-- <div class="uk-flex"> -->
+                      <label>場所</label>
+                      <!-- <div> -->
+                      <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
+                      <!-- <ul
                           class="uk-subnav uk-subnav-pill"
                           uk-switcher="animation: uk-animation-slide-left-medium"
                         >
-                        <li>-->
-                        <div uk-switcher="animation: uk-animation-fade; toggle: > *">
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            href="#modal-center"
-                            @click="callChildMethod"
-                            type="button"
-                            uk-toggle
-                          >タイトルから検索</button>
-                          or
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
-                          >手動</button>
-                          or
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
-                          >都道府県のみ</button>
-                          <!-- </li> -->
-                          <!-- </ul> -->
-                        </div>
-                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
-                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div>
-                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
-                            </div>
+                      <li>-->
+                      <div uk-switcher="animation: uk-animation-fade; toggle: > *">
+                        <button
+                          class="uk-button uk-button-secondary uk-button-small"
+                          href="#modal-center"
+                          @click="callChildMethod"
+                          type="button"
+                          uk-toggle
+                        >タイトルから検索</button>
+                        or
+                        <button
+                          class="uk-button uk-button-secondary uk-button-small"
+                          type="button"
+                        >手動</button>
+                        or
+                        <button
+                          class="uk-button uk-button-secondary uk-button-small"
+                          type="button"
+                        >都道府県のみ</button>
+                        <!-- </li> -->
+                        <!-- </ul> -->
+                      </div>
+                      <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                          <button class="uk-modal-close-default" type="button" uk-close></button>
+                          <div>
+                            <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
                           </div>
                         </div>
-                        <ul id="address_form" class="uk-switcher">
-                          <li>
-                            <input class="uk-input" type="text" v-model="address" />
-                          </li>
-                          <li>
-                            <input
-                              id="manual_search"
-                              class="uk-input"
-                              type="text"
-                              v-model="address"
-                            />
-                          </li>
-                          <li>
-                            <select class="uk-select" v-model="prefecture">
-                              <option>都道府県を選択してください</option>
-                              <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
-                            </select>
-                          </li>
-                        </ul>
-                        <!-- </div> -->
                       </div>
+                      <ul id="address_form" class="uk-switcher">
+                        <li>
+                          <input class="uk-input" type="text" v-model="address" />
+                        </li>
+                        <li>
+                          <input id="manual_search" class="uk-input" type="text" v-model="address" />
+                        </li>
+                        <li>
+                          <select class="uk-select" v-model="prefecture">
+                            <option>都道府県を選択してください</option>
+                            <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
+                          </select>
+                        </li>
+                      </ul>
+                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
-                <div class="uk-margin">
-                  <button
-                    class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
-                    type="submit"
-                  >変更を保存</button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div class="uk-margin">
+                <button
+                  class="uk-button uk-button-primary uk-button-large uk-width-1-1 post-button"
+                  type="submit"
+                >変更を保存</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -167,7 +163,7 @@ import { mapGetters } from "vuex";
 export default {
   components: {
     MyHeader,
-    TitleSearchMap
+    TitleSearchMap,
   },
   mixins: [prefs],
   props: ["post_id"],
@@ -185,14 +181,14 @@ export default {
       lat: "",
       lng: "",
 
-      loading: false
+      loading: false,
     };
   },
   computed: {
-    ...mapGetters("category", ["categories"])
+    ...mapGetters("category", ["categories"]),
   },
   mounted() {
-    api.get("/posts/" + this.post_id + "/").then(response => {
+    api.get("/posts/" + this.post_id + "/").then((response) => {
       this.beforeImage = response.data.image;
       this.category = response.data.category;
       this.title = response.data.title;
@@ -219,7 +215,7 @@ export default {
       this.image = event.target.files[0];
       this.createImage(event.target.files[0]);
     },
-    submitPost: function() {
+    submitPost: function () {
       const formData = new FormData();
       if (this.image) formData.append("image", this.image);
 
@@ -227,31 +223,41 @@ export default {
       formData.append("title", this.title);
       formData.append("content", this.content);
       formData.append("prefecture", this.prefecture);
-      if(this.address){formData.append("address", this.address);}
-      if(this.lat){formData.append("lat", this.lat);}
-      if(this.lng){formData.append("lng", this.lng);}
+      if (this.address) {
+        formData.append("address", this.address);
+      }
+      if (this.lat) {
+        formData.append("lat", this.lat);
+      }
+      if (this.lng) {
+        formData.append("lng", this.lng);
+      }
 
       api
         .patch(
           "http://127.0.0.1:8000/api/v1/posts/" + this.post_id + "/",
           formData
         )
-        .then(response => {
+        .then((response) => {
           console.log("送信内容: " + response.data);
           this.$router.replace("/");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("response: ", error.response.data);
         });
     },
     createImage(file) {
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         this.previewImage = event.target.result;
       };
       reader.readAsDataURL(file);
-    }
-  }
+    },
+    back() {
+      // 1つ前へ
+      this.$router.back();
+    },
+  },
 };
 </script>
 
