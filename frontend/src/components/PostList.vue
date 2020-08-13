@@ -88,7 +88,6 @@ export default {
   line-height: 45px;
   float: left;
   font-size: large;
-  font-weight: bold;
   color: #333333;
 }
 .show_user:hover {

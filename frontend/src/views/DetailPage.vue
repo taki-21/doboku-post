@@ -13,18 +13,30 @@
               <div uk-grid>
                 <div class="uk-width-3-5">
                   <router-link
-                    class="router-link"
+                    class="show_user"
                     :to="{name: 'mypage', params:{user_id: post.author.id}}"
                   >
                     <img class="user_icon" :src="post.author.icon_image" />
-                    <span class="uk-comment-title uk-margin-remove">{{ post.author.username }}</span>
+                    <span id="author_name">{{ post.author.username }}</span>
                   </router-link>
-                  <p id="post_title">{{post.title}}</p>
+                  <div class="timestamp">
+                    <span>{{ post.published_at | moment }}</span>
+                  </div>
+                  <div class="prefecture">
+                    <span>{{ post.prefecture }}</span>
+                  </div>
+
+                  <div id="title-content">
+                    <p id="post_title">{{post.title}}</p>
+                    <p id="post_content">{{post.content}}</p>
+                  </div>
+
                   <div uk-lightbox>
                     <a :href="post.image">
                       <img :src="post.image_change" />
                     </a>
                   </div>
+
                   <div id="like_buttun">
                     <div
                       v-if="this.likes.map((obj) => obj.user).includes(this.$store.getters['auth/id'])"
@@ -185,9 +197,15 @@ export default {
 </script>
 
 <style scoped>
-.router-link {
+.show_user {
   text-decoration: none;
-  color: black;
+  line-height: 45px;
+  font-size: large;
+  float: left;
+  color: #333333;
+}
+.show_user:hover {
+  color: rgba(90, 84, 75, 0.7);
 }
 
 .v-application ol,
@@ -195,8 +213,8 @@ export default {
   padding-left: 0px;
 }
 .user_icon {
-  width: 40px;
-  height: 40px;
+  width: 35px;
+  height: 35px;
   margin-right: 5px;
   border-radius: 50%;
 }
@@ -210,8 +228,20 @@ export default {
 #detail_post {
   padding-top: 10px;
 }
+
 #post_title {
-  font-size: 20px;
+  padding-top: 20px;
+  font-size: 35px;
+  font-weight: bold;
+  margin-bottom: 0px;
+}
+#post_content {
+  margin: 0px 0px 10px 0px;
+  border-radius: 5px;
+  background-color: rgb(245, 242, 236);
+  padding: 10px 10px 10px 30px;
+  max-width: 640px;
+  font-size: 15px;
   font-weight: bold;
 }
 
@@ -237,5 +267,23 @@ export default {
   position: relative;
   top: 8px;
   left: 8px;
+}
+
+#author_name {
+  position: relative;
+  top: 3px;
+  margin-left: 10px;
+  font-size: 20px;
+}
+
+.timestamp {
+  max-width: 640px;
+  font-size: 12px;
+  text-align: right;
+}
+.prefecture {
+  max-width: 640px;
+  font-size: 18px;
+  text-align: right;
 }
 </style>
