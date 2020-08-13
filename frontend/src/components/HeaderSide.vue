@@ -8,7 +8,7 @@
           <router-link class="router-link" to="/newpostpage">
             <div class="link">
               <i id="header_post_icon" uk-icon="pencil"></i>投稿する
-    <!-- <pre>{{ user }}</pre> -->
+              <!-- <pre>{{ user }}</pre> -->
             </div>
           </router-link>
           <div class="uk-inline">
@@ -29,9 +29,23 @@
                 </router-link>
               </div>
               <div class="dropdown">
-                <a href="#modal-logout" class="logout link" uk-toggle @click="clickLogout">
+                <a href="#modal-logout" class="logout link" uk-toggle>
                   <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
                 </a>
+                <div id="modal-logout" uk-modal>
+                  <div class="uk-modal-dialog uk-modal-body">
+                    <h2 class="uk-modal-title">ログアウト確認</h2>
+                    <p>ログアウトします。よろしいですか？</p>
+                    <p class="uk-text-right">
+                      <button id="cancel_button" class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
+                      <button
+                        class="uk-button uk-button-primary uk-modal-close"
+                        type="button"
+                        @click="clickLogout"
+                      >OK</button>
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -63,30 +77,29 @@
 <script>
 import { mapGetters } from "vuex";
 export default {
-
   methods: {
     // ログアウトリンク押下
-    clickLogout: function() {
-      var result = window.confirm("ログアウトします。よろしいですか？");
-      if (result) {
+    clickLogout: function () {
+      // var result = window.confirm("ログアウトします。よろしいですか？");
+      // if (result) {
         this.$store.dispatch("auth/logout");
         this.$store.dispatch("user/logout");
         this.$store.dispatch("message/setInfoMessage", {
-          message: "ログアウトしました。"
+          message: "ログアウトしました。",
         });
         this.$router.replace("/login");
-      }
-    }
+      // }
+    },
   },
   computed: {
     // 1:storeのuserModule, 2:このコンポーネント内で使えるcomputed, 3:userModuleのgetters
-    ...mapGetters('user', {
-      'user': "getUser"
+    ...mapGetters("user", {
+      user: "getUser",
     }),
-    isLoggedIn: function() {
+    isLoggedIn: function () {
       return this.$store.getters["auth/isLoggedIn"];
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -139,5 +152,13 @@ li {
   text-align: center;
   width: 140px;
   margin: 10px auto;
+}
+.uk-modal-body {
+    display: flow-root;
+    padding: 30px 30px;
+    border-radius:5px;
+}
+#cancel_button{
+  margin-right: 10px;
 }
 </style>
