@@ -21,33 +21,33 @@
 </template>
 
 <script>
-// import GoogleMapsApiLoader from "google-maps-api-loader";
-import google from "../mixins/MapLoader";
-import map from "../mixins/MapLoader";
-import geocoder from "../mixins/MapLoader";
+import GoogleMapsApiLoader from "google-maps-api-loader";
+// import google from "../mixins/MapLoader";
+// import map from "../mixins/MapLoader";
+// import geocoder from "../mixins/MapLoader";
 
 export default {
   name: "Map",
   props: ["title"],
-  mixins: [google, map, geocoder],
+  // mixins: [google, map, geocoder],
 
   data() {
     return {
-      // google: null,
-      // map: {},
+      google: null,
+      map: {},
       marker: null,
-      // geocoder: {},
+      geocoder: {},
       results: {},
-      // mapConfig: {
-      //   center: {
-      //     lat: 35.68944,
-      //     lng: 139.69167,
-      //   },
-      //   zoom: 5,
-      //   streetViewControl: false,
-      //   mapTypeId: "roadmap",
-      //   language: "ja",
-      // },
+      mapConfig: {
+        center: {
+          lat: 35.68944,
+          lng: 139.69167,
+        },
+        zoom: 5,
+        streetViewControl: false,
+        mapTypeId: "roadmap",
+        language: "ja",
+      },
     };
   },
   computed: {
@@ -66,17 +66,17 @@ export default {
       return this.results[0].geometry.viewport.Va.i;
     },
   },
-  // async created() {
-  //   this.google = await GoogleMapsApiLoader({
-  //     apiKey: "",
-  //   });
-  //   this.initializeMap();
-  // },
+  async created() {
+    this.google = await GoogleMapsApiLoader({
+      apiKey: "",
+    });
+    this.initializeMap();
+  },
   methods: {
-    // initializeMap() {
-    //   this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
-    //   this.geocoder = new this.google.maps.Geocoder();
-    // },
+    initializeMap() {
+      this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
+      this.geocoder = new this.google.maps.Geocoder();
+    },
     mapSearch() {
       if (this.marker) {
         this.marker.setMap(null);

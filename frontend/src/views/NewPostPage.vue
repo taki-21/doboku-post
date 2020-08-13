@@ -77,11 +77,13 @@
                             uk-toggle
                           >タイトルから検索</button>
                           or
-                          <button
+                          <!-- <button
                             class="uk-button uk-button-secondary uk-button-small"
+                            href="#modal-center"
                             type="button"
+                            uk-toggle
                           >手動</button>
-                          or
+                          or -->
                           <button
                             class="uk-button uk-button-secondary uk-button-small"
                             type="button"
@@ -97,6 +99,14 @@
                             </div>
                           </div>
                         </div>
+                        <!-- <div id="modal-manual" class="uk-flex-top .uk-width-large" uk-modal>
+                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                            <button class="uk-modal-close-default" type="button" uk-close></button>
+                            <div>
+                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
+                            </div>
+                          </div>
+                        </div>-->
                         <ul id="address_form" class="uk-switcher">
                           <li>
                             <input class="uk-input" type="text" v-model="address" />
@@ -139,13 +149,15 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
+// import ManualSearchMap from "@/components/ManualSearchMap";
 import prefs from "../mixins/PrefsMixin";
 import api from "@/services/api";
 export default {
   mixins: [prefs],
   components: {
     MyHeader,
-    TitleSearchMap
+    TitleSearchMap,
+    // ManualSearchMap,
   },
   data() {
     return {
@@ -162,13 +174,13 @@ export default {
       lat: "",
       lng: "",
 
-      loading: false
+      loading: false,
     };
   },
   mounted() {
     this.axios
       .get("http://127.0.0.1:8000/api/v1/categories/")
-      .then(response => {
+      .then((response) => {
         this.categories = response.data;
       });
   },
@@ -187,7 +199,7 @@ export default {
       this.image = event.target.files[0];
       this.createImage(event.target.files[0]);
     },
-    submitPost: function() {
+    submitPost: function () {
       const formData = new FormData();
       formData.append("category", this.category);
       formData.append("author_name", this.author_name);
@@ -206,22 +218,22 @@ export default {
 
       api
         .post("http://127.0.0.1:8000/api/v1/posts/", formData)
-        .then(response => {
+        .then((response) => {
           console.log("送信内容: " + response.data);
           this.$router.replace("/");
         })
-        .catch(error => {
+        .catch((error) => {
           console.log("response: ", error.response.data);
         });
     },
     createImage(file) {
       const reader = new FileReader();
-      reader.onload = event => {
+      reader.onload = (event) => {
         this.previewImage = event.target.result;
       };
       reader.readAsDataURL(file);
-    }
-  }
+    },
+  },
 };
 </script>
 
