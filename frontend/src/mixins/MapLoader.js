@@ -21,7 +21,7 @@ export default {
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: "AIzaSyBW7b_xx8jq8M0AKlHv00S-y1sJeZUh1FE",
+      apiKey: "",
     });
     this.initializeMap();
   },

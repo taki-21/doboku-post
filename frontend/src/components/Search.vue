@@ -11,6 +11,7 @@
             type="search"
             placeholder="キーワードを入力してください"
           />
+          <input type="text" style="display: none;"/>
         </div>
         <div class="uk-width-1-5@s">
           <strong>カテゴリ</strong>
@@ -55,6 +56,7 @@
 import PostList from "@/components/PostList";
 import { mapGetters } from "vuex";
 import prefs from "../mixins/PrefsMixin";
+import moment from "moment";
 
 export default {
   components: {
@@ -72,15 +74,15 @@ export default {
       period: [
         {
           name: "3日前",
-          date: "2020-08-01",
+          date: moment().subtract(3, "days").format("YYYY-MM-DD")
         },
         {
           name: "1週間前",
-          date: "2020-07-28",
+          date: moment().subtract(1, "weeks").format("YYYY-MM-DD")
         },
         {
           name: "1ヶ月前",
-          date: 30,
+          date: moment().subtract(1, "months").format("YYYY-MM-DD")
         },
       ],
     };
