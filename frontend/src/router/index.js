@@ -17,6 +17,7 @@ import Map from '@/components/Map'
 import Search from '@/components/Search'
 import PreviousPosts from '@/components/PreviousPosts'
 import LikedPosts from '@/components/LikedPosts'
+import MyMap from '@/components/MyMap'
 
 Vue.use(VueRouter)
 
@@ -75,6 +76,12 @@ const router = new VueRouter({
           name: 'liked',
           component: LikedPosts,
           props: true,
+        },
+        {
+          path: 'mymap',
+          name: 'mymap',
+          component: MyMap,
+          props: true,
         }
       ]
     },
@@ -96,7 +103,7 @@ const router = new VueRouter({
     },
     {
       path: '/post_edit/:post_id',
-      name:'post_edit',
+      name: 'post_edit',
       component: PostEditPage,
       props: true,
     },
