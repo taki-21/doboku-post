@@ -21,17 +21,17 @@ export default {
 
 <style scoped>
 .Message {
-  /* width: 100%; */
+  width: 30%;
   text-align: center;
-  position: relative;
-  top: 0px;
-  /* transform: translateX(-50%);
+  position: absolute;
+  top: 15px;
+  left: 50%;
+  transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%); */
-  font-size: 15px;
+  -ms-transform: translateX(-50%);
+  font-size: 20px;
   font-weight: bold;
-  /* z-index: 1000; */
-  padding: 5px 10px;
+  z-index: 1000;
   border-radius: 3px;
   background-color: #e6eef5;
   animation: fadein-keyframes 2s 0s 1 forwards;

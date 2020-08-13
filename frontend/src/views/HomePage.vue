@@ -2,8 +2,7 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
-    <GlobalMessage/>
-
+    <GlobalMessage />
     <!-- メインエリア -->
     <div class="content">
       <ul class="uk-flex-center" id="nav" uk-tab>
@@ -54,7 +53,7 @@ export default {
   position: relative;
 }
 .content {
-  margin: 0px auto;
+  margin: 20px auto;
   max-width: 1040px;
 }
 </style>

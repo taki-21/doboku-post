@@ -119,7 +119,6 @@ const router = new VueRouter({
  * Routerによって画面遷移する際に毎回実行される
  */
 router.beforeEach((to, from, next) => {
-
   const isLoggedIn = store.getters['auth/isLoggedIn']
   const token = localStorage.getItem('access')
   console.log('to.path=', to.path)

@@ -140,11 +140,14 @@ const messageModule = {
      * インフォメーションメッセージ表示
      */
     setInfoMessage(context, payload) {
-      console.log('ああああああああああああああああああ')
-      context.commit('clear')
+      // context.commit('clear')
       context.commit('set', {
         'info': payload.message
       })
+      // 一時的に保存する
+      setTimeout(() => {
+        context.dispatch('clearMessages')
+      }, 1500)
     },
     /**
      * 全メッセージ削除

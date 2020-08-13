@@ -16,7 +16,10 @@
   /* text-align: center; */
   color: #2c3e50;
 }
-
+::-webkit-scrollbar {
+  display: none;
+  -webkit-appearance: none;
+}
 .v-enter-active {
   transition: opacity 0.5s;
 }

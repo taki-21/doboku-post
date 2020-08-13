@@ -149,7 +149,6 @@
 <script>
 import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
-// import ManualSearchMap from "@/components/ManualSearchMap";
 import prefs from "../mixins/PrefsMixin";
 import api from "@/services/api";
 export default {
@@ -178,7 +177,7 @@ export default {
     };
   },
   mounted() {
-    this.axios
+    api
       .get("http://127.0.0.1:8000/api/v1/categories/")
       .then((response) => {
         this.categories = response.data;
