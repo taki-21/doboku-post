@@ -140,6 +140,7 @@ const messageModule = {
      * インフォメーションメッセージ表示
      */
     setInfoMessage(context, payload) {
+      console.log('ああああああああああああああああああ')
       context.commit('clear')
       context.commit('set', {
         'info': payload.message

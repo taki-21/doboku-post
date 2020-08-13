@@ -2,7 +2,7 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
-    <!-- <GlobalMessage/> -->
+    <GlobalMessage/>
 
     <!-- メインエリア -->
     <div class="content">
@@ -23,12 +23,12 @@
 </template>
 
 <script>
-// import GlobalMessage from "@/components/GlobalMessage.vue";
+import GlobalMessage from "@/components/GlobalMessage.vue";
 import MyHeader from "@/components/MyHeader";
 
 export default {
   components: {
-    // GlobalMessage,
+    GlobalMessage,
     MyHeader,
   },
 };
@@ -49,12 +49,12 @@ export default {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
 }
 .uk-tab > * {
-  flex: none;
+  float: left;
   padding: 0px 20px;
   position: relative;
 }
 .content {
-  margin: 10px auto;
+  margin: 0px auto;
   max-width: 1040px;
 }
 </style>

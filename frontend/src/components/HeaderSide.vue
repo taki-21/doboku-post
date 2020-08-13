@@ -85,7 +85,7 @@ export default {
         this.$store.dispatch("auth/logout");
         this.$store.dispatch("user/logout");
         this.$store.dispatch("message/setInfoMessage", {
-          message: "ログアウトしました。",
+          message: "ログアウトしました",
         });
         this.$router.replace("/login");
       // }

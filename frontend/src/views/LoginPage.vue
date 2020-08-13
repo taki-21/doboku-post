@@ -44,16 +44,12 @@
                       type="submit"
                     >ログイン</button>
                   </div>
-                  <div @click='submitLogin()'>
-                    <button class="uk-button uk-button-secondary uk-width-1-1">
-                    かんたんログイン
-                    </button>
+                  <div @click="submitLogin()">
+                    <button class="uk-button uk-button-secondary uk-width-1-1">かんたんログイン</button>
                   </div>
                   <div class="uk-text-small uk-text-center" id="create_account">
                     登録していない方
-                    <router-link class="router-link" to="/signup">
-                      アカウント作成
-                    </router-link>
+                    <router-link class="router-link" to="/signup">アカウント作成</router-link>
                   </div>
                 </form>
               </div>
@@ -73,48 +69,50 @@ import GlobalMessage from "@/components/GlobalMessage.vue";
 export default {
   components: {
     MyHeader,
-    GlobalMessage
+    GlobalMessage,
   },
   data() {
     return {
       form: {
         username: "",
-        password: ""
+        password: "",
       },
       // id: this.$store.getters["auth/id"],
-      isLoading: false
+      isLoading: false,
     };
   },
   methods: {
     // ログインボタン押下
-    submitLogin: function(username = "GuestUser", password = "testtest") {
+    submitLogin: function (username = "GuestUser", password = "testtest") {
       // ログイン
       this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
           username: username,
-          password: password
+          password: password,
         })
         .then(() => {
           if (this.isLoggedIn) {
             console.log("Login succeed.");
             this.$store.dispatch("message/setInfoMessage", {
-              message: "ログインしました。"
+              message: "ログインしました",
             });
             console.log("this.id: " + this.id);
-            this.$store.dispatch("user/load", { id: this.id }).catch(error => {
-              if (process.env.NODE_ENV !== "production") console.log(error);
-            });
+            this.$store
+              .dispatch("user/load", { id: this.id })
+              .catch((error) => {
+                if (process.env.NODE_ENV !== "production") console.log(error);
+              });
           }
         })
-        .catch(error => {
+        .catch((error) => {
           if (process.env.NODE_ENV !== "production") console.log(error);
         })
         .then(() => {
           this.Loading = false;
           // クエリ文字列に「next」がなければ、ホーム画面へ
           const next = this.$route.query.next || "/";
-          this.$router.push(next).catch(error => {
+          this.$router.push(next).catch((error) => {
             // navigationが失敗するとエラーを吐くことを知った
             // test環境はどうしようか迷ったが今の所除外
             if (process.env.NODE_ENV === "development") console.log(error);
@@ -124,21 +122,20 @@ export default {
       // // クエリ文字列に「next」がなければ、ホーム画面へ
       // const next = this.$route.query.next || "/";
       // this.$router.replace(next);
-    }
+    },
   },
   computed: {
     ...mapGetters("auth", {
-      'username': "username",
-      'isLoggedIn': "isLoggedIn",
-      'id': 'id'
-
-    })
-  }
+      username: "username",
+      isLoggedIn: "isLoggedIn",
+      id: "id",
+    }),
+  },
 };
 </script>
 
 <style scoped>
-#create_account{
+#create_account {
   margin-top: 20px;
 }
 </style>

@@ -14,7 +14,7 @@ const api = axios.create({
 // 共通前処理
 api.interceptors.request.use(function (config) {
   // メッセージをクリア
-  store.dispatch('message/clearMessages')
+  // store.dispatch('message/clearMessages')
   // 認証用トークンがあればリクエストヘッダに乗せる
   const token = localStorage.getItem('access')
   if (token) {
