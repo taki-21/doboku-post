@@ -3,7 +3,7 @@
     <form @submit.prevent="submitText()">
       <div class="uk-margin">
         <div class="uk-inline uk-width-1-1">
-          <textarea class="uk-textarea" row="4" type="text" v-model="text"></textarea>
+          <textarea class="uk-textarea" row="3" type="text" v-model="text"></textarea>
           <button
             type="submit"
             class="uk-button uk-button-primary uk-button-small"
@@ -49,7 +49,7 @@ export default {
 
 <style scoped>
 .uk-textarea {
-  margin-top: 20px;
+  margin-top: 10px;
   height: 100px;
 }
 #comment-btn {

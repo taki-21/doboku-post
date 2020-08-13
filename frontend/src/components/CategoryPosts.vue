@@ -23,7 +23,7 @@
         </div>
       </div>
     </div>
-    <PostList :postType="posts" />
+        <PostList :postType="posts" />
   </div>
 </template>
 

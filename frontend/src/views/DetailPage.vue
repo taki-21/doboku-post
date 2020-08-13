@@ -70,40 +70,43 @@
                   </div>
                 </div>
                 <div class="uk-width-2-5">
-                  <div>
-                    <button
-                      class="uk-button uk-button-default comment_button"
-                      type="button"
-                      uk-toggle="target: .toggle-usage"
-                    >
-                      <span uk-icon="icon: comment"></span>
-                      コメントを投稿する
-                    </button>
-                    <div class="toggle-usage"></div>
-                    <div class="toggle-usage" hidden>
-                      <CommentForm :post="post" @CommentGet="CommentGet" />
+                  <div class="right_column">
+                    <div>
+                      <button
+                        class="uk-button uk-button-default comment_button"
+                        type="button"
+                        uk-toggle="target: .toggle-usage"
+                      >
+                        <span uk-icon="icon: comment"></span>
+                        コメントを投稿する
+                      </button>
+                      <div class="toggle-usage"></div>
+                      <div class="toggle-usage" hidden>
+                        <CommentForm :post="post" @CommentGet="CommentGet" />
+                      </div>
+                    </div>
+                    <div class="logbox">
+                      <ul class="uk-comment-list">
+                        <li v-for="comment in comments" :key="comment.id">
+                          <article
+                            class="uk-comment uk-comment-primary uk-visible-toggle"
+                            tabindex="-1"
+                          >
+                            <header class="uk-comment-header uk-position-relative">
+                              <div>
+                                <img class="comment_user_icon" :src="comment.author.icon_image" />
+                                <strong>{{comment.author.username}}</strong>
+                                <span>{{comment.timestamp | moment }}</span>
+                              </div>
+                            </header>
+                            <div>
+                              <p>{{comment.text}}</p>
+                            </div>
+                          </article>
+                        </li>
+                      </ul>
                     </div>
                   </div>
-
-                  <ul class="uk-comment-list">
-                    <li v-for="comment in comments" :key="comment.id">
-                      <article
-                        class="uk-comment uk-comment-primary uk-visible-toggle"
-                        tabindex="-1"
-                      >
-                        <header class="uk-comment-header uk-position-relative">
-                          <div>
-                            <img class="comment_user_icon" :src="comment.author.icon_image" />
-                            <strong>{{comment.author.username}}</strong>
-                            <span>{{comment.timestamp | moment }}</span>
-                          </div>
-                        </header>
-                        <div>
-                          <p>{{comment.text}}</p>
-                        </div>
-                      </article>
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -285,5 +288,15 @@ export default {
   max-width: 640px;
   font-size: 18px;
   text-align: right;
+}
+.right_column{
+  height: 595px;
+}
+.logbox {
+  /* border: solid 1px #808080; */
+  margin-top: 20px;
+  width: 100%;
+  max-height: -webkit-fill-available;
+  overflow: auto;
 }
 </style>

@@ -12,7 +12,6 @@
             class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
           >
             <h2 class="uk-text-center" id="new_post_title">投稿編集</h2>
-            <!-- <pre>{{image}}</pre> -->
             <form @submit.prevent="submitPost()">
               <div uk-grid>
                 <div class="uk-width-1-2">
@@ -80,15 +79,7 @@
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
-                      <!-- <div class="uk-flex"> -->
                       <label>場所</label>
-                      <!-- <div> -->
-                      <!-- <div uk-switcher="animation: uk-animation-fade; toggle: > *"> -->
-                      <!-- <ul
-                          class="uk-subnav uk-subnav-pill"
-                          uk-switcher="animation: uk-animation-slide-left-medium"
-                        >
-                      <li>-->
                       <div uk-switcher="animation: uk-animation-fade; toggle: > *">
                         <button
                           class="uk-button uk-button-secondary uk-button-small"
@@ -107,8 +98,6 @@
                           class="uk-button uk-button-secondary uk-button-small"
                           type="button"
                         >都道府県のみ</button>
-                        <!-- </li> -->
-                        <!-- </ul> -->
                       </div>
                       <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
                         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -132,7 +121,6 @@
                           </select>
                         </li>
                       </ul>
-                      <!-- </div> -->
                     </div>
                   </div>
                 </div>

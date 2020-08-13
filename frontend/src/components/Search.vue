@@ -11,7 +11,7 @@
             type="search"
             placeholder="キーワードを入力してください"
           />
-          <input type="text" style="display: none;"/>
+          <input type="text" style="display: none;" />
         </div>
         <div class="uk-width-1-5@s">
           <strong>カテゴリ</strong>
@@ -48,7 +48,7 @@
         </div>
       </form>
     </div>
-    <PostList :postType="posts" />
+      <PostList :postType="posts" />
   </div>
 </template>
 
@@ -74,15 +74,15 @@ export default {
       period: [
         {
           name: "3日前",
-          date: moment().subtract(3, "days").format("YYYY-MM-DD")
+          date: moment().subtract(3, "days").format("YYYY-MM-DD"),
         },
         {
           name: "1週間前",
-          date: moment().subtract(1, "weeks").format("YYYY-MM-DD")
+          date: moment().subtract(1, "weeks").format("YYYY-MM-DD"),
         },
         {
           name: "1ヶ月前",
-          date: moment().subtract(1, "months").format("YYYY-MM-DD")
+          date: moment().subtract(1, "months").format("YYYY-MM-DD"),
         },
       ],
     };
