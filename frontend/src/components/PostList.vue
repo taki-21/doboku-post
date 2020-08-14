@@ -74,9 +74,20 @@
 
 <script>
 import moment from "moment";
+import api from "@/services/api";
 
 export default {
   props: ["postType", "user_id"],
+  methods: {
+    DestroyPost: function (post_id) {
+      api.delete("/posts/" + post_id + "/").then(
+        this.$store.dispatch("post/getAllPosts"),
+        // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
+        this.$router.replace('/')
+      );
+
+    },
+  },
   filters: {
     moment: function (date) {
       return moment(date).format("YYYY/MM/DD HH:MM");

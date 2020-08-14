@@ -138,4 +138,5 @@ export default {
 #create_account {
   margin-top: 20px;
 }
+
 </style>

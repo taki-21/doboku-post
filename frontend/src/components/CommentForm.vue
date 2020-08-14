@@ -50,7 +50,6 @@ export default {
 <style scoped>
 .uk-textarea {
   margin-top: 10px;
-  height: 100px;
 }
 #comment-btn {
   position: absolute;

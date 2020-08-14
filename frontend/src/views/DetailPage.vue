@@ -94,9 +94,16 @@
                           >
                             <header class="uk-comment-header uk-position-relative">
                               <div>
-                                <img class="comment_user_icon" :src="comment.author.icon_image" />
-                                <strong>{{comment.author.username}}</strong>
-                                <span>{{comment.timestamp | moment }}</span>
+                                <router-link
+                                  class="show_user"
+                                  :to="{name: 'mypage', params:{user_id: post.author.id}}"
+                                >
+                                  <img class="comment_user_icon" :src="comment.author.icon_image" />
+                                  <strong>{{comment.author.username}}</strong>
+                                </router-link>
+                                <div class="timestamp">
+                                  <span>{{comment.timestamp | moment }}</span>
+                                </div>
                               </div>
                             </header>
                             <div>
@@ -289,8 +296,8 @@ export default {
   font-size: 18px;
   text-align: right;
 }
-.right_column{
-  height: 595px;
+.right_column {
+  height: 610px;
 }
 .logbox {
   /* border: solid 1px #808080; */

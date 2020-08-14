@@ -56,4 +56,5 @@ export default {
   margin: 20px auto;
   max-width: 1040px;
 }
+
 </style>
