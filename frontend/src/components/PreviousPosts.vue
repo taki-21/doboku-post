@@ -15,17 +15,26 @@ export default {
   },
   data() {
     return {
-      auth_id: this.$store.getters["auth/id"]
+      auth_id: this.$store.getters["auth/id"],
     };
   },
   computed: {
     ...mapGetters("post", {
-      posts: "latestPosts"
+      posts: "latestPosts",
     }),
-    previousPosts: function() {
-      return this.posts.filter(x => x.author.id == this.user_id);
-    }
+    previousPosts: function () {
+      return this.posts.filter((x) => x.author.id == this.user_id);
+    },
   },
+  // methods: {
+  //   parentPostDelete() {
+  //     this.$store.dispatch("post/getAllPosts");
+
+  //   },
+  // },
+  // cerated() {
+  //   this.$store.dispatch("post/getAllPosts");
+  // },
 };
 </script>
 

@@ -84,6 +84,7 @@ export default {
   mounted() {
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
+    this.$store.dispatch("post/getAllPosts");
     });
   },
 };

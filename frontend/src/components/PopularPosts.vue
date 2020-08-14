@@ -16,5 +16,8 @@ export default {
       return this.$store.getters["post/popularPosts"];
     },
   },
+  created() {
+    this.$store.dispatch("post/getAllPosts");
+  },
 };
 </script>

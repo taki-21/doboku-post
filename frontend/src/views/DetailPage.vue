@@ -36,38 +36,56 @@
                       <img :src="post.image_change" />
                     </a>
                   </div>
-
-                  <div id="like_buttun">
-                    <div
-                      v-if="this.likes.map((obj) => obj.user).includes(this.$store.getters['auth/id'])"
-                    >
-                      <div>
-                        <span @click="toggleLike">
-                          <svg
-                            width="50"
-                            height="50"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            data-svg="heart"
-                          >
-                            <path
-                              fill="indianred"
-                              stroke="currentcolor"
-                              stroke-width="1"
-                              d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
-                            />
-                          </svg>
-                        </span>
-                        <span class="like_count">{{ likeCount }}</span>
-                      </div>
-                    </div>
-                    <div v-else>
-                      <div>
-                        <span uk-icon="icon: heart; ratio: 2.5" @click="toggleLike"></span>
-                        <span class="like_count">{{ likeCount }}</span>
+                  <div>
+                    <button
+                      id="location_button"
+                      class="uk-button uk-button-default uk-button-large"
+                      href="#modal-gmap"
+                      type="button"
+                      uk-toggle
+                    >場所を確認する</button>
+                    <div id="modal-gmap" class="uk-flex-top .uk-width-large" uk-modal>
+                      <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                        <div>
+                          <Map ref="map" :post="post" />
+                        </div>
                       </div>
                     </div>
                   </div>
+                  <!-- <div id="like"> -->
+                    <div id="like_buttun">
+                      <div
+                        v-if="this.likes.map((obj) => obj.user).includes(this.$store.getters['auth/id'])"
+                      >
+                        <div>
+                          <span class="like_icon" @click="toggleLike">
+                            <svg
+                              width="50"
+                              height="50"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                              data-svg="heart"
+                            >
+                              <path
+                                fill="indianred"
+                                stroke="currentcolor"
+                                stroke-width="1"
+                                d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
+                              />
+                            </svg>
+                          </span>
+                          <span class="like_count">{{ likeCount }}</span>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div>
+                          <span class="like_icon" uk-icon="icon: heart; ratio: 2.5" @click="toggleLike"></span>
+                          <span class="like_count">{{ likeCount }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  <!-- </div> -->
                 </div>
                 <div class="uk-width-2-5">
                   <div class="right_column">
@@ -128,6 +146,7 @@
 import moment from "moment";
 import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
+import Map from "@/components/Map";
 
 import api from "@/services/api";
 import { mapGetters } from "vuex";
@@ -137,6 +156,7 @@ export default {
   components: {
     MyHeader,
     CommentForm,
+    Map,
   },
   props: {
     id: { type: Number },
@@ -272,11 +292,33 @@ export default {
   width: 100%;
 }
 
+#location_button {
+  float: left;
+  margin-top: 10px;
+  width: 40%;
+}
+
+#location_button.uk-button-default {
+    background-color: rgb(238, 237, 235);
+    color: #333;
+    font-size: 20px;
+    border: 2px solid #696464;
+    border-radius: 5px;
+}
+#like_buttun {
+  max-width: 640px;
+  text-align: right;
+}
+.like_icon{
+  position: relative;
+  right: 8px;
+
+}
 .like_count {
   font-size: 40px;
   position: relative;
   top: 8px;
-  left: 8px;
+  /* left: 8px; */
 }
 
 #author_name {
@@ -297,7 +339,7 @@ export default {
   text-align: right;
 }
 .right_column {
-  height: 610px;
+  height: 585px;
 }
 .logbox {
   /* border: solid 1px #808080; */
@@ -306,4 +348,18 @@ export default {
   max-height: -webkit-fill-available;
   overflow: auto;
 }
+
+.uk-modal-dialog {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 1000px;
+  max-width: calc(100% - 0.01px) !important;
+  background: #fff;
+  opacity: 0;
+  transform: translateY(-100px);
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
+}
+
 </style>
