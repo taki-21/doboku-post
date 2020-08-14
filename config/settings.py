@@ -36,7 +36,6 @@ INSTALLED_APPS = [
     'django_cleanup.apps.CleanupConfig',
     'rest_framework',
     'rest_framework.authtoken',
-    'widget_tweaks',
     'imagekit',
     'corsheaders',
     'djoser',
