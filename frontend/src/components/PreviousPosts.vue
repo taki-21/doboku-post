@@ -1,6 +1,6 @@
 <template>
   <div>
-    <PostList :postType="previousPosts" :user_id="auth_id" />
+    <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
   </div>
 </template>
 
@@ -18,6 +18,11 @@ export default {
       auth_id: this.$store.getters["auth/id"],
     };
   },
+  watch: {
+    $store(){
+      this.$store.dispatch("post/getAllPosts");
+    }
+  },
   computed: {
     ...mapGetters("post", {
       posts: "latestPosts",
@@ -26,12 +31,12 @@ export default {
       return this.posts.filter((x) => x.author.id == this.user_id);
     },
   },
-  // methods: {
-  //   parentPostDelete() {
-  //     this.$store.dispatch("post/getAllPosts");
+  methods: {
+    parentPostDelete() {
+      this.$store.dispatch("post/getAllPosts");
 
-  //   },
-  // },
+    },
+  },
   // cerated() {
   //   this.$store.dispatch("post/getAllPosts");
   // },
