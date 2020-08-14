@@ -1,7 +1,7 @@
 __pycache__/
-db.sqlite3
-media
+media/
 .idea/
 *.pyc
-Pipfile
-Pipfile.lock
+.venv/
+.vscode/
+poetry.lock
