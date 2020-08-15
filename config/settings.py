@@ -1,4 +1,5 @@
 import os
+from datetime import timedelta
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -25,17 +26,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'sns.apps.SnsConfig',
+    'apiv1.apps.Apiv1Config',
     'django.forms',
 
     # カスタムユーザー
     'accounts.apps.AccountsConfig',
 
     # 3rd party app
+    'django_cleanup.apps.CleanupConfig',
     'rest_framework',
-    'widget_tweaks',
-    'imagekit'
-
+    'rest_framework.authtoken',
+    'imagekit',
+    'corsheaders',
+    'djoser',
+    'django_filters'
 
 
 ]
@@ -50,6 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -133,15 +140,37 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# メディアファイルの設定
 MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
-# ログイン後トップページにリダイレクト
-LOGIN_REDIRECT_URL = 'sns:index'
+# # ログイン後トップページにリダイレクト
+# LOGIN_REDIRECT_URL = 'apiv1:index'
 
-# ログアウト後トップページにリダイレクト
-LOGOUT_REDIRECT_URL = 'sns:index'
+# # ログアウト後トップページにリダイレクト
+# LOGOUT_REDIRECT_URL = 'apiv1:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8080',
+    'http://127.0.0.1:8080',
+)
+
+# =================================
+# Django REST Framework
+# =================================
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+}
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT',),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+}

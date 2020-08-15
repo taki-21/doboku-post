@@ -1,6 +1,6 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
-from sns.widgets import FileInputWithPreview
+from apiv1.widgets import FileInputWithPreview
 from django import forms
 
 User = get_user_model()
