@@ -12,7 +12,7 @@ User = get_user_model()
 
 class SignUpView(generic.CreateView):
     form_class = UserCreateForm
-    success_url = reverse_lazy('sns:index')
+    success_url = reverse_lazy('apiv1:index')
     template_name = 'registration/signup.html'
 
     def form_valid(self, form):
@@ -34,7 +34,7 @@ def profile_edit(request, author_id):
             print('セーブ前')
             form.save()
             print('セーブ後')
-            return redirect('sns:my_page', pk=author.pk)
+            return redirect('apiv1:my_page', pk=author.pk)
     else:
         form = UserProfileForm(instance=author)
 

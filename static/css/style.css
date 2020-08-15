@@ -50,7 +50,8 @@ h1 {
     margin: 0;
     padding: 0;
     font-size: 40px;
-    font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif;
+    font-family: 'Economica';
+    /* font-family: 'Hiragino Kaku Gothic Pro', 'ヒラギノ角ゴ Pro W3', 'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', sans-serif; */
 }
 
 a {
@@ -103,7 +104,7 @@ nav {
 }
 
 .content {
-    width: 1500px;
+    width: 100px;
     margin: 10px auto;
 }
 
@@ -331,10 +332,7 @@ p {
 
 }
 
-.uk-comment-header {
-    margin-bottom: 10px;
-}
-
+c
 /* 検索フォーム */
 .uk-search-default .uk-search-input {
     height: 40px;
@@ -458,8 +456,8 @@ p {
     border-bottom: solid 3px black;
     transition: .4s;
     position: fixed;
-    bottom: 80px;
-    right: 100px;
+    bottom: 50px;
+    right: 50px;
 }
 
 .fixed-btn:active {
@@ -495,12 +493,12 @@ a.fixed-btn:hover {
     width: 100%;
 }
 
-.profile_edit_button {
+/* .profile_edit_button {
     position: absolute;
     bottom: 50px;
     right: 50px;
 
-}
+} */
 
 /* header */
 .signup,
