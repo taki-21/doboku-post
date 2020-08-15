@@ -2,6 +2,7 @@
   <div>
     <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
       <div
+        id="category_choice"
         class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
         uk-grid
       >
@@ -23,7 +24,12 @@
         </div>
       </div>
     </div>
-        <PostList :postType="posts" />
+    <div>
+      <PostList :postType="posts" />
+      <div v-if="posts == ''">
+        <p>まだ投稿がありません</p>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -95,6 +101,13 @@ input[type="radio"] {
   display: none; /* ラジオボタンを非表示にする */
 }
 
+#category_choice input[type="radio"]:checked + label {
+  color: black;
+  font-weight: bold;
+  background-color: rgb(206, 204, 203);
+  border: 1px solid black;
+}
+
 /* UIkitの上書き */
 
 .uk-comment-header {
@@ -102,11 +115,13 @@ input[type="radio"] {
   margin-bottom: 0px;
 }
 .uk-badge {
+  position: relative;
+  left: 15px;
   box-sizing: border-box;
   min-width: 15px;
   height: 15px;
   padding: 0 5px;
-  margin-left: 5px;
+  /* margin-left: 15px; */
   border-radius: 500px;
   vertical-align: middle;
   background: black;
