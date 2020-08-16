@@ -84,7 +84,7 @@ export default {
   mounted() {
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
-    this.$store.dispatch("post/getAllPosts");
+      this.$store.dispatch("post/getAllPosts");
     });
   },
 };
@@ -108,7 +108,8 @@ export default {
 
 .content {
   margin: 20px auto;
-  max-width: 1040px;
+  max-width: 1200px;
+  padding: 0px 30px;
 }
 
 #profile_card {
