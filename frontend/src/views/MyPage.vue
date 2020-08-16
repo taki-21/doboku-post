@@ -1,7 +1,7 @@
 <template>
   <div>
-    <MyHeader />
     <!-- ヘッダー -->
+    <MyHeader />
     <div class="content">
       <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
@@ -107,7 +107,7 @@ export default {
 }
 
 .content {
-  margin: 10px auto;
+  margin: 20px auto;
   max-width: 1040px;
 }
 
@@ -115,7 +115,7 @@ export default {
   overflow: hidden;
   border-radius: 5px;
   background-color: #f3f5f5;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   margin-bottom: 30px;
 }
 .uk-tab > .uk-active > a {

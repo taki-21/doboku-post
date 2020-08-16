@@ -54,7 +54,8 @@ export default {
 }
 .content {
   margin: 20px auto;
-  max-width: 1040px;
+  max-width: 1200px;
+  padding: 0px 30px;
 }
 
 </style>

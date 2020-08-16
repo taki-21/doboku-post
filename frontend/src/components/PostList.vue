@@ -1,6 +1,6 @@
 <template>
   <div
-    class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1@s uk-text-center"
+    class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1 uk-text-center"
     uk-grid
   >
     <router-link
@@ -55,7 +55,11 @@
                   <h2 class="uk-modal-title">削除確認</h2>
                   <p>投稿：{{ post.title }}を削除します。よろしいですか？</p>
                   <p class="uk-text-right">
-                    <button class="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button
+                      id="cancel_button"
+                      class="uk-button uk-button-default uk-modal-close"
+                      type="button"
+                    >キャンセル</button>
                     <button
                       class="uk-button uk-button-primary uk-modal-close"
                       type="button"
@@ -83,7 +87,7 @@ export default {
       api.delete("/posts/" + post_id + "/").then(
         this.$emit("parentPostDelete"),
 
-        this.$store.dispatch("post/getAllPosts"),
+        this.$store.dispatch("post/getAllPosts")
         // // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
         // this.$router.push({ name: 'mypage', params: { user_id: this.user_id } })
         // this.$router.replace('/')
@@ -114,6 +118,8 @@ export default {
   border-radius: 5px;
   background-color: #eaeeee;
   margin-bottom: 20px;
+  max-width: 640px;
+  margin:0px auto;
 }
 .timestamp {
   font-size: 12px;
@@ -194,6 +200,9 @@ export default {
   margin-right: 10px;
 }
 
+#cancel_button {
+  margin-right: 10px;
+}
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;
@@ -206,5 +215,10 @@ export default {
 .uk-grid + .uk-grid,
 .uk-grid > .uk-grid-margin {
   margin-top: 20px;
+}
+.uk-modal-body {
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
 }
 </style>
