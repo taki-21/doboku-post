@@ -2,16 +2,15 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
-    <div>
-      <div class="uk-width-1-1@s">
-        <div class="uk-section">
-          <div class="uk-container">
-            <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
+    <div class="uk-section">
+      <div class="uk-width-1-1">
+        <div class="uk-container">
+          <div class="uk-margin uk-width-large uk-margin-auto">
             <a @click="$router.back()" title="前ページへ戻る">
               <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
             <div
-              class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+              class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
               <form @submit.prevent="submitPost()">
@@ -210,7 +209,7 @@ export default {
 }
 
 .uk-section {
-  padding-top: 40px;
+  padding-top: 30px;
   /* padding-bottom: 70px; */
 }
 </style>

@@ -2,143 +2,144 @@
   <div>
     <MyHeader />
     <!-- ヘッダー -->
-    <div id="new_post">
+    <div class="uk-section">
       <div class="uk-width-1-1">
         <div class="uk-container">
-          <div class="uk-grid-margin uk-grid-stack">
-            <div
-              class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
-              <!-- <pre>{{image}}</pre> -->
-              <form @submit.prevent="submitPost()">
-                <div uk-grid>
-                  <div class="uk-width-1-2">
-                    <div uk-form-custom id="form_custom">
-                      <div class="uk-placeholder uk-text-center">
-                        <input type="file" @change="selectedFile" />
-                        <div id="preview">
-                          <img id="preview_image" v-show="previewImage" :src="previewImage" />
-                        </div>
-                        <div class="camera-choice">
-                          <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
-                          <p>画像を選択してください</p>
-                        </div>
+          <a @click="$router.back()" title="前ページへ戻る">
+            <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
+          </a>
+          <div
+            class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+          >
+            <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
+            <!-- <pre>{{image}}</pre> -->
+            <form @submit.prevent="submitPost()">
+              <div uk-grid>
+                <div class="uk-width-1-2">
+                  <div uk-form-custom id="form_custom">
+                    <div class="uk-placeholder uk-text-center">
+                      <input type="file" @change="selectedFile" />
+                      <div id="preview">
+                        <img id="preview_image" v-show="previewImage" :src="previewImage" />
+                      </div>
+                      <div class="camera-choice">
+                        <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
+                        <p>画像を選択してください</p>
                       </div>
                     </div>
                   </div>
-                  <div class="uk-width-1-2">
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>カテゴリ</label>
-                        {{category}}
-                        <select
-                          class="uk-select"
-                          type="text"
-                          v-model="category"
-                          required
-                        >
-                          <option
-                            v-for="(ctg,key) in categories"
-                            :key="key"
-                            v-bind:value="ctg.id"
-                          >{{ctg.name}}</option>
-                        </select>
-                      </div>
+                </div>
+                <div class="uk-width-1-2">
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>カテゴリ</label>
+                      {{category}}
+                      <select
+                        class="uk-select"
+                        type="text"
+                        v-model="category"
+                        required
+                      >
+                        <option
+                          v-for="(ctg,key) in categories"
+                          :key="key"
+                          v-bind:value="ctg.id"
+                        >{{ctg.name}}</option>
+                      </select>
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>タイトル</label>
-                        <input class="uk-input" type="text" v-model="title" required />
-                      </div>
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>タイトル</label>
+                      <input class="uk-input" type="text" v-model="title" required />
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>キャプション</label>
-                        {{content}}
-                        <textarea
-                          class="uk-textarea"
-                          rows="3"
-                          type="text"
-                          v-model="content"
-                          required
-                        ></textarea>
-                      </div>
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>キャプション</label>
+                      {{content}}
+                      <textarea
+                        class="uk-textarea"
+                        rows="3"
+                        type="text"
+                        v-model="content"
+                        required
+                      ></textarea>
                     </div>
-                    <div class="uk-margin">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>場所</label>
-                        <div uk-switcher="animation: uk-animation-fade; toggle: > *">
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            href="#modal-center"
-                            @click="callChildMethod"
-                            type="button"
-                            uk-toggle
-                          >タイトルから検索</button>
-                          or
-                          <!-- <button
+                  </div>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <label>場所</label>
+                      <div uk-switcher="animation: uk-animation-fade; toggle: > *">
+                        <button
+                          class="uk-button uk-button-secondary uk-button-small"
+                          href="#modal-center"
+                          @click="callChildMethod"
+                          type="button"
+                          uk-toggle
+                        >タイトルから検索</button>
+                        or
+                        <!-- <button
                             class="uk-button uk-button-secondary uk-button-small"
                             href="#modal-center"
                             type="button"
                             uk-toggle
                           >手動</button>
-                          or -->
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
-                          >都道府県のみ</button>
-                          <!-- </li> -->
-                          <!-- </ul> -->
+                        or-->
+                        <button
+                          class="uk-button uk-button-secondary uk-button-small"
+                          type="button"
+                        >都道府県のみ</button>
+                        <!-- </li> -->
+                        <!-- </ul> -->
+                      </div>
+                      <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                          <button class="uk-modal-close-default" type="button" uk-close></button>
+                          <div>
+                            <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
+                          </div>
                         </div>
-                        <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
+                      </div>
+                      <!-- <div id="modal-manual" class="uk-flex-top .uk-width-large" uk-modal>
                           <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                             <button class="uk-modal-close-default" type="button" uk-close></button>
                             <div>
                               <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
                             </div>
                           </div>
-                        </div>
-                        <!-- <div id="modal-manual" class="uk-flex-top .uk-width-large" uk-modal>
-                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div>
-                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
-                            </div>
-                          </div>
-                        </div>-->
-                        <ul id="address_form" class="uk-switcher">
-                          <li>
-                            <input class="uk-input" type="text" v-model="address" />
-                          </li>
-                          <!-- <li>
+                      </div>-->
+                      <ul id="address_form" class="uk-switcher">
+                        <li>
+                          <input class="uk-input" type="text" v-model="address" />
+                        </li>
+                        <!-- <li>
                             <input
                               id="manual_search"
                               class="uk-input"
                               type="text"
                               v-model="address"
                             />
-                          </li> -->
-                          <li>
-                            <select class="uk-select" v-model="prefecture">
-                              <option value>都道府県を選択してください</option>
-                              <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
-                            </select>
-                          </li>
-                        </ul>
-                        <!-- </div> -->
-                      </div>
+                        </li>-->
+                        <li>
+                          <select class="uk-select" v-model="prefecture">
+                            <option value>都道府県を選択してください</option>
+                            <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
+                          </select>
+                        </li>
+                      </ul>
+                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
-                <div class="uk-margin">
-                  <button
-                    class="uk-button uk-button-default uk-button-large uk-width-1-1 post-button"
-                    type="submit"
-                  >投稿</button>
-                </div>
-              </form>
-            </div>
+              </div>
+              <div class="uk-margin">
+                <button
+                  class="uk-button uk-button-default uk-button-large uk-width-1-1 post-button"
+                  type="submit"
+                >投稿</button>
+              </div>
+            </form>
           </div>
         </div>
       </div>
@@ -177,11 +178,9 @@ export default {
     };
   },
   mounted() {
-    api
-      .get("http://127.0.0.1:8000/api/v1/categories/")
-      .then((response) => {
-        this.categories = response.data;
-      });
+    api.get("http://127.0.0.1:8000/api/v1/categories/").then((response) => {
+      this.categories = response.data;
+    });
   },
   methods: {
     callChildMethod() {
@@ -237,10 +236,6 @@ export default {
 </script>
 
 <style scoped>
-#new_post {
-  padding-top: 50px;
-}
-
 .post-button {
   margin-top: 10px;
   font-size: 25px;
@@ -330,5 +325,9 @@ h2#new_post_title {
   color: #333;
   border: 2px solid #333;
   border-radius: 7px;
+}
+
+.uk-section {
+  padding-top: 30px;
 }
 </style>

@@ -320,6 +320,6 @@ h2#new_post_title {
 }
 
 .uk-section {
-    padding-top: 40px;
+    padding-top: 30px;
 }
 </style>
