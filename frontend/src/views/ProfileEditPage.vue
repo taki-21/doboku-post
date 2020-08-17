@@ -3,10 +3,10 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div>
-          <div class="uk-width-1-1@s">
-      <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
-        <div class="uk-container">
-          <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
+      <div class="uk-width-1-1@s">
+        <div class="uk-section">
+          <div class="uk-container">
+            <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid></div>
             <a @click="$router.back()" title="前ページへ戻る">
               <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
@@ -207,5 +207,10 @@ export default {
 
 .textarea-input {
   padding-left: 40px;
+}
+
+.uk-section {
+  padding-top: 40px;
+  /* padding-bottom: 70px; */
 }
 </style>

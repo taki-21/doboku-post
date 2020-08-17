@@ -2,7 +2,7 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
-    <div class="content">
+    <div class="content_profilecard">
       <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
@@ -106,10 +106,15 @@ export default {
   position: relative;
 }
 
-.content {
+.content_profilecard {
   margin: 20px auto;
   max-width: 1200px;
   padding: 0px 30px;
+}
+.content {
+  margin: 20px auto;
+  max-width: 1200px;
+  /* padding: 0px 30px; */
 }
 
 #profile_card {
