@@ -112,9 +112,10 @@
                           >
                             <header class="uk-comment-header uk-position-relative">
                               <div>
+                                <!-- <pre>{{comment.author.id}}</pre> -->
                                 <router-link
                                   class="show_user"
-                                  :to="{name: 'mypage', params:{user_id: post.author.id}}"
+                                  :to="{name: 'mypage', params:{user_id: comment.author.id}}"
                                 >
                                   <img class="comment_user_icon" :src="comment.author.icon_image" />
                                   <strong>{{comment.author.username}}</strong>
