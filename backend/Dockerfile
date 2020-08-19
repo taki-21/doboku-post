@@ -1,4 +1,4 @@
-FROM python:3.8
+FROM python:3.8.3
 WORKDIR /app
 
 ENV PYTHONPATH /app
@@ -17,5 +17,8 @@ RUN pip install poetry
 # コンテナ内で仮想環境の作成を無効
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
+
+COPY pyproject.toml pyproject.toml
+RUN poetry install
 
 CMD ["bash"]

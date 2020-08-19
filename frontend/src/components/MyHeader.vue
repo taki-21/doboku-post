@@ -3,7 +3,7 @@
     <header class="title-header" uk-sticky>
       <router-link class='router-link' to="/">
         <div class="title">
-          <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" />
+          <img class="doboku_icon" src="../assets/doboku.png" width="40" height="40" />
           <span>DOBOKU_Post</span>
         </div>
       </router-link>
