@@ -250,7 +250,6 @@ export default {
 </script>
 
 <style scoped>
-
 .post-button {
   margin-top: 10px;
   font-size: 25px;
@@ -320,6 +319,6 @@ h2#new_post_title {
 }
 
 .uk-section {
-    padding-top: 30px;
+  padding-top: 30px;
 }
 </style>

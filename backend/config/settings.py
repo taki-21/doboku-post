@@ -1,5 +1,9 @@
 import os
 from datetime import timedelta
+try:
+    from .local_settings import *
+except ImportError:
+    pass
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -7,9 +11,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'x+#%4n(i!zh=q4tu&i4@8#u+_do_ga9x#eyle9rnwgn1b_&riv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

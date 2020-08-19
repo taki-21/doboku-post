@@ -5,3 +5,4 @@ media/
 .venv/
 .vscode/
 poetry.lock
+local_settings.py
