@@ -6,3 +6,4 @@ media/
 .vscode/
 poetry.lock
 local_settings.py
+.dockerignore

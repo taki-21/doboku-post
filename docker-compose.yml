@@ -20,6 +20,15 @@ services:
     links:
       - db
 
+  frontend:
+    build: './frontend'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "run", "serve"]
+
+
   db:
     image: postgres
     volumes:
