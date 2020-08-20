@@ -20,14 +20,10 @@
 }
 .title-header {
   padding: 5px 5%;
-  /* position: fixed; */
-  top: 0;
-  width: 100%;
   background-color: rgba(139, 138, 135, 0.85);
   display: flex;
   align-items: center;
   height: 60px;
-  /* position: fixed; */
 }
 .doboku_icon {
   position: relative;

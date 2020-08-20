@@ -47,6 +47,7 @@ export default {
 #category.router-link-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
 }
+
 .uk-tab > * {
   float: left;
   padding: 0px 20px;

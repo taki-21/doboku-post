@@ -104,9 +104,6 @@ export default {
 </script>
 
 <style scoped>
-[v-cloak] {
-  display: none;
-}
 .router-link {
   text-decoration: none;
 }

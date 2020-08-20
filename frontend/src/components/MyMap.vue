@@ -75,12 +75,12 @@ export default {
 </script>
 
 <style scoped>
-#map {
+/* #map {
   width: 100%;
   height: 700px;
-}
+} */
 
-#OK_button {
+/* #OK_button {
   margin-left: 5px;
-}
+} */
 </style>
