@@ -45,6 +45,7 @@ const authModule = {
         .then(response => {
           // 認証用トークンをlocalStorageに保存
           localStorage.setItem('access', response.data.access)
+          console.log('token: ' + response.data.access)
           // ユーザー情報を取得してstoreのユーザー情報を更新
           return context.dispatch('reload')
             .then(user => user)
@@ -52,6 +53,7 @@ const authModule = {
         .catch(error => {
           console.log('ログインえらー！！！！')
           console.log(error)
+
         })
     },
     /**
@@ -122,10 +124,13 @@ const messageModule = {
      * エラーメッセージ表示
      */
     setErrorMessage(context, payload) {
-      context.commit('clear')
+      // context.commit('clear')
       context.commit('set', {
         'error': payload.message
       })
+      setTimeout(() => {
+        context.dispatch('clearMessages')
+      }, 1500)
     },
     /**
      * 警告メッセージ（複数）表示

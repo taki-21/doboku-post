@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '@/store'
-import router from '@/router'
+// import router from '@/router'
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_ROOT_API,
@@ -54,7 +54,7 @@ api.interceptors.response.use(function (response) {
     store.dispatch('message/setErrorMessage', {
       message: message
     })
-    router.replace('/login')
+    // router.replace('/login')
 
   } else if (status === 403) {
     // 権限エラー
