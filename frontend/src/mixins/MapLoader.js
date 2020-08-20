@@ -21,7 +21,7 @@ export default {
   },
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: "",
+      apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });
     this.initializeMap();
   },

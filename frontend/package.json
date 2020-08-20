@@ -11,6 +11,7 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.15.0",
     "core-js": "^3.6.5",
+    "dotenv": "^8.2.0",
     "google-maps-api-loader": "^1.1.1",
     "js-marker-clusterer": "^1.0.0",
     "moment": "^2.27.0",
