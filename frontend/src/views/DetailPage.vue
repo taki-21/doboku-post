@@ -331,6 +331,9 @@ export default {
   position: relative;
   right: 8px;
 }
+.like_icon:hover {
+  cursor: pointer;
+}
 .like_count {
   font-size: 40px;
   position: relative;
