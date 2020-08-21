@@ -42,6 +42,7 @@ const router = new VueRouter({
         },
         {
           path: 'map',
+          name: 'map',
           component: Map
         },
         {

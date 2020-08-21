@@ -259,6 +259,7 @@ h2#new_post_title {
   background: 0 0;
   position: relative;
   border: 3px solid #ccc;
+  box-sizing: border-box;
 }
 
 .camera-choice {
@@ -280,7 +281,7 @@ h2#new_post_title {
 }
 
 #preview_image {
-  width: 521px;
+  width: 519px;
   height: 387px;
 }
 .uk-form-custom:hover {

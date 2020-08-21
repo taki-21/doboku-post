@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <header class="title-header" uk-sticky>
+  <div uk-sticky>
+    <header class="title-header">
       <router-link class='router-link' to="/">
         <div class="title">
           <img class="doboku_icon" src="../assets/doboku.png" width="40" height="40" />

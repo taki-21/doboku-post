@@ -125,7 +125,7 @@ export default {
   margin-left: 5px;
 }
 
-.gm-style .gm-style-iw-c {
+/* .gm-style .gm-style-iw-c {
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
@@ -136,5 +136,5 @@ export default {
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
-}
+} */
 </style>
