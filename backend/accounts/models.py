@@ -41,5 +41,5 @@ class CustomUser(AbstractUser):
         upload_to=get_home_image_path
     )
 
-    def __str__(self):
-        return self.username
+    # def __str__(self):
+    #     return self.username
