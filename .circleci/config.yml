@@ -1,8 +1,77 @@
 version: 2.1
+
+# 実行環境の定義
+executors:
+  test_default:
+    working_directory: ~/DOBOKU_Post
+    docker:
+      - image: circleci/python:3.8.3
+        environment:
+          PYTHONDONTWRITEBYTECODE: '1'
+          PYTHONUNBUFFERED: '1'
+          TZ: Asia/Tokyo
+      - image: circleci/postgres:12.3
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          TZ: Asia/Tokyo
+
+# 実行コマンドの定義
+commands:
+  # chown_python_package:
+  #   description: "PipInstallするpackage達の権限をcircleciに変更する"
+  #   steps:
+  #     - run:
+  #         name: Change Owner Python Package Directory
+  #         command: |
+  #           sudo chown -R circleci:circleci /usr/local/bin
+  #           sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+  restore_python_package:
+    description: "PoetryInstallしていたpackage群のキャッシュを読み込む"
+    steps:
+      - restore_cache:
+          name: Restore Python Package
+          keys:
+            - DOBOKU_Post-v2-{{ checksum "poetry.lock" }}
+            - DOBOKU_Post-v2-
+  poetry_install:
+    description: "requirements.txtを元にPipInstallする"
+    steps:
+      - run:
+          name: Start poetry install
+          command: poetry install
+  save_python_package:
+    description: "PoetryInstallしたpackage群をキャッシュする"
+    steps:
+      - save_cache:
+          name: Save Python Package
+          key: DOBOKU_Post-v2-{{ checksum "poetry.lock" }}
+          paths:
+            - /home/circleci/.cache/pypoetry/virtualenvs
+
+  db_migrations:
+    description: "テスト実行用DBのマイグレーションを行う"
+    steps:
+      - run:
+          name: Start db migrations
+          command: |
+            python3 manage.py makemigrations --settings=backend.config.settings
+            python3 manage.py migrate --settings=backend.config.settings
+  run_test:
+    description: "テストを実行"
+    steps:
+      - run:
+          name: Start running test
+          command: python3 manage.py test --settings=backend.config.settings
+
+# ジョブの定義
 jobs:
   build:
-    docker:
-      - image: circleci/node:4.8.2
+    executor: test_default
     steps:
       - checkout
-      - run: echo "hello world"
+      - restore_python_package
+      - poetry_install
+      - save_python_package
+      - db_migrations
+      - run_test
