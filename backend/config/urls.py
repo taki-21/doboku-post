@@ -8,9 +8,7 @@ from django.views.generic import RedirectView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('', TemplateView.as_view(template_name='index.html')),
     path('api/v1/', include('apiv1.urls')),
-    # re_path('', RedirectView.as_view(url='/')),
 ]
 
 # 開発環境でのメディアファイルの配信設定
@@ -23,17 +21,16 @@ urlpatterns += static(
 # + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
 #     + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
 
+# path('', include('apiv1.urls')),
 
-    # path('', include('apiv1.urls')),
+# # Djangoがあらかじめ提供しているurls.pyへ
+# path('accounts/', include('django.contrib.auth.urls')),
 
-    # # Djangoがあらかじめ提供しているurls.pyへ
-    # path('accounts/', include('django.contrib.auth.urls')),
+# # 自分が作成したurls.pyへ
+# path('accounts/', include('accounts.urls')),
 
-    # # 自分が作成したurls.pyへ
-    # path('accounts/', include('accounts.urls')),
+# ## djangorestframework
+# # path('', include(router.urls)),
 
-    # ## djangorestframework
-    # # path('', include(router.urls)),
-
-    # # 認証用のURL設定
-    # path('auth/', obtain_jwt_token),
+# # 認証用のURL設定
+# path('auth/', obtain_jwt_token),

@@ -1,9 +1,9 @@
 <template>
-  <div>
-    <header class="title-header" uk-sticky>
+  <div uk-sticky>
+    <header class="title-header">
       <router-link class='router-link' to="/">
         <div class="title">
-          <img class="doboku_icon" src="../../../media/doboku.png" width="40" height="40" />
+          <img class="doboku_icon" src="../assets/doboku.png" width="40" height="40" />
           <span>DOBOKU_Post</span>
         </div>
       </router-link>
@@ -20,14 +20,10 @@
 }
 .title-header {
   padding: 5px 5%;
-  /* position: fixed; */
-  top: 0;
-  width: 100%;
   background-color: rgba(139, 138, 135, 0.85);
   display: flex;
   align-items: center;
   height: 60px;
-  /* position: fixed; */
 }
 .doboku_icon {
   position: relative;

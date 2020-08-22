@@ -1,0 +1,41 @@
+version: "3"
+
+volumes:
+  db-data:
+
+services:
+  backend:
+    build: "./backend"
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./backend:/app
+    command:
+      bash -c "python3 manage.py makemigrations --settings=config.settings&&
+      python3 manage.py migrate --settings=config.settings&&
+      python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings"
+    tty: true
+    depends_on:
+      - db
+    links:
+      - db
+
+  frontend:
+    build: './frontend'
+    ports:
+      - '8080:8080'
+    volumes:
+      - ./frontend:/app
+    command: ["npm", "run", "serve"]
+
+
+  db:
+    image: postgres
+    volumes:
+      - "db-data:/var/lib/postgresql/data"
+    environment:
+      - "POSTGRES_DB=postgres"
+      - "POSTGRES_USER=postgres"
+      - "POSTGRES_PASSWORD=postgres"
+    ports:
+      - "5432:5432"

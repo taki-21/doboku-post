@@ -2,7 +2,7 @@
   <div>
     <MyHeader />
     <!-- ヘッダー -->
-    <div id="new_post">
+    <div class="uk-section">
       <div class="uk-width-1-1">
         <div class="uk-container">
           <a @click="$router.back()" title="前ページへ戻る">
@@ -250,10 +250,6 @@ export default {
 </script>
 
 <style scoped>
-#new_post {
-  padding-top: 50px;
-}
-
 .post-button {
   margin-top: 10px;
   font-size: 25px;
@@ -320,5 +316,9 @@ h2#new_post_title {
 }
 #address_form {
   margin-top: 4px;
+}
+
+.uk-section {
+  padding-top: 30px;
 }
 </style>

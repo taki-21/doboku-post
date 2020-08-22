@@ -29,21 +29,20 @@ export default {
     };
   },
   computed: {
-    ...mapGetters("post",["latestPosts"]),
+    ...mapGetters("post", ["latestPosts"]),
     markerData() {
       if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
-        return [this.post]
+        return [this.post];
       } else {
-        return this.latestPosts
+        return this.latestPosts;
       }
-
     },
   },
 
   async mounted() {
     this.google = await GoogleMapsApiLoader({
-      apiKey: "",
+      apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });
     this.initializeMap();
   },
@@ -126,7 +125,7 @@ export default {
   margin-left: 5px;
 }
 
-.gm-style .gm-style-iw-c {
+/* .gm-style .gm-style-iw-c {
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
@@ -137,5 +136,5 @@ export default {
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
-}
+} */
 </style>

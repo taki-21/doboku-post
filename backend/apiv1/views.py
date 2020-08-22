@@ -1,15 +1,3 @@
-# from django.shortcuts import render, get_object_or_404, redirect
-# from django.views import generic
-# from django.contrib.auth import get_user_model
-# from django.contrib.auth.decorators import login_required
-# from django.contrib.auth.mixins import LoginRequiredMixin
-# from django.db.models import Q
-# from django.template.loader import render_to_string
-# from django.http import JsonResponse
-# from django.db.models import Count
-# from .models import Post, Category, Comment
-# from . import forms
-
 from django.shortcuts import get_object_or_404
 from rest_framework import authentication, permissions, generics, views, status
 # from rest_framework.response import Response
@@ -17,7 +5,8 @@ from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer, LikeSerializer
 from django_filters import rest_framework as filters
-from django.db.models import Count
+from rest_framework.permissions import IsAuthenticated
+# from django.db.models import Count
 
 
 class UserListCreateAPIView(generics.ListCreateAPIView):
@@ -52,6 +41,8 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_class = PostFilter
+    # #認証済のみアクセス可能
+    # permission_classes = [IsAuthenticated]
 
 
 # class PostCreateAPIView(generics.CreateAPIView):

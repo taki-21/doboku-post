@@ -3,7 +3,7 @@
     <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
       <div
         id="category_choice"
-        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-5@s uk-text-center"
+        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-4@s uk-child-width-1-6@m  uk-text-center"
         uk-grid
       >
         <div v-for="category in categories" :key="category.id">

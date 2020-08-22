@@ -1,8 +1,8 @@
 <template>
   <div>
-    <MyHeader />
     <!-- ヘッダー -->
-    <div class="content">
+    <MyHeader />
+    <div class="content_profilecard">
       <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
@@ -84,7 +84,7 @@ export default {
   mounted() {
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
-    this.$store.dispatch("post/getAllPosts");
+      this.$store.dispatch("post/getAllPosts");
     });
   },
 };
@@ -106,16 +106,22 @@ export default {
   position: relative;
 }
 
+.content_profilecard {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 0px 30px;
+}
 .content {
-  margin: 10px auto;
-  max-width: 1040px;
+  margin: 20px auto;
+  max-width: 1200px;
+  /* padding: 0px 30px; */
 }
 
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
   background-color: #f3f5f5;
-  margin-top: 20px;
+  /* margin-top: 20px; */
   margin-bottom: 30px;
 }
 .uk-tab > .uk-active > a {
