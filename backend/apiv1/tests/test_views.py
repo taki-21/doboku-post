@@ -37,7 +37,7 @@ class TestPostListCreateAPIView(APITestCase):
         # テストユーザーでログイン
         token = str(RefreshToken.for_user(self.user).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
-        
+
         # APIリクエストを実行
         params = {
             'category': self.category1.id,
@@ -94,19 +94,19 @@ class TestPostListCreateAPIView(APITestCase):
         }
         self.assertJSONEqual(response.content, expected_json_dict)
 
-    # def test_create_bad_request(self):
-    #     """投稿モデルの登録APIへのPOSTリクエスト（異常系：バリデーションNG）"""
+    def test_create_bad_request(self):
+        """投稿モデルの登録APIへのPOSTリクエスト（異常系：バリデーションNG）"""
 
-    #     # APIリクエストを実行
-    #     params = {
-    #         'category': '橋',
-    #         'author': '',
-    #         'title': 'へのへのもへじ',
-    #         'content': 'あいうえおかきくけこ',
-    #     }
-    #     response = self.client.post(self.TARGET_URL, params, format='json')
+        # APIリクエストを実行
+        params = {
+            'category': self.category1.id,
+            'author_name': self.user.id,
+            'title': '',
+            'content': 'あいうえおかきくけこ',
+        }
+        response = self.client.post(self.TARGET_URL, params, format='json')
 
-    #     # データベースの状態を検証
-    #     self.assertEqual(Post.objects.count(), 0)
-    #     # レスポンスの内容を検証
-    #     self.assertEqual(response.status_code, 400)
+        # データベースの状態を検証
+        self.assertEqual(Post.objects.count(), 0)
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 400)
