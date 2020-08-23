@@ -7,8 +7,8 @@ executors:
     docker:
       - image: circleci/python:3.8.3
         environment:
-          PYTHONDONTWRITEBYTECODE: '1'
-          PYTHONUNBUFFERED: '1'
+          PYTHONDONTWRITEBYTECODE: "1"
+          PYTHONUNBUFFERED: "1"
           TZ: Asia/Tokyo
       - image: circleci/postgres:12.3
         environment:
@@ -18,34 +18,37 @@ executors:
 
 # 実行コマンドの定義
 commands:
-  # chown_python_package:
-  #   description: "PipInstallするpackage達の権限をcircleciに変更する"
-  #   steps:
-  #     - run:
-  #         name: Change Owner Python Package Directory
-  #         command: |
-  #           sudo chown -R circleci:circleci /usr/local/bin
-  #           sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+  chown_python_package:
+    description: "PoetryInstallするpackage達の権限をcircleciに変更する"
+    steps:
+      - run:
+          name: Change Owner Python Package Directory
+          command: |
+            sudo chown -R circleci:circleci /usr/local/bin
+            sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
   restore_python_package:
     description: "PoetryInstallしていたpackage群のキャッシュを読み込む"
     steps:
       - restore_cache:
           name: Restore Python Package
           keys:
-            - DOBOKU_Post-v2-{{ checksum "poetry.lock" }}
+            - DOBOKU_Post-v2-{{ checksum "backend/poetry.lock" }}
             - DOBOKU_Post-v2-
   poetry_install:
     description: "requirements.txtを元にPipInstallする"
     steps:
       - run:
           name: Start poetry install
-          command: poetry install
+          command: |
+            sudo pip install poetry
+            cd backend
+            poetry install
   save_python_package:
     description: "PoetryInstallしたpackage群をキャッシュする"
     steps:
       - save_cache:
           name: Save Python Package
-          key: DOBOKU_Post-v2-{{ checksum "poetry.lock" }}
+          key: DOBOKU_Post-v2-{{ checksum "backend/poetry.lock" }}
           paths:
             - /home/circleci/.cache/pypoetry/virtualenvs
 
@@ -55,14 +58,17 @@ commands:
       - run:
           name: Start db migrations
           command: |
-            python3 manage.py makemigrations --settings=backend.config.settings
-            python3 manage.py migrate --settings=backend.config.settings
+            cd backend
+            poetry run python3 manage.py makemigrations
+            poetry run python3 manage.py migrate
   run_test:
     description: "テストを実行"
     steps:
       - run:
           name: Start running test
-          command: python3 manage.py test --settings=backend.config.settings
+          command: |
+            cd backend
+            poetry run python3 manage.py test
 
 # ジョブの定義
 jobs:
@@ -70,6 +76,7 @@ jobs:
     executor: test_default
     steps:
       - checkout
+      - chown_python_package
       - restore_python_package
       - poetry_install
       - save_python_package

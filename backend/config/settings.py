@@ -1,21 +1,26 @@
 import os
 from datetime import timedelta
-try:
-    from .local_settings import *
-except ImportError:
-    pass
+import environ
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+env = environ.Env()
 
+CI_ENV = env.bool('DJANGO_CI_ENV', default=False)
+if not CI_ENV:
+    # OS environment variables take precedence over variables from .env
+    env.read_env(os.path.join(BASE_DIR, '.env'))
+# 環境変数を設定
+SECRET_KEY = env('SECRET_KEY')
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
+SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -90,8 +95,8 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        # 'HOST': '127.0.0.1',
-        'HOST': 'db',
+        'HOST': '127.0.0.1',
+        # 'HOST': 'db',
         'POST': 5432
     }
 }
