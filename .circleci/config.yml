@@ -65,10 +65,10 @@ commands:
     description: "テストを実行"
     steps:
       - run:
-          name: Start running test --settings=config.settings.circleci
+          name: Start running test
           command: |
             cd backend
-            poetry run python3 manage.py test
+            poetry run python3 manage.py test --settings=config.settings.circleci
 
 # ジョブの定義
 jobs:
