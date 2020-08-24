@@ -59,13 +59,13 @@ commands:
           name: Start db migrations
           command: |
             cd backend
-            poetry run python3 manage.py makemigrations
-            poetry run python3 manage.py migrate
+            poetry run python3 manage.py makemigrations --settings=config.settings.circleci
+            poetry run python3 manage.py migrate --settings=config.settings.circleci
   run_test:
     description: "テストを実行"
     steps:
       - run:
-          name: Start running test
+          name: Start running test --settings=config.settings.circleci
           command: |
             cd backend
             poetry run python3 manage.py test
