@@ -11,9 +11,9 @@ services:
     volumes:
       - ./backend:/app
     command:
-      bash -c "python3 manage.py makemigrations --settings=config.settings&&
-      python3 manage.py migrate --settings=config.settings&&
-      python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings"
+      bash -c "python3 manage.py makemigrations --settings=config.settings.local &&
+      python3 manage.py migrate --settings=config.settings.local &&
+      python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings.local "
     tty: true
     depends_on:
       - db
