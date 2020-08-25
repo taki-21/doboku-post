@@ -177,6 +177,8 @@ export default {
   background: 0 0;
   position: relative;
   border: 3px solid #ccc;
+  box-sizing: border-box;
+
 }
 
 .camera-choice {

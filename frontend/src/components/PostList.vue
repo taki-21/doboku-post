@@ -87,7 +87,7 @@ export default {
       api.delete("/posts/" + post_id + "/").then(
         this.$emit("parentPostDelete"),
 
-        this.$store.dispatch("post/getAllPosts")
+        // this.$store.dispatch("post/getAllPosts")
         // // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
         // this.$router.push({ name: 'mypage', params: { user_id: this.user_id } })
         // this.$router.replace('/')
