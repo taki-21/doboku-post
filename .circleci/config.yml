@@ -10,6 +10,7 @@ executors:
           PYTHONDONTWRITEBYTECODE: "1"
           PYTHONUNBUFFERED: "1"
           TZ: Asia/Tokyo
+      - image: circleci/node:10.17.0
       - image: circleci/postgres:12.3
         environment:
           POSTGRES_USER: postgres
@@ -69,10 +70,23 @@ commands:
           command: |
             cd backend
             poetry run python3 manage.py test --settings=config.settings.circleci
+  npm_install:
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "frontend/package.json" }}
+      - run:
+          name: Start npm install
+          command: |
+            cd frontend
+            npm install
+      - save_cache:
+          key: dependency-cache-{{ checksum "frontend/package.json" }}
+          paths:
+            - node_modules
 
 # ジョブの定義
 jobs:
-  build:
+  back_build:
     executor: test_default
     steps:
       - checkout
@@ -82,3 +96,35 @@ jobs:
       - save_python_package
       - db_migrations
       - run_test
+
+  front_build:
+    executor: test_default
+    steps:
+      - checkout
+      - npm_install
+      - run: npm run test
+
+  front_deploy:
+    executor: default
+    steps:
+      - checkout
+      - npm_install
+      - run:
+          name: build
+          command: npm run build
+      - aws-s3/sync:
+          from: dist
+          to: s3://doboku-post/dist
+          overwrite: true
+
+workflows:
+  version: 2
+  continuous-deploy:
+    jobs:
+      - front_build
+      - front_deploy:
+          requires:
+            - build
+          # filters:
+          #   branches:
+          #     only: master
