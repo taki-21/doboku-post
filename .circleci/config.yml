@@ -108,7 +108,7 @@ jobs:
       - run: npm run test
 
   front_deploy:
-    executor: default
+    executor: test_default
     steps:
       - checkout
       - npm_install
