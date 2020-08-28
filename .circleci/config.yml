@@ -13,7 +13,7 @@ executors:
           PYTHONDONTWRITEBYTECODE: "1"
           PYTHONUNBUFFERED: "1"
           TZ: Asia/Tokyo
-      - image: circleci/node:10.17.0
+      - image: circleci/node:10.7.0
       - image: circleci/postgres:12.3
         environment:
           POSTGRES_USER: postgres
@@ -76,14 +76,15 @@ commands:
   npm_install:
     steps:
       - restore_cache:
-          key: dependency-cache-{{ checksum "frontend/package.json" }}
+          key: DOBOKU_Post-v2-{{ checksum "frontend/package.json" }}
       - run:
           name: Start npm install
           command: |
             cd frontend
+            sudo apt-get install npm
             npm install
       - save_cache:
-          key: dependency-cache-{{ checksum "frontend/package.json" }}
+          key: DOBOKU_Post-v2-{{ checksum "frontend/package.json" }}
           paths:
             - node_modules
 
@@ -105,7 +106,6 @@ jobs:
     steps:
       - checkout
       - npm_install
-      - run: npm run test
 
   front_deploy:
     executor: test_default
@@ -114,10 +114,12 @@ jobs:
       - npm_install
       - run:
           name: build
-          command: npm run build
+          command: |
+            cd frontend
+            npm run build
       - aws-s3/sync:
-          from: dist
-          to: s3://doboku-post/dist
+          from: frontend/dist
+          to: s3://doboku-post
           overwrite: true
 
 workflows:
@@ -127,7 +129,7 @@ workflows:
       - front_build
       - front_deploy:
           requires:
-            - build
+            - front_build
           # filters:
           #   branches:
           #     only: master
