@@ -6,15 +6,18 @@ volumes:
 services:
   backend:
     build: "./backend"
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     volumes:
       - ./backend:/app
     command:
-      bash -c "python3 manage.py makemigrations --settings=config.settings.local &&
-      python3 manage.py migrate --settings=config.settings.local &&
-      python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings.local "
+      # bash -c "python3 manage.py makemigrations --settings=config.settings.local &&
+      # python3 manage.py migrate --settings=config.settings.local &&
+      uwsgi --socket :8001 --module config.wsgi --logto /tmp/uwsgi.log
+      # python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings.local "
     tty: true
+    expose:
+      - "8001"
     depends_on:
       - db
     links:
@@ -28,7 +31,6 @@ services:
       - ./frontend:/app
     command: ["npm", "run", "serve"]
 
-
   db:
     image: postgres
     volumes:
@@ -39,3 +41,15 @@ services:
       - "POSTGRES_PASSWORD=postgres"
     ports:
       - "5432:5432"
+
+  nginx:
+    image: nginx:1.17
+    container_name: nginx
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
+      - ./backend/static:/static
+    depends_on:
+      - backend
