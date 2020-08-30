@@ -156,6 +156,7 @@ workflows:
           cluster-name: '${MY_APP_PREFIX}-cluster'
           service-ame: '${MY_APP_PREFIX}-service'
           container-image-name-updates: 'container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}'
+          
   continuous-deploy:
     jobs:
       - front_build
