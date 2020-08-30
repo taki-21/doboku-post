@@ -1,6 +1,8 @@
 version: 2.1
 
 orbs:
+  aws-ecr: ciecleci/aws-ecr@6.7.1
+  aws-ecs: ciecleci/aws-ecs@1.1.0
   aws-s3: circleci/aws-s3@1.0.11
 
 # 実行環境の定義
@@ -124,6 +126,29 @@ jobs:
 
 workflows:
   version: 2
+  # Djangoのテスト
+  test:
+    jobs:
+      - back_build:
+          filters:
+            branches:
+              ignore: master
+
+  # DjangoをECR/ECSへデプロイ
+  back_deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          region: AWS_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          repo: doboku-post-repo
+          tag: "${CIRCLE_SHA1}"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image
+          family: '${MY_APP_PREFIX}-task'
+          cluster-name: '${MY_APP_PREFIX}-django-cluster'
+          service-name: '${MY_APP_PREFIX}-django-service'
+          container-image-name-updates: 'container=${MY_APP_PREFIX}-django-container,tag=${CIRCLE_SHA1}'
   continuous-deploy:
     jobs:
       - front_build
