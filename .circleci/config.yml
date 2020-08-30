@@ -1,8 +1,8 @@
 version: 2.1
 
 orbs:
-  aws-ecr: ciecleci/aws-ecr@6.7.1
-  aws-ecs: ciecleci/aws-ecs@1.1.0
+  aws-ecr: circleci/aws-ecr@6.7.1
+  aws-ecs: circleci/aws-ecs@1.1.0
   aws-s3: circleci/aws-s3@1.0.11
 
 # 実行環境の定義
