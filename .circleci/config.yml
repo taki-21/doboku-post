@@ -139,6 +139,8 @@ workflows:
     jobs:
       - back_build
       - aws-ecr/build-and-push-image:
+          requires:
+            - back_build
           region: AWS_REGION
           account-url: AWS_ECR_ACCOUNT_URL
           aws-access-key-id: AWS_ACCESS_KEY_ID
