@@ -140,7 +140,11 @@ workflows:
       - aws-ecr/build-and-push-image:
           region: AWS_REGION
           account-url: AWS_ECR_ACCOUNT_URL
-          repo: doboku-post-repo
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: true
+          path: './backend/'
+          repo: doboku-post-django
           tag: "${CIRCLE_SHA1}"
       - aws-ecs/deploy-service-update:
           requires:
