@@ -145,7 +145,7 @@ workflows:
           create-repo: true
           path: './backend/'
           repo: doboku-post-django
-          tag: "${CIRCLE_SHA1}"
+          tag: "${CIRCLE_SHA2}"
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
