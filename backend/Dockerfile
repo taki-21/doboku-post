@@ -20,12 +20,12 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
 
-# COPY pyproject.toml pyproject.toml
-COPY . /app
+COPY pyproject.toml pyproject.toml
+# COPY . /app
 RUN poetry install
 
-# CMD ["bash"]
+CMD ["bash"]
 # uwsgi --socket :8001 --module config.wsgi
-CMD [ "poetry", "run", "uwsgi", "--socket", "：8001", "--module", "config.wsgi"]
+# CMD [ "poetry", "run", "uwsgi", "--socket", "：8001", "--module", "config.wsgi"]
 
 EXPOSE 8001
