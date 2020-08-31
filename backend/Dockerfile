@@ -14,11 +14,18 @@ RUN pip install --upgrade pip setuptools wheel
 # Poetryをインストール
 RUN pip install poetry
 
+# RUN pip install uWSGI
+
 # コンテナ内で仮想環境の作成を無効
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
 
-COPY pyproject.toml pyproject.toml
+# COPY pyproject.toml pyproject.toml
+COPY . /app
 RUN poetry install
 
-CMD ["bash"]
+# CMD ["bash"]
+# uwsgi --socket :8001 --module config.wsgi
+CMD [ "poetry", "run", "uwsgi", "--socket", "：8001", "--module", "config.wsgi"]
+
+EXPOSE 8001
