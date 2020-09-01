@@ -66,7 +66,7 @@ export default {
     };
   },
   mounted() {
-    this.axios.get("http://127.0.0.1:8000/api/v1/posts/").then(response => {
+    this.axios.get("/posts/").then(response => {
       this.posts = response.data;
     });
     this.checkLoggedIn();

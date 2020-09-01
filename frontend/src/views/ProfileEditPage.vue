@@ -106,8 +106,8 @@ export default {
     };
   },
   // mounted() {
-  //   this.axios
-  //     .get("http://127.0.0.1:8000/api/v1/users/" + this.id + "/")
+  //   api
+  //     .get("/users/" + this.id + "/")
   //     .then(response => {
   //       this.user = response.data;
   //     });
@@ -125,7 +125,7 @@ export default {
       formData.append("email", this.email);
       formData.append("introduction", this.introduction);
       api
-        .patch("http://127.0.0.1:8000/api/v1/users/" + this.id + "/", formData)
+        .patch("/users/" + this.id + "/", formData)
         .then(async () => {
           this.$store.dispatch("message/setInfoMessage", {
             message: "更新完了",

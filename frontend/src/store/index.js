@@ -187,7 +187,7 @@ const categoryModule = {
   },
   actions: {
     getAllCategories(context) {
-      api.get('http://127.0.0.1:8000/api/v1/categories/')
+      api.get('/categories/')
         .then(response => {
           context.commit('setCategories', response.data);
         })
@@ -257,7 +257,7 @@ const postModule = {
   },
   actions: {
     getAllPosts(context) {
-      api.get('http://127.0.0.1:8000/api/v1/posts/')
+      api.get('/posts/')
         .then(response => {
           context.commit('setPosts', response.data);
         })
@@ -267,7 +267,7 @@ const postModule = {
     },
 
     getFilterPosts(context, payload) {
-      let postURL = "http://127.0.0.1:8000/api/v1/posts/";
+      let postURL = "http://127.0.0.1/api/v1/posts/";
       const params = payload
       const queryString = Object.keys(params)
         .map(key => key + "=" + params[key])
@@ -286,7 +286,7 @@ const postModule = {
       user_id,
       post_id
     }) {
-      api.get('http://127.0.0.1:8000/api/v1/likes/', {
+      api.get('/likes/', {
           params: {
             user: user_id,
             post: post_id

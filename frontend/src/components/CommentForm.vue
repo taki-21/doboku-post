@@ -28,7 +28,7 @@ export default {
   methods: {
     submitText: function () {
       api
-        .post("http://127.0.0.1:8000/api/v1/comments/", {
+        .post("/comments/", {
           post: this.post.id,
           author_name: this.author_name,
           text: this.text,

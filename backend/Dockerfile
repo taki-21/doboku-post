@@ -3,6 +3,7 @@ WORKDIR /app
 
 ENV PYTHONPATH /app
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
+ENV TZ Asia/Tokyo
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
@@ -20,12 +21,12 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
 
-COPY pyproject.toml pyproject.toml
+COPY poetry.lock pyproject.toml ./
 # COPY . /app
 RUN poetry install
 
 CMD ["bash"]
 # uwsgi --socket :8001 --module config.wsgi
 # CMD [ "poetry", "run", "uwsgi", "--socket", "：8001", "--module", "config.wsgi"]
-
-EXPOSE 8001
+# CMD ["uwsgi", "--ini", "/app/uwsgi.ini"]
+EXPOSE 8000

@@ -178,7 +178,7 @@ export default {
     };
   },
   mounted() {
-    api.get("http://127.0.0.1:8000/api/v1/categories/").then((response) => {
+    api.get("/categories/").then((response) => {
       this.categories = response.data;
     });
   },
@@ -215,7 +215,7 @@ export default {
       // "lng": this.lng
 
       api
-        .post("http://127.0.0.1:8000/api/v1/posts/", formData)
+        .post("/posts/", formData)
         .then((response) => {
           console.log("送信内容: " + response.data);
           this.$router.replace("/");
