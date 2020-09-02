@@ -44,17 +44,6 @@ services:
     ports:
       - "5432:5432"
 
-  # nginx:
-  #   build: "./nginx"
-  #   container_name: nginx
-  #   ports:
-  #     - "80:80"
-  #   volumes:
-  #     - ./nginx/conf:/etc/nginx/conf.d
-  #     - ./nginx/uwsgi_params:/etc/nginx/uwsgi_params
-  #     - ./backend/static:/static
-  #   depends_on:
-  #     - backend
   nginx:
     build: "./nginx/"
     # container_name: nginx
