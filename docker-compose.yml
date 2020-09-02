@@ -11,7 +11,6 @@ services:
     volumes:
       - ./backend:/app
     command:
-      # [ "poetry", "run", "uwsgi", "--ini", "/app/uwsgi.ini"]
       bash -c "poetry run python3 manage.py makemigrations --settings=config.settings.local &&
       poetry run python3 manage.py migrate --settings=config.settings.local &&
       poetry run uwsgi --ini /app/uwsgi.ini "
