@@ -10,5 +10,5 @@ COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
 # RUN apk --no-cache add tzdata && \
 #   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
 #   apk del tzdata
-CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
+CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
