@@ -21,8 +21,8 @@ RUN pip install poetry
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
 
-COPY poetry.lock pyproject.toml ./
-# COPY . /app
+# COPY poetry.lock pyproject.toml ./
+COPY ./ /app/
 RUN poetry install
 
 CMD ["bash"]
