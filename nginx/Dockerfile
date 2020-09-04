@@ -1,6 +1,6 @@
 FROM nginx:1.17.8
 
-# RUN rm /etc/nginx/conf.d/default.conf
+
 # COPY ./conf/nginx.conf /etc/nginx/conf.d/default.conf
 COPY ./conf/ /etc/nginx/
 # COPY ./conf/mime.types /etc/nginx/mime.types
