@@ -8,8 +8,6 @@ COPY ./conf/ /etc/nginx/
 # COPY ./conf /etc/nginx/
 # RUN mkdir static
 # COPY ../backend/static /static
-# RUN apk --no-cache add tzdata && \
-#   cp /usr/share/zoneinfo/Asia/Tokyo /etc/localtime && \
-#   apk del tzdata
+
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
