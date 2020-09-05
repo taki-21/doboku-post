@@ -97,7 +97,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'postgres',
         'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'HOST': env('HOST')
         'POST': 5432
     }
 }
