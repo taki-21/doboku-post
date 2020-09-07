@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'imagekit',
     'corsheaders',
     'djoser',
-    'django_filters'
+    'django_filters',
 
     #AWS
     'storages',
@@ -141,8 +141,6 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # メディアファイルの設定
 MEDIA_URL = '/media/'
@@ -161,9 +159,9 @@ CORS_ORIGIN_WHITELIST = (
 # AWS
 # =================================
 
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static')
+]
 AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
 AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
@@ -173,12 +171,15 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 
 AWS_DEFAULT_ACL = None
-STATIC_URL = 'https://%s/static/' % AWS_S3_CUSTOM_DOMAIN
+# STATIC_URL = '/static/'
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+AWS_LOCATION = 'static'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 # mediaファイルの設定
 MEDIA_ROOT = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
-DEFAULT_FILE_STORAGE = 'localupload.storage_backends.MediaStorage'
+DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
 # =================================
 # Django REST Framework
