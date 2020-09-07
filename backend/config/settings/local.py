@@ -49,6 +49,9 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters'
 
+    #AWS
+    'storages',
+
 
 ]
 
@@ -121,7 +124,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
@@ -141,20 +143,10 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-# STATICFILES_DIRS = [
-#     os.path.join(BASE_DIR, 'static')
-# ]
 
 # メディアファイルの設定
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-
-# # ログイン後トップページにリダイレクト
-# LOGIN_REDIRECT_URL = 'apiv1:index'
-
-# # ログアウト後トップページにリダイレクト
-# LOGOUT_REDIRECT_URL = 'apiv1:index'
 
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
@@ -164,6 +156,29 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:8080',
     'http://127.0.0.1:8080',
 )
+
+# =================================
+# AWS
+# =================================
+
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
+AWS_ACCESS_KEY_ID = env('AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = env('AWS_SECRET_ACCESS_KEY')
+AWS_STORAGE_BUCKET_NAME = env('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': 'max-age=86400',
+}
+
+AWS_DEFAULT_ACL = None
+STATIC_URL = 'https://%s/static/' % AWS_S3_CUSTOM_DOMAIN
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+# mediaファイルの設定
+MEDIA_ROOT = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
+DEFAULT_FILE_STORAGE = 'localupload.storage_backends.MediaStorage'
 
 # =================================
 # Django REST Framework
