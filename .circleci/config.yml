@@ -169,9 +169,9 @@ workflows:
           path: ./nginx/
           repo: doboku-post-nginx
           tag: "${CIRCLE_SHA1}"
-          filters:
-              branches:
-                  only: master
+          # filters:
+          #     branches:
+          #         only: master
       - aws-ecs/deploy-service-update:
           requires:
               - aws-ecr/build-and-push-image
@@ -186,6 +186,6 @@ workflows:
       - front_deploy:
           requires:
             - front_build
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
