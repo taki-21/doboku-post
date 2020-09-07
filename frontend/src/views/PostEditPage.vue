@@ -223,7 +223,7 @@ export default {
 
       api
         .patch(
-          "http://127.0.0.1:8000/api/v1/posts/" + this.post_id + "/",
+          "/posts/" + this.post_id + "/",
           formData
         )
         .then((response) => {

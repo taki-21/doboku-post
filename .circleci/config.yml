@@ -1,8 +1,191 @@
 version: 2.1
-jobs:
-  build:
+
+orbs:
+  aws-ecr: circleci/aws-ecr@6.7.1
+  aws-ecs: circleci/aws-ecs@1.1.0
+  aws-s3: circleci/aws-s3@1.0.11
+
+# 実行環境の定義
+executors:
+  test_default:
+    working_directory: ~/DOBOKU_Post
     docker:
-      - image: circleci/node:4.8.2
+      - image: circleci/python:3.8.3
+        environment:
+          PYTHONDONTWRITEBYTECODE: "1"
+          PYTHONUNBUFFERED: "1"
+          TZ: Asia/Tokyo
+      - image: circleci/node:10.7.0
+      - image: circleci/postgres:12.3
+        environment:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          TZ: Asia/Tokyo
+
+# 実行コマンドの定義
+commands:
+  chown_python_package:
+    description: "PoetryInstallするpackage達の権限をcircleciに変更する"
+    steps:
+      - run:
+          name: Change Owner Python Package Directory
+          command: |
+            sudo chown -R circleci:circleci /usr/local/bin
+            sudo chown -R circleci:circleci /usr/local/lib/python3.8/site-packages
+  restore_python_package:
+    description: "PoetryInstallしていたpackage群のキャッシュを読み込む"
+    steps:
+      - restore_cache:
+          name: Restore Python Package
+          keys:
+            - DOBOKU_Post-v2-{{ checksum "backend/poetry.lock" }}
+            - DOBOKU_Post-v2-
+  poetry_install:
+    description: "requirements.txtを元にPipInstallする"
+    steps:
+      - run:
+          name: Start poetry install
+          command: |
+            sudo pip install poetry
+            cd backend
+            poetry install
+  save_python_package:
+    description: "PoetryInstallしたpackage群をキャッシュする"
+    steps:
+      - save_cache:
+          name: Save Python Package
+          key: DOBOKU_Post-v2-{{ checksum "backend/poetry.lock" }}
+          paths:
+            - /home/circleci/.cache/pypoetry/virtualenvs
+
+  db_migrations:
+    description: "テスト実行用DBのマイグレーションを行う"
+    steps:
+      - run:
+          name: Start db migrations
+          command: |
+            cd backend
+            poetry run python3 manage.py makemigrations --settings=config.settings.circleci
+            poetry run python3 manage.py migrate --settings=config.settings.circleci
+  run_test:
+    description: "テストを実行"
+    steps:
+      - run:
+          name: Start running test
+          command: |
+            cd backend
+            poetry run python3 manage.py test --settings=config.settings.circleci
+  npm_install:
+    steps:
+      - restore_cache:
+          key: DOBOKU_Post-v2-{{ checksum "frontend/package.json" }}
+      - run:
+          name: Start npm install
+          command: |
+            cd frontend
+            sudo apt-get install npm
+            npm install
+      - save_cache:
+          key: DOBOKU_Post-v2-{{ checksum "frontend/package.json" }}
+          paths:
+            - node_modules
+
+# ジョブの定義
+jobs:
+  back_build:
+    executor: test_default
     steps:
       - checkout
-      - run: echo "hello world"
+      - chown_python_package
+      - restore_python_package
+      - poetry_install
+      - save_python_package
+      - db_migrations
+      - run_test
+
+  front_build:
+    executor: test_default
+    steps:
+      - checkout
+      - npm_install
+
+  front_deploy:
+    executor: test_default
+    steps:
+      - checkout
+      - npm_install
+      - run:
+          name: build
+          command: |
+            cd frontend
+            npm run build
+      - aws-s3/sync:
+          from: frontend/dist
+          to: s3://doboku-post
+          overwrite: true
+
+workflows:
+  version: 2
+  # Djangoのテスト
+  # test:
+  #   jobs:
+  #     - back_build:
+  #         filters:
+  #           branches:
+  #             ignore: master
+
+  # DjangoをECR/ECSへデプロイ
+  back_deploy:
+    jobs:
+      - back_build
+      - aws-ecr/build-and-push-image:
+          requires:
+            - back_build
+          region: AWS_REGION
+          account-url: AWS_ECR_ACCOUNT_URL
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: true
+          path: './backend/'
+          repo: doboku-post-django
+          tag: "${CIRCLE_SHA1}"
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr/build-and-push-image
+          family: '${MY_APP_PREFIX}-task'
+          cluster-name: '${MY_APP_PREFIX}-cluster'
+          service-name: '${MY_APP_PREFIX}-service'
+          container-image-name-updates: 'container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}'
+
+  # NginxをECR/ECSへデプロイ
+  nginx_deploy:
+    jobs:
+      - aws-ecr/build-and-push-image:
+          account-url: AWS_ECR_ACCOUNT_URL
+          region: AWS_REGION
+          aws-access-key-id: AWS_ACCESS_KEY_ID
+          aws-secret-access-key: AWS_SECRET_ACCESS_KEY
+          create-repo: true
+          path: ./nginx/
+          repo: doboku-post-nginx
+          tag: "${CIRCLE_SHA1}"
+          # filters:
+          #     branches:
+          #         only: master
+      - aws-ecs/deploy-service-update:
+          requires:
+              - aws-ecr/build-and-push-image
+          family: '${MY_APP_PREFIX}-task'
+          cluster-name: '${MY_APP_PREFIX}-cluster'
+          service-name: '${MY_APP_PREFIX}-service'
+          container-image-name-updates: 'container=${MY_APP_PREFIX}-nginx,tag=${CIRCLE_SHA1}'
+  # VueをS3へデプロイ
+  continuous-deploy:
+    jobs:
+      - front_build
+      - front_deploy:
+          requires:
+            - front_build
+          filters:
+            branches:
+              only: master

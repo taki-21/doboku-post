@@ -4,6 +4,5 @@ media/
 *.pyc
 .venv/
 .vscode/
-poetry.lock
-local_settings.py
 .dockerignore
+.env

@@ -284,11 +284,11 @@ export default {
   margin-bottom: 0px;
 }
 #post_content {
-  margin: 0px 0px 10px 0px;
+  margin: 10px 10px 20px 0px;
   border-radius: 5px;
   background-color: rgb(238, 237, 235);
-  padding: 10px 10px 10px 30px;
-  max-width: 640px;
+  padding: 10px 0px 10px 30px;
+  max-width: 610px;
   font-size: 15px;
   font-weight: bold;
 }

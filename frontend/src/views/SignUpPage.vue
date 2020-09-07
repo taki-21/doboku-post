@@ -81,6 +81,8 @@
 
 <script>
 import MyHeader from "@/components/MyHeader.vue";
+import api from "@/services/api";
+
 export default {
   components: {
     MyHeader
@@ -97,8 +99,8 @@ export default {
   methods: {
     submitUser: function() {
       if (this.password1 == this.password2) {
-        this.axios
-          .post("http://127.0.0.1:8000/api/v1/users/", {
+        api
+          .post("/users/", {
             username: this.username,
             email: this.email_adress,
             password: this.password1
