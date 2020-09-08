@@ -180,6 +180,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 
 # mediaファイルの設定
+MEDIA_URL = '/media/'
 MEDIA_ROOT = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
 DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
