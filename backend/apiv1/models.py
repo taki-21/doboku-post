@@ -19,8 +19,8 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField(upload_to='upload/', null=True, blank=True)
-    image_change = ImageSpecField(source='image',
+    # image = models.ImageField(upload_to='upload/', null=True, blank=True)
+    image_change = ProcessedImageField(upload_to='upload',
                                   processors=[ResizeToFill(640, 480)],
                                   format='JPEG'
                                   )
