@@ -83,7 +83,6 @@ class TestPostListCreateAPIView(APITestCase):
                     post.published_at)).replace(
                 ' ',
                 'T'),
-            'image': None,
             'comments_count': 0,
             'image_change': None,
             'likes_count': 0,
