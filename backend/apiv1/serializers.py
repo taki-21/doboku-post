@@ -40,7 +40,7 @@ class PostSerializer(serializers.ModelSerializer):
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
-    image_change = serializers.ImageField
+    image_change = serializers.ImageField()
     address = serializers.CharField(required=False)
     lat = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
