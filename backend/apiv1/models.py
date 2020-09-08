@@ -20,9 +20,11 @@ class Post(models.Model):
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     # image = models.ImageField(upload_to='upload/', null=True, blank=True)
-    image_change = ProcessedImageField(upload_to='upload',
+    image_change = ProcessedImageField(upload_to='upload/',
                                   processors=[ResizeToFill(640, 480)],
-                                  format='JPEG'
+                                  format='JPEG',
+                                  null=True,
+                                  blank=True
                                   )
     prefecture = models.CharField(max_length=10, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
