@@ -120,7 +120,7 @@ jobs:
             cd frontend
             npm run build
       - aws-s3/sync:
-          from: frontend/dist
+          from: dist
           to: s3://doboku-post/dist
           overwrite: true
 
