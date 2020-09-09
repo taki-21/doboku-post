@@ -19,17 +19,25 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
-    # image = models.ImageField(upload_to='upload/', null=True, blank=True)
-    image_change = ProcessedImageField(upload_to='upload/',
-                                  processors=[ResizeToFill(640, 480)],
-                                  format='JPEG',
-                                  null=True,
-                                  blank=True
-                                  )
+    image = ProcessedImageField(upload_to='upload/',
+                                       processors=[ResizeToFill(640, 480)],
+                                       format='JPEG',
+                                       options={'quality': 60},
+                                       null=True,
+                                       blank=True
+                                       )
     prefecture = models.CharField(max_length=10, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
-    lat = models.DecimalField(max_digits=20, decimal_places=15, null=True, blank=True)
-    lng = models.DecimalField(max_digits=20, decimal_places=15, null=True, blank=True)
+    lat = models.DecimalField(
+        max_digits=20,
+        decimal_places=15,
+        null=True,
+        blank=True)
+    lng = models.DecimalField(
+        max_digits=20,
+        decimal_places=15,
+        null=True,
+        blank=True)
 
     class Meta:
         ordering = ['-published_at']
@@ -39,8 +47,11 @@ class Post(models.Model):
 
 
 class Comment(models.Model):
-    post = models.ForeignKey(to=Post, verbose_name='対象記事',
-                             on_delete=models.CASCADE, related_name='comment_post')
+    post = models.ForeignKey(
+        to=Post,
+        verbose_name='対象記事',
+        on_delete=models.CASCADE,
+        related_name='comment_post')
     author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     text = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
@@ -53,6 +64,13 @@ class Comment(models.Model):
     def __str__(self):
         return f'{self.author} -  {self.text}'
 
+
 class Like(models.Model):
-    user = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='like_user')
-    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='like_post')
+    user = models.ForeignKey(
+        get_user_model(),
+        on_delete=models.CASCADE,
+        related_name='like_user')
+    post = models.ForeignKey(
+        Post,
+        on_delete=models.CASCADE,
+        related_name='like_post')
