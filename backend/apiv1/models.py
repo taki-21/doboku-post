@@ -22,7 +22,6 @@ class Post(models.Model):
     image = ProcessedImageField(upload_to='upload/',
                                        processors=[ResizeToFill(640, 480)],
                                        format='JPEG',
-                                       options={'quality': 60},
                                        null=True,
                                        blank=True
                                        )
