@@ -157,10 +157,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://doboku-post.site:80',
     'http://doboku-post.site:8000',
     'http://doboku-post.site',
-    'http://doboku-post.site:8080/',
-    'http://doboku-post.site:80/',
-    'http://doboku-post.site:8000/',
-    'http://doboku-post.site/',
     # 'https://doboku-post.site:8080',
     # 'https://doboku-post.site:80',
 )
