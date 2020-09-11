@@ -161,6 +161,7 @@ CORS_ORIGIN_WHITELIST = (
     # 'https://doboku-post.site:80',
 )
 
+FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
 # =================================
 # AWS
 # =================================
