@@ -18,6 +18,8 @@ psycopg2 = "^2.8.5"
 djangorestframework-simplejwt = "^4.4.0"
 django-environ = "^0.4.5"
 uwsgi = "^2.0.19"
+boto3 = "^1.14.56"
+django-storages = "^1.10"
 
 [tool.poetry.dev-dependencies]
 pylint = "^2.5.3"
