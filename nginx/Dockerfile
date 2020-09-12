@@ -8,6 +8,6 @@ COPY ./conf/ /etc/nginx/
 # COPY ./conf /etc/nginx/
 # RUN mkdir static
 # COPY ../backend/static /static
-
+RUN mkdir app
 CMD ["nginx", "-g", "daemon off;"]
 EXPOSE 80
