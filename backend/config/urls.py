@@ -14,25 +14,7 @@ urlpatterns = [
 ]
 
 # 開発環境でのメディアファイルの配信設定
-# urlpatterns += static(
-#     settings.MEDIA_URL,
-#     document_root=settings.MEDIA_ROOT
-# )
-
-
-# + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)\
-#     + static(settings.STATIC_URL, document_root = settings.STATIC_ROOT)
-
-# path('', include('apiv1.urls')),
-
-# # Djangoがあらかじめ提供しているurls.pyへ
-# path('accounts/', include('django.contrib.auth.urls')),
-
-# # 自分が作成したurls.pyへ
-# path('accounts/', include('accounts.urls')),
-
-# ## djangorestframework
-# # path('', include(router.urls)),
-
-# # 認証用のURL設定
-# path('auth/', obtain_jwt_token),
+urlpatterns += static(
+    settings.MEDIA_URL,
+    document_root=settings.MEDIA_ROOT
+)

@@ -267,7 +267,6 @@ const postModule = {
     },
 
     getFilterPosts(context, payload) {
-      // let postURL = "http://127.0.0.1/api/v1/posts/";
       let postURL = process.env.VUE_APP_ROOT_API + "posts/";
       const params = payload
       const queryString = Object.keys(params)

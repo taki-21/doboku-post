@@ -22,7 +22,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
 
-ALLOWED_HOSTS = ["0.0.0.0"]
+ALLOWED_HOSTS = ["localhost"]
 
 
 # Application definition
@@ -174,6 +174,11 @@ FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
 # }
 
 # AWS_DEFAULT_ACL = None
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATICFILES_DIRS = [
+#     os.path.join(BASE_DIR, 'static')
+# ]
 # # STATIC_URL = '/static/'
 # # STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # AWS_LOCATION = 'static'
