@@ -118,7 +118,7 @@ jobs:
           name: build
           command: |
             cd frontend
-            npm run build
+            npm run build --mode production
       - aws-s3/sync:
           from: frontend/dist
           to: s3://doboku-post/
