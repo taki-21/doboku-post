@@ -151,8 +151,11 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:8080',
-    'http://127.0.0.1:8080',
+    'http://doboku-post.site:8080',
+    'http://doboku-post.site:80',
+    'http://doboku-post.site:8000',
+    'http://doboku-post.site',
+
 )
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
