@@ -14,7 +14,7 @@
           <div class="uk-inline">
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
-                <img class="user_icon" :src="user.icon_image " />
+                <img class="user_icon" :src="user.icon_image" />
                 {{ user.username }}
                 <i id="chevron-down" uk-icon="chevron-down"></i>
               </div>
