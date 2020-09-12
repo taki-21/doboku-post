@@ -129,7 +129,7 @@ jobs:
           overwrite: true
       - aws-s3/sync:
           from: frontend/dist/index.html
-          to: s3://doboku-post/dist
+          to: s3://doboku-post
           # overwrite: true
 
 workflows:
