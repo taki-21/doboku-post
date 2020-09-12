@@ -120,9 +120,17 @@ jobs:
             cd frontend
             npm run build
       - aws-s3/sync:
-          from: frontend/dist
-          to: s3://doboku-post/dist
+          from: frontend/dist/css
+          to: s3://doboku-post/css
           overwrite: true
+      - aws-s3/sync:
+          from: frontend/dist/js
+          to: s3://doboku-post/js
+          overwrite: true
+      - aws-s3/sync:
+          from: frontend/dist/index.html
+          to: s3://doboku-post/dist
+          # overwrite: true
 
 workflows:
   version: 2
