@@ -132,7 +132,6 @@ li {
 }
 
 .uk-dropdown {
-  display: none;
   position: absolute;
   z-index: 1020;
   box-sizing: border-box;
