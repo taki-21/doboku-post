@@ -33,7 +33,7 @@
 
                   <div uk-lightbox>
                     <a :href="post.image">
-                      <img :src="post.image_change" />
+                      <img :src="post.image" />
                     </a>
                   </div>
                   <div>
