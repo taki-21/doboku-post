@@ -40,11 +40,12 @@
                     <button
                       id="location_button"
                       class="uk-button uk-button-default uk-button-large"
-                      href="#modal-gmap"
+                      :href= "modal_href"
                       type="button"
+                      @click="callChildMethod"
                       uk-toggle
                     >場所を確認する</button>
-                    <div id="modal-gmap" class="uk-flex-top .uk-width-large" uk-modal>
+                    <div :id="modal" class="uk-flex-top .uk-width-large" uk-modal>
                       <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                         <button class="uk-modal-close-default" type="button" uk-close></button>
                         <div>
@@ -162,6 +163,7 @@ export default {
     MyHeader,
     CommentForm,
     Map,
+    // MapComponent,
   },
   props: {
     id: { type: Number },
@@ -188,6 +190,12 @@ export default {
     isLoggedIn: function () {
       return this.$store.getters["auth/isLoggedIn"];
     },
+    modal_href: function () {
+      return "#" + "map_modal" + this.post.id
+    },
+    modal: function () {
+      return "map_modal" + this.post.id
+    }
   },
 
   mounted() {
@@ -197,6 +205,9 @@ export default {
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
+        callChildMethod() {
+      this.$refs.map.initializeMap();
+    },
     toggleLike() {
       const userIdList = this.likes.map((obj) => obj.user);
       userIdList.includes(this.$store.getters["auth/id"])
