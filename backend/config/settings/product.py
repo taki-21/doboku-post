@@ -155,7 +155,6 @@ CORS_ORIGIN_WHITELIST = (
     'https://doboku-post.site:80',
     'https://doboku-post.site:8000',
     'https://doboku-post.site',
-
 )
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
