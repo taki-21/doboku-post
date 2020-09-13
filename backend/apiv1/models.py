@@ -20,7 +20,7 @@ class Post(models.Model):
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
     image = ProcessedImageField(upload_to='upload/',
-                                       processors=[ResizeToFill(800, 600)],
+                                       processors=[ResizeToFill(640, 480)],
                                        format='JPEG',
                                        null=True,
                                        blank=True

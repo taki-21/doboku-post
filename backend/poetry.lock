@@ -231,6 +231,14 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 version = "0.15.2"
 
 [[package]]
+category = "main"
+description = "Stack Based Globals Management"
+name = "environ"
+optional = false
+python-versions = "*"
+version = "1.0"
+
+[[package]]
 category = "dev"
 description = "the modular source code checker: pep8 pyflakes and co"
 name = "flake8"
@@ -433,7 +441,7 @@ python-versions = "*"
 version = "1.12.1"
 
 [metadata]
-content-hash = "41e13f46f7581e84e7efc4cf2be6e15997435253e2120ccea207a6d45a4a614a"
+content-hash = "66b3869f4957769f4ffa3f99695eb36e8d58e313605abe8db7c9b30625c370b7"
 lock-version = "1.0"
 python-versions = "3.8.3"
 
@@ -513,6 +521,11 @@ docutils = [
     {file = "docutils-0.15.2-py2-none-any.whl", hash = "sha256:9e4d7ecfc600058e07ba661411a2b7de2fd0fafa17d1a7f7361cd47b1175c827"},
     {file = "docutils-0.15.2-py3-none-any.whl", hash = "sha256:6c4f696463b79f1fb8ba0c594b63840ebd41f059e92b31957c46b74a4599b6d0"},
     {file = "docutils-0.15.2.tar.gz", hash = "sha256:a2aeea129088da402665e92e0b25b04b073c04b2dce4ab65caaa38b7ce2e1a99"},
+]
+environ = [
+    {file = "environ-1.0.linux-i686.tar.gz", hash = "sha256:9266e62dd8004f3bf181b24c97aa129844e7e7ec87bf3ed06ef3888293212011"},
+    {file = "environ-1.0.tar.gz", hash = "sha256:4df7f1dfeb7d1c988d2e19a8bd5d547a526e0400aeb35adf732032472f35dcb0"},
+    {file = "environ-1.0.win32.exe", hash = "sha256:052ded34331655b9c7982abd5681a066b9aaf9adf33b3412c7e842ce959e40b0"},
 ]
 flake8 = [
     {file = "flake8-3.8.3-py2.py3-none-any.whl", hash = "sha256:15e351d19611c887e482fb960eae4d44845013cc142d42896e9862f775d8cf5c"},

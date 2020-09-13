@@ -83,7 +83,7 @@ export default {
   },
   methods: {
     // ログインボタン押下
-    submitLogin: function (username = "GuestUser", password = "testtest") {
+    submitLogin: function (username = "GuestUser", password = "test09876") {
       this.form.username = username;
       this.form.password = password;
       // ログイン
