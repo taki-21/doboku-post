@@ -42,6 +42,7 @@
                       class="uk-button uk-button-default uk-button-large"
                       :href= "modal_href"
                       type="button"
+                      @click="callChildMethod"
                       uk-toggle
                     >場所を確認する</button>
                     <div :id="modal" class="uk-flex-top .uk-width-large" uk-modal>
@@ -204,6 +205,9 @@ export default {
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
+        callChildMethod() {
+      this.$refs.map.initializeMap();
+    },
     toggleLike() {
       const userIdList = this.likes.map((obj) => obj.user);
       userIdList.includes(this.$store.getters["auth/id"])
