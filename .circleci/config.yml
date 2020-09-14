@@ -180,6 +180,4 @@ workflows:
   continuous-deploy:
     jobs:
       - front_deploy
-          # filters:
-          #   branches:
-          #     only: master
+
