@@ -103,12 +103,6 @@ jobs:
       - db_migrations
       - run_test
 
-  front_build:
-    executor: test_default
-    steps:
-      - checkout
-      - npm_install
-
   front_deploy:
     executor: test_default
     steps:
@@ -126,14 +120,6 @@ jobs:
 
 workflows:
   version: 2
-  # Djangoのテスト
-  # test:
-  #   jobs:
-  #     - back_build:
-  #         filters:
-  #           branches:
-  #             ignore: master
-
   # DjangoをECR/ECSへデプロイ
   back_deploy:
     jobs:
@@ -186,10 +172,7 @@ workflows:
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      - front_build
       - front_deploy:
-          requires:
-            - front_build
           filters:
             branches:
               only: master
