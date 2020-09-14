@@ -10,7 +10,7 @@ import { mapGetters } from "vuex";
 
 export default {
   name: "Map",
-  props: ["post"],
+  props: ["post", "user_id"],
   data() {
     return {
       google: null,
@@ -31,6 +31,9 @@ export default {
   computed: {
     ...mapGetters("post", ["latestPosts"]),
     markerData() {
+      if(this.user_id){
+        return this.latestPosts.filter((x) => x.author.id == this.user_id)
+      }
       if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
         return [this.post];
