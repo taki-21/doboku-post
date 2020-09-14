@@ -17,7 +17,6 @@ import Map from '@/components/Map'
 import Search from '@/components/Search'
 import PreviousPosts from '@/components/PreviousPosts'
 import LikedPosts from '@/components/LikedPosts'
-import MyMap from '@/components/MyMap'
 
 Vue.use(VueRouter)
 
@@ -81,7 +80,7 @@ const router = new VueRouter({
         {
           path: 'mymap',
           name: 'mymap',
-          component: MyMap,
+          component: Map,
           props: true,
         }
       ]
