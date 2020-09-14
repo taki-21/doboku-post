@@ -296,7 +296,6 @@ h2#new_post_title {
   width: 1000px;
   max-width: calc(100% - 0.01px) !important;
   background: #fff;
-  opacity: 0;
   transform: translateY(-100px);
   transition: 0.3s linear;
   transition-property: opacity, transform;
