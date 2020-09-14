@@ -123,10 +123,10 @@ workflows:
   # DjangoをECR/ECSへデプロイ
   back_deploy:
     jobs:
-      - back_build:
-          filters:
-              branches:
-                  only: master
+      - back_build
+          # filters:
+          #     branches:
+          #         only: master
       - aws-ecr/build-and-push-image:
           requires:
             - back_build
@@ -138,9 +138,9 @@ workflows:
           path: './backend/'
           repo: doboku-post-django
           tag: "${CIRCLE_SHA1}"
-          filters:
-              branches:
-                  only: master
+          # filters:
+          #     branches:
+          #         only: master
 
       - aws-ecs/deploy-service-update:
           requires:
@@ -149,9 +149,9 @@ workflows:
           cluster-name: '${MY_APP_PREFIX}-cluster'
           service-name: '${MY_APP_PREFIX}-service'
           container-image-name-updates: 'container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}'
-          filters:
-              branches:
-                  only: master
+          # filters:
+          #     branches:
+          #         only: master
 
 
   # NginxをECR/ECSへデプロイ
@@ -166,9 +166,9 @@ workflows:
           path: ./nginx/
           repo: doboku-post-nginx
           tag: "${CIRCLE_SHA1}"
-          filters:
-              branches:
-                  only: master
+          # filters:
+          #     branches:
+          #         only: master
       - aws-ecs/deploy-service-update:
           requires:
               - aws-ecr/build-and-push-image
@@ -179,7 +179,7 @@ workflows:
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      - front_deploy:
-          filters:
-            branches:
-              only: master
+      - front_deploy
+          # filters:
+          #   branches:
+          #     only: master
