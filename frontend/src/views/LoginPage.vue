@@ -44,14 +44,14 @@
                       type="submit"
                     >ログイン</button>
                   </div>
-                  <div @click="submitLogin()">
-                    <button class="uk-button uk-button-secondary uk-width-1-1">かんたんログイン</button>
-                  </div>
-                  <div class="uk-text-small uk-text-center" id="create_account">
-                    登録していない方
-                    <router-link class="router-link" to="/signup">アカウント作成</router-link>
-                  </div>
                 </form>
+                <div @click="submitLogin()">
+                  <button class="uk-button uk-button-secondary uk-width-1-1">かんたんログイン</button>
+                </div>
+                <div class="uk-text-small uk-text-center" id="create_account">
+                  登録していない方
+                  <router-link class="router-link" to="/signup">アカウント作成</router-link>
+                </div>
               </div>
             </div>
           </div>
@@ -108,11 +108,12 @@ export default {
             this.Loading = false;
             // クエリ文字列に「next」がなければ、ホーム画面へ
             const next = this.$route.query.next || "/";
-            this.$router.push(next).catch((error) => {
-              // navigationが失敗するとエラーを吐くことを知った
-              // test環境はどうしようか迷ったが今の所除外
-              if (process.env.NODE_ENV === "development") console.log(error);
-            });
+            this.$router.push(next).catch(() => {});
+            // .catch((error) => {
+            // navigationが失敗するとエラーを吐くことを知った
+            // test環境はどうしようか迷ったが今の所除外
+            //   if (process.env.NODE_ENV === "development") console.log(error);
+            // });
           } else {
             console.log("ログインエラー");
             this.$store.dispatch("message/setErrorMessage", {

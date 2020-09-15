@@ -27,7 +27,8 @@ const router = new VueRouter({
       path: '/',
       component: HomePage,
       children: [{
-          path: '',
+        path: '',
+        name: 'latestpage',
           component: LatestPosts
         },
         {

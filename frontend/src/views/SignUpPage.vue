@@ -31,7 +31,7 @@
                       <span class="uk-form-icon" uk-icon="icon: mail"></span>
                       <input
                         class="uk-input"
-                        type='email'
+                        type="email"
                         placeholder="メールアドレス"
                         v-model="email_adress"
                         required
@@ -81,41 +81,91 @@
 
 <script>
 import MyHeader from "@/components/MyHeader.vue";
+import { mapGetters } from "vuex";
 import api from "@/services/api";
 
 export default {
   components: {
-    MyHeader
+    MyHeader,
   },
   data() {
     return {
-      message:"",
+      message: "",
       username: "",
       email_adress: "",
       password1: "",
-      password2: ""
+      password2: "",
+      isLoading: false,
+      // isLoggedIn: true
     };
   },
   methods: {
-    submitUser: function() {
+    submitUser: function () {
       if (this.password1 == this.password2) {
         api
           .post("/users/", {
             username: this.username,
             email: this.email_adress,
-            password: this.password1
+            password: this.password1,
           })
-          .then(response => {
+          .then((response) => {
             console.log("送信内容: " + response.data);
-            this.message = '送信しました！'
+            this.autoLogin()
+            // this.message = "送信しました！";
           })
-          .catch(error => {
+          // .then(this.autoLogin())
+          .catch((error) => {
             console.log("response: ", error.response.data);
           });
-      } else{
-        this.message = '送信できませんでした'
+      } else {
+        this.message = "送信できませんでした";
       }
-    }
-  }
+    },
+    autoLogin: function () {
+      this.isLoading = true;
+      this.$store
+        .dispatch("auth/login", {
+          username: this.username,
+          password: this.password1,
+        })
+        .then(() => {
+          console.log("かか")
+          if (this.isLoggedIn) {
+            console.log("Login succeed.");
+            this.$store.dispatch("message/setInfoMessage", {
+              message: "ログインしました",
+            });
+            console.log("this.id: " + this.id);
+            this.$store
+              .dispatch("user/load", { id: this.id })
+              .catch((error) => {
+                if (process.env.NODE_ENV !== "production") console.log(error);
+              });
+            this.Loading = false;
+            // クエリ文字列に「next」がなければ、ホーム画面へ
+            const next = this.$route.query.next || "/";
+            this.$router.push(next)
+            .catch(()=>{});
+            // .catch((error) => {
+              // navigationが失敗するとエラーを吐くことを知った
+              // test環境はどうしようか迷ったが今の所除外
+            //   if (process.env.NODE_ENV === "development") console.log(error);
+            // });
+          } else {
+            console.log("ログインエラー");
+          }
+        })
+        .catch((error) => {
+          if (process.env.NODE_ENV !== "production") console.log(error);
+        });
+    },
+  },
+  computed: {
+    ...mapGetters("auth", {
+      // username: "username",
+      isLoggedIn: "isLoggedIn",
+      id: "id",
+    }),
+  },
 };
 </script>
