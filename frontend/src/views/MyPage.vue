@@ -19,9 +19,11 @@
             <div class="profile_content">
               <p>{{ Person.introduction }}</p>
             </div>
-            <router-link class="router-link" to="/profile_edit">
-              <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
-            </router-link>
+            <div v-if="user_id == user.id">
+              <router-link class="router-link" to="/profile_edit">
+                <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
+              </router-link>
+            </div>
           </div>
         </div>
       </div>
