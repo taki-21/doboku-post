@@ -7,7 +7,7 @@
         <div class="uk-container">
           <div class="uk-margin uk-width-large uk-margin-auto">
             <a @click="$router.back()" title="前ページへ戻る">
-              <i uk-icon="icon: chevron-double-left; ratio: 2"></i>
+              <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
             <div
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
@@ -164,6 +164,10 @@ export default {
 };
 </script>
 <style scoped>
+#back_icon{
+  color: rgba(139, 138, 135, 0.85);
+}
+
 #form_custom {
   width: 100%;
   height: 370px;
