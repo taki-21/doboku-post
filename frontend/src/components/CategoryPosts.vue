@@ -27,7 +27,7 @@
     <div>
       <PostList :postType="posts" />
       <div v-if="posts == ''">
-        <p>まだ投稿がありません</p>
+        <p id="none_message">まだ投稿がありません</p>
       </div>
     </div>
   </div>
@@ -140,4 +140,9 @@ input[type="radio"] {
 .uk-card-body {
   padding: 20px 20px;
 }
+#none_message{
+  font-size: 18px;
+  text-align: center;
+}
+
 </style>

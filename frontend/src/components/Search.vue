@@ -49,6 +49,9 @@
       </form>
     </div>
       <PostList :postType="posts" />
+    <div v-if="posts == ''">
+      <p id="none_message">条件に一致する投稿がありません</p>
+    </div>
   </div>
 </template>
 
@@ -129,5 +132,9 @@ export default {
   background-color: rgb(212, 217, 220);
   border-radius: 10px;
   border: 2px solid black;
+}
+#none_message{
+  font-size: 18px;
+  text-align: center;
 }
 </style>
