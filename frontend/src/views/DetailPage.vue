@@ -137,6 +137,9 @@
                         </li>
                       </ul>
                     </div>
+                    <div v-if="comments == ''">
+                      <p id="none_message">まだコメントがありません</p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -395,4 +398,8 @@ export default {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
+#none_message{
+  text-align: center;
+}
+
 </style>
