@@ -1,27 +1,48 @@
 <template>
   <div>
-    <div class="uk-card uk-card-default uk-card-body uk-width-1-1@m" id="category_card">
-      <div
-        id="category_choice"
-        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-4@s uk-child-width-1-6@m  uk-text-center"
-        uk-grid
-      >
-        <div v-for="category in categories" :key="category.id">
-          <input
-            type="radio"
-            :id="category.id"
-            v-model="query.category"
-            :value="category.id"
-            @change="search"
-          />
-          <label
-            class="uk-button uk-button-default uk-button-large uk-width-1-1"
-            :for="category.id"
-          >
-            <span id="category_name">{{category.name}}</span>
-            <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span>
-          </label>
-        </div>
+    <div
+      class="uk-card uk-card-default uk-card-body uk-width-1-1@m"
+      tabindex="-1"
+      uk-slider="finite: false"
+      id="category_card"
+    >
+      <div class="uk-position-relative" id="category_card_contnet">
+        <ul
+          id="category_choice"
+          class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
+          uk-grid
+        >
+          <li v-for="category in categories" :key="category.id">
+            <input
+              type="radio"
+              :id="category.id"
+              v-model="query.category"
+              :value="category.id"
+              @change="search"
+            />
+            <label
+              class="uk-button uk-button-default uk-button-large uk-width-1-1"
+              :for="category.id"
+            >
+              <span id="category_name">{{category.name}}</span>
+              <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span>
+            </label>
+          </li>
+        </ul>
+        <a
+        id="previous_icon"
+          class="uk-position-center-left uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-previous
+          uk-slider-item="previous"
+        ></a>
+        <a
+        id="next_icon"
+          class="uk-position-center-right uk-position-small uk-hidden-hover"
+          href="#"
+          uk-slidenav-next
+          uk-slider-item="next"
+        ></a>
       </div>
     </div>
     <div>
@@ -92,6 +113,11 @@ export default {
 <style scoped>
 #category_card {
   margin-bottom: 20px;
+  padding: 10px 5px;
+  outline: none;
+}
+#category_card_contnet {
+  padding: 5px 40px;
 }
 #category_name {
   font-size: 20px;
@@ -140,9 +166,17 @@ input[type="radio"] {
 .uk-card-body {
   padding: 20px 20px;
 }
-#none_message{
+#none_message {
   font-size: 18px;
   text-align: center;
 }
+#previous_icon{
+  margin-left:0;
+  padding-left:10px;
+}
+#next_icon{
+  margin-right:0;
+  padding-right:10px;
 
+}
 </style>
