@@ -13,11 +13,13 @@
         </div>
         <div class="uk-width-3-4">
           <div class="uk-card-body">
-            <h1 class="uk-heading-medium">
-              <strong class="uk-margin-remove">{{ Person.username }}</strong>
-            </h1>
-            <div>
-              <PieChart :data="pieChartData" :options="options"></PieChart>
+            <div id="username">
+              <h1 class="uk-heading-medium">
+                <strong class="uk-margin-remove">{{ Person.username }}</strong>
+              </h1>
+              <div id="piechart">
+                <PieChart :data="pieChartData" :options="options"></PieChart>
+              </div>
             </div>
             <div class="profile_content">
               <p>{{ Person.introduction }}</p>
@@ -52,39 +54,47 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
-import PieChart from '@/components/PieChart'
+import PieChart from "@/components/PieChart";
 import api from "@/services/api";
 
 export default {
   components: {
     MyHeader,
-    PieChart
+    PieChart,
   },
   props: ["user_id"],
   data() {
     return {
       // グラフ描画用データ
-      pieChartData : {
-          // ラベル
-          labels: ["天領", "薩摩", "長州", "土佐"],
-          // データ詳細
-          datasets: [{
-              label: '藩と人口',
-              data: [13740000, 9072000, 7150000, 6148000],
-              backgroundColor: [
-                 'rgba(255, 100, 130, 0.2)',
-                 'rgba(100, 130, 255, 0.2)',
-                 'rgba(130, 255, 100, 0.2)',
-                 'rgba(230, 210, 85, 0.2)'
-              ]
-          }]
+      pieChartData: {
+        // ラベル
+        labels: ["天領", "薩摩", "長州", "土佐"],
+        // データ詳細
+        datasets: [
+          {
+            label: "藩と人口",
+            data: [13740000, 9072000, 7150000, 6148000],
+            backgroundColor: [
+              "rgba(255, 100, 130, 0.2)",
+              "rgba(100, 130, 255, 0.2)",
+              "rgba(130, 255, 100, 0.2)",
+              "rgba(230, 210, 85, 0.2)",
+            ],
+          },
+        ],
       },
       // グラフオプション
-      options : {
-          title: {
-              display: false,
-              text: '藩と人口'
-          },
+      options: {
+        title: {
+          display: false,
+          text: "藩と人口",
+        },
+        legend: {
+          // 凡例に関する設定
+          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/legend.html
+          display: false, // 凡例を表示します。
+          // position: "bottom", // 凡例の位置
+        },
       },
       Person: {},
     };
@@ -121,6 +131,9 @@ export default {
 </script>
 
 <style scoped>
+#username {
+  display: flex;
+}
 .router-link {
   text-decoration: none;
   color: black;
@@ -173,8 +186,14 @@ export default {
 
 #profile_edit_button {
   position: absolute;
-  bottom: 50px;
+  bottom: 25px;
   right: 50px;
 }
 
+#piechart {
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  right: 50px;
+}
 </style>
