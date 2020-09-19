@@ -14,6 +14,9 @@ export default {
     options() {
       this.renderChart(this.data, this.options);
     },
+    $route() {
+      this.renderChart(this.data, this.options);
+    },
   },
 };
 </script>

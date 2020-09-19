@@ -10,25 +10,26 @@
             <canvas width="500" height="500"></canvas>
           </div>
         </div>
-        <!-- {{pieChartData.datasets[0].data}} -->
         <div class="uk-width-3-4">
-        <!-- {{pieChartData.labels}} -->
           <div class="uk-card-body">
             <div id="username">
               <h1 class="uk-heading-medium">
                 <strong class="uk-margin-remove">{{ Person.username }}</strong>
               </h1>
+              <div v-if="user_id == user.id">
+                <router-link class="router-link" to="/profile_edit">
+                  <div
+                    class="uk-button uk-button-small uk-button-default"
+                    id="profile_edit_button"
+                  >編集</div>
+                </router-link>
+              </div>
               <div id="piechart">
                 <PieChart :data="pieChartData" :options="options"></PieChart>
               </div>
             </div>
             <div class="profile_content">
               <p>{{ Person.introduction }}</p>
-            </div>
-            <div v-if="user_id == user.id">
-              <router-link class="router-link" to="/profile_edit">
-                <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
-              </router-link>
             </div>
           </div>
         </div>
@@ -74,15 +75,16 @@ export default {
         datasets: [
           {
             // label: "藩と人口",
-            data:[],
+            data: [],
             backgroundColor: [
               "rgba(255, 100, 130, 0.2)",
               "rgba(100, 130, 255, 0.2)",
               "rgba(130, 255, 100, 0.2)",
-              "rgba(230, 210, 85, 0.2)",
-              "rgba(220, 110, 85, 0.2)",
-              "rgba(211, 110, 85, 0.2)",
-              "rgba(167, 110, 84, 0.2)",
+              "rgba(130, 110, 85, 0.2)",
+              "rgba(200, 110, 85, 0.2)",
+              "rgba(111, 110, 85, 0.2)",
+              "rgba(267, 110, 84, 0.2)",
+              "rgba(267, 210, 84, 0.2)",
             ],
             borderColor: "transparent",
           },
@@ -90,15 +92,12 @@ export default {
       },
       // グラフオプション
       options: {
-        title: {
-          display: false,
-          text: "藩と人口",
-        },
         legend: {
           // 凡例に関する設定
-          display: false, // 凡例を表示します。
-          // position: "bottom", // 凡例の位置
+          display: true, // 凡例を表示します。
+          position: "right", // 凡例の位置
         },
+        animation:false,
       },
       Person: {},
     };
@@ -113,44 +112,44 @@ export default {
     ...mapGetters("post", {
       posts: "latestPosts",
     }),
-    // previousPosts() {
-    //   return this.posts.filter((x) => x.author.id == this.user_id);
-    // },
+    previousPosts() {
+      return this.posts.filter((x) => x.author.id == this.user_id);
+    },
+    myCategories() {
+      return this.previousPosts.map((x) => x.category);
+    },
+    categoriesNum() {
+      var categories_num = [];
+      for (var i = 1; i < this.categories.length + 1; i++) {
+        categories_num.push(this.myCategories.filter((num) => num == i).length);
+      }
+      return categories_num;
+    },
   },
   watch: {
     $route() {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
       });
+      this.set_category_data()
     },
   },
   methods: {
-    // ログアウトリンク押下
-    clickLogout: function () {
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました。",
-      });
-      this.$router.replace("/login");
-    },
+    set_category_data(){
+      this.pieChartData.datasets[0].data = this.categoriesNum;
+    }
   },
-  created() {
+  mounted() {
+    this.$store.dispatch("category/getAllCategories");
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
       this.$store.dispatch("post/getAllPosts");
     });
+  },
+  created() {
     const labels = this.categories.map((x) => x.name);
     this.pieChartData.labels = labels;
-
-    const previousPosts = this.posts.filter((x) => x.author.id == this.user_id);
-    var myCategories = previousPosts.map((x) => x.category);
-    // var categoriesNum = [];
-    for (var i = 1; i < this.categories.length + 1; i++) {
-      this.pieChartData.datasets[0].data.push(myCategories.filter((num) => num == i).length);
-    }
-    // const categories_num = categoriesNum
-    // this.pieChartData.datasets[0].data = categories_num;
-    console.log(this.pieChartData.datasets[0].data);
+    this.set_category_data()
   },
 };
 </script>
@@ -210,15 +209,19 @@ export default {
 }
 
 #profile_edit_button {
-  position: absolute;
-  bottom: 25px;
-  right: 50px;
+  position: relative;
+  top: 30px;
+  margin-left: 20px;
+  /* bottom: 0px; */
+  /* right: 50px; */
 }
 
 #piechart {
   position: absolute;
-  width: 180px;
-  height: 180px;
-  right: 50px;
+  width: 350px;
+  height: 350px;
+  right: 25px;
+  top: -20px;
+  /* bottom: -50px; */
 }
 </style>
