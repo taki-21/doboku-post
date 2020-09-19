@@ -57,6 +57,7 @@
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
 import PieChart from "@/components/PieChart";
+import * as palette from 'google-palette'
 import api from "@/services/api";
 
 export default {
@@ -76,16 +77,11 @@ export default {
           {
             // label: "藩と人口",
             data: [],
-            backgroundColor: [
-              "rgba(255, 100, 130, 0.2)",
-              "rgba(100, 130, 255, 0.2)",
-              "rgba(130, 255, 100, 0.2)",
-              "rgba(130, 110, 85, 0.2)",
-              "rgba(200, 110, 85, 0.2)",
-              "rgba(111, 110, 85, 0.2)",
-              "rgba(267, 110, 84, 0.2)",
-              "rgba(267, 210, 84, 0.2)",
-            ],
+            backgroundColor: palette('mpn65', 30).map(
+              function(hex) {
+                return '#' + hex + 30
+              }
+            ),
             borderColor: "transparent",
           },
         ],
