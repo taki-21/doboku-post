@@ -3,7 +3,6 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div class="content_profilecard">
-      <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
@@ -13,16 +12,24 @@
         </div>
         <div class="uk-width-3-4">
           <div class="uk-card-body">
-            <h1 class="uk-heading-medium">
-              <strong class="uk-margin-remove">{{ Person.username }}</strong>
-            </h1>
+            <div id="username">
+              <h1 class="uk-heading-medium">
+                <strong class="uk-margin-remove">{{ Person.username }}</strong>
+              </h1>
+              <div v-if="user_id == user.id">
+                <router-link class="router-link" to="/profile_edit">
+                  <div
+                    class="uk-button uk-button-small uk-button-default"
+                    id="profile_edit_button"
+                  >編集</div>
+                </router-link>
+              </div>
+              <div id="piechart">
+                <PieChart :data="pieChartData" :options="options"></PieChart>
+              </div>
+            </div>
             <div class="profile_content">
               <p>{{ Person.introduction }}</p>
-            </div>
-            <div v-if="user_id == user.id">
-              <router-link class="router-link" to="/profile_edit">
-                <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
-              </router-link>
             </div>
           </div>
         </div>
@@ -49,15 +56,49 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
+import PieChart from "@/components/PieChart";
 import api from "@/services/api";
 
 export default {
   components: {
     MyHeader,
+    PieChart,
   },
   props: ["user_id"],
   data() {
     return {
+      // グラフ描画用データ
+      pieChartData: {
+        // ラベル
+        labels: [],
+        // データ詳細
+        datasets: [
+          {
+            // label: "藩と人口",
+            data: [],
+            backgroundColor: [
+              "rgba(255, 100, 130, 0.2)",
+              "rgba(100, 130, 255, 0.2)",
+              "rgba(130, 255, 100, 0.2)",
+              "rgba(130, 110, 85, 0.2)",
+              "rgba(200, 110, 85, 0.2)",
+              "rgba(111, 110, 85, 0.2)",
+              "rgba(267, 110, 84, 0.2)",
+              "rgba(267, 210, 84, 0.2)",
+            ],
+            borderColor: "transparent",
+          },
+        ],
+      },
+      // グラフオプション
+      options: {
+        legend: {
+          // 凡例に関する設定
+          display: true, // 凡例を表示します。
+          position: "right", // 凡例の位置
+        },
+        animation:false,
+      },
       Person: {},
     };
   },
@@ -65,34 +106,58 @@ export default {
     ...mapGetters("user", {
       user: "getUser",
     }),
+    ...mapGetters("category", {
+      categories: "categories",
+    }),
+    ...mapGetters("post", {
+      posts: "latestPosts",
+    }),
+    previousPosts() {
+      return this.posts.filter((x) => x.author.id == this.user_id);
+    },
+    myCategories() {
+      return this.previousPosts.map((x) => x.category);
+    },
+    categoriesNum() {
+      var categories_num = [];
+      for (var i = 1; i < this.categories.length + 1; i++) {
+        categories_num.push(this.myCategories.filter((num) => num == i).length);
+      }
+      return categories_num;
+    },
   },
   watch: {
     $route() {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
       });
+      this.set_category_data()
     },
   },
   methods: {
-    // ログアウトリンク押下
-    clickLogout: function () {
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました。",
-      });
-      this.$router.replace("/login");
-    },
+    set_category_data(){
+      this.pieChartData.datasets[0].data = this.categoriesNum;
+    }
   },
   mounted() {
+    this.$store.dispatch("category/getAllCategories");
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
       this.$store.dispatch("post/getAllPosts");
     });
   },
+  created() {
+    const labels = this.categories.map((x) => x.name);
+    this.pieChartData.labels = labels;
+    this.set_category_data()
+  },
 };
 </script>
 
 <style scoped>
+#username {
+  display: flex;
+}
 .router-link {
   text-decoration: none;
   color: black;
@@ -144,8 +209,19 @@ export default {
 }
 
 #profile_edit_button {
+  position: relative;
+  top: 30px;
+  margin-left: 20px;
+  /* bottom: 0px; */
+  /* right: 50px; */
+}
+
+#piechart {
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  width: 350px;
+  height: 350px;
+  right: 25px;
+  top: -20px;
+  /* bottom: -50px; */
 }
 </style>
