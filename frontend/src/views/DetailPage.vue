@@ -111,7 +111,6 @@
                           >
                             <header class="uk-comment-header uk-position-relative">
                               <div>
-                                <!-- <pre>{{comment.author.id}}</pre> -->
                                 <router-link
                                   class="show_user"
                                   :to="{name: 'mypage', params:{user_id: comment.author.id}}"
@@ -125,7 +124,12 @@
                               </div>
                             </header>
                             <div>
-                              <p>{{comment.text}}</p>
+                              <div>{{comment.text}}</div>
+                            </div>
+                            <div id="delete-icon" v-if="comment.author.id == user.id">
+                              <a @click="deleteComment(comment.id)">
+                                <i uk-icon="icon: trash"></i>
+                              </a>
                             </div>
                           </article>
                         </li>
@@ -181,9 +185,9 @@ export default {
       likeCount: "likeCount",
       likes: "likes",
     }),
-    isLoggedIn: function () {
-      return this.$store.getters["auth/isLoggedIn"];
-    },
+    ...mapGetters("user", {
+      user: "getUser",
+    }),
     modal_href: function () {
       return "#" + "map_modal" + this.post.id;
     },
@@ -193,9 +197,7 @@ export default {
   },
 
   mounted() {
-    api.get("/comments/").then((response) => {
-      this.comments = response.data.filter((x) => x.post === this.id);
-    });
+    this.CommentGet();
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
@@ -235,6 +237,12 @@ export default {
         this.comments = response.data.filter((x) => x.post === this.id);
       });
     },
+    deleteComment(comment_id) {
+      api
+        .delete("/comments/" + comment_id + "/")
+        .then(this.CommentGet);
+    },
+
     back() {
       // 1つ前へ
       this.$router.back();
@@ -383,5 +391,13 @@ export default {
 #none_message {
   text-align: center;
   margin-top: 20px;
+}
+#delete-icon {
+  text-align: right;
+
+  /* position: realtive;
+  right: 0px;
+  bottom: 0px; */
+  /* float: right; */
 }
 </style>

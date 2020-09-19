@@ -63,6 +63,12 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
 
 
+class CommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    """コメントモデルの取得（詳細）・更新・削除APIクラス"""
+    queryset = Comment.objects.all()
+    serializer_class = CommentSerializer
+
+
 class LikeFilter(filters.FilterSet):
     class Meta:
         model = Like
