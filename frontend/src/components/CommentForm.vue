@@ -1,14 +1,23 @@
 <template>
   <div>
-    <form @submit.prevent="submitText()">
-      <div class="uk-margin">
+    <form @submit.prevent="submitText()" @click="post_comment">
+      <div>
         <div class="uk-inline uk-width-1-1">
-          <textarea class="uk-textarea" row="3" type="text" v-model="text"></textarea>
+          <textarea
+            class="uk-textarea"
+            row="4"
+            type="text"
+            v-model="text"
+            placeholder="コメントを入力してください"
+          ></textarea>
           <button
+            class="uk-button uk-button-default uk-button-small"
             type="submit"
-            class="uk-button uk-button-primary uk-button-small"
             id="comment-btn"
-          >送信</button>
+          >
+            <span uk-icon="icon: comment"></span>
+            送信
+          </button>
         </div>
       </div>
     </form>
@@ -24,6 +33,12 @@ export default {
       text: "",
       author_name: this.$store.getters["auth/id"],
     };
+  },
+  computed: {
+    isLoggedIn: function () {
+      return this.$store.getters["auth/isLoggedIn"];
+    },
+
   },
   methods: {
     submitText: function () {
@@ -43,17 +58,26 @@ export default {
       // 入力後、フォーム内の文字列をクリア
       this.text = "";
     },
+    post_comment() {
+      if (this.isLoggedIn == false) {
+        console.log("aaaaaaaaaaaaaaa");
+        this.$router.replace("/login");
+      }
+    },
   },
 };
 </script>
 
 <style scoped>
-.uk-textarea {
-  margin-top: 10px;
-}
+/* .uk-textarea {
+  margin-bottom: 5px;
+} */
 #comment-btn {
-  position: absolute;
+  width: 100%;
+  background-color: rgba(139, 138, 135, 0.3);
+
+  /* position: absolute;
   right: 0px;
-  bottom: 0px;
+  bottom: 0px; */
 }
 </style>

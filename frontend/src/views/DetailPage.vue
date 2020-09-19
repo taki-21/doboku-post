@@ -40,7 +40,7 @@
                     <button
                       id="location_button"
                       class="uk-button uk-button-default uk-button-large"
-                      :href= "modal_href"
+                      :href="modal_href"
                       type="button"
                       @click="callChildMethod"
                       uk-toggle
@@ -95,18 +95,12 @@
                 <div class="uk-width-2-5">
                   <div class="right_column">
                     <div>
-                      <button
-                        class="uk-button uk-button-default comment_button"
-                        type="button"
-                        uk-toggle="target: .toggle-usage"
-                        @click="post_comment"
-                      >
-                        <span uk-icon="icon: comment"></span>
-                        コメントを投稿する
-                      </button>
-                      <div class="toggle-usage" hidden>
+                      <div>
                         <CommentForm :post="post" @CommentGet="CommentGet" />
                       </div>
+                    </div>
+                    <div v-if="comments == ''">
+                      <p id="none_message">まだコメントがありません</p>
                     </div>
                     <div class="logbox">
                       <ul class="uk-comment-list">
@@ -136,9 +130,6 @@
                           </article>
                         </li>
                       </ul>
-                    </div>
-                    <div v-if="comments == ''">
-                      <p id="none_message">まだコメントがありません</p>
                     </div>
                   </div>
                 </div>
@@ -194,11 +185,11 @@ export default {
       return this.$store.getters["auth/isLoggedIn"];
     },
     modal_href: function () {
-      return "#" + "map_modal" + this.post.id
+      return "#" + "map_modal" + this.post.id;
     },
     modal: function () {
-      return "map_modal" + this.post.id
-    }
+      return "map_modal" + this.post.id;
+    },
   },
 
   mounted() {
@@ -208,7 +199,7 @@ export default {
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
-        callChildMethod() {
+    callChildMethod() {
       this.$refs.map.initializeMap();
     },
     toggleLike() {
@@ -244,12 +235,6 @@ export default {
         this.comments = response.data.filter((x) => x.post === this.id);
       });
     },
-    post_comment() {
-      if (this.isLoggedIn == false) {
-        console.log("aaaaaaaaaaaaaaa");
-        this.$router.replace("/login");
-      }
-    },
     back() {
       // 1つ前へ
       this.$router.back();
@@ -259,7 +244,7 @@ export default {
 </script>
 
 <style scoped>
-#back_icon{
+#back_icon {
   color: rgba(139, 138, 135, 0.85);
 }
 .show_user {
@@ -323,10 +308,6 @@ export default {
   margin-top: 0px;
 }
 
-.comment_button {
-  width: 100%;
-}
-
 #location_button {
   float: left;
   margin-top: 10px;
@@ -380,8 +361,9 @@ export default {
 }
 .logbox {
   /* border: solid 1px #808080; */
-  margin-top: 20px;
+  margin-top: 40px;
   width: 100%;
+  height: 100%;
   max-height: -webkit-fill-available;
   overflow: auto;
 }
@@ -398,8 +380,8 @@ export default {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
-#none_message{
+#none_message {
   text-align: center;
+  margin-top: 20px;
 }
-
 </style>

@@ -57,7 +57,7 @@
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
 import PieChart from "@/components/PieChart";
-import * as palette from 'google-palette'
+import * as palette from "google-palette";
 import api from "@/services/api";
 
 export default {
@@ -77,11 +77,9 @@ export default {
           {
             // label: "藩と人口",
             data: [],
-            backgroundColor: palette('mpn65', 30).map(
-              function(hex) {
-                return '#' + hex + 30
-              }
-            ),
+            backgroundColor: palette("mpn65", 30).map(function (hex) {
+              return "#" + hex + 30;
+            }),
             borderColor: "transparent",
           },
         ],
@@ -93,7 +91,7 @@ export default {
           display: true, // 凡例を表示します。
           position: "right", // 凡例の位置
         },
-        animation:false,
+        animation: false,
       },
       Person: {},
     };
@@ -127,13 +125,13 @@ export default {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
       });
-      this.set_category_data()
+      this.set_category_data();
     },
   },
   methods: {
-    set_category_data(){
+    set_category_data() {
       this.pieChartData.datasets[0].data = this.categoriesNum;
-    }
+    },
   },
   mounted() {
     this.$store.dispatch("category/getAllCategories");
@@ -145,7 +143,7 @@ export default {
   created() {
     const labels = this.categories.map((x) => x.name);
     this.pieChartData.labels = labels;
-    this.set_category_data()
+    this.set_category_data();
   },
 };
 </script>
