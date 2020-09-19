@@ -64,7 +64,6 @@ export default {
   components: {
     PostList,
   },
-
   data() {
     return {
       query: {

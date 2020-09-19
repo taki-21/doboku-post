@@ -11,6 +11,7 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
     path('categories/', views.CategoryListAPIView.as_view()),
     path('comments/', views.CommentListCreateAPIView.as_view()),
+    path('comments/<int:pk>/', views.CommentRetrieveUpdateDestroyAPIView.as_view()),
     path('likes/', views.LikeListCreateAPIView.as_view()),
     path('likes/<int:pk>/', views.LikeDestroyAPIView.as_view()),
     path('auth/', include('djoser.urls')),

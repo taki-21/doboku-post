@@ -40,7 +40,7 @@
                     <button
                       id="location_button"
                       class="uk-button uk-button-default uk-button-large"
-                      :href= "modal_href"
+                      :href="modal_href"
                       type="button"
                       @click="callChildMethod"
                       uk-toggle
@@ -95,18 +95,12 @@
                 <div class="uk-width-2-5">
                   <div class="right_column">
                     <div>
-                      <button
-                        class="uk-button uk-button-default comment_button"
-                        type="button"
-                        uk-toggle="target: .toggle-usage"
-                        @click="post_comment"
-                      >
-                        <span uk-icon="icon: comment"></span>
-                        コメントを投稿する
-                      </button>
-                      <div class="toggle-usage" hidden>
+                      <div>
                         <CommentForm :post="post" @CommentGet="CommentGet" />
                       </div>
+                    </div>
+                    <div v-if="comments == ''">
+                      <p id="none_message">まだコメントがありません</p>
                     </div>
                     <div class="logbox">
                       <ul class="uk-comment-list">
@@ -117,7 +111,6 @@
                           >
                             <header class="uk-comment-header uk-position-relative">
                               <div>
-                                <!-- <pre>{{comment.author.id}}</pre> -->
                                 <router-link
                                   class="show_user"
                                   :to="{name: 'mypage', params:{user_id: comment.author.id}}"
@@ -131,14 +124,39 @@
                               </div>
                             </header>
                             <div>
-                              <p>{{comment.text}}</p>
+                              <div>{{comment.text}}</div>
+                            </div>
+                            <div id="delete-icon" v-if="comment.author.id == user.id">
+                              <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
+                                <i id="delete-icon" uk-icon="icon: trash"></i>
+                                <!-- <span id="delete-word">削除</span> -->
+                              </a>
+                              <div :id="'modal-' + comment.id" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                  <h2 class="uk-modal-title">削除確認</h2>
+                                  <p>コメント：{{ comment.text }}を削除します。よろしいですか？</p>
+                                  <p class="uk-text-right">
+                                    <button
+                                      id="cancel_button"
+                                      class="uk-button uk-button-default uk-modal-close"
+                                      type="button"
+                                    >キャンセル</button>
+                                    <button
+                                      class="uk-button uk-button-primary uk-modal-close"
+                                      type="button"
+                                      @click="deleteComment(comment.id)"
+                                    >OK</button>
+                                  </p>
+                                </div>
+                              </div>
+
+                              <!-- <a @click="deleteComment(comment.id)">
+                                <i uk-icon="icon: trash"></i>
+                              </a>-->
                             </div>
                           </article>
                         </li>
                       </ul>
-                    </div>
-                    <div v-if="comments == ''">
-                      <p id="none_message">まだコメントがありません</p>
                     </div>
                   </div>
                 </div>
@@ -190,25 +208,23 @@ export default {
       likeCount: "likeCount",
       likes: "likes",
     }),
-    isLoggedIn: function () {
-      return this.$store.getters["auth/isLoggedIn"];
-    },
+    ...mapGetters("user", {
+      user: "getUser",
+    }),
     modal_href: function () {
-      return "#" + "map_modal" + this.post.id
+      return "#" + "map_modal" + this.post.id;
     },
     modal: function () {
-      return "map_modal" + this.post.id
-    }
+      return "map_modal" + this.post.id;
+    },
   },
 
   mounted() {
-    api.get("/comments/").then((response) => {
-      this.comments = response.data.filter((x) => x.post === this.id);
-    });
+    this.CommentGet();
     this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
   methods: {
-        callChildMethod() {
+    callChildMethod() {
       this.$refs.map.initializeMap();
     },
     toggleLike() {
@@ -244,12 +260,10 @@ export default {
         this.comments = response.data.filter((x) => x.post === this.id);
       });
     },
-    post_comment() {
-      if (this.isLoggedIn == false) {
-        console.log("aaaaaaaaaaaaaaa");
-        this.$router.replace("/login");
-      }
+    deleteComment(comment_id) {
+      api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
+
     back() {
       // 1つ前へ
       this.$router.back();
@@ -259,7 +273,7 @@ export default {
 </script>
 
 <style scoped>
-#back_icon{
+#back_icon {
   color: rgba(139, 138, 135, 0.85);
 }
 .show_user {
@@ -323,10 +337,6 @@ export default {
   margin-top: 0px;
 }
 
-.comment_button {
-  width: 100%;
-}
-
 #location_button {
   float: left;
   margin-top: 10px;
@@ -380,8 +390,9 @@ export default {
 }
 .logbox {
   /* border: solid 1px #808080; */
-  margin-top: 20px;
+  margin-top: 40px;
   width: 100%;
+  height: 100%;
   max-height: -webkit-fill-available;
   overflow: auto;
 }
@@ -398,8 +409,30 @@ export default {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
-#none_message{
+#none_message {
   text-align: center;
+  margin-top: 20px;
 }
-
+#delete-icon {
+  text-align: right;
+}
+.delete-link {
+  text-decoration: none;
+  color: rgb(51, 51, 51);
+}
+.uk-modal-body {
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
+}
+.uk-modal-dialog{
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 700px;
+  /* max-width: calc(100% - 0.01px) !important; */
+  background: #fff;
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
+}
 </style>
