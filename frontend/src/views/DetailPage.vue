@@ -127,9 +127,32 @@
                               <div>{{comment.text}}</div>
                             </div>
                             <div id="delete-icon" v-if="comment.author.id == user.id">
-                              <a @click="deleteComment(comment.id)">
-                                <i uk-icon="icon: trash"></i>
+                              <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
+                                <i id="delete-icon" uk-icon="icon: trash"></i>
+                                <!-- <span id="delete-word">削除</span> -->
                               </a>
+                              <div :id="'modal-' + comment.id" uk-modal>
+                                <div class="uk-modal-dialog uk-modal-body">
+                                  <h2 class="uk-modal-title">削除確認</h2>
+                                  <p>コメント：{{ comment.text }}を削除します。よろしいですか？</p>
+                                  <p class="uk-text-right">
+                                    <button
+                                      id="cancel_button"
+                                      class="uk-button uk-button-default uk-modal-close"
+                                      type="button"
+                                    >キャンセル</button>
+                                    <button
+                                      class="uk-button uk-button-primary uk-modal-close"
+                                      type="button"
+                                      @click="deleteComment(comment.id)"
+                                    >OK</button>
+                                  </p>
+                                </div>
+                              </div>
+
+                              <!-- <a @click="deleteComment(comment.id)">
+                                <i uk-icon="icon: trash"></i>
+                              </a>-->
                             </div>
                           </article>
                         </li>
@@ -238,9 +261,7 @@ export default {
       });
     },
     deleteComment(comment_id) {
-      api
-        .delete("/comments/" + comment_id + "/")
-        .then(this.CommentGet);
+      api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
     back() {
@@ -394,10 +415,24 @@ export default {
 }
 #delete-icon {
   text-align: right;
-
-  /* position: realtive;
-  right: 0px;
-  bottom: 0px; */
-  /* float: right; */
+}
+.delete-link {
+  text-decoration: none;
+  color: rgb(51, 51, 51);
+}
+.uk-modal-body {
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
+}
+.uk-modal-dialog{
+  position: relative;
+  box-sizing: border-box;
+  margin: 0 auto;
+  width: 700px;
+  /* max-width: calc(100% - 0.01px) !important; */
+  background: #fff;
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
 }
 </style>
