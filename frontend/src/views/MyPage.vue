@@ -10,8 +10,9 @@
             <canvas width="500" height="500"></canvas>
           </div>
         </div>
-        <!-- <pre>{{pieChartData}}</pre> -->
+        <!-- {{pieChartData.datasets[0].data}} -->
         <div class="uk-width-3-4">
+        <!-- {{pieChartData.labels}} -->
           <div class="uk-card-body">
             <div id="username">
               <h1 class="uk-heading-medium">
@@ -73,7 +74,7 @@ export default {
         datasets: [
           {
             // label: "藩と人口",
-            data: [1374, 9072, 715, 6148, 1200, 500, 2222],
+            data:[],
             backgroundColor: [
               "rgba(255, 100, 130, 0.2)",
               "rgba(100, 130, 255, 0.2)",
@@ -81,9 +82,9 @@ export default {
               "rgba(230, 210, 85, 0.2)",
               "rgba(220, 110, 85, 0.2)",
               "rgba(211, 110, 85, 0.2)",
-              "rgba(167, 110, 85, 0.2)",
+              "rgba(167, 110, 84, 0.2)",
             ],
-            // borderColor: "transparent",
+            borderColor: "transparent",
           },
         ],
       },
@@ -91,16 +92,12 @@ export default {
       options: {
         title: {
           display: false,
-          // text: "藩と人口",
+          text: "藩と人口",
         },
         legend: {
           // 凡例に関する設定
           display: false, // 凡例を表示します。
           // position: "bottom", // 凡例の位置
-        },
-        tooltips: {
-          // ツールチップに関する設定
-          display: true, // キャンバス上でツールチップを有効にします
         },
       },
       Person: {},
@@ -113,6 +110,12 @@ export default {
     ...mapGetters("category", {
       categories: "categories",
     }),
+    ...mapGetters("post", {
+      posts: "latestPosts",
+    }),
+    // previousPosts() {
+    //   return this.posts.filter((x) => x.author.id == this.user_id);
+    // },
   },
   watch: {
     $route() {
@@ -131,13 +134,23 @@ export default {
       this.$router.replace("/login");
     },
   },
-  mounted() {
+  created() {
     api.get("/users/" + this.user_id + "/").then((response) => {
       this.Person = response.data;
       this.$store.dispatch("post/getAllPosts");
     });
-    const labels = this.categories.map((x) => x.name)
-    this.pieChartData.labels = labels
+    const labels = this.categories.map((x) => x.name);
+    this.pieChartData.labels = labels;
+
+    const previousPosts = this.posts.filter((x) => x.author.id == this.user_id);
+    var myCategories = previousPosts.map((x) => x.category);
+    // var categoriesNum = [];
+    for (var i = 1; i < this.categories.length + 1; i++) {
+      this.pieChartData.datasets[0].data.push(myCategories.filter((num) => num == i).length);
+    }
+    // const categories_num = categoriesNum
+    // this.pieChartData.datasets[0].data = categories_num;
+    console.log(this.pieChartData.datasets[0].data);
   },
 };
 </script>

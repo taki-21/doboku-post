@@ -8,10 +8,10 @@ export default {
     this.renderChart(this.data, this.options);
   },
   watch: {
-    data: function () {
+    data() {
       this.renderChart(this.data, this.options);
     },
-    options: function () {
+    options() {
       this.renderChart(this.data, this.options);
     },
   },
