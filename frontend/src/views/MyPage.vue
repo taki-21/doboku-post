@@ -3,7 +3,6 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div class="content_profilecard">
-      <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
@@ -11,6 +10,7 @@
             <canvas width="500" height="500"></canvas>
           </div>
         </div>
+        <!-- <pre>{{pieChartData}}</pre> -->
         <div class="uk-width-3-4">
           <div class="uk-card-body">
             <div id="username">
@@ -68,18 +68,22 @@ export default {
       // グラフ描画用データ
       pieChartData: {
         // ラベル
-        labels: ["天領", "薩摩", "長州", "土佐"],
+        labels: [],
         // データ詳細
         datasets: [
           {
-            label: "藩と人口",
-            data: [13740000, 9072000, 7150000, 6148000],
+            // label: "藩と人口",
+            data: [1374, 9072, 715, 6148, 1200, 500, 2222],
             backgroundColor: [
               "rgba(255, 100, 130, 0.2)",
               "rgba(100, 130, 255, 0.2)",
               "rgba(130, 255, 100, 0.2)",
               "rgba(230, 210, 85, 0.2)",
+              "rgba(220, 110, 85, 0.2)",
+              "rgba(211, 110, 85, 0.2)",
+              "rgba(167, 110, 85, 0.2)",
             ],
+            // borderColor: "transparent",
           },
         ],
       },
@@ -87,13 +91,16 @@ export default {
       options: {
         title: {
           display: false,
-          text: "藩と人口",
+          // text: "藩と人口",
         },
         legend: {
           // 凡例に関する設定
-          // See https://misc.0o0o.org/chartjs-doc-ja/configuration/legend.html
           display: false, // 凡例を表示します。
           // position: "bottom", // 凡例の位置
+        },
+        tooltips: {
+          // ツールチップに関する設定
+          display: true, // キャンバス上でツールチップを有効にします
         },
       },
       Person: {},
@@ -102,6 +109,9 @@ export default {
   computed: {
     ...mapGetters("user", {
       user: "getUser",
+    }),
+    ...mapGetters("category", {
+      categories: "categories",
     }),
   },
   watch: {
@@ -126,6 +136,8 @@ export default {
       this.Person = response.data;
       this.$store.dispatch("post/getAllPosts");
     });
+    const labels = this.categories.map((x) => x.name)
+    this.pieChartData.labels = labels
   },
 };
 </script>
