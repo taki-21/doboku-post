@@ -425,14 +425,4 @@ export default {
   padding: 30px 30px;
   border-radius: 5px;
 }
-.uk-modal-dialog{
-  position: relative;
-  box-sizing: border-box;
-  margin: 0 auto;
-  width: 700px;
-  /* max-width: calc(100% - 0.01px) !important; */
-  background: #fff;
-  transition: 0.3s linear;
-  transition-property: opacity, transform;
-}
 </style>

@@ -33,7 +33,7 @@ class PostFilter(filters.FilterSet):
 
     class Meta:
         model = Post
-        fields = ['title', 'category', 'published_at', 'prefecture']
+        fields = ['author', 'title', 'category', 'published_at', 'prefecture']
 
 
 class PostListCreateAPIView(generics.ListCreateAPIView):
