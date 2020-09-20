@@ -201,7 +201,7 @@ export default {
       formData.append("author_name", this.author_name);
       formData.append("title", this.title);
       formData.append("content", this.content);
-      formData.append("image", this.image);
+      formData.append("raw_image", this.image);
       formData.append("prefecture", this.prefecture);
       formData.append("address", this.address);
       formData.append("lat", this.lat);

@@ -32,7 +32,7 @@
                   </div>
 
                   <div uk-lightbox>
-                    <a :href="post.image">
+                    <a :href="post.raw_image">
                       <img :src="post.image" />
                     </a>
                   </div>
