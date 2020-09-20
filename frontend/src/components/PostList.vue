@@ -78,7 +78,6 @@
 
 <script>
 import moment from "moment";
-// import api from "@/services/api";
 
 export default {
   props: ["postType", "user_id"],

@@ -174,7 +174,6 @@ import moment from "moment";
 import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 import Map from "@/components/Map";
-
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 
@@ -277,6 +276,9 @@ export default {
 </script>
 
 <style scoped>
+html{
+  overflow: overlay;
+}
 #back_icon {
   color: rgba(139, 138, 135, 0.85);
 }
@@ -329,7 +331,7 @@ export default {
 }
 
 .uk-comment-primary {
-  padding: 15px;
+  padding: 15px 15px 5px 15px;
   border-left: 4px solid black;
   border-bottom: 1px solid black;
 }
@@ -339,6 +341,9 @@ export default {
 
 .uk-comment-list > :nth-child(n + 2) {
   margin-top: 0px;
+}
+ul.uk-comment-list{
+  margin: 0;
 }
 
 #location_button {
@@ -390,15 +395,27 @@ export default {
   text-align: right;
 }
 .right_column {
-  height: 585px;
+  height: 100%;
 }
+
 .logbox {
   /* border: solid 1px #808080; */
-  margin-top: 40px;
-  width: 100%;
-  height: 100%;
-  max-height: -webkit-fill-available;
-  overflow: auto;
+  /* margin-top: 40px; */
+  height: 560px;
+  /* max-height: -webkit-fill-available; */
+  overflow-y: scroll;
+  overflow-y: overlay;
+}
+.logbox::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(208, 210, 212, 0.993);
+  /* border: 1px solid #ccc; */
+  border-right: none;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .uk-modal-dialog {

@@ -69,15 +69,9 @@ export default {
 </script>
 
 <style scoped>
-/* .uk-textarea {
-  margin-bottom: 5px;
-} */
 #comment-btn {
   width: 100%;
   background-color: rgba(139, 138, 135, 0.3);
-
-  /* position: absolute;
-  right: 0px;
-  bottom: 0px; */
+  margin-bottom: 20px;
 }
 </style>
