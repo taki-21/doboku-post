@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
 import PostList from "@/components/PostList";
 import api from "@/services/api";
 
@@ -22,21 +21,10 @@ export default {
     };
   },
   watch: {
-    // $store() {
-    //   this.$store.dispatch("post/getAllPosts");
-    // },
     $route() {
       this.getPreviousPosts();
     },
   },
-  // computed: {
-  //   ...mapGetters("post", {
-  //     posts: "latestPosts",
-  //   }),
-  //   previousPosts: function () {
-  //     return this.posts.filter((x) => x.author.id == this.user_id);
-  //   },
-  // },
   mounted() {
     this.getPreviousPosts();
   },

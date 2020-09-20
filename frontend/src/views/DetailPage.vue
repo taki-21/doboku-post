@@ -174,7 +174,6 @@ import moment from "moment";
 import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 import Map from "@/components/Map";
-
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 
@@ -398,7 +397,7 @@ export default {
   width: 100%;
   height: 100%;
   max-height: -webkit-fill-available;
-  overflow: auto;
+  overflow-y: scroll;
 }
 
 .uk-modal-dialog {
