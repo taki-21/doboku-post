@@ -211,10 +211,14 @@ export default {
     ...mapGetters("user", {
       user: "getUser",
     }),
-    modal_href: function () {
+    isLoggedIn() {
+      return this.$store.getters["auth/isLoggedIn"];
+    },
+
+    modal_href() {
       return "#" + "map_modal" + this.post.id;
     },
-    modal: function () {
+    modal() {
       return "map_modal" + this.post.id;
     },
   },
