@@ -82,18 +82,33 @@ import api from "@/services/api";
 
 export default {
   props: ["postType", "user_id"],
+  data() {
+    return {
+      postList: [],
+    };
+  },
   methods: {
     DestroyPost: function (post_id) {
       api.delete("/posts/" + post_id + "/").then(
-        this.$emit("parentPostDelete"),
+        this.getPreviousPosts
+        // this.$store.dispatch("post/getAllPosts")
+        // this.$emit("parentPostDelete"),
 
         // this.$store.dispatch("post/getAllPosts")
         // // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
         // this.$router.push({ name: 'mypage', params: { user_id: this.user_id } })
         // this.$router.replace('/')
-        // this.$router.replace('/mypage/' + this.user_id)
+        // this.$router.replace + ('/mypage/' + this.user_id)
       );
     },
+    getPreviousPosts() {
+      api.get("/posts/?auth=" + this.user_id + "/").then((response) => {
+        this.postList = response.data;
+      });
+    },
+  },
+  mounted() {
+    this.postList = this.postType;
   },
   filters: {
     moment: function (date) {
@@ -119,7 +134,7 @@ export default {
   background-color: #eaeeee;
   margin-bottom: 20px;
   max-width: 640px;
-  margin:0px auto;
+  margin: 0px auto;
 }
 .timestamp {
   font-size: 12px;

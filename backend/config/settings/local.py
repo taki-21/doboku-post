@@ -188,8 +188,6 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # # mediaファイルの設定
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-# MEDIA_ROOT = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
-# DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
 # =================================
 # Django REST Framework
