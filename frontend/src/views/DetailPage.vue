@@ -276,6 +276,9 @@ export default {
 </script>
 
 <style scoped>
+html{
+  overflow: overlay;
+}
 #back_icon {
   color: rgba(139, 138, 135, 0.85);
 }
@@ -328,7 +331,7 @@ export default {
 }
 
 .uk-comment-primary {
-  padding: 15px;
+  padding: 15px 15px 5px 15px;
   border-left: 4px solid black;
   border-bottom: 1px solid black;
 }
@@ -394,15 +397,25 @@ ul.uk-comment-list{
 .right_column {
   height: 100%;
 }
+
 .logbox {
   /* border: solid 1px #808080; */
   /* margin-top: 40px; */
   height: 560px;
   /* max-height: -webkit-fill-available; */
   overflow-y: scroll;
+  overflow-y: overlay;
 }
 .logbox::-webkit-scrollbar {
-  width: 15px;
+  width: 10px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: rgba(208, 210, 212, 0.993);
+  /* border: 1px solid #ccc; */
+  border-right: none;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
 }
 
 .uk-modal-dialog {
