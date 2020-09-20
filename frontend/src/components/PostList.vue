@@ -78,19 +78,16 @@
 
 <script>
 import moment from "moment";
-import api from "@/services/api";
+// import api from "@/services/api";
 
 export default {
   props: ["postType", "user_id"],
-  data() {
-    return {
-      postList: [],
-    };
-  },
   methods: {
-    DestroyPost: function (post_id) {
-      api.delete("/posts/" + post_id + "/").then(
-        this.getPreviousPosts
+    DestroyPost(post_id) {
+      // api.delete("/posts/" + post_id + "/").then(
+        this.$emit("parentPostDelete", post_id)
+
+        // this.getPreviousPosts
         // this.$store.dispatch("post/getAllPosts")
         // this.$emit("parentPostDelete"),
 
@@ -99,16 +96,13 @@ export default {
         // this.$router.push({ name: 'mypage', params: { user_id: this.user_id } })
         // this.$router.replace('/')
         // this.$router.replace + ('/mypage/' + this.user_id)
-      );
+      // );
     },
-    getPreviousPosts() {
-      api.get("/posts/?auth=" + this.user_id + "/").then((response) => {
-        this.postList = response.data;
-      });
-    },
-  },
-  mounted() {
-    this.postList = this.postType;
+    // getPreviousPosts() {
+    //   api.get("/posts/?author=" + this.user_id).then((response) => {
+    //     this.postList = response.data;
+    //   });
+    // },
   },
   filters: {
     moment: function (date) {

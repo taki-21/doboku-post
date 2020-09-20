@@ -41,13 +41,14 @@ export default {
     this.getPreviousPosts();
   },
   methods: {
-    parentPostDelete() {
-      this.$store.dispatch("post/getAllPosts");
+    parentPostDelete(post_id) {
+      api.delete("/posts/" + post_id + "/").then(
+        this.getPreviousPosts
+      )
     },
     getPreviousPosts() {
-      api.get("/posts/?auth=" + this.user_id + "/").then((response) => {
+      api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data;
-        console.log(response.data);
       });
     },
   },
