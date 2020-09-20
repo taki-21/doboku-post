@@ -27,8 +27,8 @@ const router = new VueRouter({
       path: '/',
       component: HomePage,
       children: [{
-        path: '',
-        name: 'latestpage',
+          path: '',
+          name: 'latestpage',
           component: LatestPosts
         },
         {
@@ -112,7 +112,7 @@ const router = new VueRouter({
       path: '*',
       redirect: '/'
     },
-  ]
+  ],
 })
 
 

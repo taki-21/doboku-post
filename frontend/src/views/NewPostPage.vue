@@ -33,7 +33,6 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <label>カテゴリ</label>
-                      {{category}}
                       <select
                         class="uk-select"
                         type="text"
@@ -57,7 +56,6 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <label>キャプション</label>
-                      {{content}}
                       <textarea
                         class="uk-textarea"
                         rows="3"

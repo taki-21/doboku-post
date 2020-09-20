@@ -1,6 +1,5 @@
 <template>
   <div>
-    <pre>{{user_id}}</pre>
     <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
   </div>
 </template>
