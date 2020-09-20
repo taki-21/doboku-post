@@ -35,10 +35,6 @@ export default {
 </script>
 
 <style scoped>
-/* ::-webkit-scrollbar {
-  display: none;
-  -webkit-appearance: none;
-} */
 .router-link {
   text-decoration: none;
   color: black;

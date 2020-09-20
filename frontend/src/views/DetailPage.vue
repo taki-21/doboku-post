@@ -339,6 +339,9 @@ export default {
 .uk-comment-list > :nth-child(n + 2) {
   margin-top: 0px;
 }
+ul.uk-comment-list{
+  margin: 0;
+}
 
 #location_button {
   float: left;
@@ -389,15 +392,17 @@ export default {
   text-align: right;
 }
 .right_column {
-  height: 585px;
+  height: 100%;
 }
 .logbox {
   /* border: solid 1px #808080; */
-  margin-top: 40px;
-  width: 100%;
-  height: 100%;
-  max-height: -webkit-fill-available;
+  /* margin-top: 40px; */
+  height: 560px;
+  /* max-height: -webkit-fill-available; */
   overflow-y: scroll;
+}
+.logbox::-webkit-scrollbar {
+  width: 15px;
 }
 
 .uk-modal-dialog {
