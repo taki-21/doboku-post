@@ -85,6 +85,7 @@ class TestPostListCreateAPIView(APITestCase):
                 'T'),
             'comments_count': 0,
             'raw_image': None,
+            'image': None,
             'likes_count': 0,
             'prefecture': post.prefecture,
             'address': post.address,
