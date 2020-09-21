@@ -49,7 +49,7 @@ INSTALLED_APPS = [
     'djoser',
     'django_filters',
 
-    #AWS
+    # AWS
     'storages',
 
 
@@ -149,12 +149,12 @@ USE_TZ = True
 # カスタムユーザーモデルの定義
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = False
 CORS_ORIGIN_WHITELIST = (
-    'https://doboku-post.site:8080',
     'https://doboku-post.site:80',
     'https://doboku-post.site:8000',
     'https://doboku-post.site',
+    'https://www.doboku-post.site',
 )
 
 FILE_UPLOAD_MAX_MEMORY_SIZE = 200000000
@@ -184,6 +184,7 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 # mediaファイルの設定
 MEDIA_URL = '/media/'
 MEDIA_ROOT = 'https://%s/media/' % AWS_S3_CUSTOM_DOMAIN
+IMAGEKIT_CACHEFILE_DIR = 'imagekit'
 DEFAULT_FILE_STORAGE = 'config.storage_backends.MediaStorage'
 
 # =================================

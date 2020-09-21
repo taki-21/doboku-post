@@ -32,7 +32,7 @@
                   </div>
 
                   <div uk-lightbox>
-                    <a :href="post.image">
+                    <a :href="post.raw_image">
                       <img :src="post.image" />
                     </a>
                   </div>
@@ -426,7 +426,7 @@ ul.uk-comment-list{
   max-width: calc(100% - 0.01px) !important;
   background: #fff;
   /* opacity: 0; */
-  transform: translateY(-100px);
+  /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }

@@ -40,6 +40,7 @@ class PostSerializer(serializers.ModelSerializer):
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(read_only=True)
     address = serializers.CharField(required=False)
     lat = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
@@ -65,7 +66,7 @@ class PostSerializer(serializers.ModelSerializer):
     class Meta:
         model = Post
         fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'likes_count', 'comments_count', 'image', 'prefecture', 'address', 'lat', 'lng')
+                  'published_at', 'likes_count', 'comments_count','raw_image', 'image', 'prefecture', 'address', 'lat', 'lng')
         # fields = '__all__'
         # read_only_fields = ('like',)
 
