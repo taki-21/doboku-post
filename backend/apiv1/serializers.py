@@ -39,6 +39,7 @@ class PostSerializer(serializers.ModelSerializer):
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
     likes_count = serializers.SerializerMethodField()
+    # number_of_likes = serializers.IntegerField(read_only=True)
     comments_count = serializers.SerializerMethodField()
     image = serializers.ImageField(read_only=True)
     address = serializers.CharField(required=False)

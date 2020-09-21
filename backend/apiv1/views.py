@@ -4,7 +4,9 @@ from rest_framework import authentication, permissions, generics, views, status
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer, LikeSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
+from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 # from django.db.models import Count
 
@@ -31,9 +33,20 @@ class PostFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='contains')
     published_at = filters.DateTimeFilter(lookup_expr='gt')
 
+    # order_by = filters.OrderingFilter(
+    #     fields=(
+    #         ('number_of_likes', 'number_of_likes'),
+    #     ),
+    # )
+
     class Meta:
         model = Post
-        fields = ['author', 'title', 'category', 'published_at', 'prefecture']
+        fields = [
+            'author',
+            'title',
+            'category',
+            'published_at',
+            'prefecture', ]
 
 
 class PostListCreateAPIView(generics.ListCreateAPIView):
@@ -41,6 +54,19 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_class = PostFilter
+
+    # def get_queryset(self):
+    #     queryset = Post.objects.all()
+    #     ordering = self.request.query_params.get('like_post', None)
+    #     if ordering is not None:
+    #         queryset = queryset.
+    # filter_backends = (DjangoFilterBackend, OrderingFilter,)
+    # filter_fields = 'likes_count'
+    # ordering_fields = '__all__'
+    # ordering_fields = ('number_of_likes',)
+    # ordering_fields = '__all__'
+    # ordering = ('number_of_likes',)
+
     # #認証済のみアクセス可能
     # permission_classes = [IsAuthenticated]
 
@@ -63,7 +89,8 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = CommentSerializer
 
 
-class CommentRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class CommentRetrieveUpdateDestroyAPIView(
+        generics.RetrieveUpdateDestroyAPIView):
     """コメントモデルの取得（詳細）・更新・削除APIクラス"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
