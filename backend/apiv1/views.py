@@ -35,7 +35,7 @@ class PostFilter(filters.FilterSet):
 
     # order_by = filters.OrderingFilter(
     #     fields=(
-    #         ('number_of_likes', 'number_of_likes'),
+    #         ('published_at', 'published_at'),
     #     ),
     # )
 
