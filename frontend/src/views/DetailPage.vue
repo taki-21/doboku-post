@@ -190,18 +190,12 @@ export default {
   data() {
     return {
       comments: [],
-      post: "",
-      liked: "",
-      likes_post: [],
+      post: [],
+      liked: [],
+      likeCount: [],
     };
   },
   computed: {
-    likeCount() {
-      return this.post.likes_count;
-    },
-    // ...mapGetters("user", {
-    //   user_id: "id",
-    // }),
     login_user_id() {
       return this.$store.getters["auth/id"];
     },
@@ -223,49 +217,52 @@ export default {
           this.liked = response.data;
         });
     },
-    callChildMethod() {
-      this.$refs.map.initializeMap();
+    getLikeCount() {
+      api.get("/posts/" + this.post_id + "/").then((response) => {
+        this.likeCount = response.data.likes_count;
+      });
     },
     toggleLike() {
-      this.liked == '' ? this.addLike() : this.removeLike();
-      // const userIdList = this.likes.map((obj) => obj.user);
-      // userIdList.includes(this.$store.getters["auth/id"])
-      //   ? this.removeLike()
-      //   : this.addLike();
+      this.liked == "" ? this.addLike() : this.removeLike();
     },
     addLike() {
-      console.log('addLike')
+      console.log("addLike");
+      this.confirmLiked;
+      this.getLikeCount;
       if (this.isLoggedIn) {
         api
           .post("/likes/", {
             user: this.login_user_id,
             post_id: this.post_id,
           })
-          .then(this.confirmLiked());
+          .then(this.getLikeCount)
+          .then(this.confirmLiked);
       } else {
         this.$router.replace("/login");
       }
     },
     removeLike() {
-      console.log('removeLike')
-      // const path = this.likes.filter(
-      //   (x) => x.user == this.$store.getters["auth/id"]
-      // )[0].id;
-      // api.delete("/likes/" + path + "/").then(() => {
-      //   this.$store.dispatch("post/getAllLikes", { post_id: this.id });
-      // });
-      const path = this.liked[0].id;
-      api.delete("/likes/" + path + "/").then(this.confirmLiked());
+      console.log("removeLike");
+      this.confirmLiked;
+      this.getLikeCount;
+      // const path = this.liked[0].id;
+      api
+        .delete("/likes/" + this.liked[0].id + "/")
+        .then(this.getLikeCount)
+        .then(this.confirmLiked);
     },
     CommentGet() {
-      api.get("/comments/").then((response) => {
-        this.comments = response.data.filter((x) => x.post === this.id);
+      api.get("/comments/?post=" + this.post_id).then((response) => {
+        this.comments = response.data;
       });
     },
     deleteComment(comment_id) {
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
+    callChildMethod() {
+      this.$refs.map.initializeMap();
+    },
     back() {
       // 1つ前へ
       this.$router.back();
@@ -273,11 +270,11 @@ export default {
   },
   mounted() {
     this.confirmLiked();
+    this.getLikeCount();
     api.get("/posts/" + this.post_id + "/").then((response) => {
       this.post = response.data;
     });
     this.CommentGet();
-    // this.$store.dispatch("post/getAllLikes", { post_id: this.id });
   },
 };
 </script>

@@ -38,20 +38,6 @@ class Post(models.Model):
         null=True,
         blank=True)
 
-    # @property
-    # def number_of_likes(self):
-    #     return len(self.like_post.all())
-
-    # @property
-    # def calculate_number_of_likes(self):
-    #     return self.like_post.count()
-
-    # def save(self, *args, **kwargs):
-    #     self.number_of_likes = self.calculate_number_of_likes()
-    #     super(Post, self).save(*args, **kwargs)
-
-    # number_of_likes = models.IntegerField(default=0)
-
     class Meta:
         ordering = ['-published_at']
 

@@ -121,7 +121,7 @@ export default {
     },
     go(item_id) {
       console.log("item_id: " + item_id);
-      this.$router.push({ name: "detail", params: { id: item_id } });
+      this.$router.push({ name: "detail", params: { post_id: item_id } });
     },
   },
 };

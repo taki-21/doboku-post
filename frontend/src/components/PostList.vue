@@ -5,9 +5,9 @@
   >
     <router-link
       class="router-link"
+      v-for="post in postType"
+      :key="post.id"
       :to="{name: 'detail', params:{post_id: post.id }}"
-      v-for="(post, key) in postType"
-      :key="key"
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
@@ -84,7 +84,7 @@ export default {
   props: ["postType", "user_id"],
   data() {
     return {
-      page:0,
+      page: 0,
       // postList:[]
     };
   },

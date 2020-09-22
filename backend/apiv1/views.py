@@ -83,10 +83,18 @@ class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
+class CommentFilter(filters.FilterSet):
+    class Meta:
+        model = Comment
+        fields = [
+            'post', ]
+
+
 class CommentListCreateAPIView(generics.ListCreateAPIView):
     """コメントモデルの取得（一覧）・投稿APIクラス"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+    filter_class = CommentFilter
 
 
 class CommentRetrieveUpdateDestroyAPIView(
