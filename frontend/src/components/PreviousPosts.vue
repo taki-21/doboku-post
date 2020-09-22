@@ -1,6 +1,11 @@
 <template>
   <div>
-    <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
+    <div v-show="loading" class="loader">
+      <span uk-spinner="ratio: 1.5"></span>
+    </div>
+    <div v-show="!loading">
+      <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
+    </div>
   </div>
 </template>
 
@@ -17,6 +22,7 @@ export default {
     return {
       auth_id: this.$store.getters["auth/id"],
       previousPosts: [],
+      loading: true,
     };
   },
   watch: {
@@ -29,15 +35,22 @@ export default {
   },
   methods: {
     parentPostDelete(post_id) {
-      api.delete("/posts/" + post_id + "/").then(
-        this.getPreviousPosts
-      )
+      api.delete("/posts/" + post_id + "/").then(this.getPreviousPosts);
     },
     getPreviousPosts() {
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data;
+        this.loading = false;
       });
     },
   },
 };
 </script>
+
+<style scoped>
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+</style>
