@@ -76,7 +76,6 @@ export default {
         category: this.$route.query.category || "",
       },
       filterPosts: [],
-      // categories: [],
       loading: true,
     };
   },
@@ -110,8 +109,6 @@ export default {
         });
     },
 
-    // this.$store.dispatch("post/getFilterPosts", this.$route.query);
-
     search() {
       this.loading = true;
       this.$router.push({
@@ -124,20 +121,10 @@ export default {
   },
 
   computed: {
-    // ...mapGetters("post", {
-    //   latestposts: "latestPosts",
-    // }),
-    // ...mapGetters("post", {
-    //   posts: "filterPosts",
-    // }),
     ...mapGetters("category", {
       categories: "categories",
     }),
   },
-  // created() {
-  //   this.getPosts();
-  //   this.$store.dispatch("category/getAllCategories");
-  // },
 };
 </script>
 

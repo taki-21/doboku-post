@@ -5,7 +5,7 @@
   >
     <router-link
       class="router-link"
-      :to="{name: 'detail', params:{id: post.id }}"
+      :to="{name: 'detail', params:{post_id: post.id }}"
       v-for="(post, key) in postType"
       :key="key"
     >

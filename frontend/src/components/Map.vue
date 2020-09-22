@@ -6,7 +6,7 @@
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
-import { mapGetters } from "vuex";
+import api from "@/services/api";
 
 export default {
   name: "Map",
@@ -26,24 +26,33 @@ export default {
         streetViewControl: false,
         mapTypeId: "roadmap",
       },
+      postList: [],
+      userPostList: [],
     };
   },
   computed: {
-    ...mapGetters("post", ["latestPosts"]),
     markerData() {
-      if(this.user_id){
-        return this.latestPosts.filter((x) => x.author.id == this.user_id)
+      if (this.user_id) {
+        return this.userPostList;
       }
       if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
         return [this.post];
       } else {
-        return this.latestPosts;
+        return this.postList;
       }
     },
   },
 
   async mounted() {
+    await api.get("/posts/").then((response) => {
+      this.postList = response.data;
+    });
+    if (this.user_id) {
+      await api.get("/posts/?author=" + this.user_id).then((response) => {
+        this.userPostList = response.data;
+      });
+    }
     this.google = await GoogleMapsApiLoader({
       apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });

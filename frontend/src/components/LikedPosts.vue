@@ -11,7 +11,6 @@
 
 <script>
 import PostList from "@/components/PostList";
-
 import api from "@/services/api";
 import moment from "moment";
 

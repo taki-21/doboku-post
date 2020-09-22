@@ -54,11 +54,19 @@
                       </div>
                     </div>
                   </div>
-                  <!-- <div id="like"> -->
+                  <pre>{{liked}}</pre>
                   <div id="like_buttun">
-                    <div
-                      v-if="this.likes.map((obj) => obj.user).includes(this.$store.getters['auth/id'])"
-                    >
+                    <div v-if="liked == ''">
+                      <div>
+                        <span
+                          class="like_icon"
+                          uk-icon="icon: heart; ratio: 2.5"
+                          @click="toggleLike"
+                        ></span>
+                        <span class="like_count">{{ likeCount }}</span>
+                      </div>
+                    </div>
+                    <div v-else>
                       <div>
                         <span class="like_icon" @click="toggleLike">
                           <svg
@@ -76,16 +84,6 @@
                             />
                           </svg>
                         </span>
-                        <span class="like_count">{{ likeCount }}</span>
-                      </div>
-                    </div>
-                    <div v-else>
-                      <div>
-                        <span
-                          class="like_icon"
-                          uk-icon="icon: heart; ratio: 2.5"
-                          @click="toggleLike"
-                        ></span>
                         <span class="like_count">{{ likeCount }}</span>
                       </div>
                     </div>
@@ -126,7 +124,7 @@
                             <div>
                               <div>{{comment.text}}</div>
                             </div>
-                            <div id="delete-icon" v-if="comment.author.id == user.id">
+                            <div id="delete-icon" v-if="comment.author.id == login_user_id">
                               <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
                                 <i id="delete-icon" uk-icon="icon: trash"></i>
                                 <!-- <span id="delete-word">削除</span> -->
@@ -175,7 +173,6 @@ import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 import Map from "@/components/Map";
 import api from "@/services/api";
-import { mapGetters } from "vuex";
 
 export default {
   name: "detail",
@@ -183,37 +180,34 @@ export default {
     MyHeader,
     CommentForm,
     Map,
-    // MapComponent,
-  },
-  props: {
-    id: { type: Number },
-  },
-  data() {
-    return {
-      comments: [],
-    };
   },
   filters: {
     moment: function (date) {
       return moment(date).format("YYYY/MM/DD HH:mm");
     },
   },
+  props: ["post_id"],
+  data() {
+    return {
+      comments: [],
+      post: "",
+      liked: "",
+      likes_post: [],
+    };
+  },
   computed: {
-    ...mapGetters("post", ["latestPosts"]),
-    post() {
-      return this.latestPosts.find((post) => post.id === this.id);
+    likeCount() {
+      return this.post.likes_count;
     },
-    ...mapGetters("post", {
-      likeCount: "likeCount",
-      likes: "likes",
-    }),
-    ...mapGetters("user", {
-      user: "getUser",
-    }),
+    // ...mapGetters("user", {
+    //   user_id: "id",
+    // }),
+    login_user_id() {
+      return this.$store.getters["auth/id"];
+    },
     isLoggedIn() {
       return this.$store.getters["auth/isLoggedIn"];
     },
-
     modal_href() {
       return "#" + "map_modal" + this.post.id;
     },
@@ -221,42 +215,47 @@ export default {
       return "map_modal" + this.post.id;
     },
   },
-
-  mounted() {
-    this.CommentGet();
-    this.$store.dispatch("post/getAllLikes", { post_id: this.id });
-  },
   methods: {
+    confirmLiked() {
+      api
+        .get("/likes/?user=" + this.login_user_id + "&post=" + this.post_id)
+        .then((response) => {
+          this.liked = response.data;
+        });
+    },
     callChildMethod() {
       this.$refs.map.initializeMap();
     },
     toggleLike() {
-      const userIdList = this.likes.map((obj) => obj.user);
-      userIdList.includes(this.$store.getters["auth/id"])
-        ? this.removeLike()
-        : this.addLike();
+      this.liked == '' ? this.addLike() : this.removeLike();
+      // const userIdList = this.likes.map((obj) => obj.user);
+      // userIdList.includes(this.$store.getters["auth/id"])
+      //   ? this.removeLike()
+      //   : this.addLike();
     },
     addLike() {
+      console.log('addLike')
       if (this.isLoggedIn) {
         api
           .post("/likes/", {
-            user: this.$store.getters["auth/id"],
-            post_id: this.post.id,
+            user: this.login_user_id,
+            post_id: this.post_id,
           })
-          .then(() => {
-            this.$store.dispatch("post/getAllLikes", { post_id: this.id });
-          });
+          .then(this.confirmLiked());
       } else {
         this.$router.replace("/login");
       }
     },
     removeLike() {
-      const path = this.likes.filter(
-        (x) => x.user == this.$store.getters["auth/id"]
-      )[0].id;
-      api.delete("/likes/" + path + "/").then(() => {
-        this.$store.dispatch("post/getAllLikes", { post_id: this.id });
-      });
+      console.log('removeLike')
+      // const path = this.likes.filter(
+      //   (x) => x.user == this.$store.getters["auth/id"]
+      // )[0].id;
+      // api.delete("/likes/" + path + "/").then(() => {
+      //   this.$store.dispatch("post/getAllLikes", { post_id: this.id });
+      // });
+      const path = this.liked[0].id;
+      api.delete("/likes/" + path + "/").then(this.confirmLiked());
     },
     CommentGet() {
       api.get("/comments/").then((response) => {
@@ -272,11 +271,19 @@ export default {
       this.$router.back();
     },
   },
+  mounted() {
+    this.confirmLiked();
+    api.get("/posts/" + this.post_id + "/").then((response) => {
+      this.post = response.data;
+    });
+    this.CommentGet();
+    // this.$store.dispatch("post/getAllLikes", { post_id: this.id });
+  },
 };
 </script>
 
 <style scoped>
-html{
+html {
   overflow: overlay;
 }
 #back_icon {
@@ -342,7 +349,7 @@ html{
 .uk-comment-list > :nth-child(n + 2) {
   margin-top: 0px;
 }
-ul.uk-comment-list{
+ul.uk-comment-list {
   margin: 0;
 }
 
