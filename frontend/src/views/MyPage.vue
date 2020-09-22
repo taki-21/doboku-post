@@ -16,7 +16,7 @@
               <h1 class="uk-heading-medium">
                 <strong class="uk-margin-remove">{{ Person.username }}</strong>
               </h1>
-              <div v-if="user_id == user.id">
+              <div v-if="user_id == login_user_id">
                 <router-link class="router-link" to="/profile_edit">
                   <div
                     class="uk-button uk-button-small uk-button-default"
@@ -25,7 +25,7 @@
                 </router-link>
               </div>
               <div id="piechart">
-                <PieChart :data="pieChartData" :options="options"></PieChart>
+                <PieChart v-if="loaded" :data="pieChartData" :options="options"></PieChart>
               </div>
             </div>
             <div class="profile_content">
@@ -34,6 +34,7 @@
           </div>
         </div>
       </div>
+      <!-- <pre>{{user_id}}</pre> -->
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
           <router-link
@@ -68,6 +69,7 @@ export default {
   props: ["user_id"],
   data() {
     return {
+      loaded: false,
       // グラフ描画用データ
       pieChartData: {
         // ラベル
@@ -91,24 +93,18 @@ export default {
           display: true, // 凡例を表示します。
           position: "right", // 凡例の位置
         },
-        animation: false,
       },
       Person: {},
+      previousPosts: [],
     };
   },
   computed: {
     ...mapGetters("user", {
-      user: "getUser",
+      login_user_id: "id",
     }),
     ...mapGetters("category", {
       categories: "categories",
     }),
-    ...mapGetters("post", {
-      posts: "latestPosts",
-    }),
-    previousPosts() {
-      return this.posts.filter((x) => x.author.id == this.user_id);
-    },
     myCategories() {
       return this.previousPosts.map((x) => x.category);
     },
@@ -121,29 +117,43 @@ export default {
     },
   },
   watch: {
-    $route() {
+    user_id() {
+      this.setPerson();
+      this.loaded = false;
+      this.get_previous_posts();
+    },
+  },
+  created() {
+    this.setPerson();
+    const labels = this.categories.map((x) => x.name);
+    this.pieChartData.labels = labels;
+    this.get_previous_posts();
+  },
+  async mounted() {
+    this.loaded = false;
+    this.setPerson();
+    await api.get("/posts/?author=" + this.user_id).then((response) => {
+      this.previousPosts = response.data;
+      this.set_category_data();
+    });
+  },
+  methods: {
+    get_previous_posts() {
+      api.get("/posts/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data;
+        // this.loaded = false;
+        this.set_category_data();
+      });
+    },
+    set_category_data() {
+      this.pieChartData.datasets[0].data = this.categoriesNum;
+      this.loaded = true;
+    },
+    setPerson() {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
       });
-      this.set_category_data();
     },
-  },
-  methods: {
-    set_category_data() {
-      this.pieChartData.datasets[0].data = this.categoriesNum;
-    },
-  },
-  mounted() {
-    this.$store.dispatch("category/getAllCategories");
-    api.get("/users/" + this.user_id + "/").then((response) => {
-      this.Person = response.data;
-      this.$store.dispatch("post/getAllPosts");
-    });
-  },
-  created() {
-    const labels = this.categories.map((x) => x.name);
-    this.pieChartData.labels = labels;
-    this.set_category_data();
   },
 };
 </script>

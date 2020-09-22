@@ -4,9 +4,6 @@ export default {
   name: "PieChart",
   extends: Pie,
   props: ["data", "options"],
-  mounted: function () {
-    this.renderChart(this.data, this.options);
-  },
   watch: {
     data() {
       this.renderChart(this.data, this.options);
@@ -17,6 +14,9 @@ export default {
     $route() {
       this.renderChart(this.data, this.options);
     },
+  },
+  mounted: function () {
+    this.renderChart(this.data, this.options);
   },
 };
 </script>
