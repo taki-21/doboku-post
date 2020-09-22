@@ -93,6 +93,7 @@ export default {
           display: true, // 凡例を表示します。
           position: "right", // 凡例の位置
         },
+        animation: { animateRotate: false },
       },
       Person: {},
       previousPosts: [],
@@ -118,27 +119,36 @@ export default {
   },
   watch: {
     user_id() {
+      console.log("watch!!!!");
       this.setPerson();
       this.loaded = false;
+      // this.options.animation.animateRotate = true;
       this.get_previous_posts();
+      // this.options.animation.animateRotate = false;
     },
   },
   created() {
-    this.setPerson();
-    const labels = this.categories.map((x) => x.name);
-    this.pieChartData.labels = labels;
+    console.log("created!!!!");
     this.get_previous_posts();
+    this.setPerson();
   },
   async mounted() {
+    console.log("mounted!!!!");
+    const labels = this.categories.map((x) => x.name);
+    this.options.animation.animateRotate = true;
+    this.pieChartData.labels = labels;
     this.loaded = false;
     this.setPerson();
     await api.get("/posts/?author=" + this.user_id).then((response) => {
       this.previousPosts = response.data;
+      this.options.animation.animateRotate = true;
       this.set_category_data();
+      this.options.animation.animateRotate = false;
     });
   },
   methods: {
     get_previous_posts() {
+      console.log("get_previous_posts!!!!");
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data;
         // this.loaded = false;
@@ -146,6 +156,7 @@ export default {
       });
     },
     set_category_data() {
+      console.log("set_category_data!!!!");
       this.pieChartData.datasets[0].data = this.categoriesNum;
       this.loaded = true;
     },
