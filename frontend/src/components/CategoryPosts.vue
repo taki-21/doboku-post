@@ -88,13 +88,6 @@ export default {
   },
   mounted() {
     this.getPosts();
-    // api.get("/posts/").then((response) => {
-    //   this.latestPosts = response.data;
-    //   this.loading = false;
-    // });
-    // api.get("/categories/").then((response) => {
-    //   this.categories = response.data;
-    // });
   },
   methods: {
     getPosts() {

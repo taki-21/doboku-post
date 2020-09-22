@@ -30,7 +30,7 @@
           <strong>投稿日</strong>
           <select class="uk-select" type="text" v-model="query.period" @change="search" clearable>
             <option value>選択してください</option>
-            <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
+            <option v-for="(prd,key) in periods" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
           </select>
         </div>
         <div class="uk-width-1-5@s">
@@ -48,9 +48,17 @@
         </div>
       </form>
     </div>
-      <PostList :postType="posts" />
-    <div v-if="posts == ''">
-      <p id="none_message">条件に一致する投稿がありません</p>
+    <div>
+      <div v-show="loading" class="loader">
+        <span uk-spinner="ratio: 1.5"></span>
+      </div>
+      <div v-show="!loading">
+        <PostList :postType="filterPosts" />
+      </div>
+      <div v-if="loading"></div>
+      <div v-else-if="filterPosts == ''">
+        <p id="none_message">条件に一致する投稿がありません</p>
+      </div>
     </div>
   </div>
 </template>
@@ -58,37 +66,29 @@
 <script>
 import PostList from "@/components/PostList";
 import { mapGetters } from "vuex";
+import api from "@/services/api";
 import prefs from "../mixins/PrefsMixin";
-import moment from "moment";
+import periods from "../mixins/PeriodsMixin";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [prefs],
+  mixins: [prefs, periods],
   data() {
     return {
+      filterPosts: [],
       query: {
         title: this.$route.query.title || "",
         category: this.$route.query.category || "",
         period: this.$route.query.published_at || "",
         prefecture: this.$route.query.prefecture || "",
       },
-      period: [
-        {
-          name: "3日前",
-          date: moment().subtract(3, "days").format("YYYY-MM-DD"),
-        },
-        {
-          name: "1週間前",
-          date: moment().subtract(1, "weeks").format("YYYY-MM-DD"),
-        },
-        {
-          name: "1ヶ月前",
-          date: moment().subtract(1, "months").format("YYYY-MM-DD"),
-        },
-      ],
+      loading: true,
     };
+  },
+  computed: {
+    ...mapGetters("category", ["categories"]),
   },
   watch: {
     $route() {
@@ -99,18 +99,31 @@ export default {
       this.query.prefecture = this.$route.query.prefecture || "";
     },
   },
-  created() {
+  mounted() {
     this.getPosts();
-  },
-  computed: {
-    ...mapGetters("category", ["categories"]),
-    ...mapGetters("post", { posts: "filterPosts" }),
   },
   methods: {
     getPosts() {
-      this.$store.dispatch("post/getFilterPosts", this.$route.query);
+      let postURL = process.env.VUE_APP_ROOT_API + "posts/";
+      const params = this.$route.query;
+      const queryString = Object.keys(params)
+        .map((key) => key + "=" + params[key])
+        .join("&");
+      if (queryString) {
+        postURL += "?" + queryString;
+      }
+      console.log(postURL);
+      api
+        .get(postURL, {
+          credentials: "include",
+        })
+        .then((response) => {
+          this.filterPosts = response.data;
+          this.loading = false;
+        });
     },
     search() {
+      this.loading = true;
       this.$router.push({
         name: "search",
         query: {
@@ -126,6 +139,12 @@ export default {
 </script>
 
 <style scoped>
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+
 #search_card {
   margin-bottom: 20px;
   padding: 20px;
@@ -133,7 +152,7 @@ export default {
   border-radius: 10px;
   border: 2px solid black;
 }
-#none_message{
+#none_message {
   font-size: 18px;
   text-align: center;
 }
