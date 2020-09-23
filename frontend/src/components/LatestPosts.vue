@@ -5,6 +5,7 @@
     </div>
     <div v-show="!loading">
       <PostList :postType="latestPosts" />
+      <infinite-loading spinner="spiral" @infinite="infiniteHandler"></infinite-loading>
     </div>
   </div>
 </template>
@@ -19,15 +20,52 @@ export default {
   },
   data() {
     return {
+      page: 1,
       latestPosts: [],
-      loading: true,
+      loading: false,
     };
   },
+  methods: {
+    infiniteHandler($state) {
+      //web.phpで設定したルーティング
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            // per_page: 1,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+          if(data.results.length === 12){
+            console.log('おおおお')
+            this.latestPosts.push(...data.results);
+            this.page += 1;
+            $state.loaded();
+
+            console.log('たたたた')
+          }
+          if (data.results.length < 12) {
+            console.log("へいへい");
+            this.latestPosts.push(...data.results);
+            // this.page += 1;
+            $state.complete();
+            // $state.loaded();
+          }}, 500)
+          // else {
+          // }
+        })
+        .catch(() => {
+          $state.complete();
+        });
+    },
+  },
   mounted() {
-    api.get("/posts/").then((response) => {
-      this.latestPosts = response.data;
-      this.loading = false;
-    });
+    // this.infiniteHandler()
+    // api.get("/posts/").then((response) => {
+    //   this.latestPosts = response.data.results;
+    //   this.loading = false;
+    // });
   },
 };
 </script>

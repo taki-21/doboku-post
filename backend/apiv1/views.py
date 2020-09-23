@@ -1,6 +1,5 @@
 from django.shortcuts import get_object_or_404
-from rest_framework import authentication, permissions, generics, views, status
-# from rest_framework.response import Response
+from rest_framework import authentication, permissions, generics, views, status, pagination, response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, CommentSerializer, LikeSerializer
@@ -33,12 +32,6 @@ class PostFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='contains')
     published_at = filters.DateTimeFilter(lookup_expr='gt')
 
-    # order_by = filters.OrderingFilter(
-    #     fields=(
-    #         ('published_at', 'published_at'),
-    #     ),
-    # )
-
     class Meta:
         model = Post
         fields = [
@@ -49,11 +42,15 @@ class PostFilter(filters.FilterSet):
             'prefecture', ]
 
 
+class StandardResultsSetPagination(pagination.PageNumberPagination):
+    page_size = 12
+
 class PostListCreateAPIView(generics.ListCreateAPIView):
     """投稿モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_class = PostFilter
+    pagination_class = StandardResultsSetPagination
 
     # def get_queryset(self):
     #     queryset = Post.objects.all()
