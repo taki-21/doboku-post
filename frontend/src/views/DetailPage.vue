@@ -2,159 +2,164 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
-    <div id="detail_post">
-      <div class="uk-width-1-1">
-        <div class="uk-container">
-          <div class>
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
-            </a>
-            <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
-              <div uk-grid>
-                <div class="uk-width-3-5">
-                  <router-link
-                    class="show_user"
-                    :to="{name: 'mypage', params:{user_id: post.author.id}}"
-                  >
-                    <img class="user_icon" :src="post.author.icon_image" />
-                    <span id="author_name">{{ post.author.username }}</span>
-                  </router-link>
-                  <div class="timestamp">
-                    <span>{{ post.published_at | moment }}</span>
-                  </div>
-                  <div class="prefecture">
-                    <span>{{ post.prefecture }}</span>
-                  </div>
+    <div v-show="loading" class="loader">
+      <span uk-spinner="ratio: 1.5"></span>
+    </div>
+    <div v-show="!loading">
+      <div id="detail_post">
+        <div class="uk-width-1-1">
+          <div class="uk-container">
+            <div class>
+              <a @click="$router.back()" title="前ページへ戻る">
+                <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
+              </a>
+              <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
+                <div uk-grid>
+                  <div class="uk-width-3-5">
+                    <router-link
+                      class="show_user"
+                      :to="{name: 'mypage', params:{user_id: author.id}}"
+                    >
+                      <img class="user_icon" :src="author.icon_image" />
+                      <span id="author_name">{{ author.username }}</span>
+                    </router-link>
+                    <div class="timestamp">
+                      <span>{{ post.published_at | moment }}</span>
+                    </div>
+                    <div class="prefecture">
+                      <span>{{ post.prefecture }}</span>
+                    </div>
 
-                  <div id="title-content">
-                    <p id="post_title">{{post.title}}</p>
-                    <p id="post_content">{{post.content}}</p>
-                  </div>
+                    <div id="title-content">
+                      <p id="post_title">{{post.title}}</p>
+                      <p id="post_content">{{post.content}}</p>
+                    </div>
 
-                  <div uk-lightbox>
-                    <a :href="post.raw_image">
-                      <img :src="post.image" />
-                    </a>
-                  </div>
-                  <div>
-                    <button
-                      id="location_button"
-                      class="uk-button uk-button-default uk-button-large"
-                      :href="modal_href"
-                      type="button"
-                      @click="callChildMethod"
-                      uk-toggle
-                    >場所を確認する</button>
-                    <div :id="modal" class="uk-flex-top .uk-width-large" uk-modal>
-                      <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                        <button class="uk-modal-close-default" type="button" uk-close></button>
+                    <div uk-lightbox>
+                      <a :href="post.raw_image">
+                        <img :src="post.image" />
+                      </a>
+                    </div>
+                    <div>
+                      <button
+                        id="location_button"
+                        class="uk-button uk-button-default uk-button-large"
+                        :href="modal_href"
+                        type="button"
+                        @click="callChildMethod"
+                        uk-toggle
+                      >場所を確認する</button>
+                      <div :id="modal" class="uk-flex-top .uk-width-large" uk-modal>
+                        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                          <button class="uk-modal-close-default" type="button" uk-close></button>
+                          <div>
+                            <Map ref="map" :post="post" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- <pre>{{liked}}</pre> -->
+                    <div id="like_buttun">
+                      <div v-if="liked == ''">
                         <div>
-                          <Map ref="map" :post="post" />
+                          <span
+                            class="like_icon"
+                            uk-icon="icon: heart; ratio: 2.5"
+                            @click="toggleLike"
+                          ></span>
+                          <span class="like_count">{{ likeCount }}</span>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div>
+                          <span class="like_icon" @click="toggleLike">
+                            <svg
+                              width="50"
+                              height="50"
+                              viewBox="0 0 20 20"
+                              xmlns="http://www.w3.org/2000/svg"
+                              data-svg="heart"
+                            >
+                              <path
+                                fill="indianred"
+                                stroke="currentcolor"
+                                stroke-width="1"
+                                d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
+                              />
+                            </svg>
+                          </span>
+                          <span class="like_count">{{ likeCount }}</span>
                         </div>
                       </div>
                     </div>
                   </div>
-                  <pre>{{liked}}</pre>
-                  <div id="like_buttun">
-                    <div v-if="liked == ''">
+                  <div class="uk-width-2-5">
+                    <div class="right_column">
                       <div>
-                        <span
-                          class="like_icon"
-                          uk-icon="icon: heart; ratio: 2.5"
-                          @click="toggleLike"
-                        ></span>
-                        <span class="like_count">{{ likeCount }}</span>
+                        <div>
+                          <CommentForm :post="post" @CommentGet="CommentGet" />
+                        </div>
                       </div>
-                    </div>
-                    <div v-else>
-                      <div>
-                        <span class="like_icon" @click="toggleLike">
-                          <svg
-                            width="50"
-                            height="50"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            data-svg="heart"
-                          >
-                            <path
-                              fill="indianred"
-                              stroke="currentcolor"
-                              stroke-width="1"
-                              d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
-                            />
-                          </svg>
-                        </span>
-                        <span class="like_count">{{ likeCount }}</span>
+                      <div v-if="comments == ''">
+                        <p id="none_message">まだコメントがありません</p>
                       </div>
-                    </div>
-                  </div>
-                  <!-- </div> -->
-                </div>
-                <div class="uk-width-2-5">
-                  <div class="right_column">
-                    <div>
-                      <div>
-                        <CommentForm :post="post" @CommentGet="CommentGet" />
-                      </div>
-                    </div>
-                    <div v-if="comments == ''">
-                      <p id="none_message">まだコメントがありません</p>
-                    </div>
-                    <div class="logbox">
-                      <ul class="uk-comment-list">
-                        <li v-for="comment in comments" :key="comment.id">
-                          <article
-                            class="uk-comment uk-comment-primary uk-visible-toggle"
-                            tabindex="-1"
-                          >
-                            <header class="uk-comment-header uk-position-relative">
-                              <div>
-                                <router-link
-                                  class="show_user"
-                                  :to="{name: 'mypage', params:{user_id: comment.author.id}}"
-                                >
-                                  <img class="comment_user_icon" :src="comment.author.icon_image" />
-                                  <strong>{{comment.author.username}}</strong>
-                                </router-link>
-                                <div class="timestamp">
-                                  <span>{{comment.timestamp | moment }}</span>
+                      <div v-else>
+                        <pre>ああああああ</pre>
+                        <div class="logbox">
+                          <ul class="uk-comment-list">
+                            <li v-for="comment in comments" :key="comment.id">
+                              <article
+                                class="uk-comment uk-comment-primary uk-visible-toggle"
+                                tabindex="-1"
+                              >
+                                <header class="uk-comment-header uk-position-relative">
+                                  <div>
+                                    <router-link
+                                      class="show_user"
+                                      :to="{name: 'mypage', params:{user_id: comment.author.id}}"
+                                    >
+                                      <img
+                                        class="comment_user_icon"
+                                        :src="comment.author.icon_image"
+                                      />
+                                      <strong>{{comment.author.username}}</strong>
+                                    </router-link>
+                                    <div class="timestamp">
+                                      <span>{{comment.timestamp | moment }}</span>
+                                    </div>
+                                  </div>
+                                </header>
+                                <div>
+                                  <div>{{comment.text}}</div>
                                 </div>
-                              </div>
-                            </header>
-                            <div>
-                              <div>{{comment.text}}</div>
-                            </div>
-                            <div id="delete-icon" v-if="comment.author.id == login_user_id">
-                              <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
-                                <i id="delete-icon" uk-icon="icon: trash"></i>
-                                <!-- <span id="delete-word">削除</span> -->
-                              </a>
-                              <div :id="'modal-' + comment.id" uk-modal>
-                                <div class="uk-modal-dialog uk-modal-body">
-                                  <h2 class="uk-modal-title">削除確認</h2>
-                                  <p>コメント：{{ comment.text }}を削除します。よろしいですか？</p>
-                                  <p class="uk-text-right">
-                                    <button
-                                      id="cancel_button"
-                                      class="uk-button uk-button-default uk-modal-close"
-                                      type="button"
-                                    >キャンセル</button>
-                                    <button
-                                      class="uk-button uk-button-primary uk-modal-close"
-                                      type="button"
-                                      @click="deleteComment(comment.id)"
-                                    >OK</button>
-                                  </p>
+                                <div id="delete-icon" v-if="comment.author.id == login_user_id">
+                                  <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
+                                    <i id="delete-icon" uk-icon="icon: trash"></i>
+                                  </a>
+                                  <div :id="'modal-' + comment.id" uk-modal>
+                                    <div class="uk-modal-dialog uk-modal-body">
+                                      <h2 class="uk-modal-title">削除確認</h2>
+                                      <p>コメント：{{ comment.text }}を削除します。よろしいですか？</p>
+                                      <p class="uk-text-right">
+                                        <button
+                                          id="cancel_button"
+                                          class="uk-button uk-button-default uk-modal-close"
+                                          type="button"
+                                        >キャンセル</button>
+                                        <button
+                                          class="uk-button uk-button-primary uk-modal-close"
+                                          type="button"
+                                          @click="deleteComment(comment.id)"
+                                        >OK</button>
+                                      </p>
+                                    </div>
+                                  </div>
                                 </div>
-                              </div>
-
-                              <!-- <a @click="deleteComment(comment.id)">
-                                <i uk-icon="icon: trash"></i>
-                              </a>-->
-                            </div>
-                          </article>
-                        </li>
-                      </ul>
+                              </article>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -191,8 +196,10 @@ export default {
     return {
       comments: [],
       post: [],
+      author: [],
       liked: [],
-      likeCount: [],
+      likeCount: "",
+      loading: true,
     };
   },
   computed: {
@@ -215,11 +222,14 @@ export default {
         .get("/likes/?user=" + this.login_user_id + "&post=" + this.post_id)
         .then((response) => {
           this.liked = response.data;
+          console.log(this.liked);
         });
     },
     getLikeCount() {
       api.get("/posts/" + this.post_id + "/").then((response) => {
+        console.log(this.likeCount);
         this.likeCount = response.data.likes_count;
+        this.loading = false;
       });
     },
     toggleLike() {
@@ -245,15 +255,17 @@ export default {
       console.log("removeLike");
       this.confirmLiked;
       this.getLikeCount;
-      // const path = this.liked[0].id;
+      var path = this.liked[0].id;
       api
-        .delete("/likes/" + this.liked[0].id + "/")
+        .delete("/likes/" + path + "/")
         .then(this.getLikeCount)
         .then(this.confirmLiked);
     },
     CommentGet() {
       api.get("/comments/?post=" + this.post_id).then((response) => {
         this.comments = response.data;
+
+        console.log("this.comments: " + response.data);
       });
     },
     deleteComment(comment_id) {
@@ -269,17 +281,23 @@ export default {
     },
   },
   mounted() {
-    this.confirmLiked();
-    this.getLikeCount();
     api.get("/posts/" + this.post_id + "/").then((response) => {
+      this.author = response.data.author;
       this.post = response.data;
     });
+    this.confirmLiked();
+    this.getLikeCount();
     this.CommentGet();
   },
 };
 </script>
 
 <style scoped>
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
 html {
   overflow: overlay;
 }
