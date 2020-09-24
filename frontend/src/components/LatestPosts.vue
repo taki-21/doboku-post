@@ -3,15 +3,12 @@
     <div v-show="loading" class="loader">
       <span uk-spinner></span>
     </div>
-    <!-- <div v-if="display"> -->
     <div v-show="!loading">
       <PostList :postType="latestPosts" />
       <infinite-loading spinner="spiral" @infinite="infiniteHandler">
         <span id="no_results" slot="no-results">投稿は以上です</span>
       </infinite-loading>
     </div>
-
-    <!-- </div> -->
   </div>
 </template>
 
@@ -27,20 +24,11 @@ export default {
   },
   data() {
     return {
-      // display:false,
       page: 1,
       latestPosts: [],
       loading: true,
     };
   },
-  // watch: {
-
-  // },
-  // computed: {
-  //   display() {
-  //     return true;
-  //   },
-  // },
   methods: {
     infiniteHandler($state) {
       api
@@ -68,17 +56,12 @@ export default {
           }, 500);
         })
         .catch(() => {
-          console.log("おおお");
           $state.complete();
         });
     },
   },
   created() {
     this.infiniteHandler();
-
-    // this.$nextTick(function () {
-    //   this.loading = false;
-    // });
   },
 };
 </script>
