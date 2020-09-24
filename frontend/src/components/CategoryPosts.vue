@@ -47,14 +47,15 @@
     </div>
     <div>
       <div v-show="loading" class="loader">
-        <span uk-spinner="ratio: 1.5"></span>
+        <span uk-spinner></span>
       </div>
       <div v-show="!loading">
         <PostList :postType="filterPosts" />
-      </div>
-      <div v-if="loading"></div>
-      <div v-else-if="filterPosts == ''">
-        <p id="none_message">まだ投稿がありません</p>
+        <div v-if="nextPage">
+          <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+            <span id="no_results" slot="no-results">投稿は以上です</span>
+          </infinite-loading>
+        </div>
       </div>
     </div>
   </div>
@@ -63,60 +64,105 @@
 
 <script>
 import PostList from "@/components/PostList";
+import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     PostList,
+    InfiniteLoading,
   },
   data() {
     return {
+      postURL: "",
+      page: 1,
       query: {
         category: this.$route.query.category || "",
       },
       filterPosts: [],
       loading: true,
+      nextPage: false,
     };
   },
   watch: {
     $route() {
-      this.getPosts();
+      console.log("watch!!!!");
       this.query.category = this.$route.query.category || "";
+      this.searchHandler();
+      console.log("watch!!!!");
     },
   },
-  mounted() {
-    this.getPosts();
+  created() {
+    api
+      .get("/posts/", {
+        params: {
+          page: this.page,
+          category: this.query.category,
+        },
+      })
+      .then((response) => {
+        this.filterPosts = response.data.results;
+        this.loading = false;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+      });
   },
   methods: {
-    getPosts() {
-      let postURL = process.env.VUE_APP_ROOT_API + "posts/";
-      const params = this.$route.query;
-      const queryString = Object.keys(params)
-        .map((key) => key + "=" + params[key])
-        .join("&");
-      if (queryString) {
-        postURL += "?" + queryString;
-      }
-      console.log(postURL);
-      api
-        .get(postURL, {
-          credentials: "include",
-        })
-        .then((response) => {
-          this.filterPosts = response.data;
-          this.loading = false;
-        });
-    },
-
     search() {
+      console.log('search')
       this.loading = true;
+      this.filterPosts = [];
+      this.page = 1;
       this.$router.push({
         name: "category",
         query: {
           category: this.query.category,
         },
       });
+    },
+    searchHandler() {
+      console.log('searchHandler')
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            category: this.query.category,
+          },
+        })
+        .then((response) => {
+          this.filterPosts = response.data.results;
+          this.loading = false;
+          if (response.data.next !== null) {
+            this.nextPage = true;
+          }
+        });
+    },
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            category: this.query.category,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.filterPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.filterPosts.push(...data.results);
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
     },
   },
 

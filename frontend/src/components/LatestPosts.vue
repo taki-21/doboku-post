@@ -5,9 +5,11 @@
     </div>
     <div v-show="!loading">
       <PostList :postType="latestPosts" />
-      <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-        <span id="no_results" slot="no-results">投稿は以上です</span>
-      </infinite-loading>
+      <div v-if="nextPage">
+        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+          <span id="no_results" slot="no-results">投稿は以上です</span>
+        </infinite-loading>
+      </div>
     </div>
   </div>
 </template>
@@ -27,10 +29,21 @@ export default {
       page: 1,
       latestPosts: [],
       loading: true,
+      nextPage: false,
     };
+  },
+  mounted() {
+    api.get("/posts/").then((response) => {
+      this.latestPosts = response.data.results;
+      this.loading = false;
+      if (response.data.next !== null) {
+        this.nextPage = true
+      }
+    });
   },
   methods: {
     infiniteHandler($state) {
+      this.page += 1
       api
         .get("/posts/", {
           params: {
@@ -39,30 +52,31 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            this.loading = false;
-            if (data.results.length === 12) {
-              this.page += 1;
-              this.latestPosts.push(...data.results);
-              if ($state) {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.latestPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.latestPosts.push(...data.results);
+                this.page += 1;
                 $state.loaded();
               }
-            } else {
-              $state.complete();
-            }
-            if (data.results.length < 12) {
-              this.latestPosts.push(...data.results);
-              $state.complete();
             }
           }, 500);
-        })
-        .catch(() => {
-          $state.complete();
         });
     },
+    // .catch(() => {
+    //   console.log("エラー");
+    //   $state.complete();
+    //   console.log("complete");
+    // });
   },
-  created() {
-    this.infiniteHandler();
-  },
+
+  // created() {
+  //   this.infiniteHandler();
+  //   this.loading = false;
+  // },
 };
 </script>
 
