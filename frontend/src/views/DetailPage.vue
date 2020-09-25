@@ -221,13 +221,11 @@ export default {
       api
         .get("/likes/?user=" + this.login_user_id + "&post=" + this.post_id)
         .then((response) => {
-          this.liked = response.data;
-          console.log(this.liked);
+          this.liked = response.data.results;
         });
     },
     getLikeCount() {
       api.get("/posts/" + this.post_id + "/").then((response) => {
-        console.log(this.likeCount);
         this.likeCount = response.data.likes_count;
         this.loading = false;
       });

@@ -5,6 +5,11 @@
     </div>
     <div v-show="!loading">
       <PostList :postType="likedPosts" />
+      <div v-if="nextPage">
+        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+          <span id="no_results" slot="no-results"></span>
+        </infinite-loading>
+      </div>
     </div>
   </div>
 </template>
@@ -22,11 +27,43 @@ export default {
 
   data() {
     return {
-      likedPosts: [],
+      page: 1,
       loading: true,
+      nextPage: false,
+      likedPosts: [],
     };
   },
-  computed: {},
+  methods: {
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            user: this.user_id,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.likedPosts.push(
+                  ...data.results.map((like) => like.post)
+                );
+                $state.complete();
+              } else {
+                this.likedPosts.push(
+                  ...data.results.map((like) => like.post)
+                );
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
+    },
+  },
   mounted() {
     api
       .get("/likes/", {
@@ -35,8 +72,11 @@ export default {
         },
       })
       .then((response) => {
-        this.likedPosts = response.data.map((like) => like.post);
+        this.likedPosts = response.data.results.map((like) => like.post);
         this.loading = false;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
       });
   },
   filters: {

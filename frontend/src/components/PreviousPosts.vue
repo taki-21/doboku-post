@@ -59,7 +59,7 @@ export default {
         .get("/posts/", {
           params: {
             page: this.page,
-            authoer: this.user_id,
+            author: this.user_id,
           },
         })
         .then(({ data }) => {

@@ -45,32 +45,13 @@ class PostFilter(filters.FilterSet):
 class StandardResultsSetPagination(pagination.PageNumberPagination):
     page_size = 12
 
+
 class PostListCreateAPIView(generics.ListCreateAPIView):
     """投稿モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     filter_class = PostFilter
     pagination_class = StandardResultsSetPagination
-
-    # def get_queryset(self):
-    #     queryset = Post.objects.all()
-    #     ordering = self.request.query_params.get('like_post', None)
-    #     if ordering is not None:
-    #         queryset = queryset.
-    # filter_backends = (DjangoFilterBackend, OrderingFilter,)
-    # filter_fields = 'likes_count'
-    # ordering_fields = '__all__'
-    # ordering_fields = ('number_of_likes',)
-    # ordering_fields = '__all__'
-    # ordering = ('number_of_likes',)
-
-    # #認証済のみアクセス可能
-    # permission_classes = [IsAuthenticated]
-
-
-# class PostCreateAPIView(generics.CreateAPIView):
-#     """投稿モデルの登録APIクラス"""
-#     serializer_class = PostSerializer
 
 
 class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
@@ -112,6 +93,7 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
     queryset = Like.objects.all()
     serializer_class = LikeSerializer
     filter_class = LikeFilter
+    pagination_class = StandardResultsSetPagination
 
 
 class LikeDestroyAPIView(generics.DestroyAPIView):
