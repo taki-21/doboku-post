@@ -51,6 +51,9 @@
       </div>
       <div v-show="!loading">
         <PostList :postType="filterPosts" />
+        <div v-if="filterPosts == ''">
+          <p id="none_message">まだ投稿がありません</p>
+          </div>
         <div v-if="nextPage">
           <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
             <span id="no_results" slot="no-results"></span>
@@ -104,10 +107,10 @@ export default {
       })
       .then((response) => {
         this.filterPosts = response.data.results;
-        this.loading = false;
         if (response.data.next !== null) {
           this.nextPage = true;
         }
+        this.loading = false;
       });
   },
   methods: {
@@ -174,7 +177,6 @@ export default {
         });
     },
   },
-
   computed: {
     ...mapGetters("category", {
       categories: "categories",
