@@ -5,9 +5,9 @@
   >
     <router-link
       class="router-link"
-      :to="{name: 'detail', params:{id: post.id }}"
-      v-for="(post, key) in postType"
-      :key="key"
+      v-for="post in postType"
+      :key="post.id"
+      :to="{name: 'detail', params:{post_id: post.id }}"
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
         <div class="uk-card-media-top">
@@ -73,6 +73,7 @@
         </div>
       </div>
     </router-link>
+    <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
   </div>
 </template>
 
@@ -81,26 +82,34 @@ import moment from "moment";
 
 export default {
   props: ["postType", "user_id"],
+  data() {
+    return {
+      page: 0,
+      // postList:[]
+    };
+  },
+  // created() {
+  //   this.postList = this.postType
+  // },
   methods: {
     DestroyPost(post_id) {
-      // api.delete("/posts/" + post_id + "/").then(
-        this.$emit("parentPostDelete", post_id)
-
-        // this.getPreviousPosts
-        // this.$store.dispatch("post/getAllPosts")
-        // this.$emit("parentPostDelete"),
-
-        // this.$store.dispatch("post/getAllPosts")
-        // // ↓マイページにに飛ばしたいけどパラメータの付け方がわからない
-        // this.$router.push({ name: 'mypage', params: { user_id: this.user_id } })
-        // this.$router.replace('/')
-        // this.$router.replace + ('/mypage/' + this.user_id)
-      // );
+      this.$emit("parentPostDelete", post_id);
     },
-    // getPreviousPosts() {
-    //   api.get("/posts/?author=" + this.user_id).then((response) => {
-    //     this.postList = response.data;
-    //   });
+    // infiniteHandler($state) {
+    //   var self = this;
+
+    //   if (self.postList.length >= this.page) {
+    //     // アイテム数が最大値以下だったら
+    //     self.postList.slice(this.page, this.page + 10).filter(function (item) {
+    //       self.postList.push(item);
+    //       return item;
+    //     });
+    //     this.page += 10;
+    //     $state.loaded();
+    //   } else {
+    //     // アイテム数が最大数だったら終了
+    //     $state.complete();
+    //   }
     // },
   },
   filters: {

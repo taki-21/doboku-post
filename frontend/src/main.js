@@ -15,11 +15,14 @@ import 'uikit/dist/css/uikit.min.css'
 // vue_sessionの導入
 import VueSession from 'vue-session'
 
+// vue-infinite-loadingの導入
+import InfiniteLoading from 'vue-infinite-loading';
+Vue.use(InfiniteLoading);
 
 
 UIkit.use(Icons);
 
-// Vue.config.productionTip = false
+Vue.config.productionTip = false
 Vue.config.productionTip = process.env.NODE_ENV === 'production'
 
 Vue.use(VueSession)

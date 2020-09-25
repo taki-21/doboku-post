@@ -53,13 +53,10 @@ const router = new VueRouter({
       ]
     },
     {
-      path: '/detail/:id',
+      path: '/detail/:post_id',
       name: 'detail',
       component: DetailPage,
-      props: routes => ({
-        id: Number(routes.params.id)
-      })
-
+      props: true,
     },
     {
       path: '/mypage/:user_id',

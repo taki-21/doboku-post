@@ -25,19 +25,19 @@
               :for="category.id"
             >
               <span id="category_name">{{category.name}}</span>
-              <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span>
+              <!-- <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span> -->
             </label>
           </li>
         </ul>
         <a
-        id="previous_icon"
+          id="previous_icon"
           class="uk-position-center-left uk-position-small uk-hidden-hover"
           href="#"
           uk-slidenav-previous
           uk-slider-item="previous"
         ></a>
         <a
-        id="next_icon"
+          id="next_icon"
           class="uk-position-center-right uk-position-small uk-hidden-hover"
           href="#"
           uk-slidenav-next
@@ -46,9 +46,19 @@
       </div>
     </div>
     <div>
-      <PostList :postType="posts" />
-      <div v-if="posts == ''">
-        <p id="none_message">まだ投稿がありません</p>
+      <div v-show="loading" class="loader">
+        <span uk-spinner></span>
+      </div>
+      <div v-show="!loading">
+        <PostList :postType="filterPosts" />
+        <div v-if="filterPosts == ''">
+          <p id="none_message">まだ投稿がありません</p>
+        </div>
+        <div v-if="nextPage">
+          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+            <span id="no_results" slot="no-results"></span>
+          </infinite-loading>
+        </div>
       </div>
     </div>
   </div>
@@ -57,32 +67,64 @@
 
 <script>
 import PostList from "@/components/PostList";
-
+import InfiniteLoading from "vue-infinite-loading";
+import api from "@/services/api";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     PostList,
+    InfiniteLoading,
   },
   data() {
     return {
+      postURL: "",
+      page: 1,
       query: {
         category: this.$route.query.category || "",
       },
+      filterPosts: [],
+      loading: true,
+      nextPage: false,
+      infiniteId: 0,
     };
   },
   watch: {
     $route() {
-      this.getPosts();
       this.query.category = this.$route.query.category || "";
+      this.searchHandler();
     },
   },
-
+  mounted() {
+    api
+      .get("/posts/", {
+        params: {
+          page: this.page,
+          category: this.query.category,
+        },
+      })
+      .then((response) => {
+        this.filterPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+        this.loading = false;
+      });
+  },
   methods: {
-    getPosts() {
-      this.$store.dispatch("post/getFilterPosts", this.$route.query);
+    resetHandler() {
+      this.loading = true;
+      this.filterPosts = [];
+      this.page = 1;
+      this.nextPage = false;
+      this.infiniteId++;
     },
     search() {
+      this.resetHandler();
+      // console.log("search");
+      // this.loading = true;
+      // this.filterPosts = [];
+      // this.page = 1;
       this.$router.push({
         name: "category",
         query: {
@@ -90,26 +132,63 @@ export default {
         },
       });
     },
+    searchHandler() {
+      console.log("searchHandler");
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            category: this.query.category,
+          },
+        })
+        .then((response) => {
+          this.filterPosts = response.data.results;
+          this.loading = false;
+          if (response.data.next !== null) {
+            this.nextPage = true;
+          }
+        });
+    },
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            category: this.query.category,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.filterPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.filterPosts.push(...data.results);
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
+    },
   },
   computed: {
-    ...mapGetters("post", {
-      latestposts: "latestPosts",
-    }),
-    ...mapGetters("post", {
-      posts: "filterPosts",
-    }),
     ...mapGetters("category", {
       categories: "categories",
     }),
-  },
-  created() {
-    this.getPosts();
-    this.$store.dispatch("category/getAllCategories");
   },
 };
 </script>
 
 <style scoped>
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
 #category_card {
   margin-bottom: 20px;
   padding: 10px 5px;
@@ -169,13 +248,12 @@ input[type="radio"] {
   font-size: 18px;
   text-align: center;
 }
-#previous_icon{
-  margin-left:0;
-  padding-left:10px;
+#previous_icon {
+  margin-left: 0;
+  padding-left: 10px;
 }
-#next_icon{
-  margin-right:0;
-  padding-right:10px;
-
+#next_icon {
+  margin-right: 0;
+  padding-right: 10px;
 }
 </style>

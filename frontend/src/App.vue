@@ -36,7 +36,7 @@ html{
   -webkit-appearance: none;
 } */
 .v-enter-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.4s;
 }
 
 .v-enter {

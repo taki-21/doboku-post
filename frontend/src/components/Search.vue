@@ -30,7 +30,7 @@
           <strong>投稿日</strong>
           <select class="uk-select" type="text" v-model="query.period" @change="search" clearable>
             <option value>選択してください</option>
-            <option v-for="(prd,key) in period" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
+            <option v-for="(prd,key) in periods" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
           </select>
         </div>
         <div class="uk-width-1-5@s">
@@ -48,9 +48,21 @@
         </div>
       </form>
     </div>
-      <PostList :postType="posts" />
-    <div v-if="posts == ''">
-      <p id="none_message">条件に一致する投稿がありません</p>
+    <div>
+      <div v-show="loading" class="loader">
+        <span uk-spinner="ratio: 1.5"></span>
+      </div>
+      <div v-show="!loading">
+        <PostList :postType="filterPosts" />
+        <div v-if="filterPosts == ''">
+          <p id="none_message">条件に一致する投稿がありません</p>
+        </div>
+        <div v-if="nextPage">
+          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+            <span id="no_results" slot="no-results"></span>
+          </infinite-loading>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -58,59 +70,99 @@
 <script>
 import PostList from "@/components/PostList";
 import { mapGetters } from "vuex";
+import api from "@/services/api";
 import prefs from "../mixins/PrefsMixin";
-import moment from "moment";
+import periods from "../mixins/PeriodsMixin";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [prefs],
+  mixins: [prefs, periods],
   data() {
     return {
+      filterPosts: [],
       query: {
         title: this.$route.query.title || "",
         category: this.$route.query.category || "",
         period: this.$route.query.published_at || "",
         prefecture: this.$route.query.prefecture || "",
       },
-      period: [
-        {
-          name: "3日前",
-          date: moment().subtract(3, "days").format("YYYY-MM-DD"),
-        },
-        {
-          name: "1週間前",
-          date: moment().subtract(1, "weeks").format("YYYY-MM-DD"),
-        },
-        {
-          name: "1ヶ月前",
-          date: moment().subtract(1, "months").format("YYYY-MM-DD"),
-        },
-      ],
+      loading: true,
+      nextPage: false,
+      infiniteId: 0,
+      postURL: "",
     };
+  },
+  computed: {
+    ...mapGetters("category", ["categories"]),
   },
   watch: {
     $route() {
-      this.getPosts();
+      // this.getPosts();
       this.query.title = this.$route.query.title || "";
       this.query.category = this.$route.query.category || "";
       this.query.period = this.$route.query.published_at || "";
       this.query.prefecture = this.$route.query.prefecture || "";
+      this.getPostURL();
+      this.searchHandler();
     },
   },
-  created() {
-    this.getPosts();
-  },
-  computed: {
-    ...mapGetters("category", ["categories"]),
-    ...mapGetters("post", { posts: "filterPosts" }),
+  mounted() {
+    this.getPostURL();
+    api
+      .get(this.postURL, {
+        params: {
+          page: this.page,
+          // category: this.query.category,
+        },
+      })
+      .then((response) => {
+        this.filterPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+        this.loading = false;
+      });
+
+    // this.getPosts();
   },
   methods: {
-    getPosts() {
-      this.$store.dispatch("post/getFilterPosts", this.$route.query);
+    resetHandler() {
+      this.loading = true;
+      this.filterPosts = [];
+      this.page = 1;
+      this.nextPage = false;
+      this.infiniteId++;
     },
+
+    getPostURL() {
+      let postURL = process.env.VUE_APP_ROOT_API + "posts/";
+      const params = this.$route.query;
+      const queryString = Object.keys(params)
+        .map((key) => key + "=" + params[key])
+        .join("&");
+      if (queryString) {
+        this.postURL = postURL + "?" + queryString;
+      } else {
+        this.postURL = postURL;
+      }
+      console.log(postURL);
+    },
+    // getPosts() {
+    //   api
+    //     .get(this.postURL, {
+    //       credentials: "include",
+    //       page: this.page,
+    //     })
+    //     .then((response) => {
+    //       this.filterPosts = response.data.results;
+    //       this.loading = false;
+    //     });
+    // },
     search() {
+      this.resetHandler();
+      // this.loading = true;
       this.$router.push({
         name: "search",
         query: {
@@ -121,11 +173,57 @@ export default {
         },
       });
     },
+    searchHandler() {
+      console.log("searchHandler");
+      api
+        .get(this.postURL, {
+          params: {
+            page: this.page,
+          },
+        })
+        .then((response) => {
+          this.filterPosts = response.data.results;
+          this.loading = false;
+          if (response.data.next !== null) {
+            this.nextPage = true;
+          }
+        });
+    },
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get(this.postURL, {
+          params: {
+            page: this.page,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.filterPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.filterPosts.push(...data.results);
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
+    },
   },
 };
 </script>
 
 <style scoped>
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+
 #search_card {
   margin-bottom: 20px;
   padding: 20px;
@@ -133,7 +231,7 @@ export default {
   border-radius: 10px;
   border: 2px solid black;
 }
-#none_message{
+#none_message {
   font-size: 18px;
   text-align: center;
 }
