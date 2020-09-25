@@ -46,11 +46,11 @@ export default {
 
   async mounted() {
     await api.get("/posts/").then((response) => {
-      this.postList = response.data;
+      this.postList = response.data.results;
     });
     if (this.user_id) {
       await api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.userPostList = response.data;
+        this.userPostList = response.data.results;
       });
     }
     this.google = await GoogleMapsApiLoader({

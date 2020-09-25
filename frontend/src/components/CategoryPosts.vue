@@ -53,7 +53,7 @@
         <PostList :postType="filterPosts" />
         <div v-if="filterPosts == ''">
           <p id="none_message">まだ投稿がありません</p>
-          </div>
+        </div>
         <div v-if="nextPage">
           <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
             <span id="no_results" slot="no-results"></span>
@@ -91,13 +91,11 @@ export default {
   },
   watch: {
     $route() {
-      console.log("watch!!!!");
       this.query.category = this.$route.query.category || "";
       this.searchHandler();
-      console.log("watch!!!!");
     },
   },
-  created() {
+  mounted() {
     api
       .get("/posts/", {
         params: {

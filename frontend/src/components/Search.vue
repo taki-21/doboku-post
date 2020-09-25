@@ -54,10 +54,14 @@
       </div>
       <div v-show="!loading">
         <PostList :postType="filterPosts" />
-      </div>
-      <div v-if="loading"></div>
-      <div v-else-if="filterPosts == ''">
-        <p id="none_message">条件に一致する投稿がありません</p>
+        <div v-if="filterPosts == ''">
+          <p id="none_message">条件に一致する投稿がありません</p>
+        </div>
+        <div v-if="nextPage">
+          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+            <span id="no_results" slot="no-results"></span>
+          </infinite-loading>
+        </div>
       </div>
     </div>
   </div>
@@ -85,6 +89,9 @@ export default {
         prefecture: this.$route.query.prefecture || "",
       },
       loading: true,
+      nextPage: false,
+      infiniteId: 0,
+      postURL: "",
     };
   },
   computed: {
@@ -92,38 +99,70 @@ export default {
   },
   watch: {
     $route() {
-      this.getPosts();
+      // this.getPosts();
       this.query.title = this.$route.query.title || "";
       this.query.category = this.$route.query.category || "";
       this.query.period = this.$route.query.published_at || "";
       this.query.prefecture = this.$route.query.prefecture || "";
+      this.getPostURL();
+      this.searchHandler();
     },
   },
   mounted() {
-    this.getPosts();
+    this.getPostURL();
+    api
+      .get(this.postURL, {
+        params: {
+          page: this.page,
+          // category: this.query.category,
+        },
+      })
+      .then((response) => {
+        this.filterPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+        this.loading = false;
+      });
+
+    // this.getPosts();
   },
   methods: {
-    getPosts() {
+    resetHandler() {
+      this.loading = true;
+      this.filterPosts = [];
+      this.page = 1;
+      this.nextPage = false;
+      this.infiniteId++;
+    },
+
+    getPostURL() {
       let postURL = process.env.VUE_APP_ROOT_API + "posts/";
       const params = this.$route.query;
       const queryString = Object.keys(params)
         .map((key) => key + "=" + params[key])
         .join("&");
       if (queryString) {
-        postURL += "?" + queryString;
+        this.postURL = postURL + "?" + queryString;
+      } else {
+        this.postURL = postURL;
       }
       console.log(postURL);
-      api
-        .get(postURL, {
-          credentials: "include",
-        })
-        .then((response) => {
-          this.filterPosts = response.data;
-          this.loading = false;
-        });
     },
+    // getPosts() {
+    //   api
+    //     .get(this.postURL, {
+    //       credentials: "include",
+    //       page: this.page,
+    //     })
+    //     .then((response) => {
+    //       this.filterPosts = response.data.results;
+    //       this.loading = false;
+    //     });
+    // },
     search() {
-      this.loading = true;
+      this.resetHandler();
+      // this.loading = true;
       this.$router.push({
         name: "search",
         query: {
@@ -133,6 +172,46 @@ export default {
           prefecture: this.query.prefecture,
         },
       });
+    },
+    searchHandler() {
+      console.log("searchHandler");
+      api
+        .get(this.postURL, {
+          params: {
+            page: this.page,
+          },
+        })
+        .then((response) => {
+          this.filterPosts = response.data.results;
+          this.loading = false;
+          if (response.data.next !== null) {
+            this.nextPage = true;
+          }
+        });
+    },
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get(this.postURL, {
+          params: {
+            page: this.page,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.filterPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.filterPosts.push(...data.results);
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
     },
   },
 };

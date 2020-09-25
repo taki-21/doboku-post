@@ -60,7 +60,6 @@ export default {
     },
     post_comment() {
       if (this.isLoggedIn == false) {
-        console.log("aaaaaaaaaaaaaaa");
         this.$router.replace("/login");
       }
     },
