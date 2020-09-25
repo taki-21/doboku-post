@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- ヘッダー -->
     <MyHeader />
     <div v-show="loading" class="loader">
       <span uk-spinner="ratio: 1.5"></span>
@@ -218,11 +217,17 @@ export default {
   },
   methods: {
     confirmLiked() {
-      api
-        .get("/likes/?user=" + this.login_user_id + "&post=" + this.post_id)
-        .then((response) => {
-          this.liked = response.data.results;
-        });
+      if (this.login_user_id) {
+        api
+          .get("/likes/", {
+            user: this.login_user_id,
+            post: this.post_id,
+          })
+          .then((response) => {
+            console.log(response.data.results);
+            this.liked = response.data.results;
+          });
+      }
     },
     getLikeCount() {
       api.get("/posts/" + this.post_id + "/").then((response) => {

@@ -60,10 +60,10 @@ export default {
       return this.results[0].formatted_address;
     },
     lat: function () {
-      return this.results[0].geometry.viewport.ab.i;
+      return this.results[0].geometry.viewport.Ya.i;
     },
     lng: function () {
-      return this.results[0].geometry.viewport.Va.i;
+      return this.results[0].geometry.viewport.Sa.i;
     },
   },
   // async created() {
