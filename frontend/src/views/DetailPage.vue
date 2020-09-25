@@ -17,6 +17,7 @@
                   <div class="uk-width-3-5">
                     <router-link
                       class="show_user"
+                      v-if="author.id"
                       :to="{name: 'mypage', params:{user_id: author.id}}"
                     >
                       <img class="user_icon" :src="author.icon_image" />
@@ -103,7 +104,6 @@
                         <p id="none_message">まだコメントがありません</p>
                       </div>
                       <div v-else>
-                        <pre>ああああああ</pre>
                         <div class="logbox">
                           <ul class="uk-comment-list">
                             <li v-for="comment in comments" :key="comment.id">
