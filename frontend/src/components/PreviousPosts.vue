@@ -1,10 +1,15 @@
 <template>
   <div>
     <div v-show="loading" class="loader">
-      <span uk-spinner="ratio: 1.5"></span>
+      <span uk-spinner></span>
     </div>
     <div v-show="!loading">
       <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
+      <div v-if="nextPage">
+        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+          <span id="no_results" slot="no-results"></span>
+        </infinite-loading>
+      </div>
     </div>
   </div>
 </template>
@@ -21,8 +26,10 @@ export default {
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],
-      previousPosts: [],
+      page: 1,
       loading: true,
+      nextPage: false,
+      previousPosts: [],
     };
   },
   watch: {
@@ -34,14 +41,42 @@ export default {
     this.getPreviousPosts();
   },
   methods: {
+    getPreviousPosts() {
+      api.get("/posts/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data.results;
+        this.loading = false;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+      });
+    },
     parentPostDelete(post_id) {
       api.delete("/posts/" + post_id + "/").then(this.getPreviousPosts);
     },
-    getPreviousPosts() {
-      api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.previousPosts = response.data;
-        this.loading = false;
-      });
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            authoer: this.user_id,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.previousPosts.push(...data.results);
+                $state.complete();
+              } else {
+                this.previousPosts.push(...data.results);
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
     },
   },
 };

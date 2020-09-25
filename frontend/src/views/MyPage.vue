@@ -140,7 +140,7 @@ export default {
     this.loaded = false;
     this.setPerson();
     await api.get("/posts/?author=" + this.user_id).then((response) => {
-      this.previousPosts = response.data;
+      this.previousPosts = response.data.results;
       this.options.animation.animateRotate = true;
       this.set_category_data();
       this.options.animation.animateRotate = false;
@@ -150,7 +150,7 @@ export default {
     get_previous_posts() {
       console.log("get_previous_posts!!!!");
       api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.previousPosts = response.data;
+        this.previousPosts = response.data.results;
         // this.loaded = false;
         this.set_category_data();
       });
