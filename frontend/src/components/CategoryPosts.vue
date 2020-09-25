@@ -52,8 +52,8 @@
       <div v-show="!loading">
         <PostList :postType="filterPosts" />
         <div v-if="nextPage">
-          <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-            <span id="no_results" slot="no-results">投稿は以上です</span>
+          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+            <span id="no_results" slot="no-results"></span>
           </infinite-loading>
         </div>
       </div>
@@ -83,6 +83,7 @@ export default {
       filterPosts: [],
       loading: true,
       nextPage: false,
+      infiniteId: 0,
     };
   },
   watch: {
@@ -110,11 +111,19 @@ export default {
       });
   },
   methods: {
-    search() {
-      console.log('search')
+    resetHandler() {
       this.loading = true;
       this.filterPosts = [];
       this.page = 1;
+      this.nextPage = false;
+      this.infiniteId++;
+    },
+    search() {
+      this.resetHandler();
+      // console.log("search");
+      // this.loading = true;
+      // this.filterPosts = [];
+      // this.page = 1;
       this.$router.push({
         name: "category",
         query: {
@@ -123,7 +132,7 @@ export default {
       });
     },
     searchHandler() {
-      console.log('searchHandler')
+      console.log("searchHandler");
       api
         .get("/posts/", {
           params: {

@@ -7,7 +7,7 @@
       <PostList :postType="latestPosts" />
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-          <span id="no_results" slot="no-results">投稿は以上です</span>
+          <span id="no_results" slot="no-results"></span>
         </infinite-loading>
       </div>
     </div>
