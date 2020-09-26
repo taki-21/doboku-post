@@ -58,9 +58,9 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <pre>{{liked}}</pre> -->
+                    <pre>{{liked}}</pre>
                     <div id="like_buttun">
-                      <div v-if="liked[0]">
+                      <div v-if="liked">
                         <div>
                           <span class="like_icon" @click="toggleLike">
                             <svg
@@ -196,7 +196,7 @@ export default {
       comments: [],
       post: [],
       author: [],
-      liked: [],
+      liked: "",
       likeCount: "",
       loading: true,
     };
