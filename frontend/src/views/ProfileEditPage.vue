@@ -10,67 +10,87 @@
               <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
             </a>
             <div
+              id="profile_edit_card"
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
-              <form @submit.prevent="submitPost()">
-                <div uk-form-custom id="form_custom">
-                  <div class="uk-placeholder uk-text-center">
-                    <input type="file" @change="selectedFile" />
-                    <div id="preview">
-                      <div v-if="previewImage">
-                        <img id="preview_image" :src="previewImage" />
-                      </div>
-                      <div v-else>
-                        <img id="preview_image" :src="beforeIconImage " />
+              <ValidationObserver v-slot="{ invalid }">
+                <form @submit.prevent="submitPost()">
+                  <div uk-form-custom id="form_custom">
+                    <div class="uk-placeholder uk-text-center">
+                      <input type="file" @change="selectedFile" />
+                      <div id="preview">
+                        <div v-if="previewImage">
+                          <img id="preview_image" :src="previewImage" />
+                        </div>
+                        <div v-else>
+                          <img id="preview_image" :src="beforeIconImage " />
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="uk-margin">
-                  <div class="uk-inline uk-width-1-1">
-                    <span class="uk-form-icon" uk-icon="icon: user"></span>
-                    <input
-                      class="uk-input"
-                      type="text"
-                      placeholder="ユーザー名"
-                      v-model="username"
-                      required
-                    />
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <ValidationProvider
+                        mode="eager"
+                        name="ユーザー名"
+                        rules="required|max:10"
+                        v-slot="{ errors }"
+                      >
+                        <span id="form_icon" class="uk-form-icon" uk-icon="icon: user"></span>
+                        <input
+                          class="uk-input"
+                          type="text"
+                          placeholder="ユーザー名"
+                          v-model="username"
+                          required
+                        />
+                        <p id="error_message">{{ errors[0] }}</p>
+                      </ValidationProvider>
+                    </div>
                   </div>
-                </div>
-                <div class="uk-margin">
-                  <div class="uk-inline uk-width-1-1">
-                    <span class="uk-form-icon" uk-icon="icon: mail"></span>
-                    <input
-                      class="uk-input"
-                      type="email"
-                      placeholder="メールアドレス"
-                      v-model="email"
-                      required
-                    />
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <ValidationProvider
+                        mode="lazy"
+                        name="入力内容"
+                        rules="required|email"
+                        v-slot="{ errors }"
+                      >
+                        <span id="form_icon" class="uk-form-icon" uk-icon="icon: mail"></span>
+                        <input
+                          class="uk-input"
+                          type="email"
+                          placeholder="メールアドレス"
+                          v-model="email"
+                          required
+                        />
+                        <p id="error_message">{{ errors[0] }}</p>
+                      </ValidationProvider>
+                    </div>
                   </div>
-                </div>
-                <div class="uk-margin">
-                  <div class="uk-inline uk-width-1-1">
-                    <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
-                    <textarea
-                      class="uk-textarea textarea-input"
-                      rows="8"
-                      type="text"
-                      placeholder="自己紹介文"
-                      v-model="introduction"
-                      required
-                    ></textarea>
+                  <div class="uk-margin">
+                    <div class="uk-inline uk-width-1-1">
+                      <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
+                      <textarea
+                        class="uk-textarea textarea-input"
+                        rows="8"
+                        type="text"
+                        placeholder="自己紹介文"
+                        v-model="introduction"
+                      ></textarea>
+                    </div>
                   </div>
-                </div>
-                <div class="uk-margin">
-                  <button
-                    class="uk-button uk-button-primary uk-button-large uk-width-1-1"
-                    type="submit"
-                  >変更を保存する</button>
-                </div>
-              </form>
+                  <div class="uk-margin">
+                    <button
+                      id="send_button"
+                      class="uk-button uk-button-primary uk-button-large uk-width-1-1"
+                      :disabled="invalid"
+                      type="submit"
+                    >変更を保存する</button>
+                  </div>
+                </form>
+              </ValidationObserver>
             </div>
           </div>
         </div>
@@ -82,12 +102,27 @@
 <script>
 import { mapGetters } from "vuex";
 import api from "@/services/api";
-
 import MyHeader from "@/components/MyHeader";
+import {
+  ValidationProvider,
+  ValidationObserver,
+  extend,
+  localize,
+} from "vee-validate";
+import ja from "vee-validate/dist/locale/ja.json";
+import { required, max, min, email } from "vee-validate/dist/rules";
+
+extend("required", required);
+extend("max", max);
+extend("min", min);
+extend("email", email);
+localize("ja", ja);
 
 export default {
   components: {
     MyHeader,
+    ValidationProvider,
+    ValidationObserver,
   },
   computed: {
     ...mapGetters("auth", {
@@ -116,20 +151,18 @@ export default {
       formData.append("username", this.username);
       formData.append("email", this.email);
       formData.append("introduction", this.introduction);
-      api
-        .patch("/users/" + this.id + "/", formData)
-        .then(async () => {
-          this.$store.dispatch("message/setInfoMessage", {
-            message: "更新完了",
-          });
-          // ここで一度更新してないとユーザーIDを変更した際にエラーが出る
-          // storeのユーザー情報を更新
-          await this.$store.dispatch("auth/reload");
-          await this.$store.dispatch("user/load", {
-            id: this.$store.getters["auth/id"],
-          });
-          this.$router.replace("/mypage/");
+      api.patch("/users/" + this.id + "/", formData).then(async () => {
+        this.$store.dispatch("message/setInfoMessage", {
+          message: "更新完了",
         });
+        // ここで一度更新してないとユーザーIDを変更した際にエラーが出る
+        // storeのユーザー情報を更新
+        await this.$store.dispatch("auth/reload");
+        await this.$store.dispatch("user/load", {
+          id: this.$store.getters["auth/id"],
+        });
+        this.$router.replace("/mypage/");
+      });
     },
     createImage(file) {
       const reader = new FileReader();
@@ -154,8 +187,19 @@ export default {
 };
 </script>
 <style scoped>
-#back_icon{
+#back_icon {
   color: rgba(139, 138, 135, 0.85);
+}
+#profile_edit_card {
+  background-color: rgba(151, 132, 116, 0.315);
+  border-radius: 10px;
+}
+#form_icon {
+  height: 40px;
+}
+#error_message {
+  margin-top: 0;
+  color: red;
 }
 
 #form_custom {
@@ -172,7 +216,6 @@ export default {
   position: relative;
   border: 3px solid #ccc;
   box-sizing: border-box;
-
 }
 
 .camera-choice {
@@ -207,5 +250,10 @@ export default {
 .uk-section {
   padding-top: 30px;
   /* padding-bottom: 70px; */
+}
+#send_button {
+  background-color: rgba(107, 86, 73, 0.404);
+  font-size: 18px;
+  color: rgb(0, 0, 0);
 }
 </style>
