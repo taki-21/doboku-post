@@ -96,22 +96,14 @@ export default {
   },
   data() {
     return {
-      isLoading: false,
-      beforeIconImage: "",
+      beforeIconImage: this.$store.getters["user/icon_image"],
       icon_image: "",
       previewImage: "",
-      username: "",
-      email: "",
-      introduction: "",
+      username: this.$store.getters["user/username"],
+      email: this.$store.getters["user/email"],
+      introduction: this.$store.getters["user/introduction"],
     };
   },
-  // mounted() {
-  //   api
-  //     .get("/users/" + this.id + "/")
-  //     .then(response => {
-  //       this.user = response.data;
-  //     });
-  // },
   methods: {
     selectedFile(event) {
       event.preventDefault();
@@ -137,7 +129,6 @@ export default {
             id: this.$store.getters["auth/id"],
           });
           this.$router.replace("/mypage/");
-          this.isLoading = false;
         });
     },
     createImage(file) {
@@ -152,15 +143,14 @@ export default {
       this.$router.back();
     },
   },
-  mounted() {
-    this.isLoading = true;
-    this.$store.dispatch("user/load", { id: this.id }).then((resUser) => {
-      this.beforeIconImage = resUser.icon_image;
-      this.username = resUser.username;
-      this.email = resUser.email;
-      this.introduction = resUser.introduction;
-    });
-  },
+  // mounted() {
+  //   this.$store.dispatch("user/load", { id: this.id }).then((resUser) => {
+  //     this.beforeIconImage = resUser.icon_image;
+  //     this.username = resUser.username;
+  //     this.email = resUser.email;
+  //     this.introduction = resUser.introduction;
+  //   });
+  // },
 };
 </script>
 <style scoped>

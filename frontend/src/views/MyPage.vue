@@ -24,8 +24,10 @@
                   >編集</div>
                 </router-link>
               </div>
-              <div id="piechart">
-                <PieChart v-if="loaded" :data="pieChartData" :options="options"></PieChart>
+              <div v-if="previousPosts[0]">
+                <div id="piechart">
+                  <PieChart v-if="loaded" :data="pieChartData" :options="options"></PieChart>
+                </div>
               </div>
             </div>
             <div class="profile_content">

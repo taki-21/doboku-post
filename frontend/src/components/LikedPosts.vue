@@ -5,6 +5,10 @@
     </div>
     <div v-show="!loading">
       <PostList :postType="likedPosts" />
+      <div v-if="likedPosts == ''">
+        <p id="none_message">まだ投稿がありません</p>
+      </div>
+
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span id="no_results" slot="no-results"></span>
@@ -48,14 +52,10 @@ export default {
             // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
-                this.likedPosts.push(
-                  ...data.results.map((like) => like.post)
-                );
+                this.likedPosts.push(...data.results.map((like) => like.post));
                 $state.complete();
               } else {
-                this.likedPosts.push(
-                  ...data.results.map((like) => like.post)
-                );
+                this.likedPosts.push(...data.results.map((like) => like.post));
                 this.page += 1;
                 $state.loaded();
               }
@@ -88,6 +88,11 @@ export default {
 </script>
 
 <style scoped>
+#none_message {
+  font-size: 18px;
+  text-align: center;
+}
+
 .loader {
   text-align: center;
   position: relative;

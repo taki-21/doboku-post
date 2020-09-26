@@ -1,7 +1,6 @@
 <template>
   <div>
     <MyHeader />
-    <!-- ヘッダー -->
     <div class="uk-section">
       <div class="uk-width-1-1">
         <div class="uk-container">
@@ -12,7 +11,6 @@
             class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
           >
             <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
-            <!-- <pre>{{image}}</pre> -->
             <form @submit.prevent="submitPost()">
               <div uk-grid>
                 <div class="uk-width-1-2">
@@ -88,8 +86,6 @@
                           class="uk-button uk-button-secondary uk-button-small"
                           type="button"
                         >都道府県のみ</button>
-                        <!-- </li> -->
-                        <!-- </ul> -->
                       </div>
                       <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
                         <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
@@ -166,7 +162,6 @@ export default {
       previewImage: null,
       title: "",
       content: "",
-
       address: "",
       prefecture: "",
       lat: "",
