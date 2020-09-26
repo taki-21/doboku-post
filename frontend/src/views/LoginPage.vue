@@ -10,6 +10,7 @@
           <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
             <div class="uk-width-1-1@m">
               <div
+                id="login_card"
                 class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
               >
                 <h2 class="uk-card-title uk-text-center">ログイン</h2>
@@ -40,6 +41,7 @@
                   </div>
                   <div class="uk-margin">
                     <button
+                      id="send_button"
                       class="uk-button uk-button-primary uk-button-large uk-width-1-1"
                       type="submit"
                     >ログイン</button>
@@ -153,5 +155,15 @@ export default {
 <style scoped>
 #create_account {
   margin-top: 20px;
+}
+#send_button {
+  background-color: rgba(107, 86, 73, 0.404);
+  font-size: 18px;
+  color: rgb(0, 0, 0);
+}
+
+#login_card {
+  background-color: rgba(151, 132, 116, 0.315);
+  border-radius: 10px;
 }
 </style>
