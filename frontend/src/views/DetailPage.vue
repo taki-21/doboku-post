@@ -60,7 +60,7 @@
                     </div>
                     <!-- <pre>{{liked}}</pre> -->
                     <div id="like_buttun">
-                      <div v-if="liked">
+                      <div v-if="liked[0]">
                         <div>
                           <span class="like_icon" @click="toggleLike">
                             <svg
@@ -238,13 +238,16 @@ export default {
       });
     },
     toggleLike() {
+      if (this.isLoggedIn) {
       this.liked ? this.removeLike() : this.addLike();
+      }else {
+        this.$router.replace("/login");
+      }
     },
     addLike() {
       console.log("addLike");
       this.confirmLiked;
       this.getLikeCount;
-      if (this.isLoggedIn) {
         api
           .post("/likes/", {
               user: this.login_user_id,
@@ -252,9 +255,6 @@ export default {
           })
           .then(this.getLikeCount)
           .then(this.confirmLiked);
-      } else {
-        this.$router.replace("/login");
-      }
     },
     removeLike() {
       console.log("removeLike");
