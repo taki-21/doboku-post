@@ -21,7 +21,11 @@
             </a>
             <div uk-dropdown="pos: bottom-center; mode: click">
               <div class="dropdown">
-                <router-link class="router-link" :to="{name: 'mypage', params:{user_id: user.id}}">
+                <router-link
+                  class="router-link"
+                  :to="{name: 'mypage', params:{user_id: user.id}}"
+                  v-if="user.id"
+                >
                   <div class="link">
                     <i id="mypage_icon" uk-icon="user"></i>
                     <span>マイページ</span>
@@ -37,7 +41,11 @@
                     <h2 class="uk-modal-title">ログアウト確認</h2>
                     <p>ログアウトします。よろしいですか？</p>
                     <p class="uk-text-right">
-                      <button id="cancel_button" class="uk-button uk-button-default uk-modal-close" type="button">キャンセル</button>
+                      <button
+                        id="cancel_button"
+                        class="uk-button uk-button-default uk-modal-close"
+                        type="button"
+                      >キャンセル</button>
                       <button
                         class="uk-button uk-button-primary uk-modal-close"
                         type="button"
@@ -82,12 +90,12 @@ export default {
     clickLogout: function () {
       // var result = window.confirm("ログアウトします。よろしいですか？");
       // if (result) {
-        this.$store.dispatch("auth/logout");
-        this.$store.dispatch("user/logout");
-        this.$store.dispatch("message/setInfoMessage", {
-          message: "ログアウトしました",
-        });
-        this.$router.replace("/login");
+      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("user/logout");
+      this.$store.dispatch("message/setInfoMessage", {
+        message: "ログアウトしました",
+      });
+      this.$router.replace("/login");
       // }
     },
   },
@@ -150,11 +158,11 @@ li {
   margin: 10px auto;
 }
 .uk-modal-body {
-    display: flow-root;
-    padding: 30px 30px;
-    border-radius:5px;
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
 }
-#cancel_button{
+#cancel_button {
   margin-right: 10px;
 }
 </style>

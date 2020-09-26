@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <div>
-      <transition appear>
+      <!-- <transition appear> -->
         <router-view />
-      </transition>
+      <!-- </transition> -->
     </div>
   </div>
 </template>
@@ -35,7 +35,7 @@ html{
   display: none;
   -webkit-appearance: none;
 } */
-.v-enter-active {
+/* .v-enter-active {
   transition: opacity 0.4s;
 }
 
@@ -51,5 +51,5 @@ html{
 .v-leave-active,
 .v-leave-to {
   opacity: 0;
-}
+} */
 </style>

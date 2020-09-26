@@ -60,17 +60,7 @@
                     </div>
                     <!-- <pre>{{liked}}</pre> -->
                     <div id="like_buttun">
-                      <div v-if="liked == ''">
-                        <div>
-                          <span
-                            class="like_icon"
-                            uk-icon="icon: heart; ratio: 2.5"
-                            @click="toggleLike"
-                          ></span>
-                          <span class="like_count">{{ likeCount }}</span>
-                        </div>
-                      </div>
-                      <div v-else>
+                      <div v-if="liked">
                         <div>
                           <span class="like_icon" @click="toggleLike">
                             <svg
@@ -88,6 +78,16 @@
                               />
                             </svg>
                           </span>
+                          <span class="like_count">{{ likeCount }}</span>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div>
+                          <span
+                            class="like_icon"
+                            uk-icon="icon: heart; ratio: 2.5"
+                            @click="toggleLike"
+                          ></span>
                           <span class="like_count">{{ likeCount }}</span>
                         </div>
                       </div>
@@ -220,12 +220,14 @@ export default {
       if (this.login_user_id) {
         api
           .get("/likes/", {
-            user: this.login_user_id,
-            post: this.post_id,
+            params: {
+              user: this.login_user_id,
+              post: this.post_id,
+            },
           })
           .then((response) => {
             console.log(response.data.results);
-            this.liked = response.data.results;
+            this.liked = response.data.results[0];
           });
       }
     },
@@ -236,7 +238,7 @@ export default {
       });
     },
     toggleLike() {
-      this.liked == "" ? this.addLike() : this.removeLike();
+      this.liked ? this.removeLike() : this.addLike();
     },
     addLike() {
       console.log("addLike");
@@ -245,8 +247,8 @@ export default {
       if (this.isLoggedIn) {
         api
           .post("/likes/", {
-            user: this.login_user_id,
-            post_id: this.post_id,
+              user: this.login_user_id,
+              post_id: this.post_id,
           })
           .then(this.getLikeCount)
           .then(this.confirmLiked);
@@ -258,9 +260,8 @@ export default {
       console.log("removeLike");
       this.confirmLiked;
       this.getLikeCount;
-      var path = this.liked[0].id;
       api
-        .delete("/likes/" + path + "/")
+        .delete("/likes/" + this.liked.id + "/")
         .then(this.getLikeCount)
         .then(this.confirmLiked);
     },
