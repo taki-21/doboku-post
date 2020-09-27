@@ -32,7 +32,7 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <ValidationProvider
-                        mode="eager"
+                        mode="lazy"
                         name="ユーザー名"
                         rules="required|max:10"
                         v-slot="{ errors }"
@@ -176,22 +176,17 @@ export default {
       this.$router.back();
     },
   },
-  // mounted() {
-  //   this.$store.dispatch("user/load", { id: this.id }).then((resUser) => {
-  //     this.beforeIconImage = resUser.icon_image;
-  //     this.username = resUser.username;
-  //     this.email = resUser.email;
-  //     this.introduction = resUser.introduction;
-  //   });
-  // },
 };
 </script>
 <style scoped>
+.uk-input, .uk-textarea{
+  border-color:rgba(150, 150, 150, 0.5);
+}
 #back_icon {
   color: rgba(139, 138, 135, 0.85);
 }
 #profile_edit_card {
-  background-color: rgba(151, 132, 116, 0.315);
+  background-color: rgba(225, 215, 205, 0.247);
   border-radius: 10px;
 }
 #form_icon {

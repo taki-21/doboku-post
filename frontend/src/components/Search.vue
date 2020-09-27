@@ -91,6 +91,7 @@ export default {
       loading: true,
       nextPage: false,
       infiniteId: 0,
+      page: 1,
       postURL: "",
     };
   },
@@ -190,6 +191,8 @@ export default {
         });
     },
     infiniteHandler($state) {
+      console.log('infiniteHandler')
+      console.log(this.page)
       this.page += 1;
       api
         .get(this.postURL, {

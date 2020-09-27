@@ -8,6 +8,7 @@
             <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
           </a>
           <div
+            id="new_post_card"
             class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
           >
             <h2 class="uk-text-center" id="new_post_title">新規投稿</h2>
@@ -31,41 +32,61 @@
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <label>カテゴリ</label>
-                      <select
-                        class="uk-select"
-                        type="text"
-                        v-model="category"
-                        required
+                      <ValidationProvider
+                        mode="lazy"
+                        name="カテゴリ"
+                        rules="required"
+                        v-slot="{ errors }"
                       >
-                        <option
-                          v-for="(ctg,key) in categories"
-                          :key="key"
-                          v-bind:value="ctg.id"
-                        >{{ctg.name}}</option>
-                      </select>
+                        <select class="uk-select" v-model="category">
+                          <option
+                            v-for="(ctg,key) in categories"
+                            :key="key"
+                            v-bind:value="ctg.id"
+                          >{{ctg.name}}</option>
+                        </select>
+                        <p id="error_message">{{ errors[0] }}</p>
+                      </ValidationProvider>
                     </div>
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
-                      <label>タイトル</label>
-                      <input class="uk-input" type="text" v-model="title" required />
+                      <label>タイトル（15文字以下）</label>
+                      <ValidationProvider
+                        mode="lazy"
+                        name="タイトル"
+                        rules="required|max:15"
+                        v-slot="{ errors }"
+                      >
+                        <input class="uk-input" type="text" v-model="title" required />
+                        <p id="error_message">{{ errors[0] }}</p>
+                      </ValidationProvider>
                     </div>
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
                       <label>キャプション</label>
-                      <textarea
-                        class="uk-textarea"
-                        rows="3"
-                        type="text"
-                        v-model="content"
-                        required
-                      ></textarea>
+                      <ValidationProvider
+                        mode="lazy"
+                        name="キャプション"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <textarea
+                          class="uk-textarea"
+                          rows="3"
+                          type="text"
+                          v-model="content"
+                          required
+                        ></textarea>
+                        <p id="error_message">{{ errors[0] }}</p>
+                      </ValidationProvider>
                     </div>
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
-                      <label>場所</label>
+                      <label>場所（任意）</label>
+                      <span id="select_way">: 指定方法は以下の2つのみです</span>
                       <div uk-switcher="animation: uk-animation-fade; toggle: > *">
                         <button
                           class="uk-button uk-button-secondary uk-button-small"
@@ -105,7 +126,7 @@
                       </div>-->
                       <ul id="address_form" class="uk-switcher">
                         <li>
-                          <input class="uk-input" type="text" v-model="address" />
+                          <input placeholder="住所及び都道府県名が入力されます" class="uk-input" type="text" v-model="address" />
                         </li>
                         <!-- <li>
                             <input
@@ -129,7 +150,8 @@
               </div>
               <div class="uk-margin">
                 <button
-                  class="uk-button uk-button-default uk-button-large uk-width-1-1 post-button"
+                  id="send_button"
+                  class="uk-button uk-button-large uk-width-1-1"
                   type="submit"
                 >投稿</button>
               </div>
@@ -146,11 +168,29 @@ import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
 import prefs from "../mixins/PrefsMixin";
 import api from "@/services/api";
+import {
+  ValidationProvider,
+  // ValidationObserver,
+  extend,
+  localize,
+} from "vee-validate";
+import ja from "vee-validate/dist/locale/ja.json";
+import { required, max, min, email } from "vee-validate/dist/rules";
+
+extend("required", required);
+extend("max", max);
+extend("min", min);
+extend("email", email);
+localize("ja", ja);
+
 export default {
   mixins: [prefs],
   components: {
     MyHeader,
     TitleSearchMap,
+    ValidationProvider,
+    // ValidationObserver,
+
     // ManualSearchMap,
   },
   data() {
@@ -229,13 +269,8 @@ export default {
 </script>
 
 <style scoped>
-#back_icon{
+#back_icon {
   color: rgba(139, 138, 135, 0.85);
-}
-
-.post-button {
-  margin-top: 10px;
-  font-size: 25px;
 }
 
 h2#new_post_title {
@@ -246,6 +281,11 @@ h2#new_post_title {
 #form_custom {
   width: 525px;
   height: 393px;
+  background-color: #fff;
+}
+#form_custom:hover {
+  background-color: rgba(0, 0, 0, 0.041);
+  z-index: 100;
 }
 
 .uk-placeholder {
@@ -281,10 +321,6 @@ h2#new_post_title {
   width: 519px;
   height: 387px;
 }
-.uk-form-custom:hover {
-  cursor: pointer;
-  background-color: rgba(212, 217, 220, 0.3);
-}
 
 .uk-modal-dialog {
   position: relative;
@@ -300,31 +336,30 @@ h2#new_post_title {
 #address_form {
   margin-top: 4px;
 }
-/* #title_search {
-  margin-left: 40px;
-  margin-right: 20px;
-}
-#manual_search {
-  margin-left: 20px;
-  margin-right: 20px;
-}
-#prefecture_search {
-  margin-left: 20px;
-} */
-.uk-button-default {
-  background-color: rgba(212, 217, 220, 0.4);
-  color: #333;
-  border: 2px solid rgb(112, 110, 110);
-  border-radius: 7px;
-}
-.uk-button-default:hover {
-  background-color: rgb(212, 217, 220);
-  color: #333;
-  border: 2px solid #333;
-  border-radius: 7px;
-}
 
 .uk-section {
   padding-top: 30px;
+}
+#new_post_card {
+  background-color: rgba(225, 215, 205, 0.247);
+  border-radius: 10px;
+}
+#send_button {
+  background-color: rgba(107, 86, 73, 0.404);
+  font-size: 24px;
+  color: rgb(0, 0, 0);
+}
+#send_button:hover {
+  background-color: rgba(107, 86, 73, 0.589);
+  font-size: 24px;
+  color: rgb(0, 0, 0);
+}
+#error_message {
+  margin: 0;
+  color: red;
+}
+#select_way{
+  font-size: 14px;
+  color: rgb(145, 91, 56);
 }
 </style>
