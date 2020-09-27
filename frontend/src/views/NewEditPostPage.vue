@@ -79,7 +79,7 @@
                         <div class="uk-inline uk-width-1-1">
                           <label>キャプション</label>
                           <ValidationProvider
-                            mode="lazy"
+                            mode="aggressive"
                             name="キャプション"
                             rules="required"
                             v-slot="{ errors }"
@@ -106,6 +106,7 @@
                               @click="callChildMethod"
                               type="button"
                               uk-toggle
+                              :disabled="title == ''"
                             >タイトルから検索</button>
                             or
                             <!-- <button

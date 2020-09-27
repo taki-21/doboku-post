@@ -82,7 +82,7 @@
                     <div>
                       <div class="uk-inline uk-width-1-1">
                         <ValidationProvider
-                          mode="lazy"
+                          mode="aggressive"
                           name="パスワード"
                           rules="required|confirmed:password1"
                           v-slot="{ errors }"
