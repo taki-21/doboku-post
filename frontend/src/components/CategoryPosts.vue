@@ -176,9 +176,7 @@ export default {
     },
   },
   computed: {
-    ...mapGetters("category", {
-      categories: "categories",
-    }),
+    ...mapGetters("category", ["categories"]),
   },
 };
 </script>

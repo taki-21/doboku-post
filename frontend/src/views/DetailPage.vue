@@ -15,24 +15,26 @@
               <div class="uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large">
                 <div uk-grid>
                   <div class="uk-width-3-5">
-                    <router-link
-                      class="show_user"
-                      v-if="author.id"
-                      :to="{name: 'mypage', params:{user_id: author.id}}"
-                    >
-                      <img class="user_icon" :src="author.icon_image" />
-                      <span id="author_name">{{ author.username }}</span>
-                    </router-link>
-                    <div class="timestamp">
-                      <span>{{ post.published_at | moment }}</span>
+                    <div>
+                      <router-link
+                        class="show_user"
+                        v-if="author.id"
+                        :to="{name: 'mypage', params:{user_id: author.id}}"
+                      >
+                        <img class="user_icon" :src="author.icon_image" />
+                        <span id="author_name">{{ author.username }}</span>
+                      </router-link>
+                      <div class="timestamp">
+                        <span>{{ post.published_at | moment }}</span>
+                      </div>
+                      <div class="prefecture">
+                        <span v-if="post.prefecture">{{ post.prefecture }}</span>
+                        <span v-else>---</span>
+                      </div>
                     </div>
-                    <div class="prefecture">
-                      <span>{{ post.prefecture }}</span>
-                    </div>
-
                     <div id="title-content">
-                      <p id="post_title">{{post.title}}</p>
-                      <p id="post_content">{{post.content}}</p>
+                      <div id="post_title">{{post.title}}</div>
+                      <div id="post_content">{{post.content}}</div>
                     </div>
 
                     <div uk-lightbox>
@@ -58,19 +60,8 @@
                         </div>
                       </div>
                     </div>
-                    <!-- <pre>{{liked}}</pre> -->
                     <div id="like_buttun">
-                      <div v-if="liked == ''">
-                        <div>
-                          <span
-                            class="like_icon"
-                            uk-icon="icon: heart; ratio: 2.5"
-                            @click="toggleLike"
-                          ></span>
-                          <span class="like_count">{{ likeCount }}</span>
-                        </div>
-                      </div>
-                      <div v-else>
+                      <div v-if="liked">
                         <div>
                           <span class="like_icon" @click="toggleLike">
                             <svg
@@ -88,6 +79,16 @@
                               />
                             </svg>
                           </span>
+                          <span class="like_count">{{ likeCount }}</span>
+                        </div>
+                      </div>
+                      <div v-else>
+                        <div>
+                          <span
+                            class="like_icon"
+                            uk-icon="icon: heart; ratio: 2.5"
+                            @click="toggleLike"
+                          ></span>
                           <span class="like_count">{{ likeCount }}</span>
                         </div>
                       </div>
@@ -196,7 +197,7 @@ export default {
       comments: [],
       post: [],
       author: [],
-      liked: [],
+      liked: "",
       likeCount: "",
       loading: true,
     };
@@ -220,12 +221,14 @@ export default {
       if (this.login_user_id) {
         api
           .get("/likes/", {
-            user: this.login_user_id,
-            post: this.post_id,
+            params: {
+              user: this.login_user_id,
+              post: this.post_id,
+            },
           })
           .then((response) => {
             console.log(response.data.results);
-            this.liked = response.data.results;
+            this.liked = response.data.results[0];
           });
       }
     },
@@ -236,31 +239,30 @@ export default {
       });
     },
     toggleLike() {
-      this.liked == "" ? this.addLike() : this.removeLike();
+      if (this.isLoggedIn) {
+        this.liked ? this.removeLike() : this.addLike();
+      } else {
+        this.$router.replace("/login");
+      }
     },
     addLike() {
       console.log("addLike");
       this.confirmLiked;
       this.getLikeCount;
-      if (this.isLoggedIn) {
-        api
-          .post("/likes/", {
-            user: this.login_user_id,
-            post_id: this.post_id,
-          })
-          .then(this.getLikeCount)
-          .then(this.confirmLiked);
-      } else {
-        this.$router.replace("/login");
-      }
+      api
+        .post("/likes/", {
+          user: this.login_user_id,
+          post_id: this.post_id,
+        })
+        .then(this.getLikeCount)
+        .then(this.confirmLiked);
     },
     removeLike() {
       console.log("removeLike");
       this.confirmLiked;
       this.getLikeCount;
-      var path = this.liked[0].id;
       api
-        .delete("/likes/" + path + "/")
+        .delete("/likes/" + this.liked.id + "/")
         .then(this.getLikeCount)
         .then(this.confirmLiked);
     },
@@ -340,17 +342,18 @@ html {
 }
 
 #post_title {
-  padding-top: 20px;
+  padding-top: 10px;
   font-size: 35px;
   font-weight: bold;
   margin-bottom: 0px;
 }
 #post_content {
-  margin: 10px 10px 20px 0px;
+  word-break: break-all;
+  margin: 0px 0px 10px 0px;
   border-radius: 5px;
-  background-color: rgb(238, 237, 235);
-  padding: 10px 0px 10px 30px;
-  max-width: 610px;
+  background-color: rgba(224, 215, 196, 0.432);
+  padding: 5px 5px 5px 10px;
+  max-width: 625px;
   font-size: 15px;
   font-weight: bold;
 }

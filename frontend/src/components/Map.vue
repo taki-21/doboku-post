@@ -1,6 +1,11 @@
 <template>
   <div>
-    <div id="map" ref="googleMap"></div>
+    <div v-show="loading" class="loader">
+      <span uk-spinner></span>
+    </div>
+    <div v-show="!loading">
+      <div id="map" ref="googleMap"></div>
+    </div>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ export default {
       },
       postList: [],
       userPostList: [],
+      loading: true,
     };
   },
   computed: {
@@ -56,6 +62,7 @@ export default {
     this.google = await GoogleMapsApiLoader({
       apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });
+    this.loading = false;
     this.initializeMap();
   },
   methods: {
@@ -135,6 +142,11 @@ export default {
 
 #OK_button {
   margin-left: 5px;
+}
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
 }
 
 /* .gm-style .gm-style-iw-c {

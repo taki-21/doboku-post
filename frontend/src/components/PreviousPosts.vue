@@ -5,6 +5,9 @@
     </div>
     <div v-show="!loading">
       <PostList :postType="previousPosts" :user_id="auth_id" @parentPostDelete="parentPostDelete" />
+      <div v-if="previousPosts == ''">
+        <p id="none_message">まだ投稿がありません</p>
+      </div>
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span id="no_results" slot="no-results"></span>
@@ -83,6 +86,11 @@ export default {
 </script>
 
 <style scoped>
+#none_message {
+  font-size: 18px;
+  text-align: center;
+}
+
 .loader {
   text-align: center;
   position: relative;

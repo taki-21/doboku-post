@@ -66,17 +66,7 @@ export default {
           }, 500);
         });
     },
-    // .catch(() => {
-    //   console.log("エラー");
-    //   $state.complete();
-    //   console.log("complete");
-    // });
   },
-
-  // created() {
-  //   this.infiniteHandler();
-  //   this.loading = false;
-  // },
 };
 </script>
 
