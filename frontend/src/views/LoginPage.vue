@@ -80,7 +80,7 @@ export default {
         password: "",
       },
       // id: this.$store.getters["auth/id"],
-      isLoading: false,
+      // isLoading: false,
     };
   },
   methods: {
@@ -89,7 +89,7 @@ export default {
       this.form.username = username;
       this.form.password = password;
       // ログイン
-      this.isLoading = true;
+      // this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
           username: username,
