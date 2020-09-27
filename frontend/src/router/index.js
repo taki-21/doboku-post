@@ -1,6 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '@/views/Home'
 import LoginPage from '@/views/LoginPage'
 import store from '@/store'
 import HomePage from '@/views/HomePage'
