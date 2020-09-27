@@ -2,7 +2,7 @@
   <div>
     <MyHeader />
     <!-- <GlobalMessage /> -->
-    {{message}}
+    <!-- {{message}} -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
         <div class="uk-container">
