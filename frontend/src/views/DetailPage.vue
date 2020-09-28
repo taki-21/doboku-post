@@ -445,7 +445,9 @@ ul.uk-comment-list {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
+.uk-modal-body{
+  border-radius: 5px;
+}
 .uk-modal-dialog {
   position: relative;
   box-sizing: border-box;

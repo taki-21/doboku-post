@@ -106,16 +106,8 @@
                               @click="callChildMethod"
                               type="button"
                               uk-toggle
-                              :disabled="title == ''"
                             >タイトルから検索</button>
                             or
-                            <!-- <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            href="#modal-center"
-                            type="button"
-                            uk-toggle
-                          >手動</button>
-                            or-->
                             <button
                               class="uk-button uk-button-secondary uk-button-small"
                               type="button"
@@ -129,14 +121,6 @@
                               </div>
                             </div>
                           </div>
-                          <!-- <div id="modal-manual" class="uk-flex-top .uk-width-large" uk-modal>
-                          <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                            <button class="uk-modal-close-default" type="button" uk-close></button>
-                            <div>
-                              <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
-                            </div>
-                          </div>
-                          </div>-->
                           <ul id="address_form" class="uk-switcher">
                             <li>
                               <input
@@ -146,14 +130,6 @@
                                 v-model="address"
                               />
                             </li>
-                            <!-- <li>
-                            <input
-                              id="manual_search"
-                              class="uk-input"
-                              type="text"
-                              v-model="address"
-                            />
-                            </li>-->
                             <li>
                               <select class="uk-select" v-model="prefecture">
                                 <option value>都道府県を選択してください</option>
@@ -161,7 +137,6 @@
                               </select>
                             </li>
                           </ul>
-                          <!-- </div> -->
                         </div>
                       </div>
                     </div>
@@ -377,6 +352,9 @@ h2#new_post_title {
 #preview_image {
   width: 519px;
   height: 387px;
+}
+.uk-modal-body {
+  border-radius: 5px;
 }
 
 .uk-modal-dialog {
