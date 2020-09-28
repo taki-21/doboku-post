@@ -61,7 +61,7 @@
                       </div>
                     </div>
                     <div id="like_buttun">
-                      <div v-if="liked">
+                      <div v-if="isLiked">
                         <div>
                           <span class="like_icon" @click="toggleLike">
                             <svg
@@ -197,7 +197,8 @@ export default {
       comments: [],
       post: [],
       author: [],
-      liked: "",
+      likeId: "",
+      isLiked: false,
       likeCount: "",
       loading: true,
     };
@@ -228,7 +229,10 @@ export default {
           })
           .then((response) => {
             console.log(response.data.results);
-            this.liked = response.data.results[0];
+            if(response.data.results[0]){
+              this.likeId =response.data.results[0].id
+              this.isLiked = true;
+            }
           });
       }
     },
@@ -240,13 +244,15 @@ export default {
     },
     toggleLike() {
       if (this.isLoggedIn) {
-        this.liked ? this.removeLike() : this.addLike();
+        this.isLiked ? this.removeLike() : this.addLike();
       } else {
         this.$router.replace("/login");
       }
     },
     addLike() {
       console.log("addLike");
+      this.likeCount += 1
+      this.isLiked = true
       this.confirmLiked;
       this.getLikeCount;
       api
@@ -259,10 +265,12 @@ export default {
     },
     removeLike() {
       console.log("removeLike");
+      this.likeCount -= 1
+      this.isLiked = false
       this.confirmLiked;
       this.getLikeCount;
       api
-        .delete("/likes/" + this.liked.id + "/")
+        .delete("/likes/" + this.likeId + "/")
         .then(this.getLikeCount)
         .then(this.confirmLiked);
     },
