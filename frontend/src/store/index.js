@@ -167,7 +167,7 @@ const messageModule = {
 //  カテゴリ情報  //
 /////////////////
 const categoryModule = {
-  strict: process.env.NODE_ENV !== 'production',
+  // strict: process.env.NODE_ENV !== 'production',
   namespaced: true,
   state: {
     categories: [],
@@ -199,110 +199,7 @@ const categoryModule = {
   }
 }
 
-///////////////
-//  投稿情報  //
-//////////////
-const postModule = {
-  strict: process.env.NODE_ENV !== 'production',
-  namespaced: true,
-  state: {
-    posts: [],
-    filterPosts: [],
-    likes: '',
-    query: {},
-  },
-  getters: {
-    latestPosts: function (state) {
-      return state.posts
-    },
-    popularPosts: function (state) {
-      return state.posts.slice().sort(function (a, b) {
-        return a.likes_count < b.likes_count ?
-          1 :
-          a.likes_count > b.likes_count ?
-          -1 :
-          0;
-      });
-    },
-    // likedPosts: function (state) {
-    //   return state.likes.map(like => like.post)
-    // },
-    filterPosts: function (state) {
-      return state.filterPosts
-    },
-    likes: function (state) {
-      return state.likes
-    },
-    likeCount: function (state) {
-      return Object.keys(state.likes).length;
-    },
-  },
-  mutations: {
-    // 投稿を一括登録
-    setPosts(state, posts) {
-      state.posts = posts
-    },
-    // 引数を展開してステートに入れる
-    setFilterQuery(state, query) {
-      state.query = {
-        ...query
-      }
-    },
-    setFilterPosts(state, posts) {
-      state.filterPosts = posts
-    },
-    setLikes(state, likes) {
-      state.likes = likes
-    }
-  },
-  actions: {
-    getAllPosts(context) {
-      api.get('/posts/')
-        .then(response => {
-          context.commit('setPosts', response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
 
-    getFilterPosts(context, payload) {
-      let postURL = process.env.VUE_APP_ROOT_API + "posts/";
-      const params = payload
-      const queryString = Object.keys(params)
-        .map(key => key + "=" + params[key])
-        .join("&");
-      if (queryString) {
-        postURL += "?" + queryString;
-      }
-      console.log(postURL)
-      api.get(postURL, {
-        credentials: "include"
-      }).then(response => {
-        context.commit('setFilterPosts', response.data);
-      });
-    },
-    getAllLikes(context, {
-      user_id,
-      post_id
-    }) {
-      api.get('/likes/', {
-          params: {
-            user: user_id,
-            post: post_id
-          }
-        })
-        .then(response => {
-          context.commit('setLikes', response.data);
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    },
-
-  }
-}
 //////////////////
 //  ユーザー情報  //
 /////////////////
@@ -385,7 +282,7 @@ const store = new Vuex.Store({
     message: messageModule,
     user: userModule,
     category: categoryModule,
-    post: postModule
+    // post: postModule
   },
   plugins: [createPersistedState({
     key: 'example',

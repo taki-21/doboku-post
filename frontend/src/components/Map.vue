@@ -1,16 +1,21 @@
 <template>
   <div>
-    <div id="map" ref="googleMap"></div>
+    <div v-show="loading" class="loader">
+      <span uk-spinner></span>
+    </div>
+    <div v-show="!loading">
+      <div id="map" ref="googleMap"></div>
+    </div>
   </div>
 </template>
 
 <script>
 import GoogleMapsApiLoader from "google-maps-api-loader";
-import { mapGetters } from "vuex";
+import api from "@/services/api";
 
 export default {
   name: "Map",
-  props: ["post"],
+  props: ["post", "user_id"],
   data() {
     return {
       google: null,
@@ -26,24 +31,38 @@ export default {
         streetViewControl: false,
         mapTypeId: "roadmap",
       },
+      postList: [],
+      userPostList: [],
+      loading: true,
     };
   },
   computed: {
-    ...mapGetters("post", ["latestPosts"]),
     markerData() {
+      if (this.user_id) {
+        return this.userPostList;
+      }
       if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
         return [this.post];
       } else {
-        return this.latestPosts;
+        return this.postList;
       }
     },
   },
 
   async mounted() {
+    await api.get("/posts/map/").then((response) => {
+      this.postList = response.data;
+    });
+    if (this.user_id) {
+      await api.get("/posts/map/?author=" + this.user_id).then((response) => {
+        this.userPostList = response.data.results;
+      });
+    }
     this.google = await GoogleMapsApiLoader({
       apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });
+    this.loading = false;
     this.initializeMap();
   },
   methods: {
@@ -109,7 +128,7 @@ export default {
     },
     go(item_id) {
       console.log("item_id: " + item_id);
-      this.$router.push({ name: "detail", params: { id: item_id } });
+      this.$router.push({ name: "detail", params: { post_id: item_id } });
     },
   },
 };
@@ -123,6 +142,11 @@ export default {
 
 #OK_button {
   margin-left: 5px;
+}
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
 }
 
 /* .gm-style .gm-style-iw-c {

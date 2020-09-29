@@ -3,7 +3,6 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div class="content_profilecard">
-      <!-- <pre>{{person}}</pre> -->
       <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
         <div class="uk-width-1-4">
           <div class="uk-card-media-left uk-cover-container">
@@ -13,18 +12,31 @@
         </div>
         <div class="uk-width-3-4">
           <div class="uk-card-body">
-            <h1 class="uk-heading-medium">
-              <strong class="uk-margin-remove">{{ Person.username }}</strong>
-            </h1>
+            <div id="username">
+              <h1 class="uk-heading-medium">
+                <strong class="uk-margin-remove">{{ Person.username }}</strong>
+              </h1>
+              <div v-if="user_id == login_user_id">
+                <router-link class="router-link" to="/profile_edit">
+                  <div
+                    class="uk-button uk-button-small uk-button-default"
+                    id="profile_edit_button"
+                  >編集</div>
+                </router-link>
+              </div>
+              <div v-if="previousPosts[0]">
+                <div id="piechart">
+                  <PieChart v-if="loaded" :data="pieChartData" :options="options"></PieChart>
+                </div>
+              </div>
+            </div>
             <div class="profile_content">
               <p>{{ Person.introduction }}</p>
             </div>
-            <router-link class="router-link" to="/profile_edit">
-              <div class="uk-button uk-button-default" id="profile_edit_button">プロフィール編集</div>
-            </router-link>
           </div>
         </div>
       </div>
+      <!-- <pre>{{user_id}}</pre> -->
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
           <router-link
@@ -47,50 +59,122 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
+import PieChart from "@/components/PieChart";
+import * as palette from "google-palette";
 import api from "@/services/api";
 
 export default {
   components: {
     MyHeader,
+    PieChart,
   },
   props: ["user_id"],
   data() {
     return {
+      loaded: false,
+      // グラフ描画用データ
+      pieChartData: {
+        // ラベル
+        labels: [],
+        // データ詳細
+        datasets: [
+          {
+            // label: "藩と人口",
+            data: [],
+            backgroundColor: palette("mpn65", 30).map(function (hex) {
+              return "#" + hex + 30;
+            }),
+            borderColor: "transparent",
+          },
+        ],
+      },
+      // グラフオプション
+      options: {
+        legend: {
+          // 凡例に関する設定
+          display: true, // 凡例を表示します。
+          position: "right", // 凡例の位置
+        },
+        animation: { animateRotate: false },
+      },
       Person: {},
+      previousPosts: [],
     };
   },
   computed: {
     ...mapGetters("user", {
-      user: "getUser",
+      login_user_id: "id",
     }),
+    ...mapGetters("category", {
+      categories: "categories",
+    }),
+    myCategories() {
+      return this.previousPosts.map((x) => x.category);
+    },
+    categoriesNum() {
+      var categories_num = [];
+      for (var i = 1; i < this.categories.length + 1; i++) {
+        categories_num.push(this.myCategories.filter((num) => num == i).length);
+      }
+      return categories_num;
+    },
   },
   watch: {
-    $route() {
+    user_id() {
+      console.log("watch!!!!");
+      this.setPerson();
+      this.loaded = false;
+      // this.options.animation.animateRotate = true;
+      this.get_previous_posts();
+      // this.options.animation.animateRotate = false;
+    },
+  },
+  created() {
+    console.log("created!!!!");
+    this.get_previous_posts();
+    this.setPerson();
+  },
+  async mounted() {
+    console.log("mounted!!!!");
+    const labels = this.categories.map((x) => x.name);
+    this.options.animation.animateRotate = true;
+    this.pieChartData.labels = labels;
+    this.loaded = false;
+    this.setPerson();
+    await api.get("/posts/?author=" + this.user_id).then((response) => {
+      this.previousPosts = response.data.results;
+      this.options.animation.animateRotate = true;
+      this.set_category_data();
+      this.options.animation.animateRotate = false;
+    });
+  },
+  methods: {
+    get_previous_posts() {
+      console.log("get_previous_posts!!!!");
+      api.get("/posts/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data.results;
+        // this.loaded = false;
+        this.set_category_data();
+      });
+    },
+    set_category_data() {
+      console.log("set_category_data!!!!");
+      this.pieChartData.datasets[0].data = this.categoriesNum;
+      this.loaded = true;
+    },
+    setPerson() {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
       });
     },
   },
-  methods: {
-    // ログアウトリンク押下
-    clickLogout: function () {
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました。",
-      });
-      this.$router.replace("/login");
-    },
-  },
-  mounted() {
-    api.get("/users/" + this.user_id + "/").then((response) => {
-      this.Person = response.data;
-      this.$store.dispatch("post/getAllPosts");
-    });
-  },
 };
 </script>
 
 <style scoped>
+#username {
+  display: flex;
+}
 .router-link {
   text-decoration: none;
   color: black;
@@ -142,8 +226,19 @@ export default {
 }
 
 #profile_edit_button {
+  position: relative;
+  top: 30px;
+  margin-left: 20px;
+  /* bottom: 0px; */
+  /* right: 50px; */
+}
+
+#piechart {
   position: absolute;
-  bottom: 50px;
-  right: 50px;
+  width: 350px;
+  height: 350px;
+  right: 25px;
+  top: -20px;
+  /* bottom: -50px; */
 }
 </style>

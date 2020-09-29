@@ -38,16 +38,16 @@ class PostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     author_name = serializers.PrimaryKeyRelatedField(
         queryset=get_user_model().objects.all(), write_only=True)
-    likes_count = serializers.SerializerMethodField()
     comments_count = serializers.SerializerMethodField()
+    image = serializers.ImageField(read_only=True)
     address = serializers.CharField(required=False)
     lat = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
     lng = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
 
-    def get_likes_count(self, obj):
-        return obj.like_post.count()
+    # def get_likes_count(self, obj):
+    #     return obj.like_post.count()
 
     def get_comments_count(self, obj):
         return obj.comment_post.count()
@@ -64,10 +64,40 @@ class PostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Post
-        fields = ('id', 'category', 'author', 'author_name', 'title', 'content',
-                  'published_at', 'likes_count', 'comments_count', 'image', 'prefecture', 'address', 'lat', 'lng')
-        # fields = '__all__'
-        # read_only_fields = ('like',)
+        fields = (
+            'id',
+            'category',
+            'author',
+            'author_name',
+            'title',
+            'content',
+            'published_at',
+            'comments_count',
+            'raw_image',
+            'image',
+            'prefecture',
+            'address',
+            'lat',
+            'lng',
+            'likes_count')
+
+
+class PostMapSerializer(serializers.ModelSerializer):
+    author = UserSerializer(read_only=True)
+    lat = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
+    lng = serializers.DecimalField(
+        required=False, max_digits=20, decimal_places=15,)
+
+    class Meta:
+        model = Post
+        fields = (
+            'id',
+            'author',
+            'title',
+            'published_at',
+            'lat',
+            'lng')
 
 
 class CommentSerializer(serializers.ModelSerializer):

@@ -103,11 +103,11 @@ jobs:
       - db_migrations
       - run_test
 
-  front_build:
-    executor: test_default
-    steps:
-      - checkout
-      - npm_install
+  # front_build:
+  #   executor: test_default
+  #   steps:
+  #     - checkout
+  #     - npm_install
 
   front_deploy:
     executor: test_default
@@ -137,7 +137,10 @@ workflows:
   # DjangoをECR/ECSへデプロイ
   back_deploy:
     jobs:
-      - back_build
+      - back_build:
+          filters:
+            branches:
+              only: master
       - aws-ecr/build-and-push-image:
           requires:
             - back_build
@@ -146,20 +149,20 @@ workflows:
           aws-access-key-id: AWS_ACCESS_KEY_ID
           aws-secret-access-key: AWS_SECRET_ACCESS_KEY
           create-repo: true
-          path: './backend/'
+          path: "./backend/"
           repo: doboku-post-django
           tag: "${CIRCLE_SHA1}"
           filters:
-              branches:
-                  only: master
+            branches:
+              only: master
 
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
-          family: '${MY_APP_PREFIX}-task'
-          cluster-name: '${MY_APP_PREFIX}-cluster'
-          service-name: '${MY_APP_PREFIX}-service'
-          container-image-name-updates: 'container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}'
+          family: "${MY_APP_PREFIX}-task"
+          cluster-name: "${MY_APP_PREFIX}-cluster"
+          service-name: "${MY_APP_PREFIX}-service"
+          container-image-name-updates: "container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}"
 
   # NginxをECR/ECSへデプロイ
   nginx_deploy:
@@ -174,22 +177,26 @@ workflows:
           repo: doboku-post-nginx
           tag: "${CIRCLE_SHA1}"
           filters:
-              branches:
-                  only: master
+            branches:
+              only: master
       - aws-ecs/deploy-service-update:
           requires:
-              - aws-ecr/build-and-push-image
-          family: '${MY_APP_PREFIX}-task'
-          cluster-name: '${MY_APP_PREFIX}-cluster'
-          service-name: '${MY_APP_PREFIX}-service'
-          container-image-name-updates: 'container=${MY_APP_PREFIX}-nginx,tag=${CIRCLE_SHA1}'
+            - aws-ecr/build-and-push-image
+          family: "${MY_APP_PREFIX}-task"
+          cluster-name: "${MY_APP_PREFIX}-cluster"
+          service-name: "${MY_APP_PREFIX}-service"
+          container-image-name-updates: "container=${MY_APP_PREFIX}-nginx,tag=${CIRCLE_SHA1}"
+          filters:
+            branches:
+              only: master
+
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      - front_build
+      # - front_build
       - front_deploy:
-          requires:
-            - front_build
+          # requires:
+          #   - front_build
           filters:
             branches:
               only: master

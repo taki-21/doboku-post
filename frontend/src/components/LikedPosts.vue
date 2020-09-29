@@ -1,13 +1,25 @@
 <template>
   <div>
-    <PostList :postType="likedPosts" />
+    <div v-show="loading" class="loader">
+      <span uk-spinner="ratio: 1.5"></span>
+    </div>
+    <div v-show="!loading">
+      <PostList :postType="likedPosts" />
+      <div v-if="likedPosts == ''">
+        <p id="none_message">まだ投稿がありません</p>
+      </div>
+
+      <div v-if="nextPage">
+        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+          <span id="no_results" slot="no-results"></span>
+        </infinite-loading>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
-// import { mapGetters } from "vuex";
 import PostList from "@/components/PostList";
-
 import api from "@/services/api";
 import moment from "moment";
 
@@ -19,14 +31,40 @@ export default {
 
   data() {
     return {
+      page: 1,
+      loading: true,
+      nextPage: false,
       likedPosts: [],
     };
   },
-  computed: {
-    // ...mapGetters("post", ["likedPosts"])
+  methods: {
+    infiniteHandler($state) {
+      this.page += 1;
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+            user: this.user_id,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            // this.loading = false;
+            if (data.results.length) {
+              if (data.next === null) {
+                this.likedPosts.push(...data.results.map((like) => like.post));
+                $state.complete();
+              } else {
+                this.likedPosts.push(...data.results.map((like) => like.post));
+                this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
+    },
   },
   mounted() {
-    // this.$store.dispatch("post/getAllLikes", { user_id: this.user_id });
     api
       .get("/likes/", {
         params: {
@@ -34,7 +72,11 @@ export default {
         },
       })
       .then((response) => {
-        this.likedPosts = response.data.map((like) => like.post);
+        this.likedPosts = response.data.results.map((like) => like.post);
+        this.loading = false;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
       });
   },
   filters: {
@@ -45,69 +87,15 @@ export default {
 };
 </script>
 
-
 <style scoped>
-.router-link {
-  text-decoration: none;
+#none_message {
+  font-size: 18px;
+  text-align: center;
 }
 
-.user_icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-
-#card {
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: #eaeeee;
-  margin-bottom: 20px;
-}
-
-.timestamp {
-  font-size: 12px;
-  text-align: right;
-}
-.show_user {
-  text-decoration: none;
-  line-height: 45px;
-  float: left;
-  font-size: large;
-  font-weight: bold;
-  color: #333333;
-}
-
-.post_content {
-  width: 100%;
-  font-size: small;
-  height: 40px;
-}
-
-p {
-  margin: 0;
-}
-
-.comment_like_icon {
-  text-align: right;
-}
-
-#comment-count {
-  margin-right: 5px;
-}
-
-#like-count {
-  line-height: 30px;
-  font-size: 17px;
-}
-
-/* UIkitの上書き */
-.uk-card-body {
-  padding: 10px 20px;
-}
-
-.uk-comment-header {
-  display: flow-root;
-  margin-bottom: 0px;
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
 }
 </style>

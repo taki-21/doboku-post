@@ -31,6 +31,9 @@ export default {
     GlobalMessage,
     MyHeader,
   },
+  mounted() {
+    this.$store.dispatch('category/getAllCategories')
+  }
 };
 </script>
 

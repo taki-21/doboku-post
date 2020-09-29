@@ -1,22 +1,26 @@
 <template>
   <div>
-    <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
-    <button type="button" @click="mapSearch">検索</button>
-    <div class="uk-margin" uk-margin>
-      <div v-if="results[0]">
-        <input
-          class="uk-input uk-form-width-large"
-          type="text"
-          v-model="results[0].formatted_address"
-        />
-        <button
-          id="OK_button"
-          class="uk-button uk-button-default uk-modal-close"
-          @click="call_parent"
-        >OK</button>
+    <div v-if="title">
+      <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
+      <div class="uk-margin" uk-margin>
+        <div v-if="results[0]">
+          <input
+            class="uk-input uk-form-width-large"
+            type="text"
+            v-model="results[0].formatted_address"
+          />
+          <button
+            id="OK_button"
+            class="uk-button uk-button-default uk-modal-close"
+            @click="call_parent"
+          >OK</button>
+        </div>
       </div>
     </div>
-    <div id="map" ref="googleMap"></div>
+    <div v-else>
+      <span id="error_message">タイトルを入力してください</span>
+    </div>
+      <div v-show="title" id="map" ref="googleMap"></div>
   </div>
 </template>
 
@@ -33,21 +37,8 @@ export default {
 
   data() {
     return {
-      // google: null,
-      // map: {},
       marker: null,
-      // geocoder: {},
       results: {},
-      // mapConfig: {
-      //   center: {
-      //     lat: 35.68944,
-      //     lng: 139.69167,
-      //   },
-      //   zoom: 5,
-      //   streetViewControl: false,
-      //   mapTypeId: "roadmap",
-      //   language: "ja",
-      // },
     };
   },
   computed: {
@@ -60,10 +51,10 @@ export default {
       return this.results[0].formatted_address;
     },
     lat: function () {
-      return this.results[0].geometry.viewport.ab.i;
+      return this.results[0].geometry.viewport.Ya.i;
     },
     lng: function () {
-      return this.results[0].geometry.viewport.Va.i;
+      return this.results[0].geometry.viewport.Sa.i;
     },
   },
   // async created() {
@@ -125,5 +116,8 @@ export default {
 
 #OK_button {
   margin-left: 5px;
+}
+#error_message {
+  color: red;
 }
 </style>

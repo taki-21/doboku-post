@@ -19,12 +19,12 @@ class Post(models.Model):
     title = models.CharField(max_length=100)
     content = models.TextField()
     published_at = models.DateTimeField(auto_now_add=True)
-    image = ProcessedImageField(upload_to='upload/',
-                                       processors=[ResizeToFill(640, 480)],
-                                       format='JPEG',
-                                       null=True,
-                                       blank=True
-                                       )
+    raw_image = models.ImageField(
+        upload_to='upload/', null=True, blank=True)
+    image = ImageSpecField(source='raw_image',
+                           processors=[ResizeToFill(640, 480)],
+                           format='JPEG',
+                           )
     prefecture = models.CharField(max_length=10, null=True, blank=True)
     address = models.CharField(max_length=255, null=True, blank=True)
     lat = models.DecimalField(
@@ -37,6 +37,7 @@ class Post(models.Model):
         decimal_places=15,
         null=True,
         blank=True)
+    likes_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-published_at']

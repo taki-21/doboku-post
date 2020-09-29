@@ -1,14 +1,12 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Home from '@/views/Home'
 import LoginPage from '@/views/LoginPage'
 import store from '@/store'
 import HomePage from '@/views/HomePage'
 import DetailPage from '@/views/DetailPage'
 import MyPage from '@/views/MyPage'
-import NewPostPage from '@/views/NewPostPage'
+import NewEditPostPage from '@/views/NewEditPostPage'
 import SignUpPage from '@/views/SignUpPage'
-import PostEditPage from '@/views/PostEditPage'
 import ProfileEditPage from '@/views/ProfileEditPage'
 import LatestPosts from '@/components/LatestPosts'
 import PopularPosts from '@/components/PopularPosts'
@@ -17,7 +15,6 @@ import Map from '@/components/Map'
 import Search from '@/components/Search'
 import PreviousPosts from '@/components/PreviousPosts'
 import LikedPosts from '@/components/LikedPosts'
-import MyMap from '@/components/MyMap'
 
 Vue.use(VueRouter)
 
@@ -29,6 +26,7 @@ const router = new VueRouter({
       component: HomePage,
       children: [{
           path: '',
+          name: 'latestpage',
           component: LatestPosts
         },
         {
@@ -53,13 +51,10 @@ const router = new VueRouter({
       ]
     },
     {
-      path: '/detail/:id',
+      path: '/detail/:post_id',
       name: 'detail',
       component: DetailPage,
-      props: routes => ({
-        id: Number(routes.params.id)
-      })
-
+      props: true,
     },
     {
       path: '/mypage/:user_id',
@@ -81,7 +76,7 @@ const router = new VueRouter({
         {
           path: 'mymap',
           name: 'mymap',
-          component: MyMap,
+          component: Map,
           props: true,
         }
       ]
@@ -92,7 +87,7 @@ const router = new VueRouter({
     },
     {
       path: '/newpostpage',
-      component: NewPostPage
+      component: NewEditPostPage
     },
     {
       path: '/signup',
@@ -105,14 +100,14 @@ const router = new VueRouter({
     {
       path: '/post_edit/:post_id',
       name: 'post_edit',
-      component: PostEditPage,
+      component: NewEditPostPage,
       props: true,
     },
     {
       path: '*',
       redirect: '/'
     },
-  ]
+  ],
 })
 
 
