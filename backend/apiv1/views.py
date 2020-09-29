@@ -32,6 +32,13 @@ class PostFilter(filters.FilterSet):
     title = filters.CharFilter(lookup_expr='contains')
     published_at = filters.DateTimeFilter(lookup_expr='gt')
 
+    order_by = filters.OrderingFilter(
+        # tuple-mapping retains order
+        fields=(
+            ('likes_count', 'likes_count'),
+        ),
+    )
+
     class Meta:
         model = Post
         fields = [
@@ -39,7 +46,8 @@ class PostFilter(filters.FilterSet):
             'title',
             'category',
             'published_at',
-            'prefecture', ]
+            'prefecture',
+            'order_by']
 
 
 class StandardResultsSetPagination(pagination.PageNumberPagination):

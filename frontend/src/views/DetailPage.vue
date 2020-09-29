@@ -229,8 +229,8 @@ export default {
           })
           .then((response) => {
             console.log(response.data.results);
-            if(response.data.results[0]){
-              this.likeId =response.data.results[0].id
+            if (response.data.results[0]) {
+              this.likeId = response.data.results[0].id;
               this.isLiked = true;
             }
           });
@@ -251,10 +251,13 @@ export default {
     },
     addLike() {
       console.log("addLike");
-      this.likeCount += 1
-      this.isLiked = true
+      this.likeCount += 1;
+      this.isLiked = true;
       this.confirmLiked;
       this.getLikeCount;
+      api.patch("/posts/" + this.post_id + "/", {
+        likes_count: this.likeCount,
+      });
       api
         .post("/likes/", {
           user: this.login_user_id,
@@ -265,10 +268,14 @@ export default {
     },
     removeLike() {
       console.log("removeLike");
-      this.likeCount -= 1
-      this.isLiked = false
+      this.likeCount -= 1;
+      this.isLiked = false;
       this.confirmLiked;
       this.getLikeCount;
+      api.patch("/posts/" + this.post_id + "/", {
+        likes_count: this.likeCount,
+      });
+
       api
         .delete("/likes/" + this.likeId + "/")
         .then(this.getLikeCount)
@@ -453,7 +460,7 @@ ul.uk-comment-list {
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-.uk-modal-body{
+.uk-modal-body {
   border-radius: 5px;
 }
 .uk-modal-dialog {

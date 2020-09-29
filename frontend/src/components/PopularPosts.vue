@@ -27,27 +27,27 @@ export default {
   data() {
     return {
       page: 1,
-      prePopularPosts: [],
+      popularPosts: [],
       loading: true,
       nextPage: false,
     };
   },
-  computed: {
-    popularPosts() {
-      return this.prePopularPosts.slice().sort(function (a, b) {
-        return a.likes_count < b.likes_count
-          ? 1
-          : a.likes_count > b.likes_count
-          ? -1
-          : 0;
-      });
-    },
-  },
+  // computed: {
+  //   popularPosts() {
+  //     return this.prePopularPosts.slice().sort(function (a, b) {
+  //       return a.likes_count < b.likes_count
+  //         ? 1
+  //         : a.likes_count > b.likes_count
+  //         ? -1
+  //         : 0;
+  //     });
+  //   },
+  // },
   methods: {
     infiniteHandler($state) {
       this.page += 1;
       api
-        .get("/posts/", {
+        .get("/posts/?order_by=-likes_count", {
           params: {
             page: this.page,
           },
@@ -56,10 +56,10 @@ export default {
           setTimeout(() => {
             if (data.results.length) {
               if (data.next === null) {
-                this.prePopularPosts.push(...data.results);
+                this.popularPosts.push(...data.results);
                 $state.complete();
               } else {
-                this.prePopularPosts.push(...data.results);
+                this.popularPosts.push(...data.results);
                 this.page += 1;
                 $state.loaded();
               }
@@ -69,8 +69,8 @@ export default {
     },
   },
   mounted() {
-    api.get("/posts/").then((response) => {
-      this.prePopularPosts = response.data.results;
+    api.get("/posts/?order_by=-likes_count").then((response) => {
+      this.popularPosts = response.data.results;
       this.loading = false;
       if (response.data.next !== null) {
         this.nextPage = true;

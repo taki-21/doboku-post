@@ -37,6 +37,7 @@ class Post(models.Model):
         decimal_places=15,
         null=True,
         blank=True)
+    likes_count = models.IntegerField(default=0)
 
     class Meta:
         ordering = ['-published_at']
