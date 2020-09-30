@@ -32,18 +32,29 @@ export default {
       nextPage: false,
     };
   },
+  watch: {
+    loading: function () {
+      this.$nextTick(() => {
+        var positionY = sessionStorage.getItem("positionY");
+        scrollTo(0, positionY);
+        setTimeout(function () {
+          scrollTo(0, positionY);
+        }, 500);
+      });
+    },
+  },
   mounted() {
     api.get("/posts/").then((response) => {
       this.latestPosts = response.data.results;
       this.loading = false;
       if (response.data.next !== null) {
-        this.nextPage = true
+        this.nextPage = true;
       }
     });
   },
   methods: {
     infiniteHandler($state) {
-      this.page += 1
+      this.page += 1;
       api
         .get("/posts/", {
           params: {
