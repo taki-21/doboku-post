@@ -31,7 +31,12 @@ export default {
       loading: true,
       nextPage: false,
       infinite: false,
+      // infiniteId: 0,
     };
+  },
+  beforeRouteLeave(to, form, next) {
+    // ストアのポストをクリア
+    next();
   },
   watch: {
     loading: function () {
@@ -41,16 +46,18 @@ export default {
         scrollTo(0, positionY);
         setTimeout(function () {
           scrollTo(0, positionY);
-        }, 500);
+        });
       });
     },
     infinite() {
-      var positionY = sessionStorage.getItem("positionY");
-      console.log(positionY);
-      scrollTo(0, positionY);
-      setTimeout(function () {
-        scrollTo(0, positionY);
-      }, 500);
+      // if (this.infiniteId >= 2) {
+        var positionY = sessionStorage.getItem("positionY");
+        console.log(positionY);
+        // scrollTo(0, positionY);
+        setTimeout(function () {
+          scrollTo(0, positionY);
+        },500);
+      // }
     },
   },
   mounted() {
@@ -85,6 +92,7 @@ export default {
               }
             }
           }, 500);
+          // this.infiniteId++;
           this.infinite = true;
         });
     },
