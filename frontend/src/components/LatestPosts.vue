@@ -44,6 +44,30 @@ export default {
       });
     },
   },
+  async mounted() {
+    if (sessionStorage.getItem("infinitePage")) {
+      const page_infinite = sessionStorage.getItem("infinitePage");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get("/posts/", {
+            params: {
+              page: i,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.latestPosts.push(...data.results);
+          });
+      }
+      this.loading = false;
+    } else {
+      this.getPosts();
+    }
+  },
   methods: {
     async getPosts() {
       await api.get("/posts/").then((response) => {
@@ -80,30 +104,6 @@ export default {
           }, 500);
         });
     },
-  },
-  async mounted() {
-    if (sessionStorage.getItem("infinitePage")) {
-      const page_infinite = sessionStorage.getItem("infinitePage");
-      for (let i = 1; i <= page_infinite; i++) {
-        await api
-          .get("/posts/", {
-            params: {
-              page: i,
-            },
-          })
-          .then(({ data }) => {
-            if (data.next !== null) {
-              this.nextPage = true;
-            } else {
-              this.nextPage = false;
-            }
-            this.latestPosts.push(...data.results);
-          });
-      }
-      this.loading = false;
-    } else {
-      this.getPosts();
-    }
   },
 };
 </script>

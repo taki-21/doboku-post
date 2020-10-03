@@ -24,7 +24,7 @@
               class="uk-button uk-button-default uk-button-large uk-width-1-1"
               :for="category.id"
             >
-              <span id="category_name">{{category.name}}</span>
+              <span id="category_name">{{ category.name }}</span>
               <!-- <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span> -->
             </label>
           </li>
@@ -55,7 +55,11 @@
           <p id="none_message">まだ投稿がありません</p>
         </div>
         <div v-if="nextPage">
-          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+          <infinite-loading
+            :identifier="infiniteId"
+            spinner="spiral"
+            @infinite="infiniteHandler"
+          >
             <span id="no_results" slot="no-results"></span>
           </infinite-loading>
         </div>
@@ -92,49 +96,47 @@ export default {
   watch: {
     $route() {
       this.query.category = this.$route.query.category || "";
-      this.searchHandler();
+      this.getPosts();
+    },
+    loading() {
+      this.$nextTick(() => {
+        var positionY = sessionStorage.getItem("positionY");
+        console.log(positionY);
+        scrollTo(0, positionY);
+        setTimeout(function () {
+          scrollTo(0, positionY);
+        });
+      });
     },
   },
-  mounted() {
-    api
-      .get("/posts/", {
-        params: {
-          page: this.page,
-          category: this.query.category,
-        },
-      })
-      .then((response) => {
-        this.filterPosts = response.data.results;
-        if (response.data.next !== null) {
-          this.nextPage = true;
-        }
-        this.loading = false;
-      });
+  async mounted() {
+    if (sessionStorage.getItem("infinitePage_category")) {
+      const page_infinite = sessionStorage.getItem("infinitePage_category");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get("/posts/", {
+            params: {
+              page: i,
+              category: this.query.category,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.filterPosts.push(...data.results);
+          });
+      }
+      this.loading = false;
+    } else {
+      this.getPosts();
+    }
   },
   methods: {
-    resetHandler() {
-      this.loading = true;
-      this.filterPosts = [];
-      this.page = 1;
-      this.nextPage = false;
-      this.infiniteId++;
-    },
-    search() {
-      this.resetHandler();
-      // console.log("search");
-      // this.loading = true;
-      // this.filterPosts = [];
-      // this.page = 1;
-      this.$router.push({
-        name: "category",
-        query: {
-          category: this.query.category,
-        },
-      });
-    },
-    searchHandler() {
-      console.log("searchHandler");
-      api
+    async getPosts() {
+      await api
         .get("/posts/", {
           params: {
             page: this.page,
@@ -143,14 +145,35 @@ export default {
         })
         .then((response) => {
           this.filterPosts = response.data.results;
-          this.loading = false;
           if (response.data.next !== null) {
             this.nextPage = true;
           }
         });
+      this.loading = false;
+    },
+
+    resetHandler() {
+      this.loading = true;
+      this.filterPosts = [];
+      this.page = 1;
+      this.nextPage = false;
+      this.infiniteId++;
+      sessionStorage.removeItem("infinitePage_category");
+
+    },
+    search() {
+      this.resetHandler();
+      this.$router.push({
+        name: "category",
+        query: {
+          category: this.query.category,
+        },
+      });
     },
     infiniteHandler($state) {
       this.page += 1;
+      sessionStorage.setItem("infinitePage_category", this.page);
+
       api
         .get("/posts/", {
           params: {
@@ -163,6 +186,7 @@ export default {
             // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
+                this.nextPage = false;
                 this.filterPosts.push(...data.results);
                 $state.complete();
               } else {
