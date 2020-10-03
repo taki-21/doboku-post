@@ -16,13 +16,11 @@
 
 <script>
 import PostList from "@/components/PostList";
-import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 
 export default {
   components: {
     PostList,
-    InfiniteLoading,
   },
   data() {
     return {
@@ -45,8 +43,8 @@ export default {
     },
   },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage")) {
-      const page_infinite = sessionStorage.getItem("infinitePage");
+    if (sessionStorage.getItem("infinitePage_latest")) {
+      const page_infinite = sessionStorage.getItem("infinitePage_latest");
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/posts/", {
@@ -80,7 +78,7 @@ export default {
     },
     infiniteHandler($state) {
       this.page += 1;
-      sessionStorage.setItem("infinitePage", this.page);
+      sessionStorage.setItem("infinitePage_latest", this.page);
       api
         .get("/posts/", {
           params: {
@@ -89,7 +87,6 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
@@ -97,7 +94,7 @@ export default {
                 $state.complete();
               } else {
                 this.latestPosts.push(...data.results);
-                this.page += 1;
+                // this.page += 1;
                 $state.loaded();
               }
             }

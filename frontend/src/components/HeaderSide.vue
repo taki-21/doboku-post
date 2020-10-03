@@ -94,7 +94,7 @@ export default {
     clickLogout: function () {
       // var result = window.confirm("ログアウトします。よろしいですか？");
       // if (result) {
-      sessionStorage.removeItem("infinitePage");
+      sessionStorage.clear();
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("user/logout");
       this.$store.dispatch("message/setInfoMessage", {

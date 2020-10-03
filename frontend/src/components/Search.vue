@@ -70,7 +70,7 @@
     </div>
     <div>
       <div v-show="loading" class="loader">
-        <span uk-spinner="ratio: 1.5"></span>
+        <span uk-spinner></span>
       </div>
       <div v-show="!loading">
         <PostList :postType="filterPosts" />
@@ -262,7 +262,7 @@ export default {
                 $state.complete();
               } else {
                 this.filterPosts.push(...data.results);
-                this.page += 1;
+                // this.page += 1;
                 $state.loaded();
               }
             }

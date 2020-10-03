@@ -71,14 +71,14 @@
 
 <script>
 import PostList from "@/components/PostList";
-import InfiniteLoading from "vue-infinite-loading";
+// import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 
 export default {
   components: {
     PostList,
-    InfiniteLoading,
+    // InfiniteLoading,
   },
   data() {
     return {
@@ -191,7 +191,7 @@ export default {
                 $state.complete();
               } else {
                 this.filterPosts.push(...data.results);
-                this.page += 1;
+                // this.page += 1;
                 $state.loaded();
               }
             }

@@ -16,13 +16,11 @@
 
 <script>
 import PostList from "@/components/PostList";
-import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 
 export default {
   components: {
     PostList,
-    InfiniteLoading,
   },
   data() {
     return {
@@ -96,7 +94,7 @@ export default {
                 $state.complete();
               } else {
                 this.popularPosts.push(...data.results);
-                this.page += 1;
+                // this.page += 1;
                 $state.loaded();
               }
             }
