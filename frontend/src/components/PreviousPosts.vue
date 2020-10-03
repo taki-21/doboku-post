@@ -24,12 +24,14 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
+  mixins: [watchScrollPosition],
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],

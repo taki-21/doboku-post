@@ -17,11 +17,13 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
+  mixins: [watchScrollPosition],
   data() {
     return {
       page: 1,
@@ -29,18 +31,6 @@ export default {
       loading: true,
       nextPage: false,
     };
-  },
-  watch: {
-    loading() {
-      this.$nextTick(() => {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        });
-      });
-    },
   },
   async mounted() {
     if (sessionStorage.getItem("infinitePage_popular")) {

@@ -71,15 +71,16 @@
 
 <script>
 import PostList from "@/components/PostList";
-// import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 import { mapGetters } from "vuex";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
-    // InfiniteLoading,
   },
+  mixins: [watchScrollPosition],
+
   data() {
     return {
       postURL: "",
@@ -97,16 +98,6 @@ export default {
     $route() {
       this.query.category = this.$route.query.category || "";
       this.getPosts();
-    },
-    loading() {
-      this.$nextTick(() => {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        });
-      });
     },
   },
   async mounted() {
@@ -159,7 +150,6 @@ export default {
       this.nextPage = false;
       this.infiniteId++;
       sessionStorage.removeItem("infinitePage_category");
-
     },
     search() {
       this.resetHandler();

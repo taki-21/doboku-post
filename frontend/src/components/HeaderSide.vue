@@ -3,12 +3,9 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <!-- <pre>{{ user.username }}</pre> -->
-          <!-- <pre>{{ id }}</pre> -->
           <router-link class="router-link" to="/newpostpage">
             <div class="link">
               <i id="header_post_icon" uk-icon="pencil"></i>投稿する
-              <!-- <pre>{{ user }}</pre> -->
             </div>
           </router-link>
           <div class="uk-inline">
