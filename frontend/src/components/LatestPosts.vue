@@ -30,13 +30,9 @@ export default {
       latestPosts: [],
       loading: true,
       nextPage: false,
-      // infinite: false,
+      infinite_num: 1,
       // infiniteId: 0,
     };
-  },
-  beforeRouteLeave(to, form, next) {
-    // ストアのポストをクリア
-    next();
   },
   watch: {
     loading() {
@@ -49,44 +45,65 @@ export default {
         });
       });
     },
-    // latestPosts() {
-    //   sessionStorage.setItem("posts", [this.latestPosts]);
-    // },
-    // infinite() {
-    //   // if (this.infiniteId >= 2) {
-    //     var positionY = sessionStorage.getItem("positionY");
-    //     console.log(positionY);
-    //     // scrollTo(0, positionY);
-    //     setTimeout(function () {
-    //       scrollTo(0, positionY);
-    //     },500);
-    //   // }
-    // },
   },
-  mounted() {
-    this.nextPage = JSON.parse(sessionStorage.getItem("nextpage"));
-    // sessionStorage.removeItem('posts')
-    // const session_posts = sessionStorage.getItem("posts");
-    if (sessionStorage.getItem("posts")) {
-      console.log("session");
-      this.latestPosts = JSON.parse(sessionStorage.getItem("posts"));
+  async mounted() {
+    // this.getPosts();
+    if (sessionStorage.getItem("infinitePage")) {
+      const page_infinite = sessionStorage.getItem("infinitePage");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get("/posts/", {
+            params: {
+              page: i,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.latestPosts.push(...data.results);
+            console.log("latestPosts" + this.latestPosts);
+          });
+      }
       this.loading = false;
     } else {
-      console.log("else");
-      api.get("/posts/").then((response) => {
-        this.latestPosts = response.data.results;
-        this.loading = false;
-        if (response.data.next !== null) {
-          this.nextPage = true;
-          sessionStorage.setItem("nextpage", JSON.stringify(this.nextPage));
-        }
-        sessionStorage.setItem("posts", JSON.stringify(this.latestPosts));
-      });
+      this.getPosts();
     }
+    // this.loading = false;
+
+    // this.nextPage = JSON.parse(sessionStorage.getItem("nextpage"));
+    // sessionStorage.removeItem('posts')
+    // const session_posts = sessionStorage.getItem("posts");
+    // if (sessionStorage.getItem("posts")) {
+    //   console.log("session");
+    //   this.latestPosts = JSON.parse(sessionStorage.getItem("posts"));
+    //   this.loading = false;
+    // } else {
+    // api.get("/posts/").then((response) => {
+    //   this.latestPosts = response.data.results;
+    //   this.loading = false;
+    //   if (response.data.next !== null) {
+    //     this.nextPage = true;
+    //     // sessionStorage.setItem("nextpage", JSON.stringify(this.nextPage));
+    //   }
+    //   // sessionStorage.setItem("posts", JSON.stringify(this.latestPosts));
+    // });
   },
   methods: {
+    async getPosts() {
+      await api.get("/posts/").then((response) => {
+        this.latestPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+      });
+      this.loading = false;
+    },
     infiniteHandler($state) {
       this.page += 1;
+      sessionStorage.setItem("infinitePage", this.page);
       api
         .get("/posts/", {
           params: {
@@ -99,29 +116,29 @@ export default {
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
-                sessionStorage.setItem(
-                  "nextpage",
-                  JSON.stringify(this.nextPage)
-                );
+                // sessionStorage.setItem(
+                //   "nextpage",
+                //   JSON.stringify(this.nextPage)
+                // );
                 this.latestPosts.push(...data.results);
-                sessionStorage.setItem(
-                  "posts",
-                  JSON.stringify(this.latestPosts)
-                );
+                // sessionStorage.setItem(
+                //   "posts",
+                //   JSON.stringify(this.latestPosts)
+                // );
                 $state.complete();
               } else {
                 this.latestPosts.push(...data.results);
-                sessionStorage.setItem(
-                  "posts",
-                  JSON.stringify(this.latestPosts)
-                );
+                // sessionStorage.setItem(
+                //   "posts",
+                //   JSON.stringify(this.latestPosts)
+                // );
                 this.page += 1;
                 $state.loaded();
               }
             }
           }, 500);
           // this.infiniteId++;
-          // this.infinite = true;
+          // this.infinite++;
         });
     },
   },
