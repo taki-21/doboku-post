@@ -11,7 +11,7 @@
             type="search"
             placeholder="キーワードを入力してください"
           />
-          <input type="text" style="display: none;" />
+          <input type="text" style="display: none" />
         </div>
         <div class="uk-width-1-5@s">
           <strong>カテゴリ</strong>
@@ -23,14 +23,32 @@
             placeholder
           >
             <option value>選択してください</option>
-            <option v-for="(ctg,key) in categories" :key="key" v-bind:value="ctg.id">{{ctg.name}}</option>
+            <option
+              v-for="(ctg, key) in categories"
+              :key="key"
+              v-bind:value="ctg.id"
+            >
+              {{ ctg.name }}
+            </option>
           </select>
         </div>
         <div class="uk-width-1-5@s">
           <strong>投稿日</strong>
-          <select class="uk-select" type="text" v-model="query.period" @change="search" clearable>
+          <select
+            class="uk-select"
+            type="text"
+            v-model="query.period"
+            @change="search"
+            clearable
+          >
             <option value>選択してください</option>
-            <option v-for="(prd,key) in periods" :key="key" v-bind:value="prd.date">{{prd.name}}</option>
+            <option
+              v-for="(prd, key) in periods"
+              :key="key"
+              v-bind:value="prd.date"
+            >
+              {{ prd.name }}
+            </option>
           </select>
         </div>
         <div class="uk-width-1-5@s">
@@ -43,7 +61,9 @@
             clearable
           >
             <option value>選択してください</option>
-            <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
+            <option v-for="item in prefs" :key="item.name">
+              {{ item.name }}
+            </option>
           </select>
         </div>
       </form>
@@ -58,7 +78,11 @@
           <p id="none_message">条件に一致する投稿がありません</p>
         </div>
         <div v-if="nextPage">
-          <infinite-loading :identifier="infiniteId" spinner="spiral" @infinite="infiniteHandler">
+          <infinite-loading
+            :identifier="infiniteId"
+            spinner="spiral"
+            @infinite="infiniteHandler"
+          >
             <span id="no_results" slot="no-results"></span>
           </infinite-loading>
         </div>
@@ -108,33 +132,70 @@ export default {
       this.getPostURL();
       this.searchHandler();
     },
-  },
-  mounted() {
-    this.getPostURL();
-    api
-      .get(this.postURL, {
-        params: {
-          page: this.page,
-          // category: this.query.category,
-        },
-      })
-      .then((response) => {
-        this.filterPosts = response.data.results;
-        if (response.data.next !== null) {
-          this.nextPage = true;
-        }
-        this.loading = false;
+    loading() {
+      this.$nextTick(() => {
+        var positionY = sessionStorage.getItem("positionY");
+        console.log(positionY);
+        scrollTo(0, positionY);
+        setTimeout(function () {
+          scrollTo(0, positionY);
+        });
       });
-
-    // this.getPosts();
+    },
+  },
+  async mounted() {
+    if (sessionStorage.getItem("infinitePage_search")) {
+      this.getPostURL();
+      const page_infinite = sessionStorage.getItem("infinitePage_search");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get(this.postURL, {
+            params: {
+              page: i,
+              // category: this.query.category,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.filterPosts.push(...data.results);
+          });
+      }
+      this.loading = false;
+    } else {
+      this.getPosts();
+    }
   },
   methods: {
+    async getPosts() {
+      this.getPostURL();
+      await api
+        .get(this.postURL, {
+          params: {
+            page: this.page,
+            // category: this.query.category,
+          },
+        })
+        .then((response) => {
+          this.filterPosts = response.data.results;
+          if (response.data.next !== null) {
+            this.nextPage = true;
+          }
+        });
+      this.loading = false;
+    },
+
     resetHandler() {
       this.loading = true;
       this.filterPosts = [];
       this.page = 1;
       this.nextPage = false;
       this.infiniteId++;
+      sessionStorage.removeItem("infinitePage_search");
+
     },
 
     getPostURL() {
@@ -150,17 +211,6 @@ export default {
       }
       console.log(postURL);
     },
-    // getPosts() {
-    //   api
-    //     .get(this.postURL, {
-    //       credentials: "include",
-    //       page: this.page,
-    //     })
-    //     .then((response) => {
-    //       this.filterPosts = response.data.results;
-    //       this.loading = false;
-    //     });
-    // },
     search() {
       this.resetHandler();
       // this.loading = true;
@@ -191,9 +241,11 @@ export default {
         });
     },
     infiniteHandler($state) {
-      console.log('infiniteHandler')
-      console.log(this.page)
+      console.log("infiniteHandler");
+      console.log(this.page);
       this.page += 1;
+            sessionStorage.setItem("infinitePage_search", this.page);
+
       api
         .get(this.postURL, {
           params: {
@@ -205,6 +257,7 @@ export default {
             // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
+                this.nextPage = false;
                 this.filterPosts.push(...data.results);
                 $state.complete();
               } else {
