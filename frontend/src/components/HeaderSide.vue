@@ -23,7 +23,7 @@
               <div class="dropdown">
                 <router-link
                   class="router-link"
-                  :to="{name: 'mypage', params:{user_id: user.id}}"
+                  :to="{ name: 'mypage', params: { user_id: user.id } }"
                   v-if="user.id"
                 >
                   <div class="link">
@@ -45,12 +45,16 @@
                         id="cancel_button"
                         class="uk-button uk-button-default uk-modal-close"
                         type="button"
-                      >キャンセル</button>
+                      >
+                        キャンセル
+                      </button>
                       <button
                         class="uk-button uk-button-primary uk-modal-close"
                         type="button"
                         @click="clickLogout"
-                      >OK</button>
+                      >
+                        OK
+                      </button>
                     </p>
                   </div>
                 </div>
@@ -90,6 +94,7 @@ export default {
     clickLogout: function () {
       // var result = window.confirm("ログアウトします。よろしいですか？");
       // if (result) {
+      sessionStorage.removeItem("infinitePage");
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("user/logout");
       this.$store.dispatch("message/setInfoMessage", {

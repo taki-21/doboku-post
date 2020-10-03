@@ -32,20 +32,31 @@ export default {
       nextPage: false,
     };
   },
-  // computed: {
-  //   popularPosts() {
-  //     return this.prePopularPosts.slice().sort(function (a, b) {
-  //       return a.likes_count < b.likes_count
-  //         ? 1
-  //         : a.likes_count > b.likes_count
-  //         ? -1
-  //         : 0;
-  //     });
-  //   },
-  // },
+  watch: {
+    loading() {
+      this.$nextTick(() => {
+        var positionY = sessionStorage.getItem("positionY");
+        console.log(positionY);
+        scrollTo(0, positionY);
+        setTimeout(function () {
+          scrollTo(0, positionY);
+        });
+      });
+    },
+  },
   methods: {
+    async getPosts() {
+      await api.get("/posts/?order_by=-likes_count").then((response) => {
+        this.popularPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+      });
+      this.loading = false;
+    },
     infiniteHandler($state) {
       this.page += 1;
+      sessionStorage.setItem("infinitePage_popular", this.page);
       api
         .get("/posts/?order_by=-likes_count", {
           params: {
@@ -56,6 +67,7 @@ export default {
           setTimeout(() => {
             if (data.results.length) {
               if (data.next === null) {
+                this.nextPage = false;
                 this.popularPosts.push(...data.results);
                 $state.complete();
               } else {
@@ -68,14 +80,29 @@ export default {
         });
     },
   },
-  mounted() {
-    api.get("/posts/?order_by=-likes_count").then((response) => {
-      this.popularPosts = response.data.results;
-      this.loading = false;
-      if (response.data.next !== null) {
-        this.nextPage = true;
+  async mounted() {
+    if (sessionStorage.getItem("infinitePage_popular")) {
+      const page_infinite = sessionStorage.getItem("infinitePage_popular");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get("/posts/?order_by=-likes_count", {
+            params: {
+              page: i,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.popularPosts.push(...data.results);
+          });
       }
-    });
+      this.loading = false;
+    } else {
+      this.getPosts();
+    }
   },
 };
 </script>
