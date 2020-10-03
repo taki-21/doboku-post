@@ -16,13 +16,11 @@
 
 <script>
 import PostList from "@/components/PostList";
-import InfiniteLoading from "vue-infinite-loading";
 import api from "@/services/api";
 
 export default {
   components: {
     PostList,
-    InfiniteLoading,
   },
   data() {
     return {
@@ -30,16 +28,10 @@ export default {
       latestPosts: [],
       loading: true,
       nextPage: false,
-      infinite: false,
-      // infiniteId: 0,
     };
   },
-  beforeRouteLeave(to, form, next) {
-    // ストアのポストをクリア
-    next();
-  },
   watch: {
-    loading: function () {
+    loading() {
       this.$nextTick(() => {
         var positionY = sessionStorage.getItem("positionY");
         console.log(positionY);
@@ -49,29 +41,44 @@ export default {
         });
       });
     },
-    infinite() {
-      // if (this.infiniteId >= 2) {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        // scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        },500);
-      // }
-    },
   },
-  mounted() {
-    api.get("/posts/").then((response) => {
-      this.latestPosts = response.data.results;
-      this.loading = false;
-      if (response.data.next !== null) {
-        this.nextPage = true;
+  async mounted() {
+    if (sessionStorage.getItem("infinitePage_latest")) {
+      const page_infinite = sessionStorage.getItem("infinitePage_latest");
+      for (let i = 1; i <= page_infinite; i++) {
+        await api
+          .get("/posts/", {
+            params: {
+              page: i,
+            },
+          })
+          .then(({ data }) => {
+            if (data.next !== null) {
+              this.nextPage = true;
+            } else {
+              this.nextPage = false;
+            }
+            this.latestPosts.push(...data.results);
+          });
       }
-    });
+      this.loading = false;
+    } else {
+      this.getPosts();
+    }
   },
   methods: {
+    async getPosts() {
+      await api.get("/posts/").then((response) => {
+        this.latestPosts = response.data.results;
+        if (response.data.next !== null) {
+          this.nextPage = true;
+        }
+      });
+      this.loading = false;
+    },
     infiniteHandler($state) {
       this.page += 1;
+      sessionStorage.setItem("infinitePage_latest", this.page);
       api
         .get("/posts/", {
           params: {
@@ -80,20 +87,18 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
+                this.nextPage = false;
                 this.latestPosts.push(...data.results);
                 $state.complete();
               } else {
                 this.latestPosts.push(...data.results);
-                this.page += 1;
+                // this.page += 1;
                 $state.loaded();
               }
             }
           }, 500);
-          // this.infiniteId++;
-          this.infinite = true;
         });
     },
   },

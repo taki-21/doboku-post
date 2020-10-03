@@ -5,8 +5,8 @@
   >
     <router-link
       class="router-link"
-      v-for="post in postType"
-      :key="post.id"
+      v-for="(post,key) in postType"
+      :key="key"
       :to="{name: 'detail', params:{post_id: post.id }}"
     >
       <div class="uk-card uk-card-hover uk-card-default" id="card">
