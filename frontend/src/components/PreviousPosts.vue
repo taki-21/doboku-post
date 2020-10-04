@@ -1,23 +1,14 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
-      <span uk-spinner></span>
-    </div>
-    <div v-show="!loading">
-      <PostList
-        :postType="previousPosts"
-        :user_id="auth_id"
-        @parentPostDelete="parentPostDelete"
-      />
-      <div v-if="previousPosts == ''">
-        <p id="none_message">まだ投稿がありません</p>
-      </div>
-      <div v-if="nextPage">
-        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-          <span id="no_results" slot="no-results"></span>
-        </infinite-loading>
-      </div>
-    </div>
+    <PostList
+      :postType="previousPosts"
+      :user_id="auth_id"
+      @parentPostDelete="parentPostDelete"
+      :loading="loading"
+      :nextPage="nextPage"
+      :postURL="postURL"
+      :sessionKey="sessionKey"
+    />
   </div>
 </template>
 
@@ -37,7 +28,14 @@ export default {
       loading: true,
       nextPage: false,
       previousPosts: [],
+      sessionKey: "infinitePage_previous",
     };
+  },
+  computed: {
+    postURL() {
+      var params = "?author=" + this.auth_id
+      return "/posts/" + params;
+    },
   },
   watch: {
     $route() {
@@ -60,7 +58,7 @@ export default {
       for (let i = 1; i <= page_infinite; i++) {
         console.log("page:" + page_infinite);
         await api
-          .get("/posts/", {
+          .get(this.postURL, {
             params: {
               page: i,
             },
@@ -78,8 +76,6 @@ export default {
     } else {
       this.getPosts();
     }
-
-    // this.getPosts();
   },
   methods: {
     async getPosts() {
@@ -93,34 +89,6 @@ export default {
     },
     parentPostDelete(post_id) {
       api.delete("/posts/" + post_id + "/").then(this.getPosts);
-    },
-    infiniteHandler($state) {
-      this.page += 1;
-      sessionStorage.setItem("infinitePage_previous", this.page);
-
-      api
-        .get("/posts/", {
-          params: {
-            page: this.page,
-            author: this.user_id,
-          },
-        })
-        .then(({ data }) => {
-          setTimeout(() => {
-            // this.loading = false;
-            if (data.results.length) {
-              if (data.next === null) {
-                this.nextPage = false;
-                this.previousPosts.push(...data.results);
-                $state.complete();
-              } else {
-                this.previousPosts.push(...data.results);
-                // this.page += 1;
-                $state.loaded();
-              }
-            }
-          }, 500);
-        });
     },
   },
 };

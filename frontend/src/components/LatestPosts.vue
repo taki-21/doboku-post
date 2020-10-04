@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
-      <span uk-spinner></span>
-    </div>
-    <div v-show="!loading">
-      <PostList :postType="latestPosts" />
-      <div v-if="nextPage">
-        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-          <span id="no_results" slot="no-results"></span>
-        </infinite-loading>
-      </div>
-    </div>
+    <PostList
+      :postType="latestPosts"
+      :loading="loading"
+      :nextPage="nextPage"
+      :postURL="postURL"
+      :sessionKey="sessionKey"
+    />
   </div>
 </template>
 
@@ -28,23 +24,13 @@ export default {
       latestPosts: [],
       loading: true,
       nextPage: false,
+      postURL: "/posts/",
+      sessionKey: "infinitePage_latest",
     };
   },
-  watch: {
-    loading() {
-      this.$nextTick(() => {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        });
-      });
-    },
-  },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_latest")) {
-      const page_infinite = sessionStorage.getItem("infinitePage_latest");
+    if (sessionStorage.getItem(this.sessionKey)) {
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/posts/", {
@@ -72,34 +58,11 @@ export default {
         this.latestPosts = response.data.results;
         if (response.data.next !== null) {
           this.nextPage = true;
+        } else {
+          this.nextPage = false;
         }
       });
       this.loading = false;
-    },
-    infiniteHandler($state) {
-      this.page += 1;
-      sessionStorage.setItem("infinitePage_latest", this.page);
-      api
-        .get("/posts/", {
-          params: {
-            page: this.page,
-          },
-        })
-        .then(({ data }) => {
-          setTimeout(() => {
-            if (data.results.length) {
-              if (data.next === null) {
-                this.nextPage = false;
-                this.latestPosts.push(...data.results);
-                $state.complete();
-              } else {
-                this.latestPosts.push(...data.results);
-                // this.page += 1;
-                $state.loaded();
-              }
-            }
-          }, 500);
-        });
     },
   },
 };
@@ -109,13 +72,5 @@ export default {
 ::-webkit-scrollbar {
   display: none;
   -webkit-appearance: none;
-}
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
-#no_results {
-  font-weight: bold;
 }
 </style>
