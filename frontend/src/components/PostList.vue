@@ -1,90 +1,118 @@
 <template>
-  <div
-    class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1 uk-text-center"
-    uk-grid
-  >
-    <router-link
-      class="router-link"
-      v-for="(post,key) in postType"
-      :key="key"
-      :to="{name: 'detail', params:{post_id: post.id }}"
-    >
-      <div class="uk-card uk-card-hover uk-card-default" id="card">
-        <div class="uk-card-media-top">
-          <img :src="post.image" />
-        </div>
-        <div class="uk-card-body">
-          <div class="uk-comment-header uk-position-relative">
-            <div>
-              <router-link
-                class="show_user"
-                :to="{name: 'mypage', params:{user_id: post.author.id}}"
-              >
+  <div>
+    <div v-show="loading" class="loader">
+      <span uk-spinner></span>
+    </div>
+    <div v-show="!loading">
+      <div
+        class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1 uk-text-center"
+        uk-grid
+      >
+        <router-link
+          class="router-link"
+          v-for="(post, key) in postType"
+          :key="key"
+          :to="{ name: 'detail', params: { post_id: post.id } }"
+        >
+          <div class="uk-card uk-card-hover uk-card-default" id="card">
+            <div class="uk-card-media-top">
+              <img :src="post.image" />
+            </div>
+            <div class="uk-card-body">
+              <div class="uk-comment-header uk-position-relative">
                 <div>
-                  <img class="user_icon" v-bind:src="post.author.icon_image" />
-                  <span id="author_name">{{ post.author.username }}</span>
+                  <router-link
+                    class="show_user"
+                    :to="{
+                      name: 'mypage',
+                      params: { user_id: post.author.id },
+                    }"
+                  >
+                    <div>
+                      <img
+                        class="user_icon"
+                        v-bind:src="post.author.icon_image"
+                      />
+                      <span id="author_name">{{ post.author.username }}</span>
+                    </div>
+                  </router-link>
+                  <div class="timestamp">
+                    <span>{{ post.published_at | moment }}</span>
+                  </div>
+                  <div class="prefecture">
+                    <span>{{ post.prefecture }}</span>
+                  </div>
                 </div>
-              </router-link>
-              <div class="timestamp">
-                <span>{{ post.published_at | moment }}</span>
               </div>
-              <div class="prefecture">
-                <span>{{ post.prefecture }}</span>
+              <strong>{{ post.title }}</strong>
+              <div class="comment_like_icon">
+                <i id="comment-button" uk-icon="comment"></i>
+                <span id="comment-count">{{ post.comments_count }}</span>
+                <i id="heart-button" uk-icon="heart"></i>
+                <span id="like-count">{{ post.likes_count }}</span>
+              </div>
+              <div v-if="post.author.id == user_id">
+                <div id="edit-delete">
+                  <router-link
+                    class="edit-link"
+                    :to="{ name: 'post_edit', params: { post_id: post.id } }"
+                  >
+                    <i id="edit-icon" uk-icon="icon: pencil"></i>
+                    <span id="edit-word">編集</span>
+                  </router-link>
+                  <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
+                    <i id="delete-icon" uk-icon="icon: trash"></i>
+                    <span id="delete-word">削除</span>
+                  </a>
+                  <div :id="'modal-' + post.id" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                      <h2 class="uk-modal-title">削除確認</h2>
+                      <p>
+                        投稿：{{ post.title }}を削除します。よろしいですか？
+                      </p>
+                      <p class="uk-text-right">
+                        <button
+                          id="cancel_button"
+                          class="uk-button uk-button-default uk-modal-close"
+                          type="button"
+                        >
+                          キャンセル
+                        </button>
+                        <button
+                          class="uk-button uk-button-primary uk-modal-close"
+                          type="button"
+                          @click="DestroyPost(post.id)"
+                        >
+                          OK
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-          <strong>{{ post.title }}</strong>
-          <div class="comment_like_icon">
-            <i id="comment-button" uk-icon="comment"></i>
-            <span id="comment-count">{{ post.comments_count}}</span>
-            <i id="heart-button" uk-icon="heart"></i>
-            <span id="like-count">{{ post.likes_count}}</span>
-          </div>
-          <div v-if="post.author.id == user_id">
-            <div id="edit-delete">
-              <router-link class="edit-link" :to="{name: 'post_edit', params:{post_id: post.id }}">
-                <i id="edit-icon" uk-icon="icon: pencil"></i>
-                <span id="edit-word">編集</span>
-              </router-link>
-              <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
-                <i id="delete-icon" uk-icon="icon: trash"></i>
-                <span id="delete-word">削除</span>
-              </a>
-              <div :id="'modal-' + post.id" uk-modal>
-                <div class="uk-modal-dialog uk-modal-body">
-                  <h2 class="uk-modal-title">削除確認</h2>
-                  <p>投稿：{{ post.title }}を削除します。よろしいですか？</p>
-                  <p class="uk-text-right">
-                    <button
-                      id="cancel_button"
-                      class="uk-button uk-button-default uk-modal-close"
-                      type="button"
-                    >キャンセル</button>
-                    <button
-                      class="uk-button uk-button-primary uk-modal-close"
-                      type="button"
-                      @click="DestroyPost(post.id)"
-                    >OK</button>
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        </router-link>
       </div>
-    </router-link>
-    <!-- <infinite-loading @infinite="infiniteHandler"></infinite-loading> -->
+      <div v-if="nextPage">
+        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
+          <span id="no_results" slot="no-results"></span>
+        </infinite-loading>
+      </div>
+    </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
+import api from "@/services/api";
 
 export default {
-  props: ["postType", "user_id"],
+  props: ["postType", "user_id", "loading", "nextPage"],
   data() {
     return {
-      page: 0,
+      page: 1,
+      // nextpage: this.nextPage,
       // postList:[]
     };
   },
@@ -95,6 +123,32 @@ export default {
     DestroyPost(post_id) {
       this.$emit("parentPostDelete", post_id);
     },
+    infiniteHandler($state) {
+      this.page += 1;
+      sessionStorage.setItem("infinitePage_latest", this.page);
+      api
+        .get("/posts/", {
+          params: {
+            page: this.page,
+          },
+        })
+        .then(({ data }) => {
+          setTimeout(() => {
+            if (data.results.length) {
+              if (data.next === null) {
+                // this.nextpage = false;
+                this.postType.push(...data.results);
+                $state.complete();
+              } else {
+                this.postType.push(...data.results);
+                // this.page += 1;
+                $state.loaded();
+              }
+            }
+          }, 500);
+        });
+    },
+
     // infiniteHandler($state) {
     //   var self = this;
 

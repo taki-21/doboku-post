@@ -90,7 +90,6 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
@@ -98,7 +97,6 @@ export default {
                 $state.complete();
               } else {
                 this.likedPosts.push(...data.results.map((like) => like.post));
-                // this.page += 1;
                 $state.loaded();
               }
             }

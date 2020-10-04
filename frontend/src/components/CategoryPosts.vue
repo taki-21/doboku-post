@@ -21,6 +21,7 @@
               @change="search"
             />
             <label
+            id="category_label"
               class="uk-button uk-button-default uk-button-large uk-width-1-1"
               :for="category.id"
             >
@@ -250,8 +251,10 @@ input[type="radio"] {
 }
 .uk-button-large {
   padding: 0 20px;
+  /* height: 100px; */
   line-height: 53px;
   font-size: 0.875rem;
+  /* background-image:url(../assets/hida1.jpg) */
 }
 .uk-card-body {
   padding: 20px 20px;

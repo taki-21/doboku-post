@@ -1,16 +1,16 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
+    <!-- <div v-show="loading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
-      <PostList :postType="latestPosts" />
-      <div v-if="nextPage">
+    <div v-show="!loading"> -->
+      <PostList :postType="latestPosts" :loading="loading" :nextPage="nextPage"/>
+      <!-- <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span id="no_results" slot="no-results"></span>
         </infinite-loading>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -67,31 +67,31 @@ export default {
       });
       this.loading = false;
     },
-    infiniteHandler($state) {
-      this.page += 1;
-      sessionStorage.setItem("infinitePage_latest", this.page);
-      api
-        .get("/posts/", {
-          params: {
-            page: this.page,
-          },
-        })
-        .then(({ data }) => {
-          setTimeout(() => {
-            if (data.results.length) {
-              if (data.next === null) {
-                this.nextPage = false;
-                this.latestPosts.push(...data.results);
-                $state.complete();
-              } else {
-                this.latestPosts.push(...data.results);
-                // this.page += 1;
-                $state.loaded();
-              }
-            }
-          }, 500);
-        });
-    },
+    // infiniteHandler($state) {
+    //   this.page += 1;
+    //   sessionStorage.setItem("infinitePage_latest", this.page);
+    //   api
+    //     .get("/posts/", {
+    //       params: {
+    //         page: this.page,
+    //       },
+    //     })
+    //     .then(({ data }) => {
+    //       setTimeout(() => {
+    //         if (data.results.length) {
+    //           if (data.next === null) {
+    //             this.nextPage = false;
+    //             this.latestPosts.push(...data.results);
+    //             $state.complete();
+    //           } else {
+    //             this.latestPosts.push(...data.results);
+    //             // this.page += 1;
+    //             $state.loaded();
+    //           }
+    //         }
+    //       }, 500);
+    //     });
+    // },
   },
 };
 </script>
