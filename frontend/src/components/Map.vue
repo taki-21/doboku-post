@@ -42,15 +42,15 @@ export default {
         return this.userPostList;
       }
       else {
-      // if (this.post) {
+      if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
-      //   return [this.post];
-      // } else {
+        return [this.post];
+      } else {
         return this.postList;
       }
-    },
+    }
   },
-
+  },
   async mounted() {
     await api.get("/posts/map/").then((response) => {
       this.postList = response.data;
@@ -131,8 +131,8 @@ export default {
       console.log("item_id: " + item_id);
       this.$router.push({ name: "detail", params: { post_id: item_id } });
     },
-  },
-};
+  }
+}
 </script>
 
 <style scoped>
@@ -150,7 +150,7 @@ export default {
   top: 20px;
 }
 
-/* .gm-style .gm-style-iw-c {
+.gm-style .gm-style-iw-c {
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
@@ -161,5 +161,5 @@ export default {
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
-} */
+}
 </style>

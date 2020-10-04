@@ -392,7 +392,7 @@ ul.uk-comment-list {
 #location_button {
   float: left;
   margin-top: 10px;
-  width: 40%;
+  /* width: 40%; */
 }
 
 #location_button.uk-button-default {
@@ -400,7 +400,7 @@ ul.uk-comment-list {
   color: #333;
   font-size: 20px;
   border: 2px solid #696464;
-  border-radius: 5px;
+  border-radius: 15px;
 }
 #like_buttun {
   max-width: 640px;

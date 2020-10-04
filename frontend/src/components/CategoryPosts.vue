@@ -232,9 +232,6 @@ input[type="radio"] {
   border: 1px solid black;
   font-size: 20px;
   color: black;
-  /* height: 100px; */
-  /* line-height: 53px; */
-  /* background-image:url(../assets/hida1.jpg) */
 }
 
 .uk-comment-header {
