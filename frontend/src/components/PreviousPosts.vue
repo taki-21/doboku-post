@@ -15,14 +15,12 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
-import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
-  mixins: [watchScrollPosition],
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],
@@ -35,7 +33,8 @@ export default {
   },
   computed: {
     postURL() {
-      return "/posts/?author=" + this.auth_id
+      var params = "?author=" + this.auth_id
+      return "/posts/" + params;
     },
   },
   watch: {

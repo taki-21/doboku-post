@@ -34,10 +34,6 @@ export default {
       loading: true,
       nextPage: false,
       likedPosts: [],
-      params: {
-        page: this.page,
-        user: this.user_id,
-      },
     };
   },
   async mounted() {
