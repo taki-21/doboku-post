@@ -22,7 +22,7 @@
             />
             <label
             id="category_label"
-              class="uk-button uk-button-default uk-button-large uk-width-1-1"
+              class="uk-button uk-width-1-1"
               :for="category.id"
             >
               <span id="category_name">{{ category.name }}</span>
@@ -51,7 +51,7 @@
         <span uk-spinner></span>
       </div>
       <div v-show="!loading">
-        <PostList :postType="filterPosts" />
+        <PostList :postType="filterPosts"/>
         <div v-if="filterPosts == ''">
           <p id="none_message">まだ投稿がありません</p>
         </div>
@@ -202,30 +202,40 @@ export default {
   position: relative;
   top: 20px;
 }
-#category_card {
-  margin-bottom: 20px;
-  padding: 10px 5px;
-  outline: none;
-}
-#category_card_contnet {
-  padding: 5px 40px;
-}
-#category_name {
-  font-size: 20px;
-}
 
 input[type="radio"] {
   display: none; /* ラジオボタンを非表示にする */
 }
 
 #category_choice input[type="radio"]:checked + label {
-  color: black;
   font-weight: bold;
-  background-color: rgb(206, 204, 203);
-  border: 1px solid black;
+  color: rgb(0, 0, 0);
+  background-color: rgb(228, 228, 228);
 }
 
+#category_card {
+  margin-bottom: 20px;
+  padding: 5px 5px;
+  outline: none;
+  /* border-radius:5px; */
+  border: 2px solid rgb(0, 0, 0);
+  background-color:rgb(236, 231, 225)
+}
+#category_card_contnet {
+  padding: 5px 40px;
+}
 /* UIkitの上書き */
+.uk-button {
+  padding: 0 20px;
+  border-radius:30px;
+  background-color:rgb(255, 255, 255);
+  border: 1px solid black;
+  font-size: 20px;
+  color: black;
+  /* height: 100px; */
+  /* line-height: 53px; */
+  /* background-image:url(../assets/hida1.jpg) */
+}
 
 .uk-comment-header {
   display: flow-root;
@@ -249,16 +259,9 @@ input[type="radio"] {
   justify-content: center;
   align-items: center;
 }
-.uk-button-large {
-  padding: 0 20px;
-  /* height: 100px; */
-  line-height: 53px;
-  font-size: 0.875rem;
-  /* background-image:url(../assets/hida1.jpg) */
-}
-.uk-card-body {
+/* .uk-card-body {
   padding: 20px 20px;
-}
+} */
 #none_message {
   font-size: 18px;
   text-align: center;
