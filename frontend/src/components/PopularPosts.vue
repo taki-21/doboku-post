@@ -1,16 +1,12 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
-      <span uk-spinner></span>
-    </div>
-    <div v-show="!loading">
-      <PostList :postType="popularPosts" />
-      <div v-if="nextPage">
-        <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-          <span id="no_results" slot="no-results"></span>
-        </infinite-loading>
-      </div>
-    </div>
+    <PostList
+      :postType="popularPosts"
+      :loading="loading"
+      :nextPage="nextPage"
+      :postURL="postURL"
+      :sessionKey="sessionKey"
+    />
   </div>
 </template>
 
@@ -28,23 +24,13 @@ export default {
       popularPosts: [],
       loading: true,
       nextPage: false,
+      postURL: "/posts/?order_by=-likes_count",
+      sessionKey: "infinitePage_popular",
     };
   },
-  watch: {
-    loading() {
-      this.$nextTick(() => {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        });
-      });
-    },
-  },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_popular")) {
-      const page_infinite = sessionStorage.getItem("infinitePage_popular");
+    if (sessionStorage.getItem(this.sessionKey)) {
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/posts/?order_by=-likes_count", {
@@ -76,39 +62,6 @@ export default {
       });
       this.loading = false;
     },
-    infiniteHandler($state) {
-      this.page += 1;
-      sessionStorage.setItem("infinitePage_popular", this.page);
-      api
-        .get("/posts/?order_by=-likes_count", {
-          params: {
-            page: this.page,
-          },
-        })
-        .then(({ data }) => {
-          setTimeout(() => {
-            if (data.results.length) {
-              if (data.next === null) {
-                this.nextPage = false;
-                this.popularPosts.push(...data.results);
-                $state.complete();
-              } else {
-                this.popularPosts.push(...data.results);
-                // this.page += 1;
-                $state.loaded();
-              }
-            }
-          }, 500);
-        });
-    },
   },
 };
 </script>
-
-<style scoped>
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
-</style>

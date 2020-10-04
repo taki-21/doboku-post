@@ -8,7 +8,6 @@
       <div v-if="likedPosts == ''">
         <p id="none_message">まだ投稿がありません</p>
       </div>
-
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span id="no_results" slot="no-results"></span>
@@ -21,13 +20,14 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
-// import moment from "moment";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
+  mixins: [watchScrollPosition],
   data() {
     return {
       page: 1,
@@ -35,18 +35,6 @@ export default {
       nextPage: false,
       likedPosts: [],
     };
-  },
-  watch: {
-    loading() {
-      this.$nextTick(() => {
-        var positionY = sessionStorage.getItem("positionY");
-        console.log(positionY);
-        scrollTo(0, positionY);
-        setTimeout(function () {
-          scrollTo(0, positionY);
-        });
-      });
-    },
   },
   async mounted() {
     if (sessionStorage.getItem("infinitePage_liked")) {
@@ -72,20 +60,6 @@ export default {
     } else {
       this.getPosts();
     }
-
-    // api
-    //   .get("/likes/", {
-    //     params: {
-    //       user: this.user_id,
-    //     },
-    //   })
-    //   .then((response) => {
-    //     this.likedPosts = response.data.results.map((like) => like.post);
-    //     this.loading = false;
-    //     if (response.data.next !== null) {
-    //       this.nextPage = true;
-    //     }
-    //   });
   },
   methods: {
     async getPosts() {
@@ -116,7 +90,6 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
@@ -124,7 +97,6 @@ export default {
                 $state.complete();
               } else {
                 this.likedPosts.push(...data.results.map((like) => like.post));
-                // this.page += 1;
                 $state.loaded();
               }
             }
@@ -132,11 +104,6 @@ export default {
         });
     },
   },
-  // filters: {
-  //   moment: function (date) {
-  //     return moment(date).format("YYYY/MM/DD HH:MM");
-  //   },
-  // },
 };
 </script>
 

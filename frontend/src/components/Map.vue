@@ -41,10 +41,11 @@ export default {
       if (this.user_id) {
         return this.userPostList;
       }
-      if (this.post) {
+      else {
+      // if (this.post) {
         // 後でmapで繰り返し処理をするため、配列の形にする。
-        return [this.post];
-      } else {
+      //   return [this.post];
+      // } else {
         return this.postList;
       }
     },
@@ -56,7 +57,7 @@ export default {
     });
     if (this.user_id) {
       await api.get("/posts/map/?author=" + this.user_id).then((response) => {
-        this.userPostList = response.data.results;
+        this.userPostList = response.data;
       });
     }
     this.google = await GoogleMapsApiLoader({

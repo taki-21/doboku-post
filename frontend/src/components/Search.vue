@@ -97,12 +97,13 @@ import { mapGetters } from "vuex";
 import api from "@/services/api";
 import prefs from "../mixins/PrefsMixin";
 import periods from "../mixins/PeriodsMixin";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [prefs, periods],
+  mixins: [prefs, periods, watchScrollPosition],
   data() {
     return {
       filterPosts: [],
@@ -195,7 +196,6 @@ export default {
       this.nextPage = false;
       this.infiniteId++;
       sessionStorage.removeItem("infinitePage_search");
-
     },
 
     getPostURL() {
@@ -244,7 +244,7 @@ export default {
       console.log("infiniteHandler");
       console.log(this.page);
       this.page += 1;
-            sessionStorage.setItem("infinitePage_search", this.page);
+      sessionStorage.setItem("infinitePage_search", this.page);
 
       api
         .get(this.postURL, {
