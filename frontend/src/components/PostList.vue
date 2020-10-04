@@ -106,28 +106,33 @@
 <script>
 import moment from "moment";
 import api from "@/services/api";
+import { watchScrollPosition } from "@/mixins/utility";
 
 export default {
-  props: ["postType", "user_id", "loading", "nextPage"],
+  props: [
+    "postType",
+    "user_id",
+    "loading",
+    "nextPage",
+    "postURL",
+    "sessionKey",
+  ],
   data() {
     return {
       page: 1,
-      // nextpage: this.nextPage,
-      // postList:[]
     };
   },
-  // created() {
-  //   this.postList = this.postType
-  // },
+  mixins: [watchScrollPosition],
+
   methods: {
     DestroyPost(post_id) {
       this.$emit("parentPostDelete", post_id);
     },
     infiniteHandler($state) {
       this.page += 1;
-      sessionStorage.setItem("infinitePage_latest", this.page);
+      sessionStorage.setItem(this.sessionKey, this.page);
       api
-        .get("/posts/", {
+        .get(this.postURL, {
           params: {
             page: this.page,
           },
@@ -136,7 +141,6 @@ export default {
           setTimeout(() => {
             if (data.results.length) {
               if (data.next === null) {
-                // this.nextpage = false;
                 this.postType.push(...data.results);
                 $state.complete();
               } else {
@@ -148,23 +152,6 @@ export default {
           }, 500);
         });
     },
-
-    // infiniteHandler($state) {
-    //   var self = this;
-
-    //   if (self.postList.length >= this.page) {
-    //     // アイテム数が最大値以下だったら
-    //     self.postList.slice(this.page, this.page + 10).filter(function (item) {
-    //       self.postList.push(item);
-    //       return item;
-    //     });
-    //     this.page += 10;
-    //     $state.loaded();
-    //   } else {
-    //     // アイテム数が最大数だったら終了
-    //     $state.complete();
-    //   }
-    // },
   },
   filters: {
     moment: function (date) {
@@ -291,5 +278,13 @@ export default {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
+}
+.loader {
+  text-align: center;
+  position: relative;
+  top: 20px;
+}
+#no_results {
+  font-weight: bold;
 }
 </style>
