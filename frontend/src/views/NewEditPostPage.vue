@@ -1,161 +1,203 @@
 <template>
   <div>
     <MyHeader />
-    <div v-show="loading" class="loader">
+    <!-- <div v-show="loading" class="loader">
       <span uk-spinner></span>
-    </div>
-    <div v-show="!loading">
-      <div class="uk-section">
-        <div class="uk-width-1-1">
-          <div class="uk-container">
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
-            </a>
-            <div
-              id="new_post_card"
-              class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <h2 v-if="beforeImage" class="uk-text-center" id="new_post_title">投稿編集</h2>
-              <h2 v-else class="uk-text-center" id="new_post_title">新規投稿</h2>
-              <ValidationObserver v-slot="{ invalid }">
-                <form @submit.prevent="submitPost()">
-                  <div uk-grid>
-                    <div class="uk-width-1-2">
-                      <div uk-form-custom id="form_custom">
-                        <div class="uk-placeholder uk-text-center">
-                          <input type="file" @change="selectedFile" />
-                          <div id="preview">
-                            <div v-if="previewImage">
-                              <img id="preview_image" v-show="previewImage" :src="previewImage" />
-                            </div>
-                            <div v-else>
-                              <img id="preview_image" :src="beforeImage " />
-                            </div>
+    </div> -->
+    <!-- <div v-show="!loading"> -->
+    <div class="uk-section">
+      <div class="uk-width-1-1">
+        <div class="uk-container">
+          <a @click="$router.back()" title="前ページへ戻る">
+            <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
+          </a>
+          <div
+            id="new_post_card"
+            class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+          >
+            <h2 v-if="post_id" class="uk-text-center" id="new_post_title">
+              投稿編集
+            </h2>
+            <h2 v-else class="uk-text-center" id="new_post_title">新規投稿</h2>
+            <ValidationObserver v-slot="{ invalid }">
+              <form @submit.prevent="submitPost()">
+                <div uk-grid>
+                  <div class="uk-width-1-2">
+                    <div uk-form-custom id="form_custom">
+                      <div class="uk-placeholder uk-text-center">
+                        <input type="file" @change="selectedFile" />
+                        <div id="preview">
+                          <div v-if="!post_id">
+                            <img
+                              id="preview_image"
+                              v-show="previewImage"
+                              :src="previewImage"
+                            />
                           </div>
-                          <div class="camera-choice">
-                            <div class="camera-icon" uk-icon="icon: camera; ratio: 5"></div>
-                            <p>画像を選択してください</p>
+                          <div v-else>
+                            <img id="preview_image" :src="beforeImage" />
                           </div>
                         </div>
+                        <div class="camera-choice">
+                          <div
+                            class="camera-icon"
+                            uk-icon="icon: camera; ratio: 5"
+                          ></div>
+                          <p>画像を選択してください</p>
+                        </div>
                       </div>
-                      <p id="error_message">{{ message }}</p>
                     </div>
-                    <div class="uk-width-1-2">
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>カテゴリ</label>
-                          <ValidationProvider
-                            mode="lazy"
-                            name="カテゴリ"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <select class="uk-select" v-model="category">
-                              <option
-                                v-for="(ctg,key) in categories"
-                                :key="key"
-                                v-bind:value="ctg.id"
-                              >{{ctg.name}}</option>
-                            </select>
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                    <p id="error_message">{{ message }}</p>
+                  </div>
+                  <div class="uk-width-1-2">
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <label>カテゴリ</label>
+                        <ValidationProvider
+                          mode="lazy"
+                          name="カテゴリ"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <select class="uk-select" v-model="category">
+                            <option
+                              v-for="(ctg, key) in categories"
+                              :key="key"
+                              v-bind:value="ctg.id"
+                            >
+                              {{ ctg.name }}
+                            </option>
+                          </select>
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>タイトル（15文字以下）</label>
-                          <ValidationProvider
-                            mode="lazy"
-                            name="タイトル"
-                            rules="required|max:15"
-                            v-slot="{ errors }"
-                          >
-                            <input class="uk-input" type="text" v-model="title" required />
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                    </div>
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <label>タイトル（15文字以下）</label>
+                        <ValidationProvider
+                          mode="lazy"
+                          name="タイトル"
+                          rules="required|max:15"
+                          v-slot="{ errors }"
+                        >
+                          <input
+                            class="uk-input"
+                            type="text"
+                            v-model="title"
+                            required
+                          />
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>キャプション</label>
-                          <ValidationProvider
-                            mode="aggressive"
-                            name="キャプション"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <textarea
-                              class="uk-textarea"
-                              rows="3"
-                              type="text"
-                              v-model="content"
-                              required
-                            ></textarea>
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                    </div>
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <label>キャプション</label>
+                        <ValidationProvider
+                          mode="aggressive"
+                          name="キャプション"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <textarea
+                            class="uk-textarea"
+                            rows="3"
+                            type="text"
+                            v-model="content"
+                            required
+                          ></textarea>
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>場所（任意）</label>
-                          <span id="select_way">: 指定方法は以下の2つのみです</span>
-                          <div uk-switcher="animation: uk-animation-fade; toggle: > *">
+                    </div>
+                    <div class="uk-margin">
+                      <div class="uk-inline uk-width-1-1">
+                        <label>場所（任意）</label>
+                        <span id="select_way"
+                          >: 指定方法は以下の2つのみです</span
+                        >
+                        <div
+                          uk-switcher="animation: uk-animation-fade; toggle: > *"
+                        >
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            href="#modal-center"
+                            @click="callChildMethod"
+                            type="button"
+                            uk-toggle
+                          >
+                            タイトルから検索
+                          </button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >
+                            都道府県のみ
+                          </button>
+                        </div>
+                        <div
+                          id="modal-center"
+                          class="uk-flex-top .uk-width-large"
+                          uk-modal
+                        >
+                          <div
+                            class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
+                          >
                             <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              href="#modal-center"
-                              @click="callChildMethod"
+                              class="uk-modal-close-default"
                               type="button"
-                              uk-toggle
-                            >タイトルから検索</button>
-                            or
-                            <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              type="button"
-                            >都道府県のみ</button>
-                          </div>
-                          <div id="modal-center" class="uk-flex-top .uk-width-large" uk-modal>
-                            <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
-                              <button class="uk-modal-close-default" type="button" uk-close></button>
-                              <div>
-                                <TitleSearchMap ref="map" :title="title" @callParent="callParent" />
-                              </div>
-                            </div>
-                          </div>
-                          <ul id="address_form" class="uk-switcher">
-                            <li>
-                              <input
-                                placeholder="住所または都道府県名が入力されます"
-                                class="uk-input"
-                                type="text"
-                                v-model="address"
+                              uk-close
+                            ></button>
+                            <div>
+                              <TitleSearchMap
+                                ref="map"
+                                :title="title"
+                                @callParent="callParent"
                               />
-                            </li>
-                            <li>
-                              <select class="uk-select" v-model="prefecture">
-                                <option value>都道府県を選択してください</option>
-                                <option v-for="item in prefs" :key="item.name">{{item.name}}</option>
-                              </select>
-                            </li>
-                          </ul>
+                            </div>
+                          </div>
                         </div>
+                        <ul id="address_form" class="uk-switcher">
+                          <li>
+                            <input
+                              placeholder="住所または都道府県名が入力されます"
+                              class="uk-input"
+                              type="text"
+                              v-model="address"
+                            />
+                          </li>
+                          <li>
+                            <select class="uk-select" v-model="prefecture">
+                              <option value>都道府県を選択してください</option>
+                              <option v-for="item in prefs" :key="item.name">
+                                {{ item.name }}
+                              </option>
+                            </select>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
-                  <div class="uk-margin">
-                    <button
-                      id="send_button"
-                      class="uk-button uk-button-large uk-width-1-1"
-                      type="submit"
-                      :disabled="invalid"
-                    >投稿</button>
-                  </div>
-                </form>
-              </ValidationObserver>
-            </div>
+                </div>
+                <div class="uk-margin">
+                  <button
+                    id="send_button"
+                    class="uk-button uk-button-large uk-width-1-1"
+                    type="submit"
+                    :disabled="invalid"
+                  >
+                    投稿
+                  </button>
+                </div>
+              </form>
+            </ValidationObserver>
           </div>
         </div>
       </div>
     </div>
+    <!-- </div> -->
   </div>
 </template>
 
@@ -214,6 +256,20 @@ export default {
       if (this.image || this.beforeImage) {
         return (this.message = "");
       }
+    },
+    $route() {
+      (this.category = ""),
+        (this.author_name = this.$store.getters["auth/id"]),
+        (this.image = null),
+        (this.previewImage = null),
+        (this.beforeImage = null),
+        (this.title = ""),
+        (this.content = ""),
+        (this.address = ""),
+        (this.prefecture = ""),
+        (this.lat = ""),
+        (this.lng = ""),
+        (this.message = "");
     },
   },
   computed: {
@@ -281,8 +337,10 @@ export default {
       reader.readAsDataURL(file);
     },
   },
-  mounted() {
+  created() {
     if (this.post_id) {
+      console.log("投稿編集");
+
       api.get("/posts/" + this.post_id + "/").then((response) => {
         this.beforeImage = response.data.image;
         this.category = response.data.category;
@@ -294,8 +352,6 @@ export default {
         this.lng = response.data.lng;
         this.loading = false;
       });
-    } else {
-      this.loading = false;
     }
   },
 };

@@ -300,7 +300,7 @@ export default {
       this.$router.back();
     },
   },
-  mounted() {
+   mounted() {
     api.get("/posts/" + this.post_id + "/").then((response) => {
       this.author = response.data.author;
       this.post = response.data;

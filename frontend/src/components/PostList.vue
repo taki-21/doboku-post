@@ -94,9 +94,9 @@
           </div>
         </router-link>
       </div>
-      <div v-if="postType == ''">
+      <!-- <div v-if="postType == ''">
         <p id="none_message">投稿がありません</p>
-      </div>
+      </div> -->
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span id="no_results" slot="no-more"></span>
