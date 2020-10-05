@@ -38,11 +38,7 @@ export default {
 </script>
 
 <style scoped>
-.router-link {
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
-}
+@import "../assets/common.css";
 
 .router-link-exact-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
@@ -62,5 +58,6 @@ export default {
   margin: 25px auto;
   max-width: 1200px;
   padding: 0px 30px;
+  font-size: 20px;
 }
 </style>

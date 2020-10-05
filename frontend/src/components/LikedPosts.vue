@@ -107,15 +107,6 @@ export default {
 };
 </script>
 
-<style scoped>
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
-
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+<style>
+@import '../assets/common.css';
 </style>

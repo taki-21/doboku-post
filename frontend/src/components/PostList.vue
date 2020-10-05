@@ -46,9 +46,9 @@
               </div>
               <strong>{{ post.title }}</strong>
               <div class="comment_like_icon">
-                <i id="comment-button" uk-icon="comment"></i>
+                <i id="icon" uk-icon="comment"></i>
                 <span id="comment-count">{{ post.comments_count }}</span>
-                <i id="heart-button" uk-icon="heart"></i>
+                <i id="icon" uk-icon="heart"></i>
                 <span id="like-count">{{ post.likes_count }}</span>
               </div>
               <div v-if="post.author.id == user_id">
@@ -57,11 +57,11 @@
                     class="edit-link"
                     :to="{ name: 'post_edit', params: { post_id: post.id } }"
                   >
-                    <i id="edit-icon" uk-icon="icon: pencil"></i>
+                    <i id="icon" uk-icon="icon: pencil"></i>
                     <span id="edit-word">編集</span>
                   </router-link>
                   <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
-                    <i id="delete-icon" uk-icon="icon: trash"></i>
+                    <i id="icon" uk-icon="icon: trash"></i>
                     <span id="delete-word">削除</span>
                   </a>
                   <div :id="'modal-' + post.id" uk-modal>
@@ -72,14 +72,14 @@
                       </p>
                       <p class="uk-text-right">
                         <button
-                          id="cancel_button"
                           class="uk-button uk-button-default uk-modal-close"
                           type="button"
                         >
                           キャンセル
                         </button>
                         <button
-                          class="uk-button uk-button-primary uk-modal-close"
+                          id="ok_button"
+                          class="uk-button uk-button-default uk-modal-close"
                           type="button"
                           @click="DestroyPost(post.id)"
                         >
@@ -127,6 +127,7 @@ export default {
 
   methods: {
     DestroyPost(post_id) {
+      sessionStorage.clear();
       this.$emit("parentPostDelete", post_id);
     },
     infiniteHandler($state) {
@@ -164,9 +165,8 @@ export default {
 
 
 <style scoped>
-.router-link {
-  text-decoration: none;
-}
+@import "../assets/common.css";
+
 .user_icon {
   width: 35px;
   height: 35px;
@@ -205,18 +205,18 @@ export default {
 }
 .comment_like_icon {
   text-align: right;
-  margin-bottom: 5px;
+  margin-bottom: 2px;
 }
 #comment-count {
-  margin-left: 3px;
+  position: relative;
+  top: 1px;
+  margin-left: 2px;
   margin-right: 7px;
 }
-#heart-button {
-  position: relative;
-  top: -1px;
-}
 #like-count {
-  margin-left: 3px;
+  position: relative;
+  top: 1px;
+  margin-left: 2px;
 }
 #author_name {
   position: relative;
@@ -236,32 +236,25 @@ export default {
 }
 
 #edit-delete {
-  padding-top: 5px;
+  /* padding-top: 0px; */
   border-top: 1px solid #b1aeae;
 }
 
-#edit-icon {
-  margin-right: 3px;
-}
 #edit-word {
   position: relative;
-  top: 3px;
-  margin-right: 5px;
-}
-#delete-icon {
-  margin-left: 5px;
-  margin-right: 3px;
+  top: 1px;
+  margin-left: 2px;
+  margin-right: 10px;
+  font-size: 16px;
 }
 
 #delete-word {
   position: relative;
-  top: 3px;
-  margin-right: 10px;
+  top: 1px;
+  margin-left: 2px;
+  font-size: 16px;
 }
 
-#cancel_button {
-  margin-right: 10px;
-}
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;
@@ -279,10 +272,5 @@ export default {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
-}
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
 }
 </style>

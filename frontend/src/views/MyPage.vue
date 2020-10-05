@@ -175,11 +175,6 @@ export default {
 #username {
   display: flex;
 }
-.router-link {
-  text-decoration: none;
-  color: black;
-  font-size: 20px;
-}
 
 .router-link-exact-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
@@ -198,7 +193,7 @@ export default {
 .content {
   margin: 20px auto;
   max-width: 1200px;
-  /* padding: 0px 30px; */
+  font-size: 20px;
 }
 
 #profile_card {

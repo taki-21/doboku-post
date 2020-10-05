@@ -70,7 +70,7 @@ export default {
 <style scoped>
 #comment-btn {
   width: 100%;
-  background-color: rgba(139, 138, 135, 0.3);
+  background-color: rgba(140, 140, 135, 0.3);
   margin-bottom: 20px;
 }
 </style>

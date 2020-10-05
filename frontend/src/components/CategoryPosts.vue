@@ -21,12 +21,11 @@
               @change="search"
             />
             <label
-            id="category_label"
+              id="category_label"
               class="uk-button uk-width-1-1"
               :for="category.id"
             >
               <span id="category_name">{{ category.name }}</span>
-              <!-- <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span> -->
             </label>
           </li>
         </ul>
@@ -51,7 +50,7 @@
         <span uk-spinner></span>
       </div>
       <div v-show="!loading">
-        <PostList :postType="filterPosts"/>
+        <PostList :postType="filterPosts" />
         <div v-if="filterPosts == ''">
           <p id="none_message">まだ投稿がありません</p>
         </div>
@@ -93,6 +92,7 @@ export default {
       loading: true,
       nextPage: false,
       infiniteId: 0,
+      sessionKey: "infinitePage_category"
     };
   },
   watch: {
@@ -102,8 +102,8 @@ export default {
     },
   },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_category")) {
-      const page_infinite = sessionStorage.getItem("infinitePage_category");
+    if (sessionStorage.getItem(this.sessionKey)) {
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/posts/", {
@@ -150,7 +150,7 @@ export default {
       this.page = 1;
       this.nextPage = false;
       this.infiniteId++;
-      sessionStorage.removeItem("infinitePage_category");
+      sessionStorage.removeItem(this.sessionKey);
     },
     search() {
       this.resetHandler();
@@ -163,7 +163,7 @@ export default {
     },
     infiniteHandler($state) {
       this.page += 1;
-      sessionStorage.setItem("infinitePage_category", this.page);
+      sessionStorage.setItem(this.sessionKey, this.page);
 
       api
         .get("/posts/", {
@@ -197,11 +197,7 @@ export default {
 </script>
 
 <style scoped>
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+@import '../assets/common.css';
 
 input[type="radio"] {
   display: none; /* ラジオボタンを非表示にする */
@@ -219,50 +215,12 @@ input[type="radio"] {
   outline: none;
   /* border-radius:5px; */
   border: 2px solid rgb(0, 0, 0);
-  background-color:rgb(236, 231, 225)
+  background-color: rgb(236, 231, 225);
 }
 #category_card_contnet {
   padding: 5px 40px;
 }
-/* UIkitの上書き */
-.uk-button {
-  padding: 0 20px;
-  border-radius:30px;
-  background-color:rgb(255, 255, 255);
-  border: 1px solid black;
-  font-size: 20px;
-  color: black;
-}
 
-.uk-comment-header {
-  display: flow-root;
-  margin-bottom: 0px;
-}
-.uk-badge {
-  position: relative;
-  left: 15px;
-  box-sizing: border-box;
-  min-width: 15px;
-  height: 15px;
-  padding: 0 5px;
-  /* margin-left: 15px; */
-  border-radius: 500px;
-  vertical-align: middle;
-  background: black;
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: bold;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-/* .uk-card-body {
-  padding: 20px 20px;
-} */
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
 #previous_icon {
   margin-left: 0;
   padding-left: 10px;
@@ -270,5 +228,14 @@ input[type="radio"] {
 #next_icon {
   margin-right: 0;
   padding-right: 10px;
+}
+/* UIkitの上書き */
+.uk-button {
+  padding: 0 20px;
+  border-radius: 30px;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
+  font-size: 20px;
+  color: black;
 }
 </style>

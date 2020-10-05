@@ -10,7 +10,7 @@
             v-model="results[0].formatted_address"
           />
           <button
-            id="OK_button"
+            id="ok_button"
             class="uk-button uk-button-default uk-modal-close"
             @click="call_parent"
           >OK</button>
@@ -109,15 +109,10 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/common.css';
+
 #map {
   width: 100%;
   height: 600px;
-}
-
-#OK_button {
-  margin-left: 5px;
-}
-#error_message {
-  color: red;
 }
 </style>

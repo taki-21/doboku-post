@@ -88,7 +88,7 @@ export default {
         currentWindow && currentWindow.close();
         const infoWindow = new this.google.maps.InfoWindow({
           content:
-            '<div style="font-size:15px; padding:0px 10px 10px 0px;" id="infobox_' +
+            '<div style="font-size:15px;" id="infobox_' +
             data.id +
             '" data-item-id="' +
             data.id +
@@ -136,18 +136,11 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/common.css';
+
 #map {
   width: 100%;
   height: 700px;
-}
-
-#OK_button {
-  margin-left: 5px;
-}
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
 }
 
 .gm-style .gm-style-iw-c {
