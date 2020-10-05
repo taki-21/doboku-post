@@ -73,12 +73,12 @@
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
             <div class="link">
-              <i id="signup_icon" uk-icon="plus-circle"></i>新規登録
+              <i id="icon" uk-icon="plus-circle"></i>新規登録
             </div>
           </router-link>
           <router-link class="router-link" to="/login">
             <div class="link">
-              <i id="login_icon" uk-icon="sign-in"></i>ログイン
+              <i id="icon" uk-icon="sign-in"></i>ログイン
             </div>
           </router-link>
         </div>
@@ -191,6 +191,14 @@ li {
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
     font-size: 10px;
+  }
+  .link{
+    font-size: 10px;
+    padding-left:5px;
+  }
+  .router-link{
+    /* font-size: 10px; */
+    padding-left:5px;
   }
 }
 </style>
