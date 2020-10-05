@@ -208,12 +208,15 @@ export default {
   margin-bottom: 2px;
 }
 #comment-count {
-  margin-left: 3px;
+  position: relative;
+  top: 1px;
+  margin-left: 2px;
   margin-right: 7px;
 }
-
 #like-count {
-  margin-left: 3px;
+  position: relative;
+  top: 1px;
+  margin-left: 2px;
 }
 #author_name {
   position: relative;
@@ -242,14 +245,14 @@ export default {
   top: 1px;
   margin-left: 2px;
   margin-right: 10px;
-  font-size:16px
+  font-size: 16px;
 }
 
 #delete-word {
   position: relative;
   top: 1px;
   margin-left: 2px;
-  font-size:16px
+  font-size: 16px;
 }
 
 /* UIkitの上書き */

@@ -5,7 +5,7 @@
       <span uk-spinner></span>
     </div>
     <div v-show="!loading">
-      <div class="uk-section">
+      <div id="content">
         <div class="uk-width-1-1">
           <div class="uk-container">
             <a @click="$router.back()" title="前ページへ戻る">
@@ -16,7 +16,7 @@
             </a>
             <div
               id="new_post_card"
-              class="uk-margin uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+              class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <h2 v-if="post_id" class="uk-text-center" id="new_post_title">
                 投稿編集
@@ -359,7 +359,11 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-#grid{
+#content {
+  margin-top: 10px;
+}
+
+#grid {
   margin-bottom: 20px;
 }
 h2#new_post_title {
