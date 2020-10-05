@@ -36,11 +36,8 @@
                       <span id="author_name">{{ post.author.username }}</span>
                     <!-- </div> -->
                   </router-link>
-                  <div class="timestamp uk-hidden-touch">
+                  <div class="timestamp">
                     <span>{{ post.published_at | moment }}</span>
-                  </div>
-                  <div class="timestamp uk-hidden-notouch">
-                    <span>{{ post.published_at | moment_iPhone }}</span>
                   </div>
                   <div class="prefecture">
                     <span>{{ post.prefecture }}</span>
@@ -161,9 +158,6 @@ export default {
   filters: {
     moment: function (date) {
       return moment(date).format("MM/DD HH:MM");
-    },
-    moment_iPhone: function (date) {
-      return moment(date).format("MM/DD");
     },
   },
 };
