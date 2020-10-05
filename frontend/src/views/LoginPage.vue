@@ -162,8 +162,4 @@ export default {
   margin-top: 20px;
 }
 
-#login_card {
-  background-color: rgba(151, 132, 116, 0.315);
-  border-radius: 10px;
-}
 </style>

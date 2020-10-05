@@ -143,10 +143,6 @@ export default {
   height: 700px;
 }
 
-#OK_button {
-  margin-left: 5px;
-}
-
 .gm-style .gm-style-iw-c {
   position: absolute;
   box-sizing: border-box;

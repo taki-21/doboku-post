@@ -40,7 +40,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-
 .router-link-exact-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
 }

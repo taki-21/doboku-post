@@ -249,10 +249,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-#signup_card {
-  background-color: rgba(151, 132, 116, 0.315);
-  border-radius: 10px;
-}
 #form_icon {
   height: 40px;
 }

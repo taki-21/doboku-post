@@ -4,7 +4,7 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/newpostpage">
-            <i id="header_post_icon" uk-icon="pencil"></i>投稿する
+            <i id="icon" uk-icon="pencil"></i>投稿する
           </router-link>
           <div class="uk-inline">
             <a class="show_user">
@@ -21,13 +21,13 @@
                   :to="{ name: 'mypage', params: { user_id: user.id } }"
                   v-if="user.id"
                 >
-                  <i id="mypage_icon" uk-icon="user"></i>
+                  <i id="icon" uk-icon="user"></i>
                   <span>マイページ</span>
                 </router-link>
               </div>
               <div class="dropdown">
                 <a href="#modal-logout" id="logout" uk-toggle>
-                  <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
+                  <i id="icon" uk-icon="sign-out"></i>ログアウト
                 </a>
                 <div id="modal-logout" uk-modal>
                   <div class="uk-modal-dialog uk-modal-body">
@@ -35,7 +35,6 @@
                     <p>ログアウトします。よろしいですか？</p>
                     <p class="uk-text-right">
                       <button
-                        id="cancel_button"
                         class="uk-button uk-button-default uk-modal-close"
                         type="button"
                       >
@@ -156,9 +155,5 @@ li {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
-}
-#ok_button {
-  margin-left: 10px;
-  background-color: rgba(105, 85, 75, 0.4);
 }
 </style>

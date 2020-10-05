@@ -9,6 +9,7 @@
 </template>
 
 <style>
+@import "./assets/common.css";
 html{
   overflow: overlay;
 }
@@ -19,22 +20,7 @@ html{
   /* text-align: center; */
   color: #2c3e50;
 }
-::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(208, 210, 212, 0.993);
-  /* border: 1px solid #ccc; */
-  border-right: none;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
 
-/* ::-webkit-scrollbar {
-  display: none;
-  -webkit-appearance: none;
-} */
 .v-enter-active {
   transition: opacity 0.4s;
 }

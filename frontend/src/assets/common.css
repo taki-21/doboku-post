@@ -1,3 +1,16 @@
+::-webkit-scrollbar-thumb {
+  background-color: rgba(208, 210, 212, 0.993);
+  border-right: none;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
 .router-link {
   text-decoration: none;
   color: #000000;
@@ -42,4 +55,23 @@
 
 #back_icon {
   color: rgba(140, 140, 135, 0.85);
+}
+
+#ok_button {
+  margin-left: 10px;
+  background-color: rgba(105, 85, 75, 0.4);
+}
+
+
+#profile_edit_card,
+#signup_card,
+#login_card {
+  background-color: rgba(151, 132, 116, 0.315);
+  border-radius: 10px;
+}
+
+#icon{
+    position: relative;
+    top: -1px;
+    margin-right: 3px;
 }

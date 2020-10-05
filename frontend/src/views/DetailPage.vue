@@ -2,7 +2,7 @@
   <div>
     <MyHeader />
     <div v-show="loading" class="loader">
-      <span uk-spinner="ratio: 1.5"></span>
+      <span uk-spinner></span>
     </div>
     <div v-show="!loading">
       <div id="detail_post">
@@ -52,7 +52,7 @@
                         uk-toggle
                       >場所を確認する</button>
                       <div :id="modal" class="uk-flex-top .uk-width-large" uk-modal>
-                        <div class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
+                        <div id="location_modal" class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical">
                           <button class="uk-modal-close-default" type="button" uk-close></button>
                           <div>
                             <Map ref="map" :post="post" />
@@ -95,7 +95,7 @@
                     </div>
                   </div>
                   <div class="uk-width-2-5">
-                    <div class="right_column">
+                    <!-- <div> -->
                       <div>
                         <div>
                           <CommentForm :post="post" @CommentGet="CommentGet" />
@@ -133,21 +133,21 @@
                                   <div>{{comment.text}}</div>
                                 </div>
                                 <div id="delete-icon" v-if="comment.author.id == login_user_id">
-                                  <a class="delete-link" :href="'#modal-' + comment.id" uk-toggle>
+                                  <a class="router-link" :href="'#modal-' + comment.id" uk-toggle>
                                     <i id="delete-icon" uk-icon="icon: trash"></i>
                                   </a>
                                   <div :id="'modal-' + comment.id" uk-modal>
-                                    <div class="uk-modal-dialog uk-modal-body">
+                                    <div id="delete_modal" class="uk-modal-dialog uk-modal-body">
                                       <h2 class="uk-modal-title">削除確認</h2>
                                       <p>コメント：{{ comment.text }}を削除します。よろしいですか？</p>
                                       <p class="uk-text-right">
                                         <button
-                                          id="cancel_button"
                                           class="uk-button uk-button-default uk-modal-close"
                                           type="button"
                                         >キャンセル</button>
                                         <button
-                                          class="uk-button uk-button-primary uk-modal-close"
+                                        id="ok_button"
+                                          class="uk-button uk-button-default uk-modal-close"
                                           type="button"
                                           @click="deleteComment(comment.id)"
                                         >OK</button>
@@ -160,7 +160,7 @@
                           </ul>
                         </div>
                       </div>
-                    </div>
+                    <!-- </div> -->
                   </div>
                 </div>
               </div>
@@ -387,7 +387,6 @@ ul.uk-comment-list {
 #location_button {
   float: left;
   margin-top: 10px;
-  /* width: 40%; */
 }
 
 #location_button.uk-button-default {
@@ -432,39 +431,23 @@ ul.uk-comment-list {
   font-size: 18px;
   text-align: right;
 }
-.right_column {
-  height: 100%;
-}
 
 .logbox {
   /* border: solid 1px #808080; */
   /* margin-top: 40px; */
-  height: 560px;
+  height: 590px;
   /* max-height: -webkit-fill-available; */
   overflow-y: scroll;
   overflow-y: overlay;
 }
-.logbox::-webkit-scrollbar {
-  width: 10px;
-}
-::-webkit-scrollbar-thumb {
-  background-color: rgba(208, 210, 212, 0.993);
-  /* border: 1px solid #ccc; */
-  border-right: none;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-.uk-modal-body {
-  border-radius: 5px;
-}
-.uk-modal-dialog {
+
+#location_modal.uk-modal-dialog {
   position: relative;
   box-sizing: border-box;
   margin: 0 auto;
   width: 1000px;
   max-width: calc(100% - 0.01px) !important;
-  background: #fff;
+  background: rgb(240, 240, 240);
   /* opacity: 0; */
   /* transform: translateY(-100px); */
   transition: 0.3s linear;
@@ -473,10 +456,7 @@ ul.uk-comment-list {
 #delete-icon {
   text-align: right;
 }
-.delete-link {
-  text-decoration: none;
-  color: rgb(51, 51, 51);
-}
+
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;

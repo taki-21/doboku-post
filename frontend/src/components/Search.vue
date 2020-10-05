@@ -283,5 +283,6 @@ export default {
   background-color: rgb(212, 217, 220);
   border-radius: 10px;
   border: 2px solid black;
+  font-size: 18px;
 }
 </style>
