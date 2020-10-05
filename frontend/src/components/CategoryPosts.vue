@@ -92,7 +92,7 @@ export default {
       loading: true,
       nextPage: false,
       infiniteId: 0,
-      sessionKey: "infinitePage_category"
+      sessionKey: "infinitePage_category",
     };
   },
   watch: {
@@ -123,6 +123,7 @@ export default {
       }
       this.loading = false;
     } else {
+      sessionStorage.clear();
       this.getPosts();
     }
   },
@@ -197,7 +198,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/common.css';
+@import "../assets/common.css";
 
 input[type="radio"] {
   display: none; /* ラジオボタンを非表示にする */

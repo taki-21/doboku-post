@@ -168,6 +168,7 @@ export default {
       }
       this.loading = false;
     } else {
+      sessionStorage.clear();
       this.getPosts();
     }
   },
