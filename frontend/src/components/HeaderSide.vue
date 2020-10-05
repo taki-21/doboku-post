@@ -3,7 +3,7 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link" to="/newpostpage">
+          <router-link class="router-link uk-hidden-touch" to="/newpostpage">
             <i id="icon" uk-icon="pencil"></i>投稿する
           </router-link>
           <div class="uk-inline">
@@ -155,5 +155,21 @@ li {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
+}
+@media (max-width: 640px) {
+  .show_user {
+  font-size: 12px;
+  font-weight: bold;
+  color: #333333;
+  text-decoration: none;
+}
+
+.user_icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+  border-radius: 50%;
+}
+
 }
 </style>
