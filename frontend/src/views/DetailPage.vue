@@ -318,9 +318,7 @@ export default {
 html {
   overflow: overlay;
 }
-#back_icon {
-  color: rgba(139, 138, 135, 0.85);
-}
+
 .show_user {
   text-decoration: none;
   line-height: 45px;

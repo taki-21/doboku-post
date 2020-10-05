@@ -167,9 +167,6 @@ export default {
 <style scoped>
 @import '../assets/common.css';
 
-.router-link {
-  text-decoration: none;
-}
 .user_icon {
   width: 35px;
   height: 35px;

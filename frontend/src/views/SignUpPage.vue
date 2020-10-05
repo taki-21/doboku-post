@@ -23,7 +23,11 @@
                           rules="required|max:10"
                           v-slot="{ errors }"
                         >
-                          <span id="form_icon" class="uk-form-icon" uk-icon="icon: user"></span>
+                          <span
+                            id="form_icon"
+                            class="uk-form-icon"
+                            uk-icon="icon: user"
+                          ></span>
                           <input
                             class="uk-input"
                             type="text"
@@ -44,7 +48,11 @@
                           rules="required|email"
                           v-slot="{ errors }"
                         >
-                          <span id="form_icon" class="uk-form-icon" uk-icon="icon: mail"></span>
+                          <span
+                            id="form_icon"
+                            class="uk-form-icon"
+                            uk-icon="icon: mail"
+                          ></span>
                           <input
                             class="uk-input"
                             type="email"
@@ -66,7 +74,11 @@
                           v-slot="{ errors }"
                           vid="password1"
                         >
-                          <span id="form_icon" class="uk-form-icon" uk-icon="icon: lock"></span>
+                          <span
+                            id="form_icon"
+                            class="uk-form-icon"
+                            uk-icon="icon: lock"
+                          ></span>
                           <input
                             class="uk-input"
                             type="password"
@@ -74,7 +86,9 @@
                             v-model="password1"
                             required
                           />
-                          <span id="designated_message">: 8文字以上(半角英小文字、数字)</span>
+                          <span id="designated_message"
+                            >: 8文字以上(半角英小文字、数字)</span
+                          >
                           <p id="error_message">{{ errors[0] }}</p>
                         </ValidationProvider>
                       </div>
@@ -87,7 +101,11 @@
                           rules="required|confirmed:password1"
                           v-slot="{ errors }"
                         >
-                          <span id="form_icon" class="uk-form-icon" uk-icon="icon: lock"></span>
+                          <span
+                            id="form_icon"
+                            class="uk-form-icon"
+                            uk-icon="icon: lock"
+                          ></span>
                           <input
                             class="uk-input"
                             type="password"
@@ -105,7 +123,9 @@
                         class="uk-button uk-button-large uk-width-1-1"
                         :disabled="invalid"
                         type="submit"
-                      >新規登録</button>
+                      >
+                        新規登録
+                      </button>
                     </div>
                   </form>
                 </ValidationObserver>
@@ -163,22 +183,22 @@ export default {
   },
   methods: {
     submitUser() {
-        api
-          .post("/users/", {
-            username: this.username,
-            email: this.email_adress,
-            password: this.password1,
-          })
-          .then((response) => {
-            console.log("送信内容: " + response.data);
-            this.autoLogin();
-            // this.message = "送信しました！";
-          })
-          // .then(this.autoLogin())
-          .catch((error) => {
-            console.log("response: ", error.response.data);
-          });
-      },
+      api
+        .post("/users/", {
+          username: this.username,
+          email: this.email_adress,
+          password: this.password1,
+        })
+        .then((response) => {
+          console.log("送信内容: " + response.data);
+          this.autoLogin();
+          // this.message = "送信しました！";
+        })
+        // .then(this.autoLogin())
+        .catch((error) => {
+          console.log("response: ", error.response.data);
+        });
+    },
     autoLogin: function () {
       this.isLoading = true;
       this.$store
@@ -227,6 +247,8 @@ export default {
 </script>
 
 <style scoped>
+@import "../assets/common.css";
+
 #signup_card {
   background-color: rgba(151, 132, 116, 0.315);
   border-radius: 10px;
@@ -238,13 +260,5 @@ export default {
   font-size: 14px;
   color: gray;
 }
-#error_message {
-  margin-top: 0;
-  color: red;
-}
-#send_button {
-  background-color: rgba(107, 86, 73, 0.404);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
-}
+
 </style>

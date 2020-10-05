@@ -179,22 +179,18 @@ export default {
 };
 </script>
 <style scoped>
+@import '../assets/common.css';
+
 .uk-input, .uk-textarea{
   border-color:rgba(150, 150, 150, 0.5);
 }
-#back_icon {
-  color: rgba(139, 138, 135, 0.85);
-}
+
 #profile_edit_card {
   background-color: rgba(225, 215, 205, 0.247);
   border-radius: 10px;
 }
 #form_icon {
   height: 40px;
-}
-#error_message {
-  margin-top: 0;
-  color: red;
 }
 
 #form_custom {
@@ -246,9 +242,5 @@ export default {
   padding-top: 30px;
   /* padding-bottom: 70px; */
 }
-#send_button {
-  background-color: rgba(107, 86, 73, 0.404);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
-}
+
 </style>

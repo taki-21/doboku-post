@@ -4,9 +4,7 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/newpostpage">
-            <div class="link">
-              <i id="header_post_icon" uk-icon="pencil"></i>投稿する
-            </div>
+            <i id="header_post_icon" uk-icon="pencil"></i>投稿する
           </router-link>
           <div class="uk-inline">
             <a class="show_user">
@@ -23,14 +21,12 @@
                   :to="{ name: 'mypage', params: { user_id: user.id } }"
                   v-if="user.id"
                 >
-                  <div class="link">
-                    <i id="mypage_icon" uk-icon="user"></i>
-                    <span>マイページ</span>
-                  </div>
+                  <i id="mypage_icon" uk-icon="user"></i>
+                  <span>マイページ</span>
                 </router-link>
               </div>
               <div class="dropdown">
-                <a href="#modal-logout" class="logout link" uk-toggle>
+                <a href="#modal-logout" id="logout" uk-toggle>
                   <i id="logout_icon" uk-icon="sign-out"></i>ログアウト
                 </a>
                 <div id="modal-logout" uk-modal>
@@ -46,7 +42,8 @@
                         キャンセル
                       </button>
                       <button
-                        class="uk-button uk-button-primary uk-modal-close"
+                        id="ok_button"
+                        class="uk-button uk-button-default uk-modal-close"
                         type="button"
                         @click="clickLogout"
                       >
@@ -114,11 +111,8 @@ export default {
 </script>
 
 <style scoped>
-.router-link {
-  text-decoration: none;
-}
-.signup,
-.header_post,
+@import "../assets/common.css";
+
 .show_user {
   font-size: large;
   font-weight: bold;
@@ -129,10 +123,6 @@ export default {
 li {
   list-style: none;
 }
-.link {
-  color: black;
-  text-decoration: none;
-}
 
 .user_icon {
   width: 40px;
@@ -141,8 +131,13 @@ li {
   border-radius: 50%;
 }
 
+#logout {
+  color: black;
+  text-decoration: none;
+}
 .uk-dropdown {
   position: absolute;
+  text-align: center;
   z-index: 1020;
   box-sizing: border-box;
   min-width: 100px;
@@ -150,13 +145,11 @@ li {
   padding: 10px 10px;
   background: #f7fcfc;
   color: #666;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
 }
 
 .dropdown {
-  text-align: center;
-  width: 140px;
   margin: 10px auto;
 }
 .uk-modal-body {
@@ -164,7 +157,8 @@ li {
   padding: 30px 30px;
   border-radius: 5px;
 }
-#cancel_button {
-  margin-right: 10px;
+#ok_button {
+  margin-left: 10px;
+  background-color: rgba(105, 85, 75, 0.4);
 }
 </style>

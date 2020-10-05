@@ -26,7 +26,7 @@
               </h2>
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
-                  <div uk-grid>
+                  <div uk-grid id="grid">
                     <div class="uk-width-1-2">
                       <div uk-form-custom id="form_custom">
                         <div class="uk-placeholder uk-text-center">
@@ -55,140 +55,129 @@
                       <p id="error_message">{{ message }}</p>
                     </div>
                     <div class="uk-width-1-2">
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>カテゴリ</label>
-                          <ValidationProvider
-                            mode="lazy"
-                            name="カテゴリ"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <select class="uk-select" v-model="category">
-                              <option
-                                v-for="(ctg, key) in categories"
-                                :key="key"
-                                v-bind:value="ctg.id"
-                              >
-                                {{ ctg.name }}
-                              </option>
-                            </select>
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                      <div class="uk-inline uk-width-1-1">
+                        <label>カテゴリ</label>
+                        <ValidationProvider
+                          mode="lazy"
+                          name="カテゴリ"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <select class="uk-select" v-model="category">
+                            <option
+                              v-for="(ctg, key) in categories"
+                              :key="key"
+                              v-bind:value="ctg.id"
+                            >
+                              {{ ctg.name }}
+                            </option>
+                          </select>
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>タイトル（15文字以下）</label>
-                          <ValidationProvider
-                            mode="lazy"
-                            name="タイトル"
-                            rules="required|max:15"
-                            v-slot="{ errors }"
-                          >
-                            <input
-                              class="uk-input"
-                              type="text"
-                              v-model="title"
-                              required
-                            />
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                      <div class="uk-inline uk-width-1-1">
+                        <label>タイトル（15文字以下）</label>
+                        <ValidationProvider
+                          mode="lazy"
+                          name="タイトル"
+                          rules="required|max:15"
+                          v-slot="{ errors }"
+                        >
+                          <input
+                            class="uk-input"
+                            type="text"
+                            v-model="title"
+                            required
+                          />
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>キャプション</label>
-                          <ValidationProvider
-                            mode="aggressive"
-                            name="キャプション"
-                            rules="required"
-                            v-slot="{ errors }"
-                          >
-                            <textarea
-                              class="uk-textarea"
-                              rows="3"
-                              type="text"
-                              v-model="content"
-                              required
-                            ></textarea>
-                            <p id="error_message">{{ errors[0] }}</p>
-                          </ValidationProvider>
-                        </div>
+                      <div class="uk-inline uk-width-1-1">
+                        <label>キャプション</label>
+                        <ValidationProvider
+                          mode="aggressive"
+                          name="キャプション"
+                          rules="required"
+                          v-slot="{ errors }"
+                        >
+                          <textarea
+                            class="uk-textarea"
+                            rows="3"
+                            type="text"
+                            v-model="content"
+                            required
+                          ></textarea>
+                          <p id="error_message">{{ errors[0] }}</p>
+                        </ValidationProvider>
                       </div>
-                      <div class="uk-margin">
-                        <div class="uk-inline uk-width-1-1">
-                          <label>場所（任意）</label>
-                          <span id="select_way"
-                            >: 指定方法は以下の2つのみです</span
+                      <div class="uk-inline uk-width-1-1">
+                        <label>場所（任意）</label>
+                        <span id="select_way"
+                          >: 指定方法は以下の2つのみです</span
+                        >
+                        <div
+                          uk-switcher="animation: uk-animation-fade; toggle: > *"
+                        >
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            href="#modal-center"
+                            @click="callChildMethod"
+                            type="button"
+                            uk-toggle
                           >
+                            タイトルから検索
+                          </button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >
+                            都道府県のみ
+                          </button>
+                        </div>
+                        <div
+                          id="modal-center"
+                          class="uk-flex-top .uk-width-large"
+                          uk-modal
+                        >
                           <div
-                            uk-switcher="animation: uk-animation-fade; toggle: > *"
+                            class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
                           >
                             <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              href="#modal-center"
-                              @click="callChildMethod"
+                              class="uk-modal-close-default"
                               type="button"
-                              uk-toggle
-                            >
-                              タイトルから検索
-                            </button>
-                            or
-                            <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              type="button"
-                            >
-                              都道府県のみ
-                            </button>
-                          </div>
-                          <div
-                            id="modal-center"
-                            class="uk-flex-top .uk-width-large"
-                            uk-modal
-                          >
-                            <div
-                              class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
-                            >
-                              <button
-                                class="uk-modal-close-default"
-                                type="button"
-                                uk-close
-                              ></button>
-                              <div>
-                                <TitleSearchMap
-                                  ref="map"
-                                  :title="title"
-                                  @callParent="callParent"
-                                />
-                              </div>
+                              uk-close
+                            ></button>
+                            <div>
+                              <TitleSearchMap
+                                ref="map"
+                                :title="title"
+                                @callParent="callParent"
+                              />
                             </div>
                           </div>
-                          <ul id="address_form" class="uk-switcher">
-                            <li>
-                              <input
-                                placeholder="住所または都道府県名が入力されます"
-                                class="uk-input"
-                                type="text"
-                                v-model="address"
-                              />
-                            </li>
-                            <li>
-                              <select class="uk-select" v-model="prefecture">
-                                <option value>
-                                  都道府県を選択してください
-                                </option>
-                                <option v-for="item in prefs" :key="item.name">
-                                  {{ item.name }}
-                                </option>
-                              </select>
-                            </li>
-                          </ul>
                         </div>
+                        <ul id="address_form" class="uk-switcher">
+                          <li>
+                            <input
+                              placeholder="住所または都道府県名が入力されます"
+                              class="uk-input"
+                              type="text"
+                              v-model="address"
+                            />
+                          </li>
+                          <li>
+                            <select class="uk-select" v-model="prefecture">
+                              <option value>都道府県を選択してください</option>
+                              <option v-for="item in prefs" :key="item.name">
+                                {{ item.name }}
+                              </option>
+                            </select>
+                          </li>
+                        </ul>
                       </div>
                     </div>
                   </div>
-                  <!-- <div> -->
                   <button
                     id="send_button"
                     class="uk-button uk-button-large uk-width-1-1"
@@ -368,10 +357,11 @@ export default {
 </script>
 
 <style scoped>
-#back_icon {
-  color: rgba(139, 138, 135, 0.85);
-}
+@import "../assets/common.css";
 
+#grid{
+  margin-bottom: 20px;
+}
 h2#new_post_title {
   position: relative;
   top: -15px;
@@ -445,23 +435,7 @@ h2#new_post_title {
   background-color: rgba(225, 215, 205, 0.247);
   border-radius: 10px;
 }
-#send_button {
-  margin-top: 20px;
-  background-color: rgba(107, 86, 73, 0.404);
-  font-size: 24px;
-  color: rgb(0, 0, 0);
-  border-radius: 10px;
-}
-/* #send_button:hover {
-  background-color: rgba(107, 86, 73, 0.589);
-  font-size: 24px;
-  color: rgb(0, 0, 0);
-} */
-#error_message {
-  margin: 0;
-  color: red;
-  z-index: 100;
-}
+
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);

@@ -109,6 +109,8 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/common.css';
+
 #map {
   width: 100%;
   height: 600px;
@@ -116,8 +118,5 @@ export default {
 
 #OK_button {
   margin-left: 5px;
-}
-#error_message {
-  color: red;
 }
 </style>

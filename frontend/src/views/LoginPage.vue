@@ -52,7 +52,7 @@
                 </div>
                 <div class="uk-text-small uk-text-center" id="create_account">
                   登録していない方
-                  <router-link class="router-link" to="/signup">アカウント作成</router-link>
+                  <router-link id="to_signup" class="router-link" to="/signup">アカウント作成</router-link>
                 </div>
               </div>
             </div>
@@ -153,13 +153,13 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/common.css';
+
+#to_signup:hover{
+  border-bottom:1px solid black
+}
 #create_account {
   margin-top: 20px;
-}
-#send_button {
-  background-color: rgba(107, 86, 73, 0.404);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
 }
 
 #login_card {
