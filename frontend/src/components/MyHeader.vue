@@ -2,14 +2,9 @@
   <div uk-sticky>
     <header class="title-header">
       <router-link class="router-link" to="/">
-        <div class="title">
-          <img
-            class="doboku_icon"
-            src="../assets/doboku.png"
-            width="40"
-            height="40"
-          />
-          <span>DOBOKU_Post</span>
+        <div class="title_content">
+          <img class="doboku_icon" src="../assets/doboku.png" />
+          <span id="title">DOBOKU_Post</span>
         </div>
       </router-link>
       <nav>
@@ -39,16 +34,19 @@ export default {
   height: 60px;
 }
 .doboku_icon {
+  width: 40px;
+  height: 40px;
   position: relative;
   top: -10px;
   margin-right: 8px;
 }
 
-.title {
+.title_content {
   text-decoration: none;
   color: black;
+  display: flex;
 }
-.title span {
+#title {
   font-size: 40px;
   font-family: "Economica";
   position: relative;
@@ -58,5 +56,29 @@ export default {
 nav {
   margin: 0 0 0 auto;
   padding-top: 22px;
+}
+
+@media (max-width: 640px) {
+  .title-header {
+  padding: 5px 5%;
+  background-color: rgba(139, 138, 135, 1);
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+  #title {
+    font-size: 20px;
+    font-family: "Economica";
+    position: relative;
+    top: 2px;
+  }
+  .doboku_icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
+    top: 7px;
+    margin-right: 4px;
+  }
 }
 </style>
