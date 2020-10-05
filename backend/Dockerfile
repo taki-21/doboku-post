@@ -16,9 +16,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip3 install --upgrade pip setuptools wheel
 # Poetryをインストール
 RUN pip3 install poetry
-# RUN curl -sSL https://raw.githubusercontent.com/sdispater/poetry/master/get-poetry.py | python
 # RUN source $HOME/.poetry/env
-# RUN pip install uWSGI
 
 # コンテナ内で仮想環境の作成を無効
 RUN poetry config virtualenvs.create false

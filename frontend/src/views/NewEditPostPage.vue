@@ -78,7 +78,7 @@
                       <div class="uk-inline uk-width-1-1">
                         <label>タイトル（15文字以下）</label>
                         <ValidationProvider
-                          mode="lazy"
+                          mode="aggressive"
                           name="タイトル"
                           rules="required|max:15"
                           v-slot="{ errors }"
@@ -120,7 +120,7 @@
                         >
                           <button
                             class="uk-button uk-button-secondary uk-button-small"
-                            href="#modal-center"
+                            :href="'#modal-center' + title"
                             @click="callChildMethod"
                             type="button"
                             uk-toggle
@@ -136,7 +136,7 @@
                           </button>
                         </div>
                         <div
-                          id="modal-center"
+                          :id="'modal-center' + title"
                           class="uk-flex-top .uk-width-large"
                           uk-modal
                         >

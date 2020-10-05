@@ -1,26 +1,38 @@
 <template>
   <div>
     <div v-if="title">
-      <input class="uk-input uk-form-width-medium" type="text" v-model="title" @change="mapSearch" />
-      <div class="uk-margin" uk-margin>
-        <div v-if="results[0]">
-          <input
-            class="uk-input uk-form-width-large"
-            type="text"
-            v-model="results[0].formatted_address"
-          />
-          <button
-            id="ok_button"
-            class="uk-button uk-button-default uk-modal-close"
-            @click="call_parent"
-          >OK</button>
+    <div v-show="loading" class="loader">
+      <span uk-spinner></span>
+    </div>
+      <div v-show="!loading">
+        <input
+          class="uk-input uk-form-width-medium"
+          type="text"
+          v-model="title"
+          @change="mapSearch"
+        />
+        <div class="uk-margin" uk-margin>
+          <div v-if="results[0]">
+            <input
+              class="uk-input uk-form-width-large"
+              type="text"
+              v-model="results[0].formatted_address"
+            />
+            <button
+              id="ok_button"
+              class="uk-button uk-button-default uk-modal-close"
+              @click="call_parent"
+            >
+              OK
+            </button>
+          </div>
         </div>
       </div>
     </div>
     <div v-else>
       <span id="error_message">タイトルを入力してください</span>
     </div>
-      <div v-show="title" id="map" ref="googleMap"></div>
+    <div v-show="title && !loading" id="map" ref="googleMap"></div>
   </div>
 </template>
 
@@ -39,6 +51,7 @@ export default {
     return {
       marker: null,
       results: {},
+      loading: true,
     };
   },
   computed: {
@@ -90,8 +103,8 @@ export default {
               map: this.map,
               position: results[0].geometry.location,
             });
+            this.loading = false;
           }
-          console.log(results[0]);
         }
       );
     },
@@ -109,10 +122,15 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/common.css';
+@import "../assets/common.css";
 
 #map {
   width: 100%;
   height: 600px;
+}
+.loader {
+    text-align: center;
+    position: relative;
+    top: 0px;
 }
 </style>
