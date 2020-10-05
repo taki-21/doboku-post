@@ -197,6 +197,6 @@ workflows:
       - front_deploy:
           # requires:
           #   - front_build
-          filters:
-            branches:
-              only: master
+          # filters:
+          #   branches:
+          #     only: master
