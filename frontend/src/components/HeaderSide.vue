@@ -198,7 +198,7 @@ li {
   }
   .router-link{
     /* font-size: 10px; */
-    padding-left:5px;
+    padding-left:2px;
   }
 }
 </style>

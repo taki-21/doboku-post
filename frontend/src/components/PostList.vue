@@ -308,6 +308,10 @@ export default {
 #post_title{
   font-size: 12px;
 }
+#edit-word,
+#delete-word{
+  font-size: 10px;
+}
 
 }
 </style>

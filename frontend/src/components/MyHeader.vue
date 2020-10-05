@@ -64,21 +64,21 @@ nav {
   background-color: rgba(139, 138, 135, 1);
   display: flex;
   align-items: center;
-  height: 30px;
+  height: 40px;
 }
 
   #title {
-    font-size: 20px;
+    font-size: 30px;
     font-family: "Economica";
     position: relative;
     top: 2px;
   }
   .doboku_icon {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     position: relative;
-    top: 7px;
-    margin-right: 4px;
+    top: 8px;
+    margin-right: 6px;
   }
 }
 </style>

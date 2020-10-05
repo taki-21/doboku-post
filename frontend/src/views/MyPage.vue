@@ -236,4 +236,16 @@ export default {
   top: -20px;
   /* bottom: -50px; */
 }
+@media (max-width: 640px) {
+  #nav {
+    font-size: 12px;
+    margin-bottom: 10px;
+  }
+    .uk-tab > * {
+    float: left;
+    padding: 0px 10px;
+    position: relative;
+  }
+
+}
 </style>

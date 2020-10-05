@@ -4,7 +4,6 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-
     <div class="content">
       <ul class="uk-flex-center" id="nav" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
@@ -65,22 +64,20 @@ export default {
   font-size: 20px;
 }
 @media (max-width: 640px) {
-  #nav{
+  #nav {
     font-size: 12px;
-    margin-bottom:10px;
+    margin-bottom: 10px;
   }
   .uk-tab > * {
-  float: left;
-  padding: 0px 10px;
-  position: relative;
-}
-.content {
-  margin: 25px auto;
-  max-width: 1200px;
-  padding: 0px 15px;
-  font-size: 20px;
-}
-
-
+    float: left;
+    padding: 0px 10px;
+    position: relative;
+  }
+  .content {
+    margin: 25px auto;
+    max-width: 1200px;
+    padding: 0px 15px;
+    font-size: 20px;
+  }
 }
 </style>

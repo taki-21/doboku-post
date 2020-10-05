@@ -45,8 +45,12 @@
                           </div>
                           <div class="camera-choice">
                             <div
-                              class="camera-icon"
+                              class="camera-icon uk-hidden-touch"
                               uk-icon="icon: camera; ratio: 5"
+                            ></div>
+                            <div
+                              class="camera-icon uk-hidden-notouch"
+                              uk-icon="icon: camera; ratio: 3"
                             ></div>
                             <p>画像を選択してください</p>
                           </div>
@@ -113,7 +117,7 @@
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
                         <span id="select_way"
-                          >: 指定方法は以下の2つのみです</span
+                          >: 指定方法は以下の2つです</span
                         >
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
@@ -444,6 +448,12 @@ h2#new_post_title {
   color: rgb(145, 91, 56);
 }
 @media (max-width: 640px) {
+  h2#new_post_title {
+  position: relative;
+  top: -15px;
+  font-size: 20px;
+}
+
   #preview_image {
     width: 300px;
     height: 194px;
