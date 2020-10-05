@@ -189,15 +189,15 @@
                     </div>
                   </div>
                   <!-- <div> -->
-                    <button
-                      id="send_button"
-                      class="uk-button uk-button-large uk-width-1-1"
-                      type="submit"
-                      :disabled="invalid"
-                    >
-                      <span v-if="post_id">変更を保存</span>
-                      <span v-else>投稿</span>
-                    </button>
+                  <button
+                    id="send_button"
+                    class="uk-button uk-button-large uk-width-1-1"
+                    type="submit"
+                    :disabled="invalid"
+                  >
+                    <span v-if="post_id">変更を保存</span>
+                    <span v-else>投稿</span>
+                  </button>
                   <!-- </div> -->
                 </form>
               </ValidationObserver>
@@ -346,6 +346,7 @@ export default {
     },
   },
   created() {
+    sessionStorage.clear();
     if (this.post_id) {
       console.log("投稿編集");
       api.get("/posts/" + this.post_id + "/").then((response) => {

@@ -127,6 +127,7 @@ export default {
 
   methods: {
     DestroyPost(post_id) {
+      sessionStorage.clear();
       this.$emit("parentPostDelete", post_id);
     },
     infiniteHandler($state) {
@@ -164,6 +165,8 @@ export default {
 
 
 <style scoped>
+@import '../assets/common.css';
+
 .router-link {
   text-decoration: none;
 }
@@ -279,10 +282,5 @@ export default {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
-}
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
 }
 </style>

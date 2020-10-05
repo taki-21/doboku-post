@@ -9,6 +9,9 @@
       :postURL="postURL"
       :sessionKey="sessionKey"
     />
+    <div v-if="previousPosts == ''" v-show="!loading">
+      <p id="none_message">まだ投稿がありません</p>
+    </div>
   </div>
 </template>
 
@@ -33,7 +36,7 @@ export default {
   },
   computed: {
     postURL() {
-      var params = "?author=" + this.auth_id
+      var params = "?author=" + this.auth_id;
       return "/posts/" + params;
     },
   },
@@ -94,15 +97,6 @@ export default {
 };
 </script>
 
-<style scoped>
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
-
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+<style>
+@import "../assets/common.css";
 </style>

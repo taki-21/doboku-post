@@ -313,11 +313,8 @@ export default {
 </script>
 
 <style scoped>
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+@import "../assets/common.css";
+
 html {
   overflow: overlay;
 }
@@ -474,10 +471,6 @@ ul.uk-comment-list {
   /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
-}
-#none_message {
-  text-align: center;
-  margin-top: 20px;
 }
 #delete-icon {
   text-align: right;
