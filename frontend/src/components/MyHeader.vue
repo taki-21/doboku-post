@@ -37,7 +37,7 @@ export default {
   width: 40px;
   height: 40px;
   position: relative;
-  top: -10px;
+  top: 12px;
   margin-right: 8px;
 }
 

@@ -19,7 +19,7 @@
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <div uk-grid>
-                <div class="uk-width-3-5">
+                <div class="uk-width-3-5@s">
                   <div>
                     <router-link
                       class="show_user"
@@ -112,7 +112,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uk-width-2-5">
+                <div class="uk-width-2-5@s">
                   <!-- <div> -->
                   <div>
                     <div>
@@ -506,4 +506,12 @@ ul.uk-comment-list {
   padding: 30px 30px;
   border-radius: 5px;
 }
+@media (max-width: 640px) {
+  .uk-modal-body {
+  display: flow-root;
+  padding: 5px 5px;
+  border-radius: 5px;
+}
+}
+
 </style>

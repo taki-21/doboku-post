@@ -40,16 +40,15 @@ export default {
     markerData() {
       if (this.user_id) {
         return this.userPostList;
-      }
-      else {
-      if (this.post) {
-        // 後でmapで繰り返し処理をするため、配列の形にする。
-        return [this.post];
       } else {
-        return this.postList;
+        if (this.post) {
+          // 後でmapで繰り返し処理をするため、配列の形にする。
+          return [this.post];
+        } else {
+          return this.postList;
+        }
       }
-    }
-  },
+    },
   },
   async mounted() {
     await api.get("/posts/map/").then((response) => {
@@ -131,12 +130,12 @@ export default {
       console.log("item_id: " + item_id);
       this.$router.push({ name: "detail", params: { post_id: item_id } });
     },
-  }
-}
+  },
+};
 </script>
 
 <style scoped>
-@import '../assets/common.css';
+@import "../assets/common.css";
 
 #map {
   width: 100%;
@@ -154,5 +153,12 @@ export default {
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
+}
+@media (max-width: 640px) {
+  #map {
+    width: 100%;
+    height: 300px;
+  }
+
 }
 </style>

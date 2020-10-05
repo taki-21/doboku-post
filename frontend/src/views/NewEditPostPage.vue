@@ -27,7 +27,7 @@
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
                   <div uk-grid id="grid">
-                    <div class="uk-width-1-2">
+                    <div class="uk-width-1-2@s">
                       <div uk-form-custom id="form_custom">
                         <div class="uk-placeholder uk-text-center">
                           <input type="file" @change="selectedFile" />
@@ -54,7 +54,7 @@
                       </div>
                       <p id="error_message">{{ message }}</p>
                     </div>
-                    <div class="uk-width-1-2">
+                    <div class="uk-width-1-2@s">
                       <div class="uk-inline uk-width-1-1">
                         <label>カテゴリ</label>
                         <ValidationProvider
@@ -442,5 +442,16 @@ h2#new_post_title {
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
+}
+@media (max-width: 640px) {
+  #preview_image {
+    width: 300px;
+    height: 194px;
+  }
+  #form_custom {
+    width: 300px;
+    height: 200px;
+    background-color: #fff;
+  }
 }
 </style>

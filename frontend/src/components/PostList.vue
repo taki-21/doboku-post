@@ -303,7 +303,7 @@ export default {
     font-size: 12px;
   }
   .uk-card-body {
-  padding: 10px 10px 5px 10px;
+  padding: 5px 5px 3px 5px;
 }
 #post_title{
   font-size: 12px;
