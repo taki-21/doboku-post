@@ -12,9 +12,9 @@
         </div>
         <div class="uk-width-3-4">
           <div class="uk-card-body">
-            <div id="username">
+            <div id="username_content">
               <h1 class="uk-heading-medium">
-                <strong class="uk-margin-remove">{{ Person.username }}</strong>
+                <strong class="uk-margin-remove" id="username">{{ Person.username }}</strong>
               </h1>
               <div v-if="user_id == login_user_id">
                 <router-link class="router-link" to="/profile_edit">
@@ -172,7 +172,7 @@ export default {
 </script>
 
 <style scoped>
-#username {
+#username_content {
   display: flex;
 }
 
@@ -245,6 +245,9 @@ export default {
     float: left;
     padding: 0px 10px;
     position: relative;
+  }
+  #username{
+    font-size: 20px;
   }
 
 }
