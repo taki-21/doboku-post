@@ -74,12 +74,13 @@ import PostList from "@/components/PostList";
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 import { watchScrollPosition } from "@/mixins/utility";
+import { clearSession } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [watchScrollPosition],
+  mixins: [watchScrollPosition, clearSession],
 
   data() {
     return {
@@ -123,7 +124,7 @@ export default {
       }
       this.loading = false;
     } else {
-      sessionStorage.clear();
+      this.clearSession()
       this.getPosts();
     }
   },

@@ -97,13 +97,13 @@ import { mapGetters } from "vuex";
 import api from "@/services/api";
 import prefs from "../mixins/PrefsMixin";
 import periods from "../mixins/PeriodsMixin";
-import { watchScrollPosition } from "@/mixins/utility";
+import { watchScrollPosition, clearSession } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [prefs, periods, watchScrollPosition],
+  mixins: [prefs, periods, watchScrollPosition, clearSession],
   data() {
     return {
       filterPosts: [],
@@ -168,7 +168,7 @@ export default {
       }
       this.loading = false;
     } else {
-      sessionStorage.clear();
+      this.clearSession();
       this.getPosts();
     }
   },
@@ -276,7 +276,7 @@ export default {
 </script>
 
 <style scoped>
-@import '../assets/common.css';
+@import "../assets/common.css";
 
 #search_card {
   margin-bottom: 20px;

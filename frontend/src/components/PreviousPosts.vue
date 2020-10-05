@@ -18,12 +18,14 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
+import { clearSession } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
+  mixins: [clearSession],
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],
@@ -77,7 +79,7 @@ export default {
       }
       this.loading = false;
     } else {
-      sessionStorage.clear();
+      this.clearSession();
       this.getPosts();
     }
   },
