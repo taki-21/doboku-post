@@ -9,9 +9,13 @@
       <ul class="uk-flex-center" id="nav" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
         <router-link class="router-link" to="/popular">人気投稿</router-link>
-        <router-link id="category" class="router-link" to="/category">カテゴリ</router-link>
+        <router-link id="category" class="router-link" to="/category"
+          >カテゴリ</router-link
+        >
         <router-link id="map" class="router-link" to="/map">マップ</router-link>
-        <router-link id="search" class="router-link" to="/search">検索</router-link>
+        <router-link id="search" class="router-link" to="/search"
+          >検索</router-link
+        >
       </ul>
       <div>
         <transition appear>
@@ -32,8 +36,8 @@ export default {
     MyHeader,
   },
   mounted() {
-    this.$store.dispatch('category/getAllCategories')
-  }
+    this.$store.dispatch("category/getAllCategories");
+  },
 };
 </script>
 
@@ -59,5 +63,24 @@ export default {
   max-width: 1200px;
   padding: 0px 30px;
   font-size: 20px;
+}
+@media (max-width: 640px) {
+  #nav{
+    font-size: 12px;
+    margin-bottom:10px;
+  }
+  .uk-tab > * {
+  float: left;
+  padding: 0px 10px;
+  position: relative;
+}
+.content {
+  margin: 25px auto;
+  max-width: 1200px;
+  padding: 0px 15px;
+  font-size: 20px;
+}
+
+
 }
 </style>

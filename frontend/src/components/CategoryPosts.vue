@@ -9,7 +9,7 @@
       <div class="uk-position-relative" id="category_card_contnet">
         <ul
           id="category_choice"
-          class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
+          class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
           uk-grid
         >
           <li v-for="category in categories" :key="category.id">
@@ -124,7 +124,7 @@ export default {
       }
       this.loading = false;
     } else {
-      this.clearSession()
+      this.clearSession();
       this.getPosts();
     }
   },
@@ -236,8 +236,29 @@ input[type="radio"] {
   padding: 0 20px;
   border-radius: 30px;
   background-color: rgb(255, 255, 255);
-  border: 1px solid black;
+  border: 0.5px solid black;
   font-size: 20px;
   color: black;
+}
+@media (max-width: 640px) {
+  #category_card {
+  margin-bottom: 10px;
+  padding: 2px 5px 3px 5px;
+  outline: none;
+  /* border-radius:5px; */
+  border: 1px solid rgb(0, 0, 0);
+  background-color: rgb(236, 231, 225);
+}
+
+  #category_name {
+    font-size: 10px;
+  }
+  #category_label {
+    height: 22px;
+    line-height: 16px;
+  }
+  #category_card_contnet {
+    padding: 0px 40px;
+  }
 }
 </style>

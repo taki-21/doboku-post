@@ -5,7 +5,7 @@
     </div>
     <div v-show="!loading">
       <div
-        class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1 uk-text-center"
+        class="uk-grid-column-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-2@m uk-child-width-1-3@l uk-text-center"
         uk-grid
       >
         <router-link
@@ -28,23 +28,26 @@
                       params: { user_id: post.author.id },
                     }"
                   >
-                    <div>
+                    <!-- <div> -->
                       <img
                         class="user_icon"
                         v-bind:src="post.author.icon_image"
                       />
                       <span id="author_name">{{ post.author.username }}</span>
-                    </div>
+                    <!-- </div> -->
                   </router-link>
-                  <div class="timestamp">
+                  <div class="timestamp uk-hidden-touch">
                     <span>{{ post.published_at | moment }}</span>
+                  </div>
+                  <div class="timestamp uk-hidden-notouch">
+                    <span>{{ post.published_at | moment_iPhone }}</span>
                   </div>
                   <div class="prefecture">
                     <span>{{ post.prefecture }}</span>
                   </div>
                 </div>
               </div>
-              <strong>{{ post.title }}</strong>
+              <span id="post_title">{{ post.title }}</span>
               <div class="comment_like_icon">
                 <i id="icon" uk-icon="comment"></i>
                 <span id="comment-count">{{ post.comments_count }}</span>
@@ -157,7 +160,10 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format("YYYY/MM/DD HH:MM");
+      return moment(date).format("MM/DD HH:MM");
+    },
+    moment_iPhone: function (date) {
+      return moment(date).format("MM/DD");
     },
   },
 };
@@ -190,7 +196,7 @@ export default {
 }
 .show_user {
   text-decoration: none;
-  line-height: 45px;
+  /* line-height: 30px; */
   float: left;
   font-size: large;
   color: #333333;
@@ -227,12 +233,12 @@ export default {
 .edit-link,
 .delete-link {
   text-decoration: none;
-  color: rgb(51, 51, 51);
+  color: rgb(50, 50, 50);
 }
 .edit-link:hover,
 .delete-link:hover {
   text-decoration: none;
-  color: rgba(51, 51, 51, 0.5);
+  color: rgba(50, 50, 50, 0.5);
 }
 
 #edit-delete {
@@ -272,5 +278,42 @@ export default {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
+}
+/*レスポンシブ*/
+@media (max-width: 640px) {
+  /* .timestamp, */
+  .prefecture,
+  .comment_like_icon {
+    display: none;
+  }
+  .timestamp{
+    font-size: 5px;
+  }
+  .user_icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .show_user {
+    text-decoration: none;
+    line-height: 20px;
+    float: left;
+    /* font-size: large; */
+    color: #333333;
+  }
+
+  #author_name {
+    position: relative;
+    top: 0px;
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  .uk-card-body {
+  padding: 10px 10px 5px 10px;
+}
+#post_title{
+  font-size: 12px;
+}
+
 }
 </style>
