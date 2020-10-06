@@ -24,11 +24,12 @@ export default {
       infoWindow: [],
       mapConfig: {
         center: {
-          lat: 36.8,
-          lng: 139.69167,
+          lat: 37.8,
+          lng: 138.691,
         },
         zoom: 5,
         streetViewControl: false,
+        disableDefaultUI: true,
         mapTypeId: "roadmap",
       },
       postList: [],
@@ -136,10 +137,14 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
+div {
+  border-radius: 5px;
+}
 
 #map {
   width: 100%;
   height: 700px;
+  border: 2px solid rgba(0, 0, 0, 0.473);
 }
 
 .gm-style .gm-style-iw-c {
@@ -157,8 +162,7 @@ export default {
 @media (max-width: 640px) {
   #map {
     width: 100%;
-    height: 300px;
+    height: 500px;
   }
-
 }
 </style>

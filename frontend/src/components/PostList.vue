@@ -5,7 +5,7 @@
     </div>
     <div v-show="!loading">
       <div
-        class="uk-grid-column-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-2@m uk-child-width-1-3@l uk-text-center"
+        class="uk-grid-column-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
         uk-grid
       >
         <router-link
