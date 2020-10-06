@@ -25,7 +25,7 @@ export default {
       mapConfig: {
         center: {
           lat: 37.8,
-          lng: 138.691,
+          lng: 138.2,
         },
         zoom: 5,
         streetViewControl: false,

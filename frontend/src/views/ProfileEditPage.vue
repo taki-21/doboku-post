@@ -242,5 +242,25 @@ export default {
   padding-top: 30px;
   /* padding-bottom: 70px; */
 }
+@media (max-width: 640px) {
+#preview_image {
+  width: 100%;
+  height: 279px;
+}
+.uk-placeholder[data-v-2516ac38] {
+    width: 100%;
+    margin-bottom: 0px;
+    height: 285px;
+    padding: 0px 0px;
+    background: 0 0;
+    position: relative;
+    border: 3px solid #ccc;
+    box-sizing: border-box;
+}
+#form_custom {
+  width: 100%;
+  height: 279px;
+}
+}
 
 </style>

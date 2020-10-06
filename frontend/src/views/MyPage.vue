@@ -3,35 +3,47 @@
     <!-- ヘッダー -->
     <MyHeader />
     <div class="content_profilecard">
-      <div id="profile_card" class="uk-card uk-card-default uk-grid-collapse uk-margin" uk-grid>
-        <div class="uk-width-1-4">
+      <div
+        id="profile_card"
+        class="uk-card uk-card-default uk-grid-collapse uk-margin"
+        uk-grid
+      >
+        <div class="uk-width-1-5">
           <div class="uk-card-media-left uk-cover-container">
             <img class="mypage_user_icon" :src="Person.icon_image" uk-cover />
-            <canvas width="500" height="500"></canvas>
+            <canvas width="300" height="300"></canvas>
           </div>
         </div>
-        <div class="uk-width-3-4">
-          <div class="uk-card-body">
-            <div id="username_content">
-              <h1 class="uk-heading-medium">
-                <strong class="uk-margin-remove" id="username">{{ Person.username }}</strong>
-              </h1>
-              <div v-if="user_id == login_user_id">
-                <router-link class="router-link" to="/profile_edit">
-                  <div
-                    class="uk-button uk-button-small uk-button-default"
-                    id="profile_edit_button"
-                  >編集</div>
-                </router-link>
-              </div>
-              <div v-if="previousPosts[0]">
-                <div id="piechart">
-                  <PieChart v-if="loaded" :data="pieChartData" :options="options"></PieChart>
+        <div class="uk-width-3-5">
+          <!-- <div class="uk-card-body"> -->
+          <div id="username_content">
+            <!-- <h1 class="uk-heading-medium"> -->
+            <div id="username">{{ Person.username }}</div>
+            <!-- </h1> -->
+            <div v-if="user_id == login_user_id">
+          </div>
+              <router-link class="router-link" to="/profile_edit">
+                <div
+                  class="uk-button uk-button-small uk-button-default"
+                  id="profile_edit_button"
+                >
+                  編集
                 </div>
-              </div>
+              </router-link>
             </div>
-            <div class="profile_content">
-              <p>{{ Person.introduction }}</p>
+          <div class="profile_content">
+            <p>{{ Person.introduction }}</p>
+          </div>
+          <!-- </div> -->
+        </div>
+        <div class="uk-width-1-5">
+          <div v-if="previousPosts[0]" class="uk-hidden-touch">
+            <div id="piechart">
+              <PieChart
+                v-if="loaded"
+                :data="pieChartData"
+                :options="options"
+              ></PieChart>
             </div>
           </div>
         </div>
@@ -41,10 +53,19 @@
         <ul class="uk-flex-center" id="nav" uk-tab>
           <router-link
             class="router-link"
-            :to="{name: 'mypage', params: {user_id: user_id}}"
-          >これまでの投稿</router-link>
-          <router-link class="router-link" :to="{name: 'liked', params: {user_id: user_id}}">いいねした投稿</router-link>
-          <router-link class="router-link" :to="{name: 'mymap', params: {user_id: user_id}}">マイマップ</router-link>
+            :to="{ name: 'mypage', params: { user_id: user_id } }"
+            >これまでの投稿</router-link
+          >
+          <router-link
+            class="router-link"
+            :to="{ name: 'liked', params: { user_id: user_id } }"
+            >いいねした投稿</router-link
+          >
+          <router-link
+            class="router-link"
+            :to="{ name: 'mymap', params: { user_id: user_id } }"
+            >マイマップ</router-link
+          >
         </ul>
         <div>
           <transition appear>
@@ -174,8 +195,12 @@ export default {
 <style scoped>
 #username_content {
   display: flex;
+  padding:30px;
 }
-
+#username{
+  font-size: 40px;
+  font-weight: bold;
+}
 .router-link-exact-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
 }
@@ -222,7 +247,7 @@ export default {
 
 #profile_edit_button {
   position: relative;
-  top: 30px;
+  top: 15px;
   margin-left: 20px;
   /* bottom: 0px; */
   /* right: 50px; */
@@ -232,8 +257,8 @@ export default {
   position: absolute;
   width: 350px;
   height: 350px;
-  right: 25px;
-  top: -20px;
+  right: 20px;
+  top: -53px;
   /* bottom: -50px; */
 }
 @media (max-width: 640px) {
@@ -241,14 +266,44 @@ export default {
     font-size: 12px;
     margin-bottom: 10px;
   }
-    .uk-tab > * {
+  .uk-tab > * {
     float: left;
     padding: 0px 10px;
     position: relative;
   }
-  #username{
-    font-size: 20px;
-  }
+  #username_content {
+  display: flex;
+  padding:4px 10px;
+}
+#username{
+  font-size: 22px;
+  font-weight: bold;
+}
 
+  #profile_edit_button {
+    font-size: 10px;
+    position: relative;
+    top: 3px;
+    margin-left: 10px;
+  }
+  .uk-button-small {
+    padding: 0 4px;
+    line-height: 15px;
+    font-size: .875rem;
+}
+}
+@media (max-width: 1200px) {
+  #piechart {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    right: 20px;
+    top: -50px;
+  }
+}
+@media (max-width: 1000px) {
+  #piechart {
+    display: none;
+  }
 }
 </style>
