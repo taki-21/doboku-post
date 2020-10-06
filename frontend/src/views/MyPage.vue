@@ -20,19 +20,19 @@
             <!-- <h1 class="uk-heading-medium"> -->
             <div id="username">{{ Person.username }}</div>
             <!-- </h1> -->
-            <div v-if="user_id == login_user_id">
+            <div v-if="user_id == login_user_id"></div>
+            <router-link class="router-link" to="/profile_edit">
+              <div
+                class="uk-button uk-button-small uk-button-default"
+                id="profile_edit_button"
+              >
+                編集
+              </div>
+            </router-link>
           </div>
-              <router-link class="router-link" to="/profile_edit">
-                <div
-                  class="uk-button uk-button-small uk-button-default"
-                  id="profile_edit_button"
-                >
-                  編集
-                </div>
-              </router-link>
-            </div>
-          <div class="profile_content">
-            <p>{{ Person.introduction }}</p>
+          <div id="profile_content">
+            <div v-if="Person.introduction === null"></div>
+            <div v-else>{{ Person.introduction }}</div>
           </div>
           <!-- </div> -->
         </div>
@@ -195,9 +195,9 @@ export default {
 <style scoped>
 #username_content {
   display: flex;
-  padding:30px;
+  padding: 30px 30px 5px 30px;
 }
-#username{
+#username {
   font-size: 40px;
   font-weight: bold;
 }
@@ -252,6 +252,11 @@ export default {
   /* bottom: 0px; */
   /* right: 50px; */
 }
+#profile_content {
+    max-width: 300px;
+    padding: 0px 0px 0px 30px;
+    white-space: pre-wrap;
+}
 
 #piechart {
   position: absolute;
@@ -272,13 +277,13 @@ export default {
     position: relative;
   }
   #username_content {
-  display: flex;
-  padding:4px 10px;
-}
-#username{
-  font-size: 22px;
-  font-weight: bold;
-}
+    display: flex;
+    padding: 5px 10px 1px 10px;
+  }
+  #username {
+    font-size: 22px;
+    font-weight: bold;
+  }
 
   #profile_edit_button {
     font-size: 10px;
@@ -289,8 +294,15 @@ export default {
   .uk-button-small {
     padding: 0 4px;
     line-height: 15px;
-    font-size: .875rem;
+    font-size: 0.875rem;
+  }
+  #profile_content {
+    font-size:10px;
+    max-width: 300px;
+    padding: 0px 0px 0px 10px;
+    white-space: pre-wrap;
 }
+
 }
 @media (max-width: 1200px) {
   #piechart {

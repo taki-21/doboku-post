@@ -65,7 +65,7 @@ export default {
 }
 @media (max-width: 640px) {
   #nav {
-    font-size: 15px;
+    font-size: 14px;
     margin-bottom: 10px;
   }
   .uk-tab > * {
