@@ -166,7 +166,7 @@ li {
 }
 @media (max-width: 640px) {
   .show_user {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     color: #333333;
     text-decoration: none;

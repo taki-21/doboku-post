@@ -251,7 +251,7 @@ input[type="radio"] {
 }
 
   #category_name {
-    font-size: 10px;
+    font-size: 13px;
   }
   #category_label {
     height: 22px;

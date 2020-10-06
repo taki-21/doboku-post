@@ -496,6 +496,7 @@ ul.uk-comment-list {
   /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
+  /* box-sizing : border-box; */
 }
 #delete-icon {
   text-align: right;
@@ -503,14 +504,14 @@ ul.uk-comment-list {
 
 .uk-modal-body {
   display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
+  padding: 0px 0px;
+  border-radius: 10px;
 }
 @media (max-width: 640px) {
   .uk-modal-body {
   display: flow-root;
-  padding: 5px 5px;
-  border-radius: 5px;
+  padding: 0px 0px;
+  border-radius: 10px;
 }
 }
 

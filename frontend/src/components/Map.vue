@@ -137,14 +137,11 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-div {
-  border-radius: 5px;
-}
-
 #map {
   width: 100%;
   height: 700px;
-  border: 2px solid rgba(0, 0, 0, 0.473);
+  border-radius: 10px;
+  border: 2px solid rgb(0, 0, 0);
 }
 
 .gm-style .gm-style-iw-c {

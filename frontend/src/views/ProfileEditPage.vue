@@ -7,7 +7,10 @@
         <div class="uk-container">
           <div class="uk-margin uk-width-large uk-margin-auto">
             <a @click="$router.back()" title="前ページへ戻る">
-              <i id="back_icon" uk-icon="icon: chevron-double-left; ratio: 2"></i>
+              <i
+                id="back_icon"
+                uk-icon="icon: chevron-double-left; ratio: 2"
+              ></i>
             </a>
             <div
               id="profile_edit_card"
@@ -24,7 +27,7 @@
                           <img id="preview_image" :src="previewImage" />
                         </div>
                         <div v-else>
-                          <img id="preview_image" :src="beforeIconImage " />
+                          <img id="preview_image" :src="beforeIconImage" />
                         </div>
                       </div>
                     </div>
@@ -37,7 +40,11 @@
                         rules="required|max:10"
                         v-slot="{ errors }"
                       >
-                        <span id="form_icon" class="uk-form-icon" uk-icon="icon: user"></span>
+                        <span
+                          id="form_icon"
+                          class="uk-form-icon"
+                          uk-icon="icon: user"
+                        ></span>
                         <input
                           class="uk-input"
                           type="text"
@@ -57,7 +64,11 @@
                         rules="required|email"
                         v-slot="{ errors }"
                       >
-                        <span id="form_icon" class="uk-form-icon" uk-icon="icon: mail"></span>
+                        <span
+                          id="form_icon"
+                          class="uk-form-icon"
+                          uk-icon="icon: mail"
+                        ></span>
                         <input
                           class="uk-input"
                           type="email"
@@ -71,7 +82,10 @@
                   </div>
                   <div class="uk-margin">
                     <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: file-edit"></span>
+                      <span
+                        class="uk-form-icon"
+                        uk-icon="icon: file-edit"
+                      ></span>
                       <textarea
                         class="uk-textarea textarea-input"
                         rows="8"
@@ -87,7 +101,9 @@
                       class="uk-button uk-button-primary uk-button-large uk-width-1-1"
                       :disabled="invalid"
                       type="submit"
-                    >変更を保存する</button>
+                    >
+                      変更を保存する
+                    </button>
                   </div>
                 </form>
               </ValidationObserver>
@@ -179,10 +195,11 @@ export default {
 };
 </script>
 <style scoped>
-@import '../assets/common.css';
+@import "../assets/common.css";
 
-.uk-input, .uk-textarea{
-  border-color:rgba(150, 150, 150, 0.5);
+.uk-input,
+.uk-textarea {
+  border-color: rgba(150, 150, 150, 0.5);
 }
 
 /* #profile_edit_card {
@@ -195,13 +212,14 @@ export default {
 
 #form_custom {
   width: 100%;
-  height: 370px;
+  height: auto;
 }
 
 .uk-placeholder {
+  position: relative;
   width: 100%;
   margin-bottom: 0px;
-  height: 100%;
+  height: auto;
   padding: 0px 0px;
   background: 0 0;
   position: relative;
@@ -220,18 +238,20 @@ export default {
 }
 
 #preview {
-  position: absolute;
+  position: relative;
+  /* position: absolute; */
   /* 現在:, 変更:, クリア表示を隠す  */
   top: 0px;
   z-index: 100;
   pointer-events: none;
   width: 100%;
-  height: 100%;
+  height: auto;
 }
 
 #preview_image {
+  position: relative;
   width: 100%;
-  height: 364px;
+  height: auto;
 }
 
 .textarea-input {
@@ -243,24 +263,22 @@ export default {
   /* padding-bottom: 70px; */
 }
 @media (max-width: 640px) {
-#preview_image {
-  width: 100%;
-  height: 279px;
-}
-.uk-placeholder[data-v-2516ac38] {
+  #preview_image {
+    position: relative;
+
+    width: 100%;
+    height: auto;
+  }
+  .uk-placeholder[data-v-2516ac38] {
+    position: relative;
     width: 100%;
     margin-bottom: 0px;
-    height: 285px;
+    height: auto;
     padding: 0px 0px;
     background: 0 0;
     position: relative;
     border: 3px solid #ccc;
     box-sizing: border-box;
+  }
 }
-#form_custom {
-  width: 100%;
-  height: 279px;
-}
-}
-
 </style>

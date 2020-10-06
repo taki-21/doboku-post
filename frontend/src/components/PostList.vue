@@ -29,11 +29,11 @@
                     }"
                   >
                     <!-- <div> -->
-                      <img
-                        class="user_icon"
-                        v-bind:src="post.author.icon_image"
-                      />
-                      <span id="author_name">{{ post.author.username }}</span>
+                    <img
+                      class="user_icon"
+                      v-bind:src="post.author.icon_image"
+                    />
+                    <span id="author_name">{{ post.author.username }}</span>
                     <!-- </div> -->
                   </router-link>
                   <div class="timestamp">
@@ -45,12 +45,17 @@
                 </div>
               </div>
               <span id="post_title">{{ post.title }}</span>
-              <div class="comment_like_icon">
+              <div class="comment_like_icon uk-hidden-touch">
                 <i id="icon" uk-icon="comment"></i>
                 <span id="comment-count">{{ post.comments_count }}</span>
                 <i id="icon" uk-icon="heart"></i>
                 <span id="like-count">{{ post.likes_count }}</span>
               </div>
+              <div class="comment_like_icon_touch uk-hidden-notouch">
+                <i id="icon" uk-icon="icon: heart; ratio: 0.8"></i>
+                <span id="like-count-touch">{{ post.likes_count }}</span>
+              </div>
+
               <div v-if="post.author.id == user_id">
                 <div id="edit-delete">
                   <router-link
@@ -207,6 +212,10 @@ export default {
   text-align: right;
   margin-bottom: 2px;
 }
+.comment_like_icon_touch {
+  text-align: right;
+  margin-bottom: 2px;
+}
 #comment-count {
   position: relative;
   top: 1px;
@@ -217,6 +226,12 @@ export default {
   position: relative;
   top: 1px;
   margin-left: 2px;
+}
+#like-count-touch {
+  font-size: 16px;
+  /* position: relative;
+  top: -1px; */
+  /* margin-left: 2px; */
 }
 #author_name {
   position: relative;
@@ -276,11 +291,10 @@ export default {
 /*レスポンシブ*/
 @media (max-width: 640px) {
   /* .timestamp, */
-  .prefecture,
-  .comment_like_icon {
+  .prefecture {
     display: none;
   }
-  .timestamp{
+  .timestamp {
     font-size: 5px;
   }
   .user_icon {
@@ -303,15 +317,14 @@ export default {
     font-size: 12px;
   }
   .uk-card-body {
-  padding: 5px 5px 3px 5px;
-}
-#post_title{
-  font-size: 12px;
-}
-#edit-word,
-#delete-word{
-  font-size: 10px;
-}
-
+    padding: 8px 8px 0px 8px;
+  }
+  #post_title {
+    font-size: 12px;
+  }
+  #edit-word,
+  #delete-word {
+    font-size: 10px;
+  }
 }
 </style>
