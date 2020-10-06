@@ -75,3 +75,15 @@
     top: -1px;
     margin-right: 3px;
 }
+
+/*レスポンシブ*/
+@media (max-width: 640px) {
+
+ #none_message {
+   font-size: 12px;
+   text-align: center;
+ }
+ #detail_post{
+   padding: 5px 10px;
+ }
+}

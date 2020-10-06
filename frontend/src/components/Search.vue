@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="uk-card uk-card-default uk-width-1-1@m" id="search_card">
+    <div class="uk-card uk-card-default uk-width-1-1@s" id="search_card">
       <form class="uk-grid-small" uk-grid>
         <div class="uk-width-2-5@s">
           <strong>タイトル</strong>

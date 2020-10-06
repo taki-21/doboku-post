@@ -19,7 +19,7 @@
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
               <div uk-grid>
-                <div class="uk-width-3-5">
+                <div class="uk-width-3-5@s">
                   <div>
                     <router-link
                       class="show_user"
@@ -112,7 +112,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="uk-width-2-5">
+                <div class="uk-width-2-5@s">
                   <!-- <div> -->
                   <div>
                     <div>
@@ -496,6 +496,7 @@ ul.uk-comment-list {
   /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
+  /* box-sizing : border-box; */
 }
 #delete-icon {
   text-align: right;
@@ -503,7 +504,15 @@ ul.uk-comment-list {
 
 .uk-modal-body {
   display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
+  padding: 0px 0px;
+  border-radius: 10px;
 }
+@media (max-width: 640px) {
+  .uk-modal-body {
+  display: flow-root;
+  padding: 0px 0px;
+  border-radius: 10px;
+}
+}
+
 </style>

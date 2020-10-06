@@ -27,7 +27,7 @@
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
                   <div uk-grid id="grid">
-                    <div class="uk-width-1-2">
+                    <div class="uk-width-1-2@s">
                       <div uk-form-custom id="form_custom">
                         <div class="uk-placeholder uk-text-center">
                           <input type="file" @change="selectedFile" />
@@ -45,8 +45,12 @@
                           </div>
                           <div class="camera-choice">
                             <div
-                              class="camera-icon"
+                              class="camera-icon uk-hidden-touch"
                               uk-icon="icon: camera; ratio: 5"
+                            ></div>
+                            <div
+                              class="camera-icon uk-hidden-notouch"
+                              uk-icon="icon: camera; ratio: 3"
                             ></div>
                             <p>画像を選択してください</p>
                           </div>
@@ -54,7 +58,7 @@
                       </div>
                       <p id="error_message">{{ message }}</p>
                     </div>
-                    <div class="uk-width-1-2">
+                    <div class="uk-width-1-2@s">
                       <div class="uk-inline uk-width-1-1">
                         <label>カテゴリ</label>
                         <ValidationProvider
@@ -113,7 +117,7 @@
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
                         <span id="select_way"
-                          >: 指定方法は以下の2つのみです</span
+                          >: 指定方法は以下の2つです</span
                         >
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
@@ -442,5 +446,22 @@ h2#new_post_title {
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
+}
+@media (max-width: 640px) {
+  h2#new_post_title {
+  position: relative;
+  top: -15px;
+  font-size: 20px;
+}
+
+  #preview_image {
+    width: 300px;
+    height: 194px;
+  }
+  #form_custom {
+    width: 300px;
+    height: 200px;
+    background-color: #fff;
+  }
 }
 </style>

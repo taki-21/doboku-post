@@ -3,7 +3,7 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link" to="/newpostpage">
+          <router-link class="router-link uk-hidden-touch" to="/newpostpage">
             <i id="icon" uk-icon="pencil"></i>投稿する
           </router-link>
           <div class="uk-inline">
@@ -15,6 +15,14 @@
               </div>
             </a>
             <div uk-dropdown="pos: bottom-center; mode: click">
+              <div class="dropdown">
+                <router-link
+                  class="router-link uk-hidden-notouch"
+                  to="/newpostpage"
+                >
+                  <i id="icon" uk-icon="pencil"></i>投稿する
+                </router-link>
+              </div>
               <div class="dropdown">
                 <router-link
                   class="router-link"
@@ -65,12 +73,12 @@
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
             <div class="link">
-              <i id="signup_icon" uk-icon="plus-circle"></i>新規登録
+              <i id="icon" uk-icon="plus-circle"></i>新規登録
             </div>
           </router-link>
           <router-link class="router-link" to="/login">
             <div class="link">
-              <i id="login_icon" uk-icon="sign-in"></i>ログイン
+              <i id="icon" uk-icon="sign-in"></i>ログイン
             </div>
           </router-link>
         </div>
@@ -155,5 +163,42 @@ li {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
+}
+@media (max-width: 640px) {
+  .show_user {
+    font-size: 14px;
+    font-weight: bold;
+    color: #333333;
+    text-decoration: none;
+  }
+
+  .user_icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+    border-radius: 50%;
+  }
+  .uk-dropdown {
+    position: absolute;
+    text-align: center;
+    z-index: 1020;
+    box-sizing: border-box;
+    min-width: 100px;
+    width: 120px;
+    padding: 0px 0px;
+    background: #f7fcfc;
+    color: #666;
+    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
+    border-radius: 5px;
+    font-size: 10px;
+  }
+  .link{
+    font-size: 10px;
+    padding-left:5px;
+  }
+  .router-link{
+    /* font-size: 10px; */
+    padding-left:2px;
+  }
 }
 </style>
