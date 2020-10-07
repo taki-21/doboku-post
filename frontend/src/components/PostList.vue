@@ -46,27 +46,28 @@
               </div>
               <span id="post_title">{{ post.title }}</span>
               <div class="comment_like_icon uk-hidden-touch">
-                <i id="icon" uk-icon="comment"></i>
-                <span id="comment-count">{{ post.comments_count }}</span>
-                <i id="icon" uk-icon="heart"></i>
-                <span id="like-count">{{ post.likes_count }}</span>
+                <i id="comment_icon" uk-icon="comment"></i>
+                <span>{{ post.comments_count }}</span>
+                <i id="like_icon" uk-icon="heart"></i>
+                <span>{{ post.likes_count }}</span>
               </div>
               <div class="comment_like_icon_touch uk-hidden-notouch">
-                <i id="icon" uk-icon="icon: heart; ratio: 0.8"></i>
-                <span id="like-count-touch">{{ post.likes_count }}</span>
+                <i id="comment_icon" uk-icon="icon: comment; ratio: 0.6"></i>
+                <span>{{ post.comments_count }}</span>
+                <i id="like_icon" uk-icon="icon: heart; ratio: 0.6"></i>
+                <span>{{ post.likes_count }}</span>
               </div>
-
               <div v-if="post.author.id == user_id">
                 <div id="edit-delete">
                   <router-link
                     class="edit-link"
                     :to="{ name: 'post_edit', params: { post_id: post.id } }"
                   >
-                    <i id="icon" uk-icon="icon: pencil"></i>
+                    <i id="" uk-icon="icon: pencil"></i>
                     <span id="edit-word">編集</span>
                   </router-link>
                   <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
-                    <i id="icon" uk-icon="icon: trash"></i>
+                    <i id="" uk-icon="icon: trash"></i>
                     <span id="delete-word">削除</span>
                   </a>
                   <div :id="'modal-' + post.id" uk-modal>
@@ -180,7 +181,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #eaeeee;
+  background-color: #e9e4dede;
   margin-bottom: 20px;
   max-width: 640px;
   margin: 0px auto;
@@ -210,28 +211,21 @@ export default {
 }
 .comment_like_icon {
   text-align: right;
-  margin-bottom: 2px;
 }
 .comment_like_icon_touch {
   text-align: right;
-  margin-bottom: 2px;
+  font-size: 12px;
 }
-#comment-count {
+#comment_icon{
   position: relative;
-  top: 1px;
-  margin-left: 2px;
-  margin-right: 7px;
+  top: -1px;
+  margin-right: 3px;
 }
-#like-count {
+#like_icon{
   position: relative;
-  top: 1px;
-  margin-left: 2px;
-}
-#like-count-touch {
-  font-size: 16px;
-  /* position: relative;
-  top: -1px; */
-  /* margin-left: 2px; */
+  top: -2px;
+  margin-left: 5px;
+  margin-right: 3px;
 }
 #author_name {
   position: relative;
@@ -317,7 +311,7 @@ export default {
     font-size: 12px;
   }
   .uk-card-body {
-    padding: 8px 8px 0px 8px;
+    padding: 8px 8px 2px 8px;
   }
   #post_title {
     font-size: 12px;

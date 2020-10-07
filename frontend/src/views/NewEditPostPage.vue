@@ -18,12 +18,12 @@
               id="new_post_card"
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
             >
-              <h2 v-if="post_id" class="uk-text-center" id="new_post_title">
+              <div v-if="post_id" class="uk-text-center" id="new_post_title">
                 投稿編集
-              </h2>
-              <h2 v-else class="uk-text-center" id="new_post_title">
+              </div>
+              <div v-else class="uk-text-center" id="new_post_title">
                 新規投稿
-              </h2>
+              </div>
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
                   <div uk-grid id="grid">
@@ -31,18 +31,18 @@
                       <div uk-form-custom id="form_custom">
                         <div class="uk-placeholder uk-text-center">
                           <input type="file" @change="selectedFile" />
-                          <div id="preview">
-                            <div v-if="!post_id">
+                          <!-- <div id="preview"> -->
+                            <div v-if="!post_id" id="preview">
                               <img
                                 id="preview_image"
                                 v-show="previewImage"
                                 :src="previewImage"
                               />
                             </div>
-                            <div v-else>
+                            <div v-else id="preview">
                               <img id="preview_image" :src="beforeImage" />
                             </div>
-                          </div>
+                          <!-- </div> -->
                           <div class="camera-choice">
                             <div
                               class="camera-icon uk-hidden-touch"
@@ -116,9 +116,7 @@
                       </div>
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
-                        <span id="select_way"
-                          >: 指定方法は以下の2つです</span
-                        >
+                        <span id="select_way">: 指定方法は以下の2つです</span>
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
@@ -216,6 +214,7 @@ import {
 } from "vee-validate";
 import ja from "vee-validate/dist/locale/ja.json";
 import { required, max, min, email, image } from "vee-validate/dist/rules";
+import { clearSession } from "@/mixins/utility";
 
 extend("required", required);
 extend("max", max);
@@ -225,7 +224,7 @@ extend("image", image);
 localize("ja", ja);
 
 export default {
-  mixins: [prefs],
+  mixins: [prefs, clearSession],
   components: {
     MyHeader,
     TitleSearchMap,
@@ -339,7 +338,7 @@ export default {
     },
   },
   created() {
-    sessionStorage.clear();
+    this.clearSession();
     if (this.post_id) {
       console.log("投稿編集");
       api.get("/posts/" + this.post_id + "/").then((response) => {
@@ -370,15 +369,17 @@ export default {
 #grid {
   margin-bottom: 20px;
 }
-h2#new_post_title {
-  position: relative;
-  top: -15px;
+#new_post_title {
+  font-size: 30px;
+  margin-bottom: 20px;
 }
 
 #form_custom {
-  width: 525px;
-  height: 393px;
+  width: 540px;
+  /* padding-top: 0%; */
   background-color: #fff;
+  border: 2px solid #ccc;
+  /* box-sizing: border-box; */
 }
 #form_custom:hover {
   background-color: rgba(0, 0, 0, 0.041);
@@ -386,14 +387,15 @@ h2#new_post_title {
 }
 
 .uk-placeholder {
-  width: 100%;
+  /* width: 100%; */
+  padding-top: 75%;
+  padding-bottom: 0px;
   margin-bottom: 0px;
-  height: 100%;
-  padding: 0px 0px;
-  background: 0 0;
-  position: relative;
-  border: 3px solid #ccc;
-  box-sizing: border-box;
+  /* height: 100%; */
+  /* padding: 0px 0px; */
+  /* background: 0 0; */
+  /* position: relative; */
+  /* box-sizing: border-box; */
 }
 
 .camera-choice {
@@ -408,14 +410,18 @@ h2#new_post_title {
 
 #preview {
   position: absolute;
-  /* 現在:, 変更:, クリア表示を隠す  */
+  width: 100%;
+  height:100%;
+  right: 0px;
   top: 0px;
   z-index: 100;
   pointer-events: none;
 }
 #preview_image {
-  width: 519px;
-  height: 387px;
+  width: 100%;
+  height: 100%;
+  /* padding-top:75%; */
+
 }
 .uk-modal-body {
   border-radius: 5px;
@@ -436,9 +442,6 @@ h2#new_post_title {
   margin-top: 4px;
 }
 
-.uk-section {
-  padding-top: 30px;
-}
 #new_post_card {
   background-color: rgba(225, 215, 205, 0.247);
   border-radius: 10px;
@@ -446,22 +449,5 @@ h2#new_post_title {
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
-}
-@media (max-width: 640px) {
-  h2#new_post_title {
-  position: relative;
-  top: -15px;
-  font-size: 20px;
-}
-
-  #preview_image {
-    width: 300px;
-    height: 194px;
-  }
-  #form_custom {
-    width: 300px;
-    height: 200px;
-    background-color: #fff;
-  }
 }
 </style>

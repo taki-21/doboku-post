@@ -166,15 +166,15 @@ li {
 }
 @media (max-width: 640px) {
   .show_user {
-    font-size: 14px;
+    font-size: 18px;
     font-weight: bold;
     color: #333333;
     text-decoration: none;
   }
 
   .user_icon {
-    width: 20px;
-    height: 20px;
+    width: 30px;
+    height: 30px;
     margin-right: 5px;
     border-radius: 50%;
   }
@@ -184,16 +184,16 @@ li {
     z-index: 1020;
     box-sizing: border-box;
     min-width: 100px;
-    width: 120px;
-    padding: 0px 0px;
-    background: #f7fcfc;
+    width: 140px;
+    padding: 5px 5px;
+    background: #f3ffff;
     color: #666;
     box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 14px;
   }
   .link{
-    font-size: 10px;
+    font-size: 13px;
     padding-left:5px;
   }
   .router-link{

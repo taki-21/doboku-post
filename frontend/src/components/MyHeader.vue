@@ -60,24 +60,20 @@ nav {
 
 @media (max-width: 640px) {
   .title-header {
-  padding: 5px 5%;
-  background-color: rgba(139, 138, 135, 1);
-  display: flex;
-  align-items: center;
-  height: 40px;
+  height: 45px;
 }
 
   #title {
     font-size: 30px;
     font-family: "Economica";
     position: relative;
-    top: 2px;
+    top: 1px;
   }
   .doboku_icon {
     width: 30px;
     height: 30px;
     position: relative;
-    top: 8px;
+    top: 7px;
     margin-right: 6px;
   }
 }

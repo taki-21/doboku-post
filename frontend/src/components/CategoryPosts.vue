@@ -251,11 +251,11 @@ input[type="radio"] {
 }
 
   #category_name {
-    font-size: 13px;
+    font-size: 15px;
   }
   #category_label {
-    height: 22px;
-    line-height: 16px;
+    height: 25px;
+    line-height: 22px;
   }
   #category_card_contnet {
     padding: 0px 40px;
