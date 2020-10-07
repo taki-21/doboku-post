@@ -74,10 +74,8 @@ export default {
     position: relative;
   }
   .content {
-    margin: 25px auto;
-    max-width: 1200px;
+    margin: 12px auto;
     padding: 0px 15px;
-    font-size: 20px;
   }
 }
 </style>

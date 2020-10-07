@@ -8,13 +8,13 @@
         class="uk-card uk-card-default uk-grid-collapse uk-margin"
         uk-grid
       >
-        <div class="uk-width-1-5">
+        <div class="uk-width-1-5@s uk-width-1-3">
           <div class="uk-card-media-left uk-cover-container">
             <img class="mypage_user_icon" :src="Person.icon_image" uk-cover />
-            <canvas width="300" height="300"></canvas>
+            <canvas width="400" height="400"></canvas>
           </div>
         </div>
-        <div class="uk-width-3-5">
+        <div class="uk-width-2-5@s uk-width-2-3">
           <!-- <div class="uk-card-body"> -->
           <div id="username_content">
             <!-- <h1 class="uk-heading-medium"> -->
@@ -36,7 +36,7 @@
           </div>
           <!-- </div> -->
         </div>
-        <div class="uk-width-1-5">
+        <div class="uk-width-2-5@s uk-width-1-4">
           <div v-if="previousPosts[0]" class="uk-hidden-touch">
             <div id="piechart">
               <PieChart
@@ -54,12 +54,16 @@
           <router-link
             class="router-link"
             :to="{ name: 'mypage', params: { user_id: user_id } }"
-            >これまでの投稿</router-link
+            >これまでの投稿<span class="uk-badge">{{
+              previousPostsNum
+            }}</span></router-link
           >
           <router-link
             class="router-link"
             :to="{ name: 'liked', params: { user_id: user_id } }"
-            >いいねした投稿</router-link
+            >いいねした投稿<span class="uk-badge">{{
+              likedPostsNum
+            }}</span></router-link
           >
           <router-link
             class="router-link"
@@ -93,6 +97,8 @@ export default {
   data() {
     return {
       loaded: false,
+      previousPostsNum: 0,
+      likedPostsNum: 0,
       // グラフ描画用データ
       pieChartData: {
         // ラベル
@@ -140,7 +146,9 @@ export default {
       return categories_num;
     },
   },
+
   watch: {
+
     user_id() {
       console.log("watch!!!!");
       this.setPerson();
@@ -153,6 +161,7 @@ export default {
   created() {
     console.log("created!!!!");
     this.get_previous_posts();
+    this.get_liked_posts();
     this.setPerson();
   },
   async mounted() {
@@ -170,10 +179,23 @@ export default {
     });
   },
   methods: {
+    get_liked_posts() {
+      console.log("get_liked_posts!!!!");
+      api
+        .get("/likes/", {
+          params: {
+            user: this.user_id,
+          },
+        })
+        .then((response) => {
+          this.likedPostsNum = response.data.results.length;
+        });
+    },
     get_previous_posts() {
       console.log("get_previous_posts!!!!");
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data.results;
+        this.previousPostsNum = response.data.results.length;
         // this.loaded = false;
         this.set_category_data();
       });
@@ -253,18 +275,34 @@ export default {
   /* right: 50px; */
 }
 #profile_content {
-    max-width: 300px;
-    padding: 0px 0px 0px 30px;
-    white-space: pre-wrap;
+  max-width: 300px;
+  padding: 0px 0px 0px 30px;
+  white-space: pre-wrap;
 }
 
 #piechart {
   position: absolute;
   width: 350px;
   height: 350px;
-  right: 20px;
+  right: 30px;
   top: -53px;
   /* bottom: -50px; */
+}
+.uk-badge {
+  box-sizing: border-box;
+  min-width: 25px;
+  height: 25px;
+  padding: 0 5px;
+  margin-left: 10px;
+  margin-bottom: 4px;
+  border-radius: 500px;
+  vertical-align: middle;
+  background: rgba(90, 84, 75, 0.85);
+  color: #fff;
+  font-size: 0.875rem;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
 }
 @media (max-width: 640px) {
   #nav {
@@ -297,12 +335,27 @@ export default {
     font-size: 0.875rem;
   }
   #profile_content {
-    font-size:10px;
+    font-size: 10px;
     max-width: 300px;
     padding: 0px 0px 0px 10px;
     white-space: pre-wrap;
-}
-
+  }
+  .uk-badge {
+    box-sizing: border-box;
+    min-width: 15px;
+    height: 15px;
+    padding: 0 5px;
+    margin-left: 10px;
+    margin-bottom: 2px;
+    border-radius: 50%;
+    vertical-align: middle;
+    background: rgba(90, 84, 75, 0.85);
+    color: #fff;
+    font-size: 0.7rem;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 }
 @media (max-width: 1200px) {
   #piechart {
@@ -311,11 +364,6 @@ export default {
     height: 300px;
     right: 20px;
     top: -50px;
-  }
-}
-@media (max-width: 1000px) {
-  #piechart {
-    display: none;
   }
 }
 </style>
