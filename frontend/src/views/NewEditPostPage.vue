@@ -116,7 +116,7 @@
                       </div>
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
-                        <span id="select_way">: 指定方法は以下の2つです</span>
+                        <span id="select_way">: 指定方法は以下の2つのみです</span>
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
@@ -376,10 +376,8 @@ export default {
 
 #form_custom {
   width: 540px;
-  /* padding-top: 0%; */
   background-color: #fff;
   border: 2px solid #ccc;
-  /* box-sizing: border-box; */
 }
 #form_custom:hover {
   background-color: rgba(0, 0, 0, 0.041);
@@ -387,15 +385,9 @@ export default {
 }
 
 .uk-placeholder {
-  /* width: 100%; */
   padding-top: 75%;
   padding-bottom: 0px;
   margin-bottom: 0px;
-  /* height: 100%; */
-  /* padding: 0px 0px; */
-  /* background: 0 0; */
-  /* position: relative; */
-  /* box-sizing: border-box; */
 }
 
 .camera-choice {
@@ -420,7 +412,6 @@ export default {
 #preview_image {
   width: 100%;
   height: 100%;
-  /* padding-top:75%; */
 
 }
 .uk-modal-body {
