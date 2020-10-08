@@ -55,12 +55,14 @@ export default {
 @media (max-width: 640px) {
 .message#info{
   padding:0px 20px;
+  position: absolute;
   top: 15px;
   font-size: 15px;
 }
 .message#error{
   padding:0px 10px;
-  top: 3px;
+  position: absolute;
+  top: 8px;
   font-size: 15px;
 }
 }

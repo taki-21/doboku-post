@@ -73,7 +73,7 @@
         </ul>
         <div>
           <transition appear>
-            <router-view />
+            <router-view @deletePost="get_previous_posts" />
           </transition>
         </div>
       </div>
@@ -148,6 +148,10 @@ export default {
   },
 
   watch: {
+    $route() {
+      // this.getPosts();
+      this.get_liked_posts();
+    },
 
     user_id() {
       console.log("watch!!!!");
@@ -162,15 +166,15 @@ export default {
     console.log("created!!!!");
     this.get_previous_posts();
     this.get_liked_posts();
-    this.setPerson();
+    // this.setPerson();
   },
   async mounted() {
     console.log("mounted!!!!");
+    this.setPerson();
     const labels = this.categories.map((x) => x.name);
     this.options.animation.animateRotate = true;
     this.pieChartData.labels = labels;
     this.loaded = false;
-    this.setPerson();
     await api.get("/posts/?author=" + this.user_id).then((response) => {
       this.previousPosts = response.data.results;
       this.options.animation.animateRotate = true;
@@ -196,7 +200,6 @@ export default {
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data.results;
         this.previousPostsNum = response.data.results.length;
-        // this.loaded = false;
         this.set_category_data();
       });
     },

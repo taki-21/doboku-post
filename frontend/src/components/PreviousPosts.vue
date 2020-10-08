@@ -29,6 +29,7 @@ export default {
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],
+      postNum: 0,
       page: 1,
       loading: true,
       nextPage: false,
@@ -93,8 +94,9 @@ export default {
       });
       this.loading = false;
     },
-    parentPostDelete(post_id) {
-      api.delete("/posts/" + post_id + "/").then(this.getPosts);
+    async parentPostDelete(post_id) {
+      await api.delete("/posts/" + post_id + "/").then(this.getPosts);
+      this.$emit('deletePost')
     },
   },
 };

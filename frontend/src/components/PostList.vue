@@ -5,7 +5,7 @@
     </div>
     <div v-show="!loading">
       <div
-        class="uk-grid-column-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
+        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
         uk-grid
       >
         <router-link
@@ -28,7 +28,6 @@
                       params: { user_id: post.author.id },
                     }"
                   >
-                    <!-- <div> -->
                     <img
                       class="user_icon"
                       v-bind:src="post.author.icon_image"
@@ -113,7 +112,7 @@
 <script>
 import moment from "moment";
 import api from "@/services/api";
-import { watchScrollPosition } from "@/mixins/utility";
+import { watchScrollPosition, clearSession } from "@/mixins/utility";
 
 export default {
   props: [
@@ -129,11 +128,11 @@ export default {
       page: 1,
     };
   },
-  mixins: [watchScrollPosition],
+  mixins: [watchScrollPosition, clearSession],
 
   methods: {
     DestroyPost(post_id) {
-      sessionStorage.clear();
+      this.clearSession();
       this.$emit("parentPostDelete", post_id);
     },
     infiniteHandler($state) {
@@ -216,12 +215,12 @@ export default {
   text-align: right;
   font-size: 12px;
 }
-#comment_icon{
+#comment_icon {
   position: relative;
   top: -1px;
   margin-right: 3px;
 }
-#like_icon{
+#like_icon {
   position: relative;
   top: -2px;
   margin-left: 5px;
@@ -272,11 +271,7 @@ export default {
   display: flow-root;
   margin-bottom: 0px;
 }
-* + .uk-grid-margin,
-.uk-grid + .uk-grid,
-.uk-grid > .uk-grid-margin {
-  margin-top: 20px;
-}
+
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
