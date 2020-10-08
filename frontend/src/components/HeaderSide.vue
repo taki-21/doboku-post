@@ -3,8 +3,10 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link uk-hidden-touch" to="/newpostpage">
+          <router-link class="router-link" id="post" to="/newpostpage">
+          <button class="uk-button uk-button-default" id="post_button">
             <i id="icon" uk-icon="pencil"></i>投稿する
+          </button>
           </router-link>
           <div class="uk-inline">
             <a class="show_user">
@@ -119,7 +121,17 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-
+#post_button{
+  background-color:rgba(230, 220, 215, 0.800);
+  border-radius:100px;
+  border: 1px solid rgb(0, 0, 0);
+  font-size:16px;
+  color:black;
+  /* font-weight: bold; */
+}
+#post_button:hover{
+  background-color:rgba(230, 220, 215, 0.600);
+}
 .show_user {
   font-size: large;
   font-weight: bold;
@@ -165,6 +177,9 @@ li {
   border-radius: 5px;
 }
 @media (max-width: 640px) {
+  #post{
+    display: none;
+  }
   .show_user {
     font-size: 18px;
     font-weight: bold;

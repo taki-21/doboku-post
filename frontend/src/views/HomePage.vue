@@ -45,7 +45,7 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 .router-link {
-  color: rgba(90, 84, 75, 0.70);
+  color: rgba(90, 84, 75, 0.80);
 }
 .router-link-exact-active,
 #map.router-link-active,
