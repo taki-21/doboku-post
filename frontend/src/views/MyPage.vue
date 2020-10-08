@@ -148,11 +148,6 @@ export default {
   },
 
   watch: {
-    $route() {
-      // this.getPosts();
-      this.get_liked_posts();
-    },
-
     user_id() {
       console.log("watch!!!!");
       this.setPerson();
@@ -166,7 +161,6 @@ export default {
     console.log("created!!!!");
     this.get_previous_posts();
     this.get_liked_posts();
-    // this.setPerson();
   },
   async mounted() {
     console.log("mounted!!!!");
@@ -199,8 +193,8 @@ export default {
       console.log("get_previous_posts!!!!");
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data.results;
-        this.previousPostsNum = response.data.results.length;
         this.set_category_data();
+        this.previousPostsNum = response.data.results.length;
       });
     },
     set_category_data() {
