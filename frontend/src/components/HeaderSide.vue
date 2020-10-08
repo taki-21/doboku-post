@@ -181,7 +181,7 @@ li {
   .uk-dropdown {
     position: absolute;
     text-align: center;
-    z-index: 1020;
+    z-index: 1000;
     box-sizing: border-box;
     min-width: 100px;
     width: 140px;

@@ -257,10 +257,19 @@ export default {
       return "map_modal" + this.post.id;
     },
   },
+  mounted() {
+    api.get("/posts/" + this.post_id + "/").then((response) => {
+      this.author = response.data.author;
+      this.post = response.data;
+    });
+    this.confirmLiked();
+    this.getLikeCount();
+    this.CommentGet();
+  },
   methods: {
-    confirmLiked() {
+    async confirmLiked() {
       if (this.login_user_id) {
-        api
+        await api
           .get("/likes/", {
             params: {
               user: this.login_user_id,
@@ -340,15 +349,6 @@ export default {
       this.$router.back();
     },
   },
-  mounted() {
-    api.get("/posts/" + this.post_id + "/").then((response) => {
-      this.author = response.data.author;
-      this.post = response.data;
-    });
-    this.confirmLiked();
-    this.getLikeCount();
-    this.CommentGet();
-  },
 };
 </script>
 
@@ -358,8 +358,8 @@ export default {
 html {
   overflow: overlay;
 }
-#content{
-  margin-top:10px;
+#content {
+  margin-top: 10px;
 }
 .show_user {
   text-decoration: none;
@@ -509,10 +509,9 @@ ul.uk-comment-list {
 }
 @media (max-width: 640px) {
   .uk-modal-body {
-  display: flow-root;
-  padding: 0px 0px;
-  border-radius: 10px;
+    display: flow-root;
+    padding: 0px 0px;
+    border-radius: 10px;
+  }
 }
-}
-
 </style>
