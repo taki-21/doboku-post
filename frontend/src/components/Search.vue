@@ -126,7 +126,6 @@ export default {
   },
   watch: {
     $route() {
-      // this.getPosts();
       this.query.title = this.$route.query.title || "";
       this.query.category = this.$route.query.category || "";
       this.query.period = this.$route.query.published_at || "";
@@ -154,7 +153,6 @@ export default {
           .get(this.postURL, {
             params: {
               page: i,
-              // category: this.query.category,
             },
           })
           .then(({ data }) => {
@@ -179,7 +177,6 @@ export default {
         .get(this.postURL, {
           params: {
             page: this.page,
-            // category: this.query.category,
           },
         })
         .then((response) => {
