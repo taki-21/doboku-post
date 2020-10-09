@@ -122,7 +122,7 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 #post_button{
-  background-color:rgba(230, 220, 215, 0.800);
+  background-color:rgba(230, 220, 215, 0.600);
   border-radius:100px;
   border: 1px solid rgb(0, 0, 0);
   font-size:16px;
@@ -130,7 +130,7 @@ export default {
   /* font-weight: bold; */
 }
 #post_button:hover{
-  background-color:rgba(230, 220, 215, 0.600);
+  background-color:rgba(230, 220, 215, 0.700);
 }
 .show_user {
   font-size: large;

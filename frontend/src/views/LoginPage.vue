@@ -2,7 +2,6 @@
   <div id="login-page">
     <MyHeader />
     <GlobalMessage />
-
     <!-- メインエリア -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
@@ -80,7 +79,7 @@ export default {
         password: "",
       },
       // id: this.$store.getters["auth/id"],
-      // isLoading: false,
+      isLoading: false,
     };
   },
   methods: {
@@ -89,7 +88,7 @@ export default {
       this.form.username = username;
       this.form.password = password;
       // ログイン
-      // this.isLoading = true;
+      this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
           username: username,
@@ -119,7 +118,7 @@ export default {
           } else {
             console.log("ログインエラー");
             this.$store.dispatch("message/setErrorMessage", {
-              message: "ユーザー名、",
+              message: "ユーザー名、もしくはパスワードが間違っています",
             });
           }
         })
