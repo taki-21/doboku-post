@@ -13,11 +13,14 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
+import { clearSession } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
+  mixins: [clearSession],
+
   data() {
     return {
       page: 1,
@@ -49,6 +52,7 @@ export default {
       }
       this.loading = false;
     } else {
+      this.clearSession()
       this.getPosts();
     }
   },
@@ -67,10 +71,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-::-webkit-scrollbar {
-  display: none;
-  -webkit-appearance: none;
-}
-</style>

@@ -5,7 +5,7 @@
     </div>
     <div v-show="!loading">
       <div
-        class="uk-grid-column-small uk-child-width-1-3@l uk-child-width-1-2@m uk-child-width-1-1 uk-text-center"
+        class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
         uk-grid
       >
         <router-link
@@ -28,13 +28,12 @@
                       params: { user_id: post.author.id },
                     }"
                   >
-                    <div>
-                      <img
-                        class="user_icon"
-                        v-bind:src="post.author.icon_image"
-                      />
-                      <span id="author_name">{{ post.author.username }}</span>
-                    </div>
+                    <img
+                      class="user_icon"
+                      v-bind:src="post.author.icon_image"
+                    />
+                    <span id="author_name">{{ post.author.username }}</span>
+                    <!-- </div> -->
                   </router-link>
                   <div class="timestamp">
                     <span>{{ post.published_at | moment }}</span>
@@ -44,12 +43,18 @@
                   </div>
                 </div>
               </div>
-              <strong>{{ post.title }}</strong>
-              <div class="comment_like_icon">
-                <i id="comment-button" uk-icon="comment"></i>
-                <span id="comment-count">{{ post.comments_count }}</span>
-                <i id="heart-button" uk-icon="heart"></i>
-                <span id="like-count">{{ post.likes_count }}</span>
+              <span id="post_title">{{ post.title }}</span>
+              <div class="comment_like_icon uk-hidden-touch">
+                <i id="comment_icon" uk-icon="comment"></i>
+                <span>{{ post.comments_count }}</span>
+                <i id="like_icon" uk-icon="heart"></i>
+                <span>{{ post.likes_count }}</span>
+              </div>
+              <div class="comment_like_icon_touch uk-hidden-notouch">
+                <i id="comment_icon" uk-icon="icon: comment; ratio: 0.6"></i>
+                <span>{{ post.comments_count }}</span>
+                <i id="like_icon" uk-icon="icon: heart; ratio: 0.6"></i>
+                <span>{{ post.likes_count }}</span>
               </div>
               <div v-if="post.author.id == user_id">
                 <div id="edit-delete">
@@ -57,11 +62,11 @@
                     class="edit-link"
                     :to="{ name: 'post_edit', params: { post_id: post.id } }"
                   >
-                    <i id="edit-icon" uk-icon="icon: pencil"></i>
+                    <i id="" uk-icon="icon: pencil"></i>
                     <span id="edit-word">編集</span>
                   </router-link>
                   <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
-                    <i id="delete-icon" uk-icon="icon: trash"></i>
+                    <i id="" uk-icon="icon: trash"></i>
                     <span id="delete-word">削除</span>
                   </a>
                   <div :id="'modal-' + post.id" uk-modal>
@@ -72,14 +77,14 @@
                       </p>
                       <p class="uk-text-right">
                         <button
-                          id="cancel_button"
                           class="uk-button uk-button-default uk-modal-close"
                           type="button"
                         >
                           キャンセル
                         </button>
                         <button
-                          class="uk-button uk-button-primary uk-modal-close"
+                          id="ok_button"
+                          class="uk-button uk-button-default uk-modal-close"
                           type="button"
                           @click="DestroyPost(post.id)"
                         >
@@ -94,12 +99,10 @@
           </div>
         </router-link>
       </div>
-      <div v-if="postType == ''">
-        <p id="none_message">投稿がありません</p>
-      </div>
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
-          <span id="no_results" slot="no-more"></span>
+          <span slot="no-more"></span>
+          <span slot="no-results"></span>
         </infinite-loading>
       </div>
     </div>
@@ -109,7 +112,7 @@
 <script>
 import moment from "moment";
 import api from "@/services/api";
-import { watchScrollPosition } from "@/mixins/utility";
+import { watchScrollPosition, clearSession } from "@/mixins/utility";
 
 export default {
   props: [
@@ -125,10 +128,11 @@ export default {
       page: 1,
     };
   },
-  mixins: [watchScrollPosition],
+  mixins: [watchScrollPosition, clearSession],
 
   methods: {
     DestroyPost(post_id) {
+      this.clearSession();
       this.$emit("parentPostDelete", post_id);
     },
     infiniteHandler($state) {
@@ -158,7 +162,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format("YYYY/MM/DD HH:MM");
+      return moment(date).format("MM/DD HH:MM");
     },
   },
 };
@@ -166,9 +170,8 @@ export default {
 
 
 <style scoped>
-.router-link {
-  text-decoration: none;
-}
+@import "../assets/common.css";
+
 .user_icon {
   width: 35px;
   height: 35px;
@@ -177,7 +180,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #eaeeee;
+  background-color: #e9e4dede;
   margin-bottom: 20px;
   max-width: 640px;
   margin: 0px auto;
@@ -192,7 +195,7 @@ export default {
 }
 .show_user {
   text-decoration: none;
-  line-height: 45px;
+  /* line-height: 30px; */
   float: left;
   font-size: large;
   color: #333333;
@@ -207,18 +210,21 @@ export default {
 }
 .comment_like_icon {
   text-align: right;
-  margin-bottom: 5px;
 }
-#comment-count {
-  margin-left: 3px;
-  margin-right: 7px;
+.comment_like_icon_touch {
+  text-align: right;
+  font-size: 12px;
 }
-#heart-button {
+#comment_icon {
   position: relative;
   top: -1px;
+  margin-right: 3px;
 }
-#like-count {
-  margin-left: 3px;
+#like_icon {
+  position: relative;
+  top: -2px;
+  margin-left: 5px;
+  margin-right: 3px;
 }
 #author_name {
   position: relative;
@@ -229,41 +235,34 @@ export default {
 .edit-link,
 .delete-link {
   text-decoration: none;
-  color: rgb(51, 51, 51);
+  color: rgb(50, 50, 50);
 }
 .edit-link:hover,
 .delete-link:hover {
   text-decoration: none;
-  color: rgba(51, 51, 51, 0.5);
+  color: rgba(50, 50, 50, 0.5);
 }
 
 #edit-delete {
-  padding-top: 5px;
+  /* padding-top: 0px; */
   border-top: 1px solid #b1aeae;
 }
 
-#edit-icon {
-  margin-right: 3px;
-}
 #edit-word {
   position: relative;
-  top: 3px;
-  margin-right: 5px;
-}
-#delete-icon {
-  margin-left: 5px;
-  margin-right: 3px;
+  top: 1px;
+  margin-left: 2px;
+  margin-right: 10px;
+  font-size: 16px;
 }
 
 #delete-word {
   position: relative;
-  top: 3px;
-  margin-right: 10px;
+  top: 1px;
+  margin-left: 2px;
+  font-size: 16px;
 }
 
-#cancel_button {
-  margin-right: 10px;
-}
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;
@@ -272,26 +271,49 @@ export default {
   display: flow-root;
   margin-bottom: 0px;
 }
-* + .uk-grid-margin,
-.uk-grid + .uk-grid,
-.uk-grid > .uk-grid-margin {
-  margin-top: 20px;
-}
+
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
 }
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
-#no_results {
-  font-weight: bold;
-}
-#none_message {
-  font-size: 18px;
-  text-align: center;
+/*レスポンシブ*/
+@media (max-width: 640px) {
+  /* .timestamp, */
+  .prefecture {
+    display: none;
+  }
+  .timestamp {
+    font-size: 5px;
+  }
+  .user_icon {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+  }
+  .show_user {
+    text-decoration: none;
+    line-height: 20px;
+    float: left;
+    /* font-size: large; */
+    color: #333333;
+  }
+
+  #author_name {
+    position: relative;
+    top: 0px;
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  .uk-card-body {
+    padding: 8px 8px 2px 8px;
+  }
+  #post_title {
+    font-size: 12px;
+  }
+  #edit-word,
+  #delete-word {
+    font-size: 10px;
+  }
 }
 </style>

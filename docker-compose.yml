@@ -12,9 +12,9 @@ services:
     #   - ./backend:/app
     command:
       # [ "poetry", "run", "uwsgi", "--ini", "/app/uwsgi.ini"]
-      bash -c "poetry run python3 manage.py makemigrations --settings=config.settings.local &&
-      poetry run python3 manage.py migrate --settings=config.settings.local &&
-      poetry run python3 manage.py runserver 0.0.0.0:8000 --settings=config.settings.local "
+      bash -c "python manage.py makemigrations --settings=config.settings.local &&
+      python manage.py migrate --settings=config.settings.local &&
+      python manage.py runserver 0.0.0.0:8000 --settings=config.settings.local "
       # poetry run uwsgi --ini /app/uwsgi.ini
       # bash -c "python3 manage.py makemigrations --settings=config.settings.local &&
       # python3 manage.py migrate --settings=config.settings.local &&

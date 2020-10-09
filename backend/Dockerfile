@@ -1,6 +1,7 @@
 FROM python:3.8.3
 WORKDIR /app
 
+ENV PYTHONUNBUFFERED 1
 ENV PYTHONPATH /app
 ENV LC_ALL=C.UTF-8 LANG=C.UTF-8
 ENV TZ Asia/Tokyo
@@ -8,22 +9,25 @@ ENV TZ Asia/Tokyo
 RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
   vim \
+  # curl \
   && rm -rf /var/lib/apt/lists/*
 
 # pipのアップデート
-RUN pip install --upgrade pip setuptools wheel
+RUN pip3 install --upgrade pip setuptools wheel
 # Poetryをインストール
-RUN pip install poetry
-
-# RUN pip install uWSGI
+RUN pip3 install poetry
+# RUN source $HOME/.poetry/env
 
 # コンテナ内で仮想環境の作成を無効
 RUN poetry config virtualenvs.create false
 RUN poetry config virtualenvs.in-project true
 
-# COPY poetry.lock pyproject.toml ./
+COPY poetry.lock pyproject.toml ./
+RUN poetry export -f requirements.txt > requirements.txt
+# RUN poetry install --no-dev
+RUN pip install -r requirements.txt
 COPY ./ /app/
-RUN poetry install
+# RUN poetry env use python3.8
 
 CMD ["bash"]
 # uwsgi --socket :8001 --module config.wsgi

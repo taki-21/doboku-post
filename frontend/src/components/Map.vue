@@ -24,11 +24,12 @@ export default {
       infoWindow: [],
       mapConfig: {
         center: {
-          lat: 36.8,
-          lng: 139.69167,
+          lat: 37.8,
+          lng: 138.2,
         },
         zoom: 5,
         streetViewControl: false,
+        disableDefaultUI: true,
         mapTypeId: "roadmap",
       },
       postList: [],
@@ -40,17 +41,16 @@ export default {
     markerData() {
       if (this.user_id) {
         return this.userPostList;
-      }
-      else {
-      // if (this.post) {
-        // 後でmapで繰り返し処理をするため、配列の形にする。
-      //   return [this.post];
-      // } else {
-        return this.postList;
+      } else {
+        if (this.post) {
+          // 後でmapで繰り返し処理をするため、配列の形にする。
+          return [this.post];
+        } else {
+          return this.postList;
+        }
       }
     },
   },
-
   async mounted() {
     await api.get("/posts/map/").then((response) => {
       this.postList = response.data;
@@ -88,7 +88,7 @@ export default {
         currentWindow && currentWindow.close();
         const infoWindow = new this.google.maps.InfoWindow({
           content:
-            '<div style="font-size:15px; padding:0px 10px 10px 0px;" id="infobox_' +
+            '<div style="font-size:15px;" id="infobox_' +
             data.id +
             '" data-item-id="' +
             data.id +
@@ -136,21 +136,15 @@ export default {
 </script>
 
 <style scoped>
+@import "../assets/common.css";
 #map {
   width: 100%;
   height: 700px;
+  border-radius: 10px;
+  border: 2px solid rgb(0, 0, 0);
 }
 
-#OK_button {
-  margin-left: 5px;
-}
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
-
-/* .gm-style .gm-style-iw-c {
+.gm-style .gm-style-iw-c {
   position: absolute;
   box-sizing: border-box;
   overflow: hidden;
@@ -161,5 +155,11 @@ export default {
   border-radius: 8px;
   padding: 12px;
   box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
-} */
+}
+@media (max-width: 640px) {
+  #map {
+    width: 100%;
+    height: 500px;
+  }
+}
 </style>

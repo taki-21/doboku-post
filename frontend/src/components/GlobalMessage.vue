@@ -1,11 +1,11 @@
 <template>
   <!-- メッセージエリア -->
-  <div id="messages" class="Message">
-    <div variant="danger" id="error" show v-if="message.error">{{ message.error }}</div>
+  <div>
+    <div variant="danger" id="error" class="message" show v-if="message.error">{{ message.error }}</div>
     <!-- <div variant="warning" show v-show="message.warnings.length > 0" class="mb-0"> -->
       <!-- <p v-for="(warning, key) in message.warnings" v-bind:key="key" class="mb-0">{{ warning }}</p> -->
     <!-- </div> -->
-    <div variant="info" id="info" show v-if="message.info">{{ message.info }}</div>
+    <div variant="info" id="info" class="message" show v-if="message.info">{{ message.info }}</div>
   </div>
 </template>
 
@@ -20,11 +20,11 @@ export default {
 </script>
 
 <style scoped>
-#info {
-  width: 30%;
+.message{
+  padding:0px 20px;
   text-align: center;
   position: absolute;
-  top: 15px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
@@ -33,23 +33,12 @@ export default {
   font-weight: bold;
   z-index: 1000;
   border-radius: 3px;
-  background-color: #bef5de;
   animation: fadein-keyframes 2s 0s 1 forwards;
 }
-
+#info {
+  background-color: #bef5de;
+}
 #error{
-    width: 30%;
-  text-align: center;
-  position: absolute;
-  top: 15px;
-  left: 50%;
-  transform: translateX(-50%);
-  -webkit-transform: translateX(-50%);
-  -ms-transform: translateX(-50%);
-  font-size: 20px;
-  font-weight: bold;
-  z-index: 1000;
-  border-radius: 3px;
   background-color: #f7e167;
 }
 @keyframes fadein-keyframes {
@@ -63,4 +52,19 @@ export default {
     opacity: 0;
   }
 }
+@media (max-width: 640px) {
+.message#info{
+  padding:0px 20px;
+  position: absolute;
+  top: 15px;
+  font-size: 15px;
+}
+.message#error{
+  padding:0px 10px;
+  position: absolute;
+  top: 8px;
+  font-size: 15px;
+}
+}
+
 </style>

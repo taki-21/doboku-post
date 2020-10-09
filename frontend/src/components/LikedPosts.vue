@@ -20,25 +20,26 @@
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
-import { watchScrollPosition } from "@/mixins/utility";
+import { watchScrollPosition, clearSession } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
-  mixins: [watchScrollPosition],
+  mixins: [watchScrollPosition, clearSession],
   data() {
     return {
       page: 1,
       loading: true,
       nextPage: false,
       likedPosts: [],
+      sessionKey: "infinitePage_liked",
     };
   },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_liked")) {
-      const page_infinite = sessionStorage.getItem("infinitePage_liked");
+    if (sessionStorage.getItem(this.sessionKey)) {
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/likes/", {
@@ -58,6 +59,7 @@ export default {
       }
       this.loading = false;
     } else {
+      this.clearSession()
       this.getPosts();
     }
   },
@@ -80,7 +82,7 @@ export default {
 
     infiniteHandler($state) {
       this.page += 1;
-      sessionStorage.setItem("infinitePage_liked", this.page);
+      sessionStorage.setItem(this.sessionKey, this.page);
       api
         .get("/likes/", {
           params: {
@@ -107,15 +109,6 @@ export default {
 };
 </script>
 
-<style scoped>
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
-
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+<style>
+@import '../assets/common.css';
 </style>

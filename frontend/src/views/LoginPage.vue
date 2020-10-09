@@ -2,7 +2,6 @@
   <div id="login-page">
     <MyHeader />
     <GlobalMessage />
-
     <!-- メインエリア -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
@@ -52,7 +51,7 @@
                 </div>
                 <div class="uk-text-small uk-text-center" id="create_account">
                   登録していない方
-                  <router-link class="router-link" to="/signup">アカウント作成</router-link>
+                  <router-link id="to_signup" class="router-link" to="/signup">アカウント作成</router-link>
                 </div>
               </div>
             </div>
@@ -80,7 +79,7 @@ export default {
         password: "",
       },
       // id: this.$store.getters["auth/id"],
-      // isLoading: false,
+      isLoading: false,
     };
   },
   methods: {
@@ -89,7 +88,7 @@ export default {
       this.form.username = username;
       this.form.password = password;
       // ログイン
-      // this.isLoading = true;
+      this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
           username: username,
@@ -126,20 +125,6 @@ export default {
         .catch((error) => {
           if (process.env.NODE_ENV !== "production") console.log(error);
         });
-      // .then(() => {
-      //   this.Loading = false;
-      //   // クエリ文字列に「next」がなければ、ホーム画面へ
-      //   const next = this.$route.query.next || "/";
-      //   this.$router.push(next).catch((error) => {
-      //     // navigationが失敗するとエラーを吐くことを知った
-      //     // test環境はどうしようか迷ったが今の所除外
-      //     if (process.env.NODE_ENV === "development") console.log(error);
-      //   });
-      // });
-
-      // // クエリ文字列に「next」がなければ、ホーム画面へ
-      // const next = this.$route.query.next || "/";
-      // this.$router.replace(next);
     },
   },
   computed: {
@@ -153,17 +138,13 @@ export default {
 </script>
 
 <style scoped>
+@import '../assets/common.css';
+
+#to_signup:hover{
+  border-bottom:1px solid black
+}
 #create_account {
   margin-top: 20px;
 }
-#send_button {
-  background-color: rgba(107, 86, 73, 0.404);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
-}
 
-#login_card {
-  background-color: rgba(151, 132, 116, 0.315);
-  border-radius: 10px;
-}
 </style>

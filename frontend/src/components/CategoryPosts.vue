@@ -9,7 +9,7 @@
       <div class="uk-position-relative" id="category_card_contnet">
         <ul
           id="category_choice"
-          class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
+          class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
           uk-grid
         >
           <li v-for="category in categories" :key="category.id">
@@ -21,12 +21,11 @@
               @change="search"
             />
             <label
-            id="category_label"
-              class="uk-button uk-button-default uk-button-large uk-width-1-1"
+              id="category_label"
+              class="uk-button uk-width-1-1"
               :for="category.id"
             >
               <span id="category_name">{{ category.name }}</span>
-              <!-- <span class="uk-badge">{{latestposts.filter(x => x.category === category.id).length}}</span> -->
             </label>
           </li>
         </ul>
@@ -75,12 +74,13 @@ import PostList from "@/components/PostList";
 import api from "@/services/api";
 import { mapGetters } from "vuex";
 import { watchScrollPosition } from "@/mixins/utility";
+import { clearSession } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [watchScrollPosition],
+  mixins: [watchScrollPosition, clearSession],
 
   data() {
     return {
@@ -93,6 +93,7 @@ export default {
       loading: true,
       nextPage: false,
       infiniteId: 0,
+      sessionKey: "infinitePage_category",
     };
   },
   watch: {
@@ -102,8 +103,8 @@ export default {
     },
   },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_category")) {
-      const page_infinite = sessionStorage.getItem("infinitePage_category");
+    if (sessionStorage.getItem(this.sessionKey)) {
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get("/posts/", {
@@ -123,6 +124,7 @@ export default {
       }
       this.loading = false;
     } else {
+      this.clearSession();
       this.getPosts();
     }
   },
@@ -150,7 +152,7 @@ export default {
       this.page = 1;
       this.nextPage = false;
       this.infiniteId++;
-      sessionStorage.removeItem("infinitePage_category");
+      sessionStorage.removeItem(this.sessionKey);
     },
     search() {
       this.resetHandler();
@@ -163,7 +165,7 @@ export default {
     },
     infiniteHandler($state) {
       this.page += 1;
-      sessionStorage.setItem("infinitePage_category", this.page);
+      sessionStorage.setItem(this.sessionKey, this.page);
 
       api
         .get("/posts/", {
@@ -197,72 +199,30 @@ export default {
 </script>
 
 <style scoped>
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
-#category_card {
-  margin-bottom: 20px;
-  padding: 10px 5px;
-  outline: none;
-}
-#category_card_contnet {
-  padding: 5px 40px;
-}
-#category_name {
-  font-size: 20px;
-}
+@import "../assets/common.css";
 
 input[type="radio"] {
   display: none; /* ラジオボタンを非表示にする */
 }
 
 #category_choice input[type="radio"]:checked + label {
-  color: black;
   font-weight: bold;
-  background-color: rgb(206, 204, 203);
-  border: 1px solid black;
+  color: rgb(0, 0, 0);
+  background-color: rgb(228, 228, 228);
 }
 
-/* UIkitの上書き */
+#category_card {
+  margin-bottom: 20px;
+  padding: 5px 5px;
+  outline: none;
+  /* border-radius:5px; */
+  border: 2px solid rgb(0, 0, 0);
+  background-color: rgb(236, 231, 225);
+}
+#category_card_contnet {
+  padding: 5px 40px;
+}
 
-.uk-comment-header {
-  display: flow-root;
-  margin-bottom: 0px;
-}
-.uk-badge {
-  position: relative;
-  left: 15px;
-  box-sizing: border-box;
-  min-width: 15px;
-  height: 15px;
-  padding: 0 5px;
-  /* margin-left: 15px; */
-  border-radius: 500px;
-  vertical-align: middle;
-  background: black;
-  color: #fff;
-  font-size: 0.875rem;
-  font-weight: bold;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.uk-button-large {
-  padding: 0 20px;
-  /* height: 100px; */
-  line-height: 53px;
-  font-size: 0.875rem;
-  /* background-image:url(../assets/hida1.jpg) */
-}
-.uk-card-body {
-  padding: 20px 20px;
-}
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
 #previous_icon {
   margin-left: 0;
   padding-left: 10px;
@@ -270,5 +230,35 @@ input[type="radio"] {
 #next_icon {
   margin-right: 0;
   padding-right: 10px;
+}
+/* UIkitの上書き */
+.uk-button {
+  padding: 0 20px;
+  border-radius: 30px;
+  background-color: rgb(255, 255, 255);
+  border: 0.5px solid black;
+  font-size: 20px;
+  color: black;
+}
+@media (max-width: 640px) {
+  #category_card {
+  margin-bottom: 10px;
+  padding: 2px 5px 3px 5px;
+  outline: none;
+  /* border-radius:5px; */
+  border: 1px solid rgb(0, 0, 0);
+  background-color: rgb(236, 231, 225);
+}
+
+  #category_name {
+    font-size: 15px;
+  }
+  #category_label {
+    height: 25px;
+    line-height: 22px;
+  }
+  #category_card_contnet {
+    padding: 0px 40px;
+  }
 }
 </style>

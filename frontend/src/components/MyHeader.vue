@@ -1,10 +1,10 @@
 <template>
   <div uk-sticky>
     <header class="title-header">
-      <router-link class='router-link' to="/">
-        <div class="title">
-          <img class="doboku_icon" src="../assets/doboku.png" width="40" height="40" />
-          <span>DOBOKU_Post</span>
+      <router-link class="router-link" to="/">
+        <div class="title_content">
+          <img class="doboku_icon" src="../assets/doboku.png" />
+          <span id="title">DOBOKU_Post</span>
         </div>
       </router-link>
       <nav>
@@ -14,10 +14,18 @@
   </div>
 </template>
 
+<script>
+import HeaderSide from "../components/HeaderSide";
+export default {
+  components: {
+    HeaderSide,
+  },
+};
+</script>
+
 <style scoped>
-.router-link {
-  text-decoration: none;
-}
+@import "../assets/common.css";
+
 .title-header {
   padding: 5px 5%;
   background-color: rgba(139, 138, 135, 1);
@@ -26,18 +34,19 @@
   height: 60px;
 }
 .doboku_icon {
+  width: 40px;
+  height: 40px;
   position: relative;
-  top: -10px;
+  top: 12px;
   margin-right: 8px;
 }
 
-.title {
+.title_content {
   text-decoration: none;
   color: black;
-  margin: 0;
-  padding: 0;
+  display: flex;
 }
-.title span {
+#title {
   font-size: 40px;
   font-family: "Economica";
   position: relative;
@@ -48,13 +57,24 @@ nav {
   margin: 0 0 0 auto;
   padding-top: 22px;
 }
-</style>
 
-<script>
-import HeaderSide from "../components/HeaderSide";
-export default {
-  components: {
-    HeaderSide
+@media (max-width: 640px) {
+  .title-header {
+  height: 45px;
+}
+
+  #title {
+    font-size: 30px;
+    font-family: "Economica";
+    position: relative;
+    top: 1px;
   }
-};
-</script>
+  .doboku_icon {
+    width: 30px;
+    height: 30px;
+    position: relative;
+    top: 7px;
+    margin-right: 6px;
+  }
+}
+</style>

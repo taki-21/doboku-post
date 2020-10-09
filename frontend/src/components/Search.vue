@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="uk-card uk-card-default uk-width-1-1@m" id="search_card">
+    <div class="uk-card uk-card-default uk-width-1-1@s" id="search_card">
       <form class="uk-grid-small" uk-grid>
         <div class="uk-width-2-5@s">
           <strong>タイトル</strong>
@@ -97,13 +97,13 @@ import { mapGetters } from "vuex";
 import api from "@/services/api";
 import prefs from "../mixins/PrefsMixin";
 import periods from "../mixins/PeriodsMixin";
-import { watchScrollPosition } from "@/mixins/utility";
+import { watchScrollPosition, clearSession } from "@/mixins/utility";
 
 export default {
   components: {
     PostList,
   },
-  mixins: [prefs, periods, watchScrollPosition],
+  mixins: [prefs, periods, watchScrollPosition, clearSession],
   data() {
     return {
       filterPosts: [],
@@ -118,6 +118,7 @@ export default {
       infiniteId: 0,
       page: 1,
       postURL: "",
+      sessionKey: "infinitePage_search",
     };
   },
   computed: {
@@ -145,9 +146,9 @@ export default {
     },
   },
   async mounted() {
-    if (sessionStorage.getItem("infinitePage_search")) {
+    if (sessionStorage.getItem(this.sessionKey)) {
       this.getPostURL();
-      const page_infinite = sessionStorage.getItem("infinitePage_search");
+      const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
           .get(this.postURL, {
@@ -167,6 +168,7 @@ export default {
       }
       this.loading = false;
     } else {
+      this.clearSession();
       this.getPosts();
     }
   },
@@ -195,7 +197,7 @@ export default {
       this.page = 1;
       this.nextPage = false;
       this.infiniteId++;
-      sessionStorage.removeItem("infinitePage_search");
+      sessionStorage.removeItem(this.sessionKey);
     },
 
     getPostURL() {
@@ -244,7 +246,7 @@ export default {
       console.log("infiniteHandler");
       console.log(this.page);
       this.page += 1;
-      sessionStorage.setItem("infinitePage_search", this.page);
+      sessionStorage.setItem(this.sessionKey, this.page);
 
       api
         .get(this.postURL, {
@@ -274,11 +276,7 @@ export default {
 </script>
 
 <style scoped>
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+@import "../assets/common.css";
 
 #search_card {
   margin-bottom: 20px;
@@ -286,9 +284,6 @@ export default {
   background-color: rgb(212, 217, 220);
   border-radius: 10px;
   border: 2px solid black;
-}
-#none_message {
   font-size: 18px;
-  text-align: center;
 }
 </style>

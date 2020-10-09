@@ -9,21 +9,27 @@
       :postURL="postURL"
       :sessionKey="sessionKey"
     />
+    <div v-if="previousPosts == ''" v-show="!loading">
+      <p id="none_message">まだ投稿がありません</p>
+    </div>
   </div>
 </template>
 
 <script>
 import PostList from "@/components/PostList";
 import api from "@/services/api";
+import { clearSession } from "@/mixins/utility";
 
 export default {
   props: ["user_id"],
   components: {
     PostList,
   },
+  mixins: [clearSession],
   data() {
     return {
       auth_id: this.$store.getters["auth/id"],
+      postNum: 0,
       page: 1,
       loading: true,
       nextPage: false,
@@ -33,7 +39,7 @@ export default {
   },
   computed: {
     postURL() {
-      var params = "?author=" + this.auth_id
+      var params = "?author=" + this.auth_id;
       return "/posts/" + params;
     },
   },
@@ -74,6 +80,7 @@ export default {
       }
       this.loading = false;
     } else {
+      this.clearSession();
       this.getPosts();
     }
   },
@@ -87,22 +94,14 @@ export default {
       });
       this.loading = false;
     },
-    parentPostDelete(post_id) {
-      api.delete("/posts/" + post_id + "/").then(this.getPosts);
+    async parentPostDelete(post_id) {
+      await api.delete("/posts/" + post_id + "/").then(this.getPosts);
+      this.$emit('deletePost')
     },
   },
 };
 </script>
 
-<style scoped>
-#none_message {
-  font-size: 18px;
-  text-align: center;
-}
-
-.loader {
-  text-align: center;
-  position: relative;
-  top: 20px;
-}
+<style>
+@import "../assets/common.css";
 </style>
