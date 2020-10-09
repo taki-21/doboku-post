@@ -10,25 +10,26 @@
       >
         <div class="uk-width-1-5@s uk-width-1-3">
           <div class="uk-card-media-left uk-cover-container">
-            <img class="mypage_user_icon" :src="Person.icon_image" uk-cover />
+            <img v-if="user_id == login_user_id" class="mypage_user_icon" :src="login_user_icon_image" uk-cover />
+            <img v-else class="mypage_user_icon" :src="Person.icon_image" uk-cover />
             <canvas width="400" height="400"></canvas>
           </div>
         </div>
         <div class="uk-width-2-5@s uk-width-2-3">
-          <!-- <div class="uk-card-body"> -->
           <div id="username_content">
-            <!-- <h1 class="uk-heading-medium"> -->
-            <div id="username">{{ Person.username }}</div>
+            <div v-if="user_id == login_user_id" id="username">{{ login_user_username }}</div>
+            <div v-else id="username">{{ Person.username }}</div>
             <!-- </h1> -->
-            <div v-if="user_id == login_user_id"></div>
-            <router-link class="router-link" to="/profile_edit">
-              <div
-                class="uk-button uk-button-small uk-button-default"
-                id="profile_edit_button"
-              >
-                編集
-              </div>
-            </router-link>
+            <div v-if="user_id == login_user_id">
+              <router-link class="router-link" to="/profile_edit">
+                <div
+                  class="uk-button uk-button-small uk-button-default"
+                  id="profile_edit_button"
+                >
+                  編集
+                </div>
+              </router-link>
+            </div>
           </div>
           <div id="profile_content">
             <div v-if="Person.introduction === null"></div>
@@ -126,6 +127,8 @@ export default {
       },
       Person: {},
       previousPosts: [],
+      login_user_icon_image:this.$store.getters["user/icon_image"],
+      login_user_username:this.$store.getters["user/username"],
     };
   },
   computed: {
