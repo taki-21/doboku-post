@@ -71,7 +71,6 @@
   <div v-else>
     <ul>
       <li>
-        <!-- <pre>{{ id }}</pre> -->
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
             <div class="link">
@@ -95,8 +94,6 @@ export default {
   methods: {
     // ログアウトリンク押下
     clickLogout: function () {
-      // var result = window.confirm("ログアウトします。よろしいですか？");
-      // if (result) {
       sessionStorage.clear();
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("user/logout");
@@ -104,11 +101,9 @@ export default {
         message: "ログアウトしました",
       });
       this.$router.replace("/login");
-      // }
     },
   },
   computed: {
-    // 1:storeのuserModule, 2:このコンポーネント内で使えるcomputed, 3:userModuleのgetters
     ...mapGetters("user", {
       user: "getUser",
     }),
