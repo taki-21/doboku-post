@@ -10,14 +10,26 @@
       >
         <div class="uk-width-1-5@s uk-width-1-3">
           <div class="uk-card-media-left uk-cover-container">
-            <img v-if="user_id == login_user_id" class="mypage_user_icon" :src="login_user_icon_image" uk-cover />
-            <img v-else class="mypage_user_icon" :src="Person.icon_image" uk-cover />
+            <img
+              v-if="user_id == login_user_id"
+              class="mypage_user_icon"
+              :src="login_user_icon_image"
+              uk-cover
+            />
+            <img
+              v-else
+              class="mypage_user_icon"
+              :src="Person.icon_image"
+              uk-cover
+            />
             <canvas width="400" height="400"></canvas>
           </div>
         </div>
         <div class="uk-width-2-5@s uk-width-2-3">
           <div id="username_content">
-            <div v-if="user_id == login_user_id" id="username">{{ login_user_username }}</div>
+            <div v-if="user_id == login_user_id" id="username">
+              {{ login_user_username }}
+            </div>
             <div v-else id="username">{{ Person.username }}</div>
             <!-- </h1> -->
             <div v-if="user_id == login_user_id">
@@ -38,12 +50,13 @@
           <!-- </div> -->
         </div>
         <div class="uk-width-2-5@s uk-width-1-4">
-          <div v-if="previousPosts[0]" class="uk-hidden-touch">
+          <div v-if="previousPosts[0]" class="chart">
             <div id="piechart">
               <PieChart
                 v-if="loaded"
                 :data="pieChartData"
                 :options="options"
+                style="position: relative; width: 460px; height: 220px"
               ></PieChart>
             </div>
           </div>
@@ -124,11 +137,12 @@ export default {
           position: "right", // 凡例の位置
         },
         animation: { animateRotate: false },
+        maintainAspectRatio: false,
       },
       Person: {},
       previousPosts: [],
-      login_user_icon_image:this.$store.getters["user/icon_image"],
-      login_user_username:this.$store.getters["user/username"],
+      login_user_icon_image: this.$store.getters["user/icon_image"],
+      login_user_username: this.$store.getters["user/username"],
     };
   },
   computed: {
@@ -271,8 +285,6 @@ export default {
   position: relative;
   top: 15px;
   margin-left: 20px;
-  /* bottom: 0px; */
-  /* right: 50px; */
 }
 #profile_content {
   max-width: 300px;
@@ -280,14 +292,12 @@ export default {
   white-space: pre-wrap;
 }
 
-#piechart {
+.chart {
   position: absolute;
-  width: 350px;
-  height: 350px;
-  right: 30px;
-  top: -53px;
-  /* bottom: -50px; */
+  top: 50%;
+  transform: translateY(-50%);
 }
+
 .uk-badge {
   box-sizing: border-box;
   min-width: 25px;
@@ -340,30 +350,17 @@ export default {
     padding: 0px 0px 0px 10px;
     white-space: pre-wrap;
   }
+
   .uk-badge {
-    box-sizing: border-box;
     min-width: 15px;
     height: 15px;
-    padding: 0 5px;
-    margin-left: 10px;
     margin-bottom: 2px;
-    border-radius: 50%;
-    vertical-align: middle;
-    background: rgba(90, 84, 75, 0.85);
-    color: #fff;
     font-size: 0.7rem;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
   }
 }
-@media (max-width: 1200px) {
-  #piechart {
-    position: absolute;
-    width: 300px;
-    height: 300px;
-    right: 20px;
-    top: -50px;
+@media (max-width: 1000px) {
+  .chart {
+    display: none;
   }
 }
 </style>
