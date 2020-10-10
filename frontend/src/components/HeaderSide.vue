@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="isLoggedIn && user.icon_image">
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>

@@ -49,6 +49,7 @@ export default {
           text: this.text,
         })
         .then((response) => {
+          // 親コンポーネントでCommentGetメソッドを実行
           this.$emit("CommentGet");
           console.log("送信内容: " + response.data);
         })
