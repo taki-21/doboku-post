@@ -17,11 +17,16 @@ https://doboku-post.site
 * Vue.js: 2.6.11
 * Vue CLI: 4.4.6
 * HTML/CSS
+
 ### バックエンド
 * Python: 3.8.3
 * Django: 3.0
 * Django REST Framework: 3.10
 * poetry: 1.0.10
+* uWSGI: 2.0.19.1
+
+### Webサーバー
+* Nginx: 1.17.8
 
 ## 主な機能
 ### SPA
@@ -52,5 +57,30 @@ https://doboku-post.site
 
 ### ユーザー周り
 * ログイン機能
+  * JWTにより
 * 新規登録機能
+
+### テスト
+
+### その他
+* レスポンシブ対応
+
+## インフラ構成
+### 構成図
+![スクリーンショット 2020-10-10 19 33 22](https://user-images.githubusercontent.com/62042131/95652911-76d57080-0b2f-11eb-817f-71e84cba06da.png)
+### AWS
+* ECS/ECR/ALB/EC2/VPC/RDS(PostgreSQL)/S3/CroudFront/Route53/ACM
+### Docker
+* Docker: 19.03.12
+* docker-compose: 1.27.2
+  * ローカル環境を構築
+### CircleCI
+* 自動テスト
+  * masterブランチに pushすることでテスト開始
+* 自動デプロイ
+  * masterブランチへpushすることでECR/ECS/S3へデプロイ
+  * Orbsを用いたデプロイ
+
+
+
 
