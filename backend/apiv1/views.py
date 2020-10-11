@@ -20,69 +20,34 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserRetrieveUpdateDestroyAPIView(views.APIView):
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
-    def get(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの取得（詳細）APIに対応するハンドラメソッド"""
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
 
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = UserSerializer(instance=user)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def put(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def update(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
+        response = super().update(request, pk, *args, **kwargs)
 
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=user, data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
+        return response
 
-    def patch(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの一部更新APIに対応するハンドラメソッド"""
 
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def partial_update(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
+        response = super().partial_update(request, pk, *args, **kwargs)
 
-        # シリアライザオブジェクトを作成
-        serializer = UserSerializer(
-            instance=user, data=request.data, partial=True)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
+        return response
 
-    def delete(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの削除APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def destroy(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
-
-        # モデルオブジェクトを削除
-        user.delete()
-        # レスポンスオブジェクトを作成して返す
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+        response = super().destroy(request, pk, *args, **kwargs)
+        return response
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -125,71 +90,32 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
     pagination_class = StandardResultsSetPagination
 
 
-class PostRetrieveUpdateDestroyAPIView(views.APIView):
-    # queryset = Post.objects.all()
-    # serializer_class = PostSerializer
+class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """投稿モデルの取得（詳細）・更新・削除APIクラス"""
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
-    def get(self, request, pk, *args, **kwargs):
-        """投稿モデルの取得（詳細）APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=post)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def put(self, request, pk, *args, **kwargs):
-        """投稿モデルの更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
+    def update(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(id=pk)
         if request.user.id != post.author.id:
             return Response_unauthorized()
+        response = super().update(request, pk, *args, **kwargs)
+        return response
 
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=post, data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def patch(self, request, pk, *args, **kwargs):
-        """投稿モデルの一部更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
+    def partial_update(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(id=pk)
         if request.user.id != post.author.id:
             return Response_unauthorized()
+        response = super().partial_update(request, pk, *args, **kwargs)
 
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(
-            instance=post, data=request.data, partial=True)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
+        return response
 
-    def delete(self, request, pk, *args, **kwargs):
-        """投稿モデルの削除APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
+    def destroy(self, request, pk, *args, **kwargs):
+        post = Post.objects.get(id=pk)
         if request.user.id != post.author.id:
             return Response_unauthorized()
-
-        # モデルオブジェクトを削除
-        post.delete()
-        # レスポンスオブジェクトを作成して返す
-        return Response(status=status.HTTP_204_NO_CONTENT)
+        response = super().destroy(request, pk, *args, **kwargs)
+        return response
 
 
 class PostMapFilter(filters.FilterSet):
