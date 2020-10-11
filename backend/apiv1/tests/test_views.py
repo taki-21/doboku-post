@@ -8,6 +8,9 @@ from apiv1.models import Category, Post
 from unittest import TestCase
 TestCase.maxDiff = None
 
+###################
+# 合計:24
+###################
 # GET(正常系: 1, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
 class TestUserListCreateAPIView(APITestCase):
