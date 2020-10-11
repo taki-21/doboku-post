@@ -100,7 +100,7 @@ class TestPostListCreateAPIView(APITestCase):
             }]}
         self.assertJSONEqual(response.content, expected_json_dict)
     def test_get_unauthorized_success(self):
-        """投稿モデルの取得（一覧）・投稿APIへのGETリクエスト(正常系)"""
+        """投稿モデルの取得（一覧）・投稿APIへのGETリクエスト(正常系：ログインしていないユーザーでも閲覧可能)"""
 
         # テストユーザーでログインしない
 
@@ -253,10 +253,15 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
     @ classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = get_user_model().objects.create(
-            username="user",
-            email='user@example.com',
-            password="secret",
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
         )
         cls.category1 = Category.objects.create(
             name='橋',
@@ -264,7 +269,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         )
         cls.post1 = Post.objects.create(
             category=cls.category1,
-            author=cls.user,
+            author=cls.user1,
             title='へのへのもへじ',
             content='あいうえおかきくけこ',
         )
@@ -273,7 +278,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         """投稿モデルの取得（詳細）・更新・削除APIへのGETリクエスト(正常系)"""
 
         # テストユーザーでログイン(JWT認証)
-        token = str(RefreshToken.for_user(self.user).access_token)
+        token = str(RefreshToken.for_user(self.user1).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         # 投稿詳細をリクエスト
@@ -284,7 +289,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 200)
         post = Post.objects.get()
-        user = get_user_model().objects.filter(username='user').values()[0]
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
             'id': post.id,
             'category': post.category.id,
@@ -294,7 +299,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                         user['date_joined'])).replace(
                     ' ',
                     'T'),
-                'email': 'user@example.com',
+                'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
@@ -307,7 +312,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user'},
+                'username': 'user1'},
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -336,7 +341,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 200)
         post = Post.objects.get()
-        user = get_user_model().objects.filter(username='user').values()[0]
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
             'id': post.id,
             'category': post.category.id,
@@ -346,7 +351,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                         user['date_joined'])).replace(
                     ' ',
                     'T'),
-                'email': 'user@example.com',
+                'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
@@ -359,7 +364,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user'},
+                'username': 'user1'},
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -382,13 +387,13 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         """投稿モデルの取得（詳細）・更新・削除APIへのPATCHリクエスト(正常系)"""
 
         # テストユーザーでログイン(JWT認証)
-        token = str(RefreshToken.for_user(self.user).access_token)
+        token = str(RefreshToken.for_user(self.user1).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         params = {
             'id': self.post1.id,
             'category': self.category1.id,
-            'author_name': self.user.id,
+            'author_name': self.user1.id,
             'title': 'あいうえお',
             'content': 'かきくけこ',
         }
@@ -400,7 +405,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 200)
         post = Post.objects.get()
-        user = get_user_model().objects.filter(username='user').values()[0]
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
             'id': post.id,
             'category': post.category.id,
@@ -410,7 +415,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                         user['date_joined'])).replace(
                     ' ',
                     'T'),
-                'email': 'user@example.com',
+                'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
@@ -423,7 +428,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user'},
+                'username': 'user1'},
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -445,24 +450,46 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
     def test_patch_bad_request(self):
         """投稿モデルの登録APIへのPATCHリクエスト（異常系：バリデーションNG）"""
 
-        # APIリクエストを実行
-        post = Post.objects.create(
-            category=self.category1,
-            author=self.user,
-            title='へのへのもへじ',
-            content='あいうえおかきくけこ',
-        )
+        # # APIリクエストを実行
+        # post = Post.objects.create(
+        #     category=self.category1,
+        #     author=self.user1,
+        #     title='へのへのもへじ',
+        #     content='あいうえおかきくけこ',
+        # )
 
         params = {
+            'id': self.post1.id,
             'category': self.category1.id,
-            'author_name': self.user.id,
+            'author_name': self.user1.id,
             'title': '',
             'content': 'かきくけこ',
         }
         response = self.client.patch(self.TARGET_URL_WITH_PK.format(
-            post.id), params, format='json')
+            self.post1.id), params, format='json')
 
         # データベースの状態を検証
         # self.assertEqual(Post.objects.count(), 1)
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 400)
+
+
+    # def test_patch_unauthorized_bad_request(self):
+    #     """投稿モデルの登録APIへのPATCHリクエスト（異常系：投稿者とリクエストユーザーが異なるとき）"""
+
+    #     # テストユーザーでログイン(JWT認証)
+    #     token = str(RefreshToken.for_user(self.user2).access_token)
+    #     self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+    #     params = {
+    #         'id': self.post1.id,
+    #         'category': self.category1.id,
+    #         'author_name': self.user2.id,
+    #         'title': '瀬戸大橋',
+    #         'content': 'かきくけこ',
+    #     }
+    #     response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+    #         self.post1.id), params, format='json')
+
+    #     # レスポンスの内容を検証
+    #     self.assertEqual(response.status_code, 400)
