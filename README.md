@@ -80,7 +80,11 @@ https://doboku-post.site
 * 自動デプロイ
   * masterブランチへpushすることでECR/ECS/S3へデプロイ
   * Orbsを用いたデプロイ
-
-
+  
+## About me
+  現在、22歳で某独立行政法人に勤務しております。サーバーサイドエンジニアを目指しポートフォリオの作成・改善、アウトプットを行っております。  
+* [Twitter](https://twitter.com/saka___21)  
+* [Qiita](https://qiita.com/saka___21)    
+* [学習記録](https://saka-21.hatenablog.com/archive)
 
 
