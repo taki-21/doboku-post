@@ -57,8 +57,11 @@ https://doboku-post.site
 
 ### ユーザー周り
 * ログイン機能
-  * JWTにより
+  * JWTによる認証
 * 新規登録機能
+* アカウント削除機能
+* プロフィール編集機能
+* 
 
 ### テスト
 
@@ -82,7 +85,7 @@ https://doboku-post.site
   * Orbsを用いたデプロイ
   
 ## About me
-  現在、22歳で某独立行政法人に勤務しております。サーバーサイドエンジニアを目指しポートフォリオの作成・改善、アウトプットを行っております。  
+  現在、22歳で某独立行政法人に勤務しております。バックエンドエンジニアを目指しポートフォリオの作成・改善、アウトプットを行っております。  
 * [Twitter](https://twitter.com/saka___21)  
 * [Qiita](https://qiita.com/saka___21)    
 * [学習記録](https://saka-21.hatenablog.com/archive)
