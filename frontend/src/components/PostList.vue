@@ -281,19 +281,20 @@ export default {
 @media (max-width: 640px) {
   /* .timestamp, */
   .prefecture {
-    display: none;
+    font-size: 3px;
   }
   .timestamp {
     font-size: 5px;
+    height:12px;
   }
   .user_icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
   }
   .show_user {
     text-decoration: none;
-    line-height: 20px;
+    line-height: 25px;
     float: left;
     /* font-size: large; */
     color: #333333;
@@ -303,13 +304,13 @@ export default {
     position: relative;
     top: 0px;
     margin-left: 5px;
-    font-size: 12px;
+    font-size: 13px;
   }
   .uk-card-body {
     padding: 8px 8px 2px 8px;
   }
   #post_title {
-    font-size: 12px;
+    font-size: 14px;
   }
   #edit-word,
   #delete-word {
