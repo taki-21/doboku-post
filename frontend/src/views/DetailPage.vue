@@ -333,8 +333,6 @@ export default {
     CommentGet() {
       api.get("/comments/?post=" + this.post_id).then((response) => {
         this.comments = response.data;
-
-        console.log("this.comments: " + response.data);
       });
     },
     deleteComment(comment_id) {

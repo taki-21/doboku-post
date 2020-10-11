@@ -212,7 +212,6 @@ const userModule = {
     email: '',
     introduction: '',
     icon_image: '',
-    home_image: '',
   },
   getters: {
     id: state => state.id,
@@ -220,7 +219,6 @@ const userModule = {
     email: state => state.email,
     introduction: state => state.introduction,
     icon_image: state => state.icon_image,
-    home_image: state => state.home_image,
     getUser: state => {
       return {
         id: state.id,
@@ -228,7 +226,6 @@ const userModule = {
         email: state.email,
         introduction: state.introduction,
         icon_image: state.icon_image,
-        home_image: state.home_image,
       }
     }
   },
@@ -239,7 +236,6 @@ const userModule = {
       state.email = payload.user.email
       state.introduction = payload.user.introduction
       state.icon_image = payload.user.icon_image
-      state.home_image = payload.user.home_image
     },
     clear(state) {
       state.id = ''
@@ -247,7 +243,6 @@ const userModule = {
       state.email = ''
       state.introduction = ''
       state.icon_image = ''
-      state.home_image = ''
     }
   },
   actions: {

@@ -48,8 +48,6 @@ INSTALLED_APPS = [
     'corsheaders',
     'djoser',
     'django_filters'
-
-
 ]
 
 FORM_RENDERER = 'django.forms.renderers.TemplatesSetting'
