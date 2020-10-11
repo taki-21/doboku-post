@@ -281,10 +281,10 @@ export default {
 @media (max-width: 640px) {
   /* .timestamp, */
   .prefecture {
-    font-size: 3px;
+    font-size: 10px;
   }
   .timestamp {
-    font-size: 5px;
+    font-size: 10px;
     height:12px;
   }
   .user_icon {

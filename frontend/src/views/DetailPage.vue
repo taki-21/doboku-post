@@ -496,17 +496,35 @@ ul.uk-comment-list {
   transition-property: opacity, transform;
   /* box-sizing : border-box; */
 }
+#location_modal.uk-modal-body {
+    display: flow-root;
+    padding: 0px 0px;
+    border-radius: 10px;
+  }
+#delete_modal.uk-modal-dialog {
+  position: relative;
+  box-sizing: border-box;
+  margin: 5px auto;
+  width: 600px;
+  max-width: calc(100% - 0.01px) !important;
+  background: rgb(240, 240, 240);
+  /* opacity: 0; */
+  /* transform: translateY(-100px); */
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
+  /* box-sizing : border-box; */
+}
+#delete_modal.uk-modal-body {
+    display: flow-root;
+    border-radius: 5px;
+  }
+
 #delete-icon {
   text-align: right;
 }
 
-.uk-modal-body {
-  display: flow-root;
-  padding: 0px 0px;
-  border-radius: 10px;
-}
 @media (max-width: 640px) {
-  .uk-modal-body {
+  #location_modal.uk-modal-body {
     display: flow-root;
     padding: 0px 0px;
     border-radius: 10px;
