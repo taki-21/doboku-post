@@ -88,7 +88,7 @@
                       ></span>
                       <textarea
                         class="uk-textarea textarea-input"
-                        rows="8"
+                        rows="4"
                         type="text"
                         placeholder="自己紹介文"
                         v-model="introduction"

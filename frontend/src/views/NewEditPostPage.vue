@@ -379,6 +379,7 @@ export default {
   background-color: #fff;
   border: 2px solid #ccc;
 }
+
 #form_custom:hover {
   background-color: rgba(0, 0, 0, 0.041);
   z-index: 100;

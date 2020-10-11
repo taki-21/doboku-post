@@ -1,12 +1,12 @@
 <template>
-  <div v-if="isLoggedIn">
+  <div v-if="isLoggedIn && user.icon_image">
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" id="post" to="/newpostpage">
-          <button class="uk-button uk-button-default" id="post_button">
-            <i id="icon" uk-icon="pencil"></i>投稿する
-          </button>
+            <button class="uk-button uk-button-default" id="post_button">
+              <i id="icon" uk-icon="pencil"></i>投稿する
+            </button>
           </router-link>
           <div class="uk-inline">
             <a class="show_user">
@@ -78,9 +78,7 @@
             </div>
           </router-link>
           <router-link class="router-link" to="/login">
-            <div class="link">
-              <i id="icon" uk-icon="sign-in"></i>ログイン
-            </div>
+            <div class="link"><i id="icon" uk-icon="sign-in"></i>ログイン</div>
           </router-link>
         </div>
       </li>
@@ -116,16 +114,19 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-#post_button{
-  background-color:rgba(230, 220, 215, 0.600);
-  border-radius:100px;
+#post {
+  padding-left: 0;
+}
+#post_button {
+  background-color: rgba(230, 220, 215, 0.6);
+  border-radius: 100px;
   border: 1px solid rgb(0, 0, 0);
-  font-size:16px;
-  color:black;
+  font-size: 16px;
+  color: black;
   /* font-weight: bold; */
 }
-#post_button:hover{
-  background-color:rgba(230, 220, 215, 0.700);
+#post_button:hover {
+  background-color: rgba(230, 220, 215, 0.7);
 }
 .show_user {
   font-size: large;
@@ -172,7 +173,7 @@ li {
   border-radius: 5px;
 }
 @media (max-width: 640px) {
-  #post{
+  #post {
     display: none;
   }
   .show_user {
@@ -202,13 +203,13 @@ li {
     border-radius: 5px;
     font-size: 14px;
   }
-  .link{
+  .link {
     font-size: 13px;
-    padding-left:5px;
+    padding-left: 5px;
   }
-  .router-link{
+  .router-link {
     /* font-size: 10px; */
-    padding-left:2px;
+    padding-left: 2px;
   }
 }
 </style>

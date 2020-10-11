@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from .models import Category, Post, Comment, Like
-from django.contrib.auth.hashers import make_password  # 追加
+from django.contrib.auth.hashers import make_password
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -9,21 +9,12 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = get_user_model()
         fields = '__all__'
-        # read_only_fields = ('last_login', 'is_superuser', 'is_staff', 'is_active', 'first_name', 'last_name', 'date_joined', 'groups', 'user_permissions')
 
     def create(self, validated_data):
         password = validated_data.get('password', None)
         if password is not None:
             validated_data['password'] = make_password(password)
         return super().create(validated_data)
-
-    # def update(self, instance, validated_data):
-    #     if 'password' in validated_data:
-    #         instance.set_password(validated_data['password'])
-    #     else:
-    #         instance = super().update(instance, validated_data)
-    #     instance.save()
-    #     return instance
 
 
 class CategorySerializer(serializers.ModelSerializer):
@@ -45,9 +36,6 @@ class PostSerializer(serializers.ModelSerializer):
         required=False, max_digits=20, decimal_places=15,)
     lng = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
-
-    # def get_likes_count(self, obj):
-    #     return obj.like_post.count()
 
     def get_comments_count(self, obj):
         return obj.comment_post.count()
@@ -119,7 +107,6 @@ class CommentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Comment
-        # fields = '__all__'
         fields = ('id', 'post', 'author', 'author_name', 'text', 'timestamp')
 
 
