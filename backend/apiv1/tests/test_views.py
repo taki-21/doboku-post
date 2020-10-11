@@ -173,7 +173,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
             "email": user.email,
             "username": user.username,
             "introduction": None,
-            "icon_image": "/media/images/custom_user/icon_image/default_icon.png",
+            "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
             "groups": [],
             "user_permissions": []}
         self.assertJSONEqual(response.content, expected_json_dict)
@@ -215,7 +215,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
             "email": user.email,
             "username": user.username,
             "introduction": None,
-            "icon_image": "/media/images/custom_user/icon_image/default_icon.png",
+            "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
             "groups": [],
             "user_permissions": []}
         self.assertJSONEqual(response.content, expected_json_dict)
@@ -272,7 +272,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
         self.assertEqual(response.status_code, 204)
 
     def test_delete_other_bad_request(self):
-        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:アカウントユーザーとリクエストユーザーが異なるとき）"""
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:アカウントユーザーとリクエストユーザーが異なるとき）"""
 
         # ユーザー[user2]でログイン(JWT認証)
         token = str(RefreshToken.for_user(self.user2).access_token)
@@ -287,7 +287,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
         self.assertEqual(response.status_code, 401)
 
     def test_delete_unauthorized_bad_request(self):
-        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
 
         # ログインしない
 
@@ -335,9 +335,32 @@ class TestCategoryListAPIView(APITestCase):
         expected_json_dict = [{
             'id': category[0].id,
             'name': category[0].name,
+            'slug':category[0].slug,
+            "created_at":str(
+                    localtime(
+                        category[0].created_at)).replace(
+                    ' ',
+                    'T'),
+            "updated_at": str(
+                localtime(
+                    category[0].updated_at)).replace(
+                ' ',
+                'T'),
         }, {
             'id': category[1].id,
             'name': category[1].name,
+            'slug':category[1].slug,
+            "created_at":str(
+                localtime(
+                    category[1].created_at)).replace(
+                ' ',
+                'T'),
+            "updated_at": str(
+                localtime(
+                    category[1].updated_at)).replace(
+                ' ',
+                'T'),
+
         }
 
         ]
@@ -642,7 +665,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
-                'icon_image': '/media/images/custom_user/icon_image/default_icon.png',
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'id': 2,
                 'introduction': None,
                 'is_active': True,
@@ -693,7 +716,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
-                'icon_image': '/media/images/custom_user/icon_image/default_icon.png',
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'id': 2,
                 'introduction': None,
                 'is_active': True,
@@ -756,7 +779,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'email': 'user1@example.com',
                 'first_name': '',
                 'groups': [],
-                'icon_image': '/media/images/custom_user/icon_image/default_icon.png',
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'id': 2,
                 'introduction': None,
                 'is_active': True,
