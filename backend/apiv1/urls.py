@@ -10,7 +10,7 @@ urlpatterns = [
     path('posts/map/', views.PostMapListAPIView.as_view()),
     path('posts/map/<int:pk>/', views.PostMapRetrieveAPIView.as_view()),
     path('users/', views.UserListCreateAPIView.as_view()),
-    path('users/<int:pk>/', views.UserRetrieveUpdateAPIView.as_view()),
+    path('users/<int:pk>/', views.UserRetrieveUpdateDestroyAPIView.as_view()),
     path('categories/', views.CategoryListAPIView.as_view()),
     path('comments/', views.CommentListCreateAPIView.as_view()),
     path('comments/<int:pk>/', views.CommentRetrieveUpdateDestroyAPIView.as_view()),

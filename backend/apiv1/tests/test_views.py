@@ -25,9 +25,6 @@ class TestUserListCreateAPIView(APITestCase):
 
     def test_get_success(self):
         """カスタムユーザーモデルの取得（一覧）・登録APIへのGETリクエスト(正常系)"""
-        # # テストユーザーでログイン
-        # token = str(RefreshToken.for_user(self.user1).access_token)
-        # self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         # 投稿一覧をリクエスト
         response = self.client.get(self.TARGET_URL)
@@ -122,6 +119,186 @@ class TestUserListCreateAPIView(APITestCase):
 
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 400)
+
+# GET(正常系: 1, 異常系: 0)
+# PATCH(正常系: 1, 異常系: 2)
+# DELETE(正常系: 1, 異常系: 2)
+class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
+    """PostRetrieveUpdateDestroyAPIViewのテストクラス"""
+
+    TARGET_URL_WITH_PK = '/api/v1/users/{}/'
+
+    @ classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
+        )
+
+    def test_get_success(self):
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのGETリクエスト(正常系)"""
+
+        # テストユーザーでログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # 投稿詳細をリクエスト
+        response = self.client.get(
+            self.TARGET_URL_WITH_PK.format(self.user1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+        user = get_user_model().objects.get(id=self.user1.id)
+        expected_json_dict = {
+            "id": user.id,
+            "password": user.password,
+            "last_login": None,
+            "is_superuser": False,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": False,
+            "is_active": True,
+            'date_joined': str(
+                localtime(
+                    user.date_joined)).replace(
+                ' ',
+                'T'),
+            "email": user.email,
+            "username": user.username,
+            "introduction": None,
+            "icon_image": "/media/images/custom_user/icon_image/default_icon.png",
+            "groups": [],
+            "user_permissions": []}
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_patch_success(self):
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのPATCHリクエスト(正常系)"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'id': self.user1.id,
+            "username": "user1_new",
+            "email": 'user1@example.com',
+            "password": "secret1",
+        }
+        response = self.client.patch(
+            self.TARGET_URL_WITH_PK.format(
+                self.user1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+        user = get_user_model().objects.get(id=self.user1.id)
+        expected_json_dict = {
+            "id": user.id,
+            "password": user.password,
+            "last_login": None,
+            "is_superuser": False,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": False,
+            "is_active": True,
+            'date_joined': str(
+                localtime(
+                    user.date_joined)).replace(
+                ' ',
+                'T'),
+            "email": user.email,
+            "username": user.username,
+            "introduction": None,
+            "icon_image": "/media/images/custom_user/icon_image/default_icon.png",
+            "groups": [],
+            "user_permissions": []}
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_patch_bad_request(self):
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：バリデーションNG）"""
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'id': self.user1.id,
+            "username": "",
+            "email": 'user1@example.com',
+            "password": "secret1",
+        }
+        response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+            self.user1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 400)
+
+    def test_patch_other_bad_request(self):
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：アカウントユーザーとリクエストユーザーが異なるとき）"""
+
+        # ユーザー[user2]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user2).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'id': self.user1.id,
+            "username": "user2",
+            "email": 'user2@example.com',
+            "password": "secret1",
+        }
+        response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+            self.user1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 401)
+
+    def test_delete_success(self):
+        """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（正常系）"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # user = get_user_model().objects.get(id=self.user1.id)
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.user1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(get_user_model().objects.count(), 1)
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_other_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:アカウントユーザーとリクエストユーザーが異なるとき）"""
+
+        # ユーザー[user2]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user2).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # user = Post.objects.get()
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.user1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(response.status_code, 401)
+
+    def test_delete_unauthorized_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
+
+        # ログインしない
+
+        # post = Post.objects.get()
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.user1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(response.status_code, 401)
+
 
 
 # GET(正常系: 1, 異常系: 0)
@@ -406,7 +583,7 @@ class TestPostListCreateAPIView(APITestCase):
 
 
 # GET(正常系: 2, 異常系: 0)
-# PATCH(正常系: 1, 異常系: 2)
+# PATCH(正常系: 1, 異常系: 3)
 # DELETE(正常系: 1, 異常系: 2)
 class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
     """PostRetrieveUpdateDestroyAPIViewのテストクラス"""
