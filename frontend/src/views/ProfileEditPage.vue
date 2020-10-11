@@ -105,6 +105,38 @@
                       変更を保存する
                     </button>
                   </div>
+                  <div>
+                    <a
+                      href="#modal-delete"
+                      id="delete_button"
+                      class="uk-button uk-button-middle uk-width-1-1"
+                      uk-toggle
+                    >
+                      アカウント削除
+                    </a>
+                    <div id="modal-delete" uk-modal>
+                      <div class="uk-modal-dialog uk-modal-body">
+                        <h2 class="uk-modal-title">アカウント削除確認</h2>
+                        <p>アカウントを削除します。よろしいですか？</p>
+                        <p class="uk-text-right">
+                          <button
+                            class="uk-button uk-button-default uk-modal-close"
+                            type="button"
+                          >
+                            キャンセル
+                          </button>
+                          <button
+                            id="ok_button"
+                            class="uk-button uk-button-default uk-modal-close"
+                            type="button"
+                            @click="deleteAccount"
+                          >
+                            OK
+                          </button>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </form>
               </ValidationObserver>
             </div>
@@ -187,6 +219,16 @@ export default {
       };
       reader.readAsDataURL(file);
     },
+    deleteAccount() {
+      sessionStorage.clear();
+      api.delete("/users/" + this.id + "/");
+      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("user/logout");
+      this.$store.dispatch("message/setInfoMessage", {
+        message: "アカウントを削除しました",
+      });
+      this.$router.replace("/");
+    },
     back() {
       // 1つ前へ
       this.$router.back();
@@ -262,6 +304,19 @@ export default {
   padding-top: 30px;
   /* padding-bottom: 70px; */
 }
+#delete_button {
+  background-color: rgba(245, 170, 157, 0.4);
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  border: 2px solid rgb(240, 173, 173);
+}
+.uk-modal-body {
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
+}
+
 @media (max-width: 640px) {
   #preview_image {
     position: relative;

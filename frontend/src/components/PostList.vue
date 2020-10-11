@@ -281,10 +281,10 @@ export default {
 @media (max-width: 640px) {
   /* .timestamp, */
   .prefecture {
-    font-size: 10px;
+    font-size: 8px;
   }
   .timestamp {
-    font-size: 10px;
+    font-size: 8px;
     height:12px;
   }
   .user_icon {
@@ -304,13 +304,13 @@ export default {
     position: relative;
     top: 0px;
     margin-left: 5px;
-    font-size: 13px;
+    font-size: 12px;
   }
   .uk-card-body {
     padding: 8px 8px 2px 8px;
   }
   #post_title {
-    font-size: 14px;
+    font-size: 13px;
   }
   #edit-word,
   #delete-word {
