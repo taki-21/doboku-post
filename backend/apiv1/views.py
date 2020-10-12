@@ -33,7 +33,6 @@ class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
 
         return response
 
-
     def partial_update(self, request, pk, *args, **kwargs):
         user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
@@ -158,6 +157,28 @@ class CommentRetrieveUpdateDestroyAPIView(
     """コメントモデルの取得（詳細）・更新・削除APIクラス"""
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
+    def update(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(id=pk)
+        if request.user.id != comment.author.id:
+            return Response_unauthorized()
+        response = super().update(request, pk, *args, **kwargs)
+        return response
+
+    def partial_update(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(id=pk)
+        if request.user.id != comment.author.id:
+            return Response_unauthorized()
+        response = super().partial_update(request, pk, *args, **kwargs)
+
+        return response
+
+    def destroy(self, request, pk, *args, **kwargs):
+        comment = Comment.objects.get(id=pk)
+        if request.user.id != comment.author.id:
+            return Response_unauthorized()
+        response = super().destroy(request, pk, *args, **kwargs)
+        return response
 
 
 class LikeFilter(filters.FilterSet):

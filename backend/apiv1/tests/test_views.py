@@ -3,16 +3,18 @@ from django.utils.timezone import localtime
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apiv1.models import Category, Post
+from apiv1.models import Category, Post, Comment
 
 from unittest import TestCase
 TestCase.maxDiff = None
 
 ###################
-# 合計:24
+# 合計:28
 ###################
 # GET(正常系: 1, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
+
+
 class TestUserListCreateAPIView(APITestCase):
     """UserListCreateAPIViewのテストクラス"""
     TARGET_URL = '/api/v1/users/'
@@ -83,26 +85,26 @@ class TestUserListCreateAPIView(APITestCase):
 
         # 予想されるレスポンスを作成
         user = get_user_model().objects.all()
-        expected_json_dict ={
-                "id": user[1].id,
-                "password":user[1].password,
-                "last_login": None,
-                "is_superuser": False,
-                "first_name": "",
-                "last_name": "",
-                "is_staff": False,
-                "is_active": True,
-                'date_joined': str(
-                    localtime(
-                        user[1].date_joined)).replace(
-                    ' ',
-                    'T'),
-                "email": user[1].email,
-                "username": user[1].username,
-                "introduction": None,
-                "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
-                "groups": [],
-                "user_permissions": []}
+        expected_json_dict = {
+            "id": user[1].id,
+            "password": user[1].password,
+            "last_login": None,
+            "is_superuser": False,
+            "first_name": "",
+            "last_name": "",
+            "is_staff": False,
+            "is_active": True,
+            'date_joined': str(
+                localtime(
+                    user[1].date_joined)).replace(
+                ' ',
+                'T'),
+            "email": user[1].email,
+            "username": user[1].username,
+            "introduction": None,
+            "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
+            "groups": [],
+            "user_permissions": []}
         self.assertJSONEqual(response.content, expected_json_dict)
 
     def test_post_bad_request(self):
@@ -126,6 +128,8 @@ class TestUserListCreateAPIView(APITestCase):
 # GET(正常系: 1, 異常系: 0)
 # PATCH(正常系: 1, 異常系: 2)
 # DELETE(正常系: 1, 異常系: 2)
+
+
 class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
     """PostRetrieveUpdateDestroyAPIViewのテストクラス"""
 
@@ -303,7 +307,6 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
         self.assertEqual(response.status_code, 401)
 
 
-
 # GET(正常系: 1, 異常系: 0)
 class TestCategoryListAPIView(APITestCase):
     """CategoryListAPIViewのテストクラス"""
@@ -340,10 +343,10 @@ class TestCategoryListAPIView(APITestCase):
             'name': category[0].name,
             'slug':category[0].slug,
             "created_at":str(
-                    localtime(
-                        category[0].created_at)).replace(
-                    ' ',
-                    'T'),
+                localtime(
+                    category[0].created_at)).replace(
+                ' ',
+                'T'),
             "updated_at": str(
                 localtime(
                     category[0].updated_at)).replace(
@@ -380,9 +383,9 @@ class TestPostListCreateAPIView(APITestCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.user = get_user_model().objects.create(
-            username="user",
-            email='user@example.com',
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
             password="secret",
         )
         cls.category1 = Category.objects.create(
@@ -391,7 +394,7 @@ class TestPostListCreateAPIView(APITestCase):
         )
         cls.post1 = Post.objects.create(
             category=cls.category1,
-            author=cls.user,
+            author=cls.user1,
             title='飛騨トンネル',
             content='あいうえお',
         )
@@ -400,7 +403,7 @@ class TestPostListCreateAPIView(APITestCase):
         """投稿モデルの取得（一覧）・投稿APIへのGETリクエスト(正常系)"""
 
         # テストユーザーでログイン
-        token = str(RefreshToken.for_user(self.user).access_token)
+        token = str(RefreshToken.for_user(self.user1).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         # 投稿一覧をリクエスト
@@ -415,7 +418,7 @@ class TestPostListCreateAPIView(APITestCase):
 
         # 予想されるレスポンスを作成
         post = Post.objects.get()
-        user = get_user_model().objects.filter(username='user').values()[0]
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
             "count": 1,
             "next": None,
@@ -429,11 +432,11 @@ class TestPostListCreateAPIView(APITestCase):
                             user['date_joined'])).replace(
                         ' ',
                         'T'),
-                    'email': 'user@example.com',
+                    'email': user['email'],
                     'first_name': '',
                     'groups': [],
                     'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                    'id': 1,
+                    'id': user['id'],
                     'introduction': None,
                     'is_active': True,
                     'is_staff': False,
@@ -442,7 +445,7 @@ class TestPostListCreateAPIView(APITestCase):
                     'last_name': '',
                     'password': user['password'],
                     'user_permissions': [],
-                    'username': 'user'},
+                    'username': user['username'] },
                 'title': post.title,
                 'content': post.content,
                 'published_at': str(
@@ -478,7 +481,7 @@ class TestPostListCreateAPIView(APITestCase):
 
         # 予想されるレスポンスを作成
         post = Post.objects.get()
-        user = get_user_model().objects.filter(username='user').values()[0]
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
             "count": 1,
             "next": None,
@@ -492,11 +495,11 @@ class TestPostListCreateAPIView(APITestCase):
                             user['date_joined'])).replace(
                         ' ',
                         'T'),
-                    'email': 'user@example.com',
+                    'email': user['email'],
                     'first_name': '',
                     'groups': [],
                     'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                    'id': 1,
+                    'id': user['id'],
                     'introduction': None,
                     'is_active': True,
                     'is_staff': False,
@@ -505,7 +508,7 @@ class TestPostListCreateAPIView(APITestCase):
                     'last_name': '',
                     'password': user['password'],
                     'user_permissions': [],
-                    'username': 'user'},
+                    'username': user['username'], },
                 'title': post.title,
                 'content': post.content,
                 'published_at': str(
@@ -528,13 +531,13 @@ class TestPostListCreateAPIView(APITestCase):
         """投稿モデルの取得（一覧）・投稿APIへのPOSTリクエスト(正常系)"""
 
         # テストユーザーでログイン
-        token = str(RefreshToken.for_user(self.user).access_token)
+        token = str(RefreshToken.for_user(self.user1).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         # APIリクエストを実行
         params = {
             'category': self.category1.id,
-            'author_name': self.user.id,
+            'author_name': self.user1.id,
             'title': '明石海峡大橋',
             'content': 'かきくけこ',
         }
@@ -543,22 +546,22 @@ class TestPostListCreateAPIView(APITestCase):
         self.assertEqual(Post.objects.count(), 2)
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 201)
-        post = Post.objects.get(id=2)
-        user = get_user_model().objects.filter(username='user').values()[0]
+        post = Post.objects.all()
+        user = get_user_model().objects.filter(username='user1').values()[0]
         expected_json_dict = {
-            'id': post.id,
-            'category': post.category.id,
+            'id': post[0].id,
+            'category': post[0].category.id,
             'author': {
                 'date_joined': str(
                     localtime(
                         user['date_joined'])).replace(
                     ' ',
                     'T'),
-                'email': 'user@example.com',
+                'email': user['email'],
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                'id': 1,
+                'id': user['id'],
                 'introduction': None,
                 'is_active': True,
                 'is_staff': False,
@@ -567,22 +570,22 @@ class TestPostListCreateAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user'},
-            'title': post.title,
-            'content': post.content,
+                'username': user['username']},
+            'title': post[0].title,
+            'content': post[0].content,
             'published_at': str(
                 localtime(
-                    post.published_at)).replace(
+                    post[0].published_at)).replace(
                 ' ',
                 'T'),
             'comments_count': 0,
             'raw_image': None,
             'image': None,
             'likes_count': 0,
-            'prefecture': post.prefecture,
-            'address': post.address,
-            'lat': post.lat,
-            'lng': post.lat,
+            'prefecture': post[0].prefecture,
+            'address': post[0].address,
+            'lat': post[0].lat,
+            'lng': post[0].lat,
         }
         self.assertJSONEqual(response.content, expected_json_dict)
 
@@ -590,13 +593,13 @@ class TestPostListCreateAPIView(APITestCase):
         """投稿モデルの取得（一覧）・投稿APIへのPOSTリクエスト（異常系：バリデーションNG）"""
 
         # テストユーザーでログイン
-        token = str(RefreshToken.for_user(self.user).access_token)
+        token = str(RefreshToken.for_user(self.user1).access_token)
         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
         # APIリクエストを実行
         params = {
             'category': self.category1.id,
-            'author_name': self.user.id,
+            'author_name': self.user1.id,
             'title': '',
             'content': 'あいうえおかきくけこ',
         }
@@ -669,7 +672,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                'id': 2,
+                'id': user['id'],
                 'introduction': None,
                 'is_active': True,
                 'is_staff': False,
@@ -720,7 +723,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                'id': 2,
+                'id': user['id'],
                 'introduction': None,
                 'is_active': True,
                 'is_staff': False,
@@ -783,7 +786,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'first_name': '',
                 'groups': [],
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-                'id': 2,
+                'id': user['id'],
                 'introduction': None,
                 'is_active': True,
                 'is_staff': False,
@@ -910,101 +913,226 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
         self.assertEqual(Post.objects.count(), 1)
         self.assertEqual(response.status_code, 401)
 
+# GET(正常系: 2, 異常系: 0)
+# POST(正常系: 1, 異常系: 1)
+class TestCommentListCreateAPIView(APITestCase):
+    """CommentListCreateAPIViewのテストクラス"""
 
-# class TestCommentListCreateAPIView(APITestCase):
-#     """CommentListCreateAPIViewのテストクラス"""
+    TARGET_URL = '/api/v1/comments/'
 
-#     TARGET_URL_WITH_PK = '/api/v1/comments/'
+    @ classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
+        )
+        cls.category1 = Category.objects.create(
+            name='橋',
+            slug='bridge'
+        )
+        cls.post1 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user1,
+            title='へのへのもへじ',
+            content='あいうえおかきくけこ',
+        )
+        cls.comment1 = Comment.objects.create(
+            post=cls.post1,
+            author=cls.user1,
+            text="あいうえお"
+        )
 
-#     @ classmethod
-#     def setUpClass(cls):
-#         super().setUpClass()
-#         cls.user1 = get_user_model().objects.create(
-#             username="user1",
-#             email='user1@example.com',
-#             password="secret1",
-#         )
-#         cls.user2 = get_user_model().objects.create(
-#             username="user2",
-#             email='user2@example.com',
-#             password="secret2",
-#         )
-#         cls.category1 = Category.objects.create(
-#             name='橋',
-#             slug='bridge'
-#         )
-#         cls.post1 = Post.objects.create(
-#             category=cls.category1,
-#             author=cls.user1,
-#             title='へのへのもへじ',
-#             content='あいうえおかきくけこ',
-#         )
-#         cls.comment1 = Comment.objects.create(
-#             post=cls.post1
-#             author=cls.user1,
-#         )
+    def test_get_success(self):
+        """コメントモデルの取得（一覧）・投稿APIへのGETリクエスト(正常系)"""
 
-#     def test_get_success(self):
-#         """投稿モデルの取得（一覧）・投稿APIへのGETリクエスト(正常系)"""
+        # ユーザー[user1]でログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
 
-#         # ユーザー[user1]でログイン
-#         token = str(RefreshToken.for_user(self.user1).access_token)
-#         self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+        # 投稿一覧をリクエスト
+        response = self.client.get(self.TARGET_URL)
 
-#         # 投稿一覧をリクエスト
-#         response = self.client.get(self.TARGET_URL)
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 1)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Comment.objects.count(), 1)
 
-#         # データベースの状態を検証
-#         self.assertEqual(Post.objects.count(), 1)
-#         self.assertEqual(Category.objects.count(), 1)
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
 
-#         # レスポンスの内容を検証
-#         self.assertEqual(response.status_code, 200)
+        # 予想されるレスポンスを作成
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.get()
+        expected_json_dict = [{
+            'id': comment.id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment.text,
+            'timestamp': str(
+                localtime(
+                    comment.timestamp)).replace(
+                ' ',
+                'T'),
+        }]
+        self.assertJSONEqual(response.content, expected_json_dict)
 
-#         # 予想されるレスポンスを作成
-#         post = Post.objects.get()
-#         user = get_user_model().objects.filter(username='user').values()[0]
-#         expected_json_dict = {
-#             "count": 1,
-#             "next": None,
-#             "previous": None,
-#             "results": [{
-#                 'id': post.id,
-#                 'category': post.category.id,
-#                 'author': {
-#                     'date_joined': str(
-#                         localtime(
-#                             user['date_joined'])).replace(
-#                         ' ',
-#                         'T'),
-#                     'email': 'user@example.com',
-#                     'first_name': '',
-#                     'groups': [],
-#                     'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
-#                     'id': 1,
-#                     'introduction': None,
-#                     'is_active': True,
-#                     'is_staff': False,
-#                     'is_superuser': False,
-#                     'last_login': None,
-#                     'last_name': '',
-#                     'password': user['password'],
-#                     'user_permissions': [],
-#                     'username': 'user'},
-#                 'title': post.title,
-#                 'content': post.content,
-#                 'published_at': str(
-#                     localtime(
-#                         post.published_at)).replace(
-#                     ' ',
-#                     'T'),
-#                 'comments_count': 0,
-#                 'raw_image': None,
-#                 'image': None,
-#                 'likes_count': 0,
-#                 'prefecture': post.prefecture,
-#                 'address': post.address,
-#                 'lat': post.lat,
-#                 'lng': post.lat,
-#             }]}
-#         self.assertJSONEqual(response.content, expected_json_dict)
+    def test_get_unauthorized_success(self):
+        """コメントモデルの取得（一覧）・投稿APIへのGETリクエスト(正常系：ログインしていないユーザーでも閲覧可能)"""
+
+        # ログインしない
+
+        # 投稿一覧をリクエスト
+        response = self.client.get(self.TARGET_URL)
+
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 1)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Comment.objects.count(), 1)
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+
+        # 予想されるレスポンスを作成
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.get()
+        expected_json_dict = [{
+            'id': comment.id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment.text,
+            'timestamp': str(
+                localtime(
+                    comment.timestamp)).replace(
+                ' ',
+                'T'),
+        }]
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_create_success(self):
+        """カテゴリモデルの取得（一覧）・投稿APIへのPOSTリクエスト(正常系)"""
+
+        # テストユーザーでログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # APIリクエストを実行
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': 'かきくけこ',
+        }
+        response = self.client.post(self.TARGET_URL, params, format='json')
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 1)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Comment.objects.count(), 2)
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 201)
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.all()
+        expected_json_dict = {
+            'id': comment[0].id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment[0].text,
+            'timestamp': str(
+                localtime(
+                    comment[0].timestamp)).replace(
+                ' ',
+                'T'),
+        }
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_create_bad_request(self):
+        """コメントモデルの取得（一覧）・投稿APIへのPOSTリクエスト（異常系：バリデーションNG）"""
+
+        # テストユーザーでログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # APIリクエストを実行
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': '',
+        }
+        response = self.client.post(self.TARGET_URL, params, format='json')
+
+        # データベースの状態を検証
+        self.assertEqual(Comment.objects.count(), 1)
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 400)
