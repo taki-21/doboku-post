@@ -272,7 +272,7 @@ export default {
         await api
           .get("/likes/", {
             params: {
-              user: this.login_user_id,
+              author: this.login_user_id,
               post: this.post_id,
             },
           })

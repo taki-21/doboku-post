@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
-
+from .permissions import IsOwnerOrReadOnly
 
 def Response_unauthorized():
     return Response({"detail": "権限がありません。"}, status.HTTP_401_UNAUTHORIZED)
@@ -22,6 +22,7 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
+    # permission_classes = [IsOwnerOrReadOnly]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
 
@@ -91,30 +92,9 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
 
 class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """投稿モデルの取得（詳細）・更新・削除APIクラス"""
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-
-    def update(self, request, pk, *args, **kwargs):
-        post = Post.objects.get(id=pk)
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-        response = super().update(request, pk, *args, **kwargs)
-        return response
-
-    def partial_update(self, request, pk, *args, **kwargs):
-        post = Post.objects.get(id=pk)
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-        response = super().partial_update(request, pk, *args, **kwargs)
-
-        return response
-
-    def destroy(self, request, pk, *args, **kwargs):
-        post = Post.objects.get(id=pk)
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-        response = super().destroy(request, pk, *args, **kwargs)
-        return response
 
 
 class PostMapFilter(filters.FilterSet):
@@ -155,36 +135,16 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
 class CommentRetrieveUpdateDestroyAPIView(
         generics.RetrieveUpdateDestroyAPIView):
     """コメントモデルの取得（詳細）・更新・削除APIクラス"""
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
 
-    def update(self, request, pk, *args, **kwargs):
-        comment = Comment.objects.get(id=pk)
-        if request.user.id != comment.author.id:
-            return Response_unauthorized()
-        response = super().update(request, pk, *args, **kwargs)
-        return response
-
-    def partial_update(self, request, pk, *args, **kwargs):
-        comment = Comment.objects.get(id=pk)
-        if request.user.id != comment.author.id:
-            return Response_unauthorized()
-        response = super().partial_update(request, pk, *args, **kwargs)
-
-        return response
-
-    def destroy(self, request, pk, *args, **kwargs):
-        comment = Comment.objects.get(id=pk)
-        if request.user.id != comment.author.id:
-            return Response_unauthorized()
-        response = super().destroy(request, pk, *args, **kwargs)
-        return response
 
 
 class LikeFilter(filters.FilterSet):
     class Meta:
         model = Like
-        fields = ['user', 'post']
+        fields = ['author', 'post']
 
 
 class LikeListCreateAPIView(generics.ListCreateAPIView):
@@ -197,4 +157,5 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 
 class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Like.objects.all()

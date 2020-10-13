@@ -9,7 +9,7 @@ from unittest import TestCase
 TestCase.maxDiff = None
 
 ###################
-# 合計:28
+# 合計:37
 ###################
 # GET(正常系: 1, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
@@ -341,8 +341,8 @@ class TestCategoryListAPIView(APITestCase):
         expected_json_dict = [{
             'id': category[0].id,
             'name': category[0].name,
-            'slug':category[0].slug,
-            "created_at":str(
+            'slug': category[0].slug,
+            "created_at": str(
                 localtime(
                     category[0].created_at)).replace(
                 ' ',
@@ -355,8 +355,8 @@ class TestCategoryListAPIView(APITestCase):
         }, {
             'id': category[1].id,
             'name': category[1].name,
-            'slug':category[1].slug,
-            "created_at":str(
+            'slug': category[1].slug,
+            "created_at": str(
                 localtime(
                     category[1].created_at)).replace(
                 ' ',
@@ -445,7 +445,7 @@ class TestPostListCreateAPIView(APITestCase):
                     'last_name': '',
                     'password': user['password'],
                     'user_permissions': [],
-                    'username': user['username'] },
+                    'username': user['username']},
                 'title': post.title,
                 'content': post.content,
                 'published_at': str(
@@ -850,7 +850,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
             self.post1.id), params, format='json')
 
         # レスポンスの内容を検証
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_patch_unauthorized_bad_request(self):
         """投稿モデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：ログインしていないユーザーのとき）"""
@@ -898,7 +898,7 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
 
         # レスポンスの内容を検証
         self.assertEqual(Post.objects.count(), 1)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_unauthorized_bad_request(self):
         """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
@@ -915,6 +915,8 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
 
 # GET(正常系: 2, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
+
+
 class TestCommentListCreateAPIView(APITestCase):
     """CommentListCreateAPIViewのテストクラス"""
 
@@ -1136,3 +1138,284 @@ class TestCommentListCreateAPIView(APITestCase):
         self.assertEqual(Comment.objects.count(), 1)
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 400)
+
+
+# GET(正常系: 2, 異常系: 0)
+# PATCH(正常系: 1, 異常系: 3)
+# DELETE(正常系: 1, 異常系: 2)
+class TestCommentRetrieveUpdateDestroyAPIView(APITestCase):
+    """PostRetrieveUpdateDestroyAPIViewのテストクラス"""
+
+    TARGET_URL_WITH_PK = '/api/v1/comments/{}/'
+
+    @ classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
+        )
+        cls.category1 = Category.objects.create(
+            name='橋',
+            slug='bridge'
+        )
+        cls.post1 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user1,
+            title='へのへのもへじ',
+            content='あいうえおかきくけこ',
+        )
+        cls.comment1 = Comment.objects.create(
+            post=cls.post1,
+            author=cls.user1,
+            text="あいうえお"
+        )
+
+    def test_get_success(self):
+        """カテゴリモデルの取得（詳細）・更新・削除APIへのGETリクエスト(正常系)"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # 投稿詳細をリクエスト
+        response = self.client.get(
+            self.TARGET_URL_WITH_PK.format(self.comment1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.get()
+        expected_json_dict = {
+            'id': comment.id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment.text,
+            'timestamp': str(
+                localtime(
+                    comment.timestamp)).replace(
+                ' ',
+                'T'),
+        }
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_get_unauthorized_success(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのGETリクエスト（正常系：ログインしていないユーザーでも閲覧可能）"""
+
+        # ログインしない
+
+        # 投稿詳細をリクエスト
+        response = self.client.get(
+            self.TARGET_URL_WITH_PK.format(self.comment1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.get()
+        expected_json_dict = {
+            'id': comment.id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment.text,
+            'timestamp': str(
+                localtime(
+                    comment.timestamp)).replace(
+                ' ',
+                'T'),
+        }
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_patch_success(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのPATCHリクエスト(正常系)"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': 'かきくけこ',
+        }
+        response = self.client.patch(
+            self.TARGET_URL_WITH_PK.format(
+                self.comment1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+        post = Post.objects.get()
+        user = get_user_model().objects.filter(username='user1').values()[0]
+        comment = Comment.objects.get()
+        expected_json_dict = {
+            'id': comment.id,
+            'post': post.id,
+            'author': {
+                'id': user['id'],
+                'password': user['password'],
+                'last_login': None,
+                'is_superuser': False,
+                'first_name': '',
+                'last_name': '',
+                'is_staff': False,
+                'is_active': True,
+                'date_joined': str(
+                    localtime(
+                        user['date_joined'])).replace(
+                    ' ',
+                    'T'),
+                'email': user['email'],
+                'username': user['username'],
+                'introduction': None,
+                'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
+                'groups': [],
+                'user_permissions': [],
+            },
+            'text': comment.text,
+            'timestamp': str(
+                localtime(
+                    comment.timestamp)).replace(
+                ' ',
+                'T'),
+        }
+        self.assertJSONEqual(response.content, expected_json_dict)
+
+    def test_patch_bad_request(self):
+        """コメントモデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：バリデーションNG）"""
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': '',
+        }
+        response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 400)
+
+    def test_patch_other_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：投稿者とリクエストユーザーが異なるとき）"""
+
+        # ユーザー[user2]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user2).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': 'かきくけこ',
+        }
+        response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 403)
+
+    def test_patch_unauthorized_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのPATCHリクエスト（異常系：ログインしていないユーザーのとき）"""
+
+        # ログインしない
+
+        params = {
+            'post': self.post1.id,
+            'author_name': self.user1.id,
+            'text': 'かきくけこ',
+        }
+        response = self.client.patch(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id), params, format='json')
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 401)
+
+    def test_delete_success(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（正常系）"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        comment = Comment.objects.get()
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Comment.objects.count(), 0)
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_other_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:投稿者とリクエストユーザーが異なるとき）"""
+
+        # ユーザー[user2]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user2).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        comment = Comment.objects.get()
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Comment.objects.count(), 1)
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_unauthorized_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
+
+        # ログインしない
+
+        comment = Comment.objects.get()
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.comment1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Comment.objects.count(), 1)
+        self.assertEqual(response.status_code, 401)
