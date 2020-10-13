@@ -9,7 +9,7 @@ from unittest import TestCase
 TestCase.maxDiff = None
 
 ###################
-# 合計:37
+# 合計:41
 ###################
 # GET(正常系: 1, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
@@ -1519,16 +1519,9 @@ class TestLikeListCreateAPIView(APITestCase):
 
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 201)
-        # post = Post.objects.all()
-        # user = get_user_model().objects.filter(username='user1').values()[0]
-        # category = Category.objects.all()
-        # like = Like.objects.all()
-        # print(post[0].category.id)
-        # # print(like[0].id)
-
 
     def test_create_bad_request(self):
-        """コメントモデルの取得（一覧）・投稿APIへのPOSTリクエスト（異常系：バリデーションNG）"""
+        """いいねモデルの取得（一覧）・投稿APIへのPOSTリクエスト（異常系：バリデーションNG）"""
 
         # テストユーザーでログイン
         token = str(RefreshToken.for_user(self.user1).access_token)
@@ -1545,3 +1538,90 @@ class TestLikeListCreateAPIView(APITestCase):
         self.assertEqual(Like.objects.count(), 1)
         # レスポンスの内容を検証
         self.assertEqual(response.status_code, 400)
+
+
+
+# DELETE(正常系: 1, 異常系: 2)
+class TestLikeDestroyAPIView(APITestCase):
+    """LikeRetrieveUpdateDestroyAPIViewのテストクラス"""
+
+    TARGET_URL_WITH_PK = '/api/v1/likes/{}/'
+
+    @ classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
+        )
+        cls.category1 = Category.objects.create(
+            name='橋',
+            slug='bridge'
+        )
+        cls.post1 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user1,
+            title='あいうえお',
+            content='かきくけこ',
+        )
+        cls.post2 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user2,
+            title='さしすせそ',
+            content='たちつてと',
+        )
+        cls.like1 = Like.objects.create(
+            post=cls.post1,
+            author=cls.user1,
+        )
+        cls.like2 = Like.objects.create(
+            post=cls.post2,
+            author=cls.user2,
+        )
+
+
+    def test_delete_success(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（正常系）"""
+
+        # ユーザー[user1]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.like1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Like.objects.count(), 1)
+        self.assertEqual(response.status_code, 204)
+
+    def test_delete_other_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:投稿者とリクエストユーザーが異なるとき）"""
+
+        # ユーザー[user2]でログイン(JWT認証)
+        token = str(RefreshToken.for_user(self.user2).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.like1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Like.objects.count(), 2)
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_unauthorized_bad_request(self):
+        """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
+
+        # ログインしない
+
+        response = self.client.delete(self.TARGET_URL_WITH_PK.format(
+            self.like1.id))
+
+        # レスポンスの内容を検証
+        self.assertEqual(Like.objects.count(), 2)
+        self.assertEqual(response.status_code, 401)
