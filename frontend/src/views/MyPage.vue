@@ -203,7 +203,7 @@ export default {
           },
         })
         .then((response) => {
-          this.likedPostsNum = response.data.results.length;
+          this.likedPostsNum = response.data.count;
         });
     },
     get_previous_posts() {
@@ -211,7 +211,7 @@ export default {
       api.get("/posts/?author=" + this.user_id).then((response) => {
         this.previousPosts = response.data.results;
         this.set_category_data();
-        this.previousPostsNum = response.data.results.length;
+        this.previousPostsNum = response.data.count;
       });
     },
     set_category_data() {

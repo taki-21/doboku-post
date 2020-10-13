@@ -309,7 +309,7 @@ export default {
       });
       api
         .post("/likes/", {
-          user: this.login_user_id,
+          author: this.login_user_id,
           post_id: this.post_id,
         })
         .then(this.getLikeCount)

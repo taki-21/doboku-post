@@ -3,7 +3,7 @@ from django.utils.timezone import localtime
 from rest_framework.test import APITestCase
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from apiv1.models import Category, Post, Comment
+from apiv1.models import Category, Post, Comment, Like
 
 from unittest import TestCase
 TestCase.maxDiff = None
@@ -1419,3 +1419,129 @@ class TestCommentRetrieveUpdateDestroyAPIView(APITestCase):
         # レスポンスの内容を検証
         self.assertEqual(Comment.objects.count(), 1)
         self.assertEqual(response.status_code, 401)
+
+
+# GET(正常系: 2, 異常系: 0)
+# POST(正常系: 1, 異常系: 1)
+class TestLikeListCreateAPIView(APITestCase):
+    """LikeListCreateAPIViewのテストクラス"""
+
+    TARGET_URL = '/api/v1/likes/'
+
+    @ classmethod
+    def setUpClass(cls):
+        super().setUpClass()
+        cls.user1 = get_user_model().objects.create(
+            username="user1",
+            email='user1@example.com',
+            password="secret1",
+        )
+        cls.user2 = get_user_model().objects.create(
+            username="user2",
+            email='user2@example.com',
+            password="secret2",
+        )
+        cls.category1 = Category.objects.create(
+            name='橋',
+            slug='bridge'
+        )
+        cls.post1 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user1,
+            title='へのへのもへじ',
+            content='あいうえおかきくけこ',
+        )
+        cls.post2 = Post.objects.create(
+            category=cls.category1,
+            author=cls.user1,
+            title='たちつてと',
+            content='あいうえお',
+        )
+        cls.like1 = Like.objects.create(
+            post=cls.post1,
+            author=cls.user1,
+        )
+
+    def test_get_success(self):
+        """いいねモデルの取得（一覧）・投稿APIへのGETリクエスト(正常系)"""
+
+        # ユーザー[user1]でログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # 投稿一覧をリクエスト
+        response = self.client.get(self.TARGET_URL)
+
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 2)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Like.objects.count(), 1)
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_unauthorized_success(self):
+        """コメントモデルの取得（一覧）・投稿APIへのGETリクエスト(正常系：ログインしていないユーザーでも閲覧可能)"""
+
+        # ログインしない
+
+        # 投稿一覧をリクエスト
+        response = self.client.get(self.TARGET_URL)
+
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 2)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Like.objects.count(), 1)
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 200)
+
+    def test_create_success(self):
+        """いいねモデルの取得（一覧）・投稿APIへのPOSTリクエスト(正常系)"""
+
+        # テストユーザーでログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # APIリクエストを実行
+        params = {
+            'author': self.user1.id,
+            'post_id': self.post2.id,
+        }
+        response = self.client.post(self.TARGET_URL, params, format='json')
+        # データベースの状態を検証
+        self.assertEqual(get_user_model().objects.count(), 2)
+        self.assertEqual(Post.objects.count(), 2)
+        self.assertEqual(Category.objects.count(), 1)
+        self.assertEqual(Like.objects.count(), 2)
+
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 201)
+        # post = Post.objects.all()
+        # user = get_user_model().objects.filter(username='user1').values()[0]
+        # category = Category.objects.all()
+        # like = Like.objects.all()
+        # print(post[0].category.id)
+        # # print(like[0].id)
+
+
+    def test_create_bad_request(self):
+        """コメントモデルの取得（一覧）・投稿APIへのPOSTリクエスト（異常系：バリデーションNG）"""
+
+        # テストユーザーでログイン
+        token = str(RefreshToken.for_user(self.user1).access_token)
+        self.client.credentials(HTTP_AUTHORIZATION='JWT ' + token)
+
+        # APIリクエストを実行
+        params = {
+            'author': self.user1.id,
+            'post_id': '',
+        }
+        response = self.client.post(self.TARGET_URL, params, format='json')
+
+        # データベースの状態を検証
+        self.assertEqual(Like.objects.count(), 1)
+        # レスポンスの内容を検証
+        self.assertEqual(response.status_code, 400)
