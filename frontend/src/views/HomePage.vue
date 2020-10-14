@@ -98,9 +98,8 @@ export default {
     position: relative;
   }
   .content {
-    margin: 0px auto 10px;
+    margin: 5px auto 10px;
     padding: 5px 15px;
-    /* padding-top: 10px; */
   }
 }
 </style>

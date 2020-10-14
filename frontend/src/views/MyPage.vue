@@ -315,6 +315,20 @@ export default {
   align-items: center;
 }
 @media (max-width: 640px) {
+  .content_profilecard {
+    margin: 10px auto;
+    padding: 5px 15px;
+  }
+
+  #profile_card {
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: #f3f5f5;
+  /* margin-top: 20px; */
+  margin-bottom: 5px;
+}
+
+
   #nav {
     font-size: 12px;
     margin-bottom: 10px;
@@ -329,7 +343,7 @@ export default {
     padding: 5px 10px 1px 10px;
   }
   #username {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
   }
 
