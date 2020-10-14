@@ -3,7 +3,7 @@ from rest_framework import authentication, permissions, generics, views, status,
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
-from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMapSerializer, CommentSerializer, LikeSerializer
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, CommentSerializer, LikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
@@ -97,25 +97,25 @@ class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-class PostMapFilter(filters.FilterSet):
+class PostMiniFilter(filters.FilterSet):
 
     class Meta:
         model = Post
         fields = ['author', ]
 
 
-class PostMapListAPIView(generics.ListAPIView):
+class PostMiniListAPIView(generics.ListAPIView):
     """投稿の位置モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
-    serializer_class = PostMapSerializer
-    filter_class = PostMapFilter
+    serializer_class = PostMiniSerializer
+    filter_class = PostMiniFilter
 
 
-class PostMapRetrieveAPIView(generics.RetrieveAPIView):
-    """投稿の位置モデルの取得（詳細）・更新・削除APIクラス"""
+# class PostMiniRetrieveAPIView(generics.RetrieveAPIView):
+#     """投稿の位置モデルの取得（詳細）・更新・削除APIクラス"""
 
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
 
 
 class CommentFilter(filters.FilterSet):

@@ -153,7 +153,7 @@ export default {
       categories: "categories",
     }),
     myCategories() {
-      return this.previousPosts.map((x) => x.category);
+      return this.previousPosts.map((x) => x.category.id);
     },
     categoriesNum() {
       var categories_num = [];
@@ -186,8 +186,8 @@ export default {
     this.options.animation.animateRotate = true;
     this.pieChartData.labels = labels;
     this.loaded = false;
-    await api.get("/posts/?author=" + this.user_id).then((response) => {
-      this.previousPosts = response.data.results;
+    await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+      this.previousPosts = response.data;
       this.options.animation.animateRotate = true;
       this.set_category_data();
       this.options.animation.animateRotate = false;
@@ -208,10 +208,10 @@ export default {
     },
     get_previous_posts() {
       console.log("get_previous_posts!!!!");
-      api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.previousPosts = response.data.results;
+      api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data;
         this.set_category_data();
-        this.previousPostsNum = response.data.count;
+        this.previousPostsNum = response.data.length;
       });
     },
     set_category_data() {
