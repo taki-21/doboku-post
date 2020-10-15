@@ -376,12 +376,12 @@ export default {
 
 #form_custom {
   width: 540px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border: 2px solid #ccc;
 }
 
 #form_custom:hover {
-  background-color: rgba(0, 0, 0, 0.041);
+  background-color: rgba(0, 0, 0, 0.1);
   z-index: 100;
 }
 

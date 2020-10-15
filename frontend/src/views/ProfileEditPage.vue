@@ -21,7 +21,11 @@
                 <form @submit.prevent="submitPost()">
                   <div uk-form-custom id="form_custom">
                     <div class="uk-placeholder uk-text-center">
-                      <input type="file" @change="selectedFile" />
+                      <input
+                        :disabled="disabled"
+                        type="file"
+                        @change="selectedFile"
+                      />
                       <div id="preview">
                         <div v-if="previewImage">
                           <img id="preview_image" :src="previewImage" />
@@ -46,6 +50,7 @@
                           uk-icon="icon: user"
                         ></span>
                         <input
+                          :disabled="disabled"
                           class="uk-input"
                           type="text"
                           placeholder="ユーザー名"
@@ -70,6 +75,7 @@
                           uk-icon="icon: mail"
                         ></span>
                         <input
+                          :disabled="disabled"
                           class="uk-input"
                           type="email"
                           placeholder="メールアドレス"
@@ -87,6 +93,7 @@
                         uk-icon="icon: file-edit"
                       ></span>
                       <textarea
+                        :disabled="disabled"
                         class="uk-textarea textarea-input"
                         rows="4"
                         type="text"
@@ -116,26 +123,46 @@
                     </a>
                     <div id="modal-delete" uk-modal>
                       <div class="uk-modal-dialog uk-modal-body">
-                        <h2 class="uk-modal-title">アカウント削除確認</h2>
-                        <p>アカウントを削除します。よろしいですか？</p>
-                        <p class="uk-text-right">
-                          <button
-                            class="uk-button uk-button-default uk-modal-close"
-                            type="button"
+                        <div v-if="id === 2">
+                          <span
+                            >申し訳ございません。GuestUserのアカウントは削除できません。</span
                           >
-                            キャンセル
-                          </button>
-                          <button
-                            id="ok_button"
-                            class="uk-button uk-button-default uk-modal-close"
-                            type="button"
-                            @click="deleteAccount"
-                          >
-                            OK
-                          </button>
-                        </p>
+                          <div class="uk-text-right">
+                            <button
+                              class="uk-button uk-button-small uk-button-default uk-modal-close"
+                            >
+                              OK
+                            </button>
+                          </div>
+                        </div>
+
+                        <div v-else>
+                          <h2 class="uk-modal-title">アカウント削除確認</h2>
+                          <p>アカウントを削除します。よろしいですか？</p>
+                          <p class="uk-text-right">
+                            <button
+                              class="uk-button uk-modal-close"
+                              type="button"
+                            >
+                              キャンセル
+                            </button>
+                            <button
+                              id="ok_button"
+                              class="uk-button uk-button-default uk-modal-close"
+                              type="button"
+                              @click="deleteAccount"
+                            >
+                              OK
+                            </button>
+                          </p>
+                        </div>
                       </div>
                     </div>
+                  </div>
+                  <div v-if="id === 2">
+                    <span id="error_message">
+                      ※このアカウントは編集・削除ができません。
+                    </span>
                   </div>
                 </form>
               </ValidationObserver>
@@ -185,7 +212,13 @@ export default {
       username: this.$store.getters["user/username"],
       email: this.$store.getters["user/email"],
       introduction: this.$store.getters["user/introduction"],
+      disabled: false,
     };
+  },
+  mounted() {
+    if (this.username === "GuestUser") {
+      this.disabled = true;
+    }
   },
   methods: {
     selectedFile(event) {

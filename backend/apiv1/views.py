@@ -3,7 +3,7 @@ from rest_framework import authentication, permissions, generics, views, status,
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
-from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, CommentSerializer, LikeSerializer
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, PostLikeSerializer, CommentSerializer, LikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
@@ -97,6 +97,11 @@ class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
+class PostLikeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostLikeSerializer
+
+
 class PostMiniFilter(filters.FilterSet):
 
     class Meta:
@@ -157,5 +162,5 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 
 class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
-    permission_classes = [IsOwnerOrReadOnly]
+    # permission_classes = [IsOwnerOrReadOnly]
     queryset = Like.objects.all()

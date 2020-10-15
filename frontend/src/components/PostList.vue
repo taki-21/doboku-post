@@ -185,6 +185,7 @@ export default {
   max-width: 640px;
   margin: 0px auto;
 }
+
 .timestamp {
   font-size: 12px;
   text-align: right;

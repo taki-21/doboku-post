@@ -8,7 +8,7 @@ urlpatterns = [
     path('posts/', views.PostListCreateAPIView.as_view()),
     path('posts/<int:pk>/', views.PostRetrieveUpdateDestroyAPIView.as_view()),
     path('posts/mini/', views.PostMiniListAPIView.as_view()),
-    # path('posts/map/<int:pk>/', views.PostMiniRetrieveAPIView.as_view()),
+    path('posts/like/<int:pk>/', views.PostLikeRetrieveUpdateDestroyAPIView.as_view()),
     path('users/', views.UserListCreateAPIView.as_view()),
     path('users/<int:pk>/', views.UserRetrieveUpdateDestroyAPIView.as_view()),
     path('categories/', views.CategoryListAPIView.as_view()),

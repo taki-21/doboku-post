@@ -70,6 +70,12 @@ class PostSerializer(serializers.ModelSerializer):
             'likes_count')
 
 
+class PostLikeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Post
+        fields = ('likes_count',)
+
+
 class PostMiniSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     category = CategorySerializer(read_only=True)

@@ -305,7 +305,7 @@ export default {
       this.isLiked = true;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/" + this.post_id + "/", {
+      api.patch("/posts/like/" + this.post_id + "/", {
         likes_count: this.likeCount,
       });
       api
@@ -322,7 +322,7 @@ export default {
       this.isLiked = false;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/" + this.post_id + "/", {
+      api.patch("/posts/like/" + this.post_id + "/", {
         likes_count: this.likeCount,
       });
 
