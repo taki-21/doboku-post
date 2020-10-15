@@ -48,8 +48,14 @@
             </div>
           </div>
           <div id="profile_content">
-            <div v-if="Person.introduction === null"></div>
-            <div v-else>{{ Person.introduction }}</div>
+            <div v-if="user_id == login_user_id">
+              <div v-if="login_user_introduction === null"></div>
+              <div v-else>{{ login_user_introduction }}</div>
+            </div>
+            <div v-else>
+              <div v-if="Person.introduction === null"></div>
+              <div v-else>{{ Person.introduction }}</div>
+            </div>
           </div>
           <!-- </div> -->
         </div>
@@ -147,6 +153,7 @@ export default {
       previousPosts: [],
       login_user_icon_image: this.$store.getters["user/icon_image"],
       login_user_username: this.$store.getters["user/username"],
+      login_user_introduction: this.$store.getters["user/introduction"],
     };
   },
   computed: {
