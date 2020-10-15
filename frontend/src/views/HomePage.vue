@@ -4,7 +4,9 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-    <button class="fixed_btn">ボタン</button>
+    <router-link class="router-link" id="post" to="/newpostpage">
+      <div class="fixed_btn">+</div>
+    </router-link>
     <div id="nav" style="z-index: 90" uk-sticky="offset: 70; bottom: #top">
       <ul class="uk-flex-center" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
@@ -77,18 +79,29 @@ export default {
   max-width: 1200px;
   padding: 10px 30px;
 }
-.fixed_btn{
-  display:none;
+.fixed_btn {
+  display: none;
 }
 
 @media (max-width: 640px) {
   .fixed_btn {
-    display:block;
+    display: block;
+    text-decoration: none;
+    background: rgb(180, 120, 100);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.4s;
     position: fixed;
     bottom: 20px;
     right: 20px;
-    padding: 6px 40px;
-    z-index:100;
+    font-size: 30px;
+    z-index: 100;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
   .uk-tab {
     position: relative;

@@ -118,15 +118,16 @@ export default {
   padding-left: 0;
 }
 #post_button {
-  background-color: rgb(230, 220, 215);
-  border-radius: 200px;
+  background-color: rgba(255, 165, 138, 0.479);
+  border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0);
   font-size: 18px;
   color: black;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
-#post_button:hover {
-  background-color: rgba(230, 220, 215, 0.85);
+
+#post_button:active {
+  box-shadow: none;
 }
 .show_user {
   font-size: large;

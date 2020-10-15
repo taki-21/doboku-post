@@ -231,7 +231,6 @@ input[type="radio"] {
 #category_label:hover{
   cursor: pointer;
 }
-
 #previous_icon {
   margin-left: 0;
   padding-left: 10px;

@@ -42,6 +42,7 @@
   font-size: 20px;
   color: rgb(0, 0, 0);
   border-radius: 10px;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   /* border:1px solid rgb(0, 0, 0); */
 }
 
@@ -51,6 +52,9 @@
   color: rgba(0, 0, 0, 0.300);
   border-radius: 10px;
   /* border:1px solid rgba(0, 0, 0, 0.300); */
+}
+#send_button:active {
+  box-shadow: none;
 }
 
 #back_icon {
