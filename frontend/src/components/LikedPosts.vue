@@ -45,7 +45,7 @@ export default {
           .get("/likes/", {
             params: {
               page: i,
-              user: this.user_id,
+              author: this.user_id,
             },
           })
           .then(({ data }) => {
@@ -68,7 +68,7 @@ export default {
       await api
         .get("/likes/", {
           params: {
-            user: this.user_id,
+            author: this.user_id,
           },
         })
         .then((response) => {
@@ -87,7 +87,7 @@ export default {
         .get("/likes/", {
           params: {
             page: this.page,
-            user: this.user_id,
+            author: this.user_id,
           },
         })
         .then(({ data }) => {

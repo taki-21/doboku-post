@@ -70,8 +70,9 @@ class PostSerializer(serializers.ModelSerializer):
             'likes_count')
 
 
-class PostMapSerializer(serializers.ModelSerializer):
+class PostMiniSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
+    category = CategorySerializer(read_only=True)
     lat = serializers.DecimalField(
         required=False, max_digits=20, decimal_places=15,)
     lng = serializers.DecimalField(
@@ -82,6 +83,7 @@ class PostMapSerializer(serializers.ModelSerializer):
         fields = (
             'id',
             'author',
+            'category',
             'title',
             'published_at',
             'lat',
@@ -125,4 +127,4 @@ class LikeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Like
-        fields = ('id', 'user', 'post', 'post_id')
+        fields = ('id', 'author', 'post', 'post_id')

@@ -9,9 +9,9 @@ class Category(models.Model):
     slug = models.SlugField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+
     class Meta:
-        ordering = ['-updated_at']
+        ordering = ['updated_at']
 
 
     def __str__(self):
@@ -72,7 +72,7 @@ class Comment(models.Model):
 
 
 class Like(models.Model):
-    user = models.ForeignKey(
+    author = models.ForeignKey(
         get_user_model(),
         on_delete=models.CASCADE,
         related_name='like_user')

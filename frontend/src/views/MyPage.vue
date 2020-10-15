@@ -153,7 +153,7 @@ export default {
       categories: "categories",
     }),
     myCategories() {
-      return this.previousPosts.map((x) => x.category);
+      return this.previousPosts.map((x) => x.category.id);
     },
     categoriesNum() {
       var categories_num = [];
@@ -186,8 +186,8 @@ export default {
     this.options.animation.animateRotate = true;
     this.pieChartData.labels = labels;
     this.loaded = false;
-    await api.get("/posts/?author=" + this.user_id).then((response) => {
-      this.previousPosts = response.data.results;
+    await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+      this.previousPosts = response.data;
       this.options.animation.animateRotate = true;
       this.set_category_data();
       this.options.animation.animateRotate = false;
@@ -203,15 +203,15 @@ export default {
           },
         })
         .then((response) => {
-          this.likedPostsNum = response.data.results.length;
+          this.likedPostsNum = response.data.count;
         });
     },
     get_previous_posts() {
       console.log("get_previous_posts!!!!");
-      api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.previousPosts = response.data.results;
+      api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data;
         this.set_category_data();
-        this.previousPostsNum = response.data.results.length;
+        this.previousPostsNum = response.data.length;
       });
     },
     set_category_data() {
@@ -260,7 +260,7 @@ export default {
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f3f5f5;
+  background-color: #f8f3eeee;
   /* margin-top: 20px; */
   margin-bottom: 30px;
 }
@@ -315,6 +315,19 @@ export default {
   align-items: center;
 }
 @media (max-width: 640px) {
+  .content_profilecard {
+    margin: 10px auto;
+    padding: 5px 15px;
+  }
+
+  #profile_card {
+  overflow: hidden;
+  border-radius: 5px;
+  /* margin-top: 20px; */
+  margin-bottom: 5px;
+}
+
+
   #nav {
     font-size: 12px;
     margin-bottom: 10px;
@@ -329,7 +342,7 @@ export default {
     padding: 5px 10px 1px 10px;
   }
   #username {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
   }
 

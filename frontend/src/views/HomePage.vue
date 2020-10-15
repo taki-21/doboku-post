@@ -4,7 +4,10 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-    <div id="nav" style="z-index: 90;" uk-sticky="offset: 70; bottom: #top">
+    <router-link class="router-link" id="post" to="/newpostpage">
+      <div class="fixed_btn">+</div>
+    </router-link>
+    <div id="nav" style="z-index: 90" uk-sticky="offset: 70; bottom: #top">
       <ul class="uk-flex-center" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
         <router-link class="router-link" to="/popular">人気投稿</router-link>
@@ -45,7 +48,7 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 .router-link {
-  color: rgba(90, 84, 75, 0.80);
+  color: rgba(90, 84, 75, 0.8);
 }
 .router-link-exact-active,
 #map.router-link-active,
@@ -76,8 +79,30 @@ export default {
   max-width: 1200px;
   padding: 10px 30px;
 }
+.fixed_btn {
+  display: none;
+}
 
 @media (max-width: 640px) {
+  .fixed_btn {
+    display: block;
+    text-decoration: none;
+    background: rgb(180, 120, 100);
+    color: #fff;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.4s;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    z-index: 100;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
   .uk-tab {
     position: relative;
     top: -16px;
@@ -98,9 +123,8 @@ export default {
     position: relative;
   }
   .content {
-    margin: 0px auto 10px;
+    margin: 5px auto 10px;
     padding: 5px 15px;
-    /* padding-top: 10px; */
   }
 }
 </style>
