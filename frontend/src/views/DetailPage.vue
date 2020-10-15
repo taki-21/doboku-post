@@ -44,18 +44,19 @@
 
                   <div uk-lightbox>
                     <a :href="post.raw_image">
-                      <img :src="post.image" />
+                      <img id="post_image" :src="post.image" />
                     </a>
                   </div>
                   <div v-if="post.address">
                     <button
                       id="location_button"
-                      class="uk-button uk-button-default"
+                      class="uk-button"
                       :href="modal_href"
                       type="button"
                       @click="callChildMethod"
                       uk-toggle
                     >
+                    <i uk-icon="location"></i>
                       場所を確認
                     </button>
                     <div
@@ -408,6 +409,9 @@ html {
   font-weight: bold;
   white-space: pre-wrap;
 }
+#post_image{
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
 
 .uk-comment-primary {
   background-color: #fff;
@@ -426,17 +430,16 @@ ul.uk-comment-list {
   margin: 0;
 }
 
+
 #location_button {
   float: left;
   margin-top: 18px;
-}
-
-#location_button.uk-button-default {
-  background-color: rgb(238, 237, 235);
+  background-color: rgba(135, 165, 179, 0.829);
   color: #333;
   font-size: 20px;
-  border: 2px solid #696464;
-  border-radius: 15px;
+  /* border: 1px solid #696464; */
+  border-radius: 5px;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 }
 #like_buttun {
   max-width: 640px;

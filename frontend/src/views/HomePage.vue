@@ -4,7 +4,8 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-    <div id="nav" style="z-index: 90;" uk-sticky="offset: 70; bottom: #top">
+    <button class="fixed_btn">ボタン</button>
+    <div id="nav" style="z-index: 90" uk-sticky="offset: 70; bottom: #top">
       <ul class="uk-flex-center" uk-tab>
         <router-link class="router-link" to="/">新着投稿</router-link>
         <router-link class="router-link" to="/popular">人気投稿</router-link>
@@ -45,7 +46,7 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 .router-link {
-  color: rgba(90, 84, 75, 0.80);
+  color: rgba(90, 84, 75, 0.8);
 }
 .router-link-exact-active,
 #map.router-link-active,
@@ -76,8 +77,19 @@ export default {
   max-width: 1200px;
   padding: 10px 30px;
 }
+.fixed_btn{
+  display:none;
+}
 
 @media (max-width: 640px) {
+  .fixed_btn {
+    display:block;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 6px 40px;
+    z-index:100;
+  }
   .uk-tab {
     position: relative;
     top: -16px;

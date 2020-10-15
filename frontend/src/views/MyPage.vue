@@ -260,7 +260,7 @@ export default {
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f3f5f5;
+  background-color: #f8f3eeee;
   /* margin-top: 20px; */
   margin-bottom: 30px;
 }
@@ -323,7 +323,6 @@ export default {
   #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f3f5f5;
   /* margin-top: 20px; */
   margin-bottom: 5px;
 }

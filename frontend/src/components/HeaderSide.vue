@@ -118,15 +118,15 @@ export default {
   padding-left: 0;
 }
 #post_button {
-  background-color: rgba(230, 220, 215, 0.6);
-  border-radius: 100px;
-  border: 1px solid rgb(0, 0, 0);
-  font-size: 16px;
+  background-color: rgb(230, 220, 215);
+  border-radius: 200px;
+  border: 1px solid rgba(0, 0, 0, 0);
+  font-size: 18px;
   color: black;
-  /* font-weight: bold; */
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }
 #post_button:hover {
-  background-color: rgba(230, 220, 215, 0.7);
+  background-color: rgba(230, 220, 215, 0.85);
 }
 .show_user {
   font-size: large;
