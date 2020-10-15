@@ -118,7 +118,7 @@ export default {
   padding-left: 0;
 }
 #post_button {
-  background-color: rgba(255, 165, 138, 0.479);
+  background-color: rgba(209, 135, 112, 0.5);
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0);
   font-size: 18px;
