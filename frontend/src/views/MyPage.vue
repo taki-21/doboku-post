@@ -210,7 +210,7 @@ export default {
       api
         .get("/likes/", {
           params: {
-            user: this.user_id,
+            author: this.user_id,
           },
         })
         .then((response) => {
