@@ -211,7 +211,6 @@ input[type="radio"] {
   margin-bottom: 20px;
   padding: 5px 5px;
   outline: none;
-  /* border-radius:5px; */
   border: 2px solid rgb(0, 0, 0);
   background-color: rgb(236, 231, 225);
 }
