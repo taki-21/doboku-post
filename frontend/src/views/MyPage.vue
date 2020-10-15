@@ -2,6 +2,10 @@
   <div>
     <!-- ヘッダー -->
     <MyHeader />
+    <router-link class="router-link" id="post" to="/newpostpage">
+      <div class="fixed_btn">+</div>
+    </router-link>
+
     <div class="content_profilecard">
       <div
         id="profile_card"
@@ -314,19 +318,42 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.fixed_btn {
+  display: none;
+}
+
 @media (max-width: 640px) {
+  .fixed_btn {
+    display: block;
+    text-decoration: none;
+    background: rgb(116, 116, 116);
+    color: #fff;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.4s;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    z-index: 100;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+
   .content_profilecard {
     margin: 10px auto;
     padding: 5px 15px;
   }
 
   #profile_card {
-  overflow: hidden;
-  border-radius: 5px;
-  /* margin-top: 20px; */
-  margin-bottom: 5px;
-}
-
+    overflow: hidden;
+    border-radius: 5px;
+    /* margin-top: 20px; */
+    margin-bottom: 5px;
+  }
 
   #nav {
     font-size: 12px;

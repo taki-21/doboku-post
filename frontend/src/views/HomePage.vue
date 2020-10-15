@@ -87,11 +87,11 @@ export default {
   .fixed_btn {
     display: block;
     text-decoration: none;
-    background: rgb(180, 120, 100);
+    background: rgb(116, 116, 116);
     color: #fff;
-    width: 60px;
-    height: 60px;
-    line-height: 60px;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
     border-radius: 50%;
     text-align: center;
     overflow: hidden;
