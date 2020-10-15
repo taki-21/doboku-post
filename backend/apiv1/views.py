@@ -162,5 +162,5 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 
 class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
-    # permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Like.objects.all()
