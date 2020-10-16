@@ -271,8 +271,7 @@ export default {
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f8f3eeee;
-  /* margin-top: 20px; */
+  background-color: rgba(43, 42, 42, 0.144);
   margin-bottom: 30px;
 }
 .uk-tab > .uk-active > a {
@@ -286,7 +285,6 @@ export default {
   padding: 5px 10px;
   color: #999;
   border-bottom: 3px solid transparent;
-  /* font-size: .875rem; */
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
   font-size: 120%;
@@ -296,6 +294,7 @@ export default {
   position: relative;
   top: 15px;
   margin-left: 20px;
+  background-color:rgba(187, 170, 150, 0.521)
 }
 #profile_content {
   max-width: 300px;

@@ -53,7 +53,7 @@
                       class="uk-button"
                       :href="modal_href"
                       type="button"
-                      @click="callChildMethod"
+                      @click="showMap"
                       uk-toggle
                     >
                     <i uk-icon="location"></i>
@@ -61,7 +61,7 @@
                     </button>
                     <div
                       :id="modal"
-                      class="uk-flex-top .uk-width-large"
+                      class="uk-modal-container"
                       uk-modal
                     >
                       <div
@@ -340,7 +340,7 @@ export default {
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
-    callChildMethod() {
+    showMap() {
       this.$refs.map.initializeMap();
     },
     back() {

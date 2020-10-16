@@ -51,9 +51,27 @@ export default {
       }
     },
   },
-  async mounted() {
-    await api.get("/posts/mini/").then((response) => {
-      this.postList = response.data;
+  mounted() {
+    this.setting()
+    // await api.get("/posts/mini/").then((response) => {
+    //   this.postList = response.data;
+    // });
+    // if (this.user_id) {
+    //   await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+    //     this.userPostList = response.data;
+    //   });
+    // }
+    // this.google = await GoogleMapsApiLoader({
+    //   apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
+    // });
+    // this.loading = false;
+    // this.initializeMap();
+  },
+  methods: {
+    // 初期設定
+    async setting(){
+      await api.get("/posts/mini/").then((response) => {
+        this.postList = response.data;
     });
     if (this.user_id) {
       await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
@@ -62,13 +80,14 @@ export default {
     }
     this.google = await GoogleMapsApiLoader({
       apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
-    });
-    this.loading = false;
+    })
+      this.loading = false;
     this.initializeMap();
-  },
-  methods: {
+
+    },
     // 地図の作成
     initializeMap() {
+      this.loading = false;
       this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
       this.setMarkers();
     },
@@ -119,8 +138,8 @@ export default {
           });
         });
         // infoWindowをマーカーに紐付け
-        marker.addListener("click", function () {
-          currentWindow && currentWindow.close();
+         marker.addListener("click", function () {
+           currentWindow && currentWindow.close();
           infoWindow.open(this.map, marker);
           currentWindow = infoWindow;
         });
