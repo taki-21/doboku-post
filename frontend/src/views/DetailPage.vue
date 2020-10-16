@@ -56,16 +56,11 @@
                       @click="showMap"
                       uk-toggle
                     >
-                    <i uk-icon="location"></i>
+                      <i uk-icon="location"></i>
                       場所を確認
                     </button>
-                    <div
-                      :id="modal"
-                      class="uk-modal-container"
-                      uk-modal
-                    >
+                    <div :id="modal" class="uk-modal-flex" uk-modal>
                       <div
-                       v-if="mapLoading"
                         id="location_modal"
                         class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
                       >
@@ -75,7 +70,7 @@
                           uk-close
                         ></button>
                         <div>
-                          <Map ref="map" :post="post" />
+                          <Map ref="map" :post="post"/>
                         </div>
                       </div>
                     </div>
@@ -243,7 +238,6 @@ export default {
       isLiked: false,
       likeCount: "",
       loading: true,
-      mapLoading: true
     };
   },
   computed: {
@@ -343,8 +337,7 @@ export default {
     },
 
     async showMap() {
-      await this.$refs.map.setting();
-      this.maoLoading = false
+      await this.$refs.map.initializeMap();
     },
     back() {
       // 1つ前へ
@@ -412,7 +405,7 @@ html {
   font-weight: bold;
   white-space: pre-wrap;
 }
-#post_image{
+#post_image {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
@@ -432,7 +425,6 @@ html {
 ul.uk-comment-list {
   margin: 0;
 }
-
 
 #location_button {
   float: left;
@@ -503,10 +495,10 @@ ul.uk-comment-list {
   /* box-sizing : border-box; */
 }
 #location_modal.uk-modal-body {
-    display: flow-root;
-    padding: 0px 0px;
-    border-radius: 10px;
-  }
+  display: flow-root;
+  padding: 0px 0px;
+  border-radius: 10px;
+}
 #delete_modal.uk-modal-dialog {
   position: relative;
   box-sizing: border-box;
@@ -521,9 +513,9 @@ ul.uk-comment-list {
   /* box-sizing : border-box; */
 }
 #delete_modal.uk-modal-body {
-    display: flow-root;
-    border-radius: 5px;
-  }
+  display: flow-root;
+  border-radius: 5px;
+}
 
 #delete-icon {
   text-align: right;
