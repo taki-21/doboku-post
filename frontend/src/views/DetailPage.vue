@@ -65,6 +65,7 @@
                       uk-modal
                     >
                       <div
+                       v-if="mapLoading"
                         id="location_modal"
                         class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
                       >
@@ -242,6 +243,7 @@ export default {
       isLiked: false,
       likeCount: "",
       loading: true,
+      mapLoading: true
     };
   },
   computed: {
@@ -340,8 +342,9 @@ export default {
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
-    showMap() {
-      this.$refs.map.initializeMap();
+    async showMap() {
+      await this.$refs.map.setting();
+      this.maoLoading = false
     },
     back() {
       // 1つ前へ

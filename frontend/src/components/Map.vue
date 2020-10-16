@@ -87,7 +87,7 @@ export default {
     },
     // 地図の作成
     initializeMap() {
-      this.loading = false;
+      // this.loading = false;
       this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
       this.setMarkers();
     },
