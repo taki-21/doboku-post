@@ -3,7 +3,7 @@
 https://doboku-post.site
 
 ## イメージ図
-![スクリーンショット 2020-10-10 18 56 39](https://user-images.githubusercontent.com/62042131/95652190-56ef7e00-0b2a-11eb-9c95-798d9c5476dc.png)
+![スクリーンショット 2020-10-17 2 13 23](https://user-images.githubusercontent.com/62042131/96288447-6a18b700-101e-11eb-9cbd-fc281a797c40.png)
 
 ## 概要
 主に土木、建築に関する写真を投稿し、共有できるアプリです。  
@@ -69,7 +69,7 @@ https://doboku-post.site
   
 ### 新規投稿・投稿編集
 * プレビュー表示
-* 名前（タイトル）から住所及び緯度経度を検索「GoogleMapAPI」
+* 名前（タイトル）から住所及び緯度経度を検索「GoogleMap Geocording API」
 
 ### ユーザー周り
 * ログイン機能
@@ -100,10 +100,10 @@ https://doboku-post.site
   * ローカル環境を構築
 ### CircleCI
 * 自動テスト
-  * masterブランチに pushすることでテスト開始
+  * masterブランチ以外に pushすることでテスト開始
 * 自動デプロイ
   * masterブランチへpushすることでECR/ECS/S3へデプロイ
-  * Orbsを用いたデプロイ
+  * Orbsを使用
   
 ## About me
   現在、22歳で某独立行政法人に勤務しております。バックエンドエンジニアを目指しポートフォリオの作成・改善、アウトプットを行っております。  
