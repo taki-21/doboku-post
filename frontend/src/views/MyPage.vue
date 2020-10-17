@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- ヘッダー -->
     <MyHeader />
     <router-link class="router-link" id="post" to="/newpostpage">
       <div class="fixed_btn">+</div>
@@ -57,7 +56,6 @@
               <div v-else>{{ Person.introduction }}</div>
             </div>
           </div>
-          <!-- </div> -->
         </div>
         <div class="uk-width-2-5@s uk-width-1-4">
           <div v-if="previousPosts[0]" class="chart">
@@ -72,7 +70,6 @@
           </div>
         </div>
       </div>
-      <!-- <pre>{{user_id}}</pre> -->
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
           <router-link
@@ -180,9 +177,7 @@ export default {
       console.log("watch!!!!");
       this.setPerson();
       this.loaded = false;
-      // this.options.animation.animateRotate = true;
       this.get_previous_posts();
-      // this.options.animation.animateRotate = false;
     },
   },
   created() {

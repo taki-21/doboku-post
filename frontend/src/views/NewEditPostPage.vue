@@ -230,8 +230,6 @@ export default {
     TitleSearchMap,
     ValidationProvider,
     ValidationObserver,
-
-    // ManualSearchMap,
   },
   props: ["post_id"],
   data() {
@@ -324,10 +322,6 @@ export default {
           this.message = "画像ファイルを選択してください";
         }
       }
-      // .catch((error) => {
-      //   console.log("エラー");
-      //   console.log("response: ", error.response.data);
-      // },
     },
     createImage(file) {
       const reader = new FileReader();

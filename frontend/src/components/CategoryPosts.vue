@@ -238,15 +238,7 @@ input[type="radio"] {
   margin-right: 0;
   padding-right: 10px;
 }
-/* UIkitの上書き */
-/* .uk-button {
-  padding: 0 20px;
-  border-radius: 30px;
-  background-color: rgb(255, 255, 255);
-  border: 0.5px solid black;
-  font-size: 20px;
-  color: black;
-} */
+
 @media (max-width: 640px) {
   #category_card {
     margin-bottom: 10px;
@@ -257,9 +249,6 @@ input[type="radio"] {
     background-color: rgb(236, 231, 225);
   }
 
-  /* #category_name {
-    font-size: 15px;
-  } */
   #category_label {
     font-size: 15px;
     display: inline-block;

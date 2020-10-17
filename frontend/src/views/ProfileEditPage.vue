@@ -277,10 +277,6 @@ export default {
   border-color: rgba(150, 150, 150, 0.5);
 }
 
-/* #profile_edit_card {
-  background-color: rgba(225, 215, 205, 0.247);
-  border-radius: 10px;
-} */
 #form_icon {
   height: 40px;
 }
@@ -335,7 +331,6 @@ export default {
 
 .uk-section {
   padding-top: 30px;
-  /* padding-bottom: 70px; */
 }
 #delete_button {
   background-color: rgba(245, 170, 157, 0.4);
