@@ -2,9 +2,7 @@
   <!-- メッセージエリア -->
   <div>
     <div variant="danger" id="error" class="message" show v-if="message.error">{{ message.error }}</div>
-    <!-- <div variant="warning" show v-show="message.warnings.length > 0" class="mb-0"> -->
-      <!-- <p v-for="(warning, key) in message.warnings" v-bind:key="key" class="mb-0">{{ warning }}</p> -->
-    <!-- </div> -->
+
     <div variant="info" id="info" class="message" show v-if="message.info">{{ message.info }}</div>
   </div>
 </template>

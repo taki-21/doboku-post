@@ -230,8 +230,6 @@ export default {
     TitleSearchMap,
     ValidationProvider,
     ValidationObserver,
-
-    // ManualSearchMap,
   },
   props: ["post_id"],
   data() {
@@ -324,10 +322,6 @@ export default {
           this.message = "画像ファイルを選択してください";
         }
       }
-      // .catch((error) => {
-      //   console.log("エラー");
-      //   console.log("response: ", error.response.data);
-      // },
     },
     createImage(file) {
       const reader = new FileReader();
@@ -376,12 +370,12 @@ export default {
 
 #form_custom {
   width: 540px;
-  background-color: #fff;
+  background-color: rgb(255, 255, 255);
   border: 2px solid #ccc;
 }
 
 #form_custom:hover {
-  background-color: rgba(0, 0, 0, 0.041);
+  background-color: rgba(0, 0, 0, 0.1);
   z-index: 100;
 }
 

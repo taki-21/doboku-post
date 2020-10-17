@@ -21,7 +21,11 @@
                 <form @submit.prevent="submitPost()">
                   <div uk-form-custom id="form_custom">
                     <div class="uk-placeholder uk-text-center">
-                      <input type="file" @change="selectedFile" />
+                      <input
+                        :disabled="disabled"
+                        type="file"
+                        @change="selectedFile"
+                      />
                       <div id="preview">
                         <div v-if="previewImage">
                           <img id="preview_image" :src="previewImage" />
@@ -46,6 +50,7 @@
                           uk-icon="icon: user"
                         ></span>
                         <input
+                          :disabled="disabled"
                           class="uk-input"
                           type="text"
                           placeholder="ユーザー名"
@@ -70,6 +75,7 @@
                           uk-icon="icon: mail"
                         ></span>
                         <input
+                          :disabled="disabled"
                           class="uk-input"
                           type="email"
                           placeholder="メールアドレス"
@@ -87,6 +93,7 @@
                         uk-icon="icon: file-edit"
                       ></span>
                       <textarea
+                        :disabled="disabled"
                         class="uk-textarea textarea-input"
                         rows="4"
                         type="text"
@@ -104,6 +111,58 @@
                     >
                       変更を保存する
                     </button>
+                  </div>
+                  <div>
+                    <a
+                      href="#modal-delete"
+                      id="delete_button"
+                      class="uk-button uk-button-middle uk-width-1-1"
+                      uk-toggle
+                    >
+                      アカウント削除
+                    </a>
+                    <div id="modal-delete" uk-modal>
+                      <div class="uk-modal-dialog uk-modal-body">
+                        <div v-if="id === 2">
+                          <span
+                            >申し訳ございません。GuestUserのアカウントは削除できません。</span
+                          >
+                          <div class="uk-text-right">
+                            <button
+                              class="uk-button uk-button-small uk-button-default uk-modal-close"
+                            >
+                              OK
+                            </button>
+                          </div>
+                        </div>
+
+                        <div v-else>
+                          <h2 class="uk-modal-title">アカウント削除確認</h2>
+                          <p>アカウントを削除します。よろしいですか？</p>
+                          <p class="uk-text-right">
+                            <button
+                              class="uk-button uk-modal-close"
+                              type="button"
+                            >
+                              キャンセル
+                            </button>
+                            <button
+                              id="ok_button"
+                              class="uk-button uk-button-default uk-modal-close"
+                              type="button"
+                              @click="deleteAccount"
+                            >
+                              OK
+                            </button>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div v-if="id === 2">
+                    <span id="error_message">
+                      ※このアカウントは編集・削除ができません。
+                    </span>
                   </div>
                 </form>
               </ValidationObserver>
@@ -153,7 +212,13 @@ export default {
       username: this.$store.getters["user/username"],
       email: this.$store.getters["user/email"],
       introduction: this.$store.getters["user/introduction"],
+      disabled: false,
     };
+  },
+  mounted() {
+    if (this.username === "GuestUser") {
+      this.disabled = true;
+    }
   },
   methods: {
     selectedFile(event) {
@@ -187,6 +252,16 @@ export default {
       };
       reader.readAsDataURL(file);
     },
+    deleteAccount() {
+      sessionStorage.clear();
+      api.delete("/users/" + this.id + "/");
+      this.$store.dispatch("auth/logout");
+      this.$store.dispatch("user/logout");
+      this.$store.dispatch("message/setInfoMessage", {
+        message: "アカウントを削除しました",
+      });
+      this.$router.replace("/");
+    },
     back() {
       // 1つ前へ
       this.$router.back();
@@ -202,10 +277,6 @@ export default {
   border-color: rgba(150, 150, 150, 0.5);
 }
 
-/* #profile_edit_card {
-  background-color: rgba(225, 215, 205, 0.247);
-  border-radius: 10px;
-} */
 #form_icon {
   height: 40px;
 }
@@ -260,8 +331,20 @@ export default {
 
 .uk-section {
   padding-top: 30px;
-  /* padding-bottom: 70px; */
 }
+#delete_button {
+  background-color: rgba(245, 170, 157, 0.4);
+  font-size: 15px;
+  color: rgb(0, 0, 0);
+  border-radius: 10px;
+  border: 2px solid rgb(240, 173, 173);
+}
+.uk-modal-body {
+  display: flow-root;
+  padding: 30px 30px;
+  border-radius: 5px;
+}
+
 @media (max-width: 640px) {
   #preview_image {
     position: relative;

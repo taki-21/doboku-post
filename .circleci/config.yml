@@ -103,12 +103,6 @@ jobs:
       - db_migrations
       - run_test
 
-  # front_build:
-  #   executor: test_default
-  #   steps:
-  #     - checkout
-  #     - npm_install
-
   front_deploy:
     executor: test_default
     steps:
@@ -126,21 +120,14 @@ jobs:
 
 workflows:
   version: 2
-  # Djangoのテスト
-  # test:
-  #   jobs:
-  #     - back_build:
-  #         filters:
-  #           branches:
-  #             ignore: master
 
   # DjangoをECR/ECSへデプロイ
   back_deploy:
     jobs:
-      - back_build
-          # filters:
-          #   branches:
-          #     only: master
+      - back_build:
+          filters:
+            branches:
+              ignore: master
       - aws-ecr/build-and-push-image:
           requires:
             - back_build
@@ -152,9 +139,9 @@ workflows:
           path: "./backend/"
           repo: doboku-post-django
           tag: "${CIRCLE_SHA1}"
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
 
       - aws-ecs/deploy-service-update:
           requires:
@@ -176,9 +163,10 @@ workflows:
           path: ./nginx/
           repo: doboku-post-nginx
           tag: "${CIRCLE_SHA1}"
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
+
       - aws-ecs/deploy-service-update:
           requires:
             - aws-ecr/build-and-push-image
@@ -186,17 +174,14 @@ workflows:
           cluster-name: "${MY_APP_PREFIX}-cluster"
           service-name: "${MY_APP_PREFIX}-service"
           container-image-name-updates: "container=${MY_APP_PREFIX}-nginx,tag=${CIRCLE_SHA1}"
-          # filters:
-          #   branches:
-          #     only: master
+          filters:
+            branches:
+              only: master
 
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      # - front_build
-      - front_deploy
-          # requires:
-          #   - front_build
-          # filters:
-          #   branches:
-          #     only: master
+      - front_deploy:
+          filters:
+            branches:
+              only: master

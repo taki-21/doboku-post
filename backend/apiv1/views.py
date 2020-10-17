@@ -3,12 +3,12 @@ from rest_framework import authentication, permissions, generics, views, status,
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like
-from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMapSerializer, CommentSerializer, LikeSerializer
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, PostLikeSerializer, CommentSerializer, LikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
-
+from .permissions import IsOwnerOrReadOnly
 
 def Response_unauthorized():
     return Response({"detail": "権限がありません。"}, status.HTTP_401_UNAUTHORIZED)
@@ -20,69 +20,34 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
     serializer_class = UserSerializer
 
 
-class UserRetrieveUpdateDestroyAPIView(views.APIView):
+class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
-    def get(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの取得（詳細）APIに対応するハンドラメソッド"""
+    # permission_classes = [IsOwnerOrReadOnly]
+    queryset = get_user_model().objects.all()
+    serializer_class = UserSerializer
 
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = UserSerializer(instance=user)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def put(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def update(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
+        response = super().update(request, pk, *args, **kwargs)
 
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=user, data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
+        return response
 
-    def patch(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの一部更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def partial_update(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
+        response = super().partial_update(request, pk, *args, **kwargs)
 
-        # シリアライザオブジェクトを作成
-        serializer = UserSerializer(
-            instance=user, data=request.data, partial=True)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
+        return response
 
-    def delete(self, request, pk, *args, **kwargs):
-        """カスタムユーザーモデルの削除APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        user = get_object_or_404(get_user_model(), pk=pk)
-
+    def destroy(self, request, pk, *args, **kwargs):
+        user = get_user_model().objects.get(id=pk)
         if request.user.id != user.id:
             return Response_unauthorized()
-
-        # モデルオブジェクトを削除
-        user.delete()
-        # レスポンスオブジェクトを作成して返す
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
+        response = super().destroy(request, pk, *args, **kwargs)
+        return response
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -125,92 +90,37 @@ class PostListCreateAPIView(generics.ListCreateAPIView):
     pagination_class = StandardResultsSetPagination
 
 
-class PostRetrieveUpdateDestroyAPIView(views.APIView):
-    # queryset = Post.objects.all()
-    # serializer_class = PostSerializer
+class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """投稿モデルの取得（詳細）・更新・削除APIクラス"""
-
-    def get(self, request, pk, *args, **kwargs):
-        """投稿モデルの取得（詳細）APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=post)
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def put(self, request, pk, *args, **kwargs):
-        """投稿モデルの更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(instance=post, data=request.data)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def patch(self, request, pk, *args, **kwargs):
-        """投稿モデルの一部更新APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-
-        # シリアライザオブジェクトを作成
-        serializer = PostSerializer(
-            instance=post, data=request.data, partial=True)
-        # バリデーションを実行
-        serializer.is_valid(raise_exception=True)
-        # モデルオブジェクトを更新
-        serializer.save()
-        # レスポンスオブジェクトを作成して返す
-        return Response(serializer.data, status.HTTP_200_OK)
-
-    def delete(self, request, pk, *args, **kwargs):
-        """投稿モデルの削除APIに対応するハンドラメソッド"""
-
-        # モデルオブジェクトの取得
-        post = get_object_or_404(Post, pk=pk)
-
-        if request.user.id != post.author.id:
-            return Response_unauthorized()
-
-        # モデルオブジェクトを削除
-        post.delete()
-        # レスポンスオブジェクトを作成して返す
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    permission_classes = [IsOwnerOrReadOnly]
+    queryset = Post.objects.all()
+    serializer_class = PostSerializer
 
 
-class PostMapFilter(filters.FilterSet):
+class PostLikeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostLikeSerializer
+
+
+class PostMiniFilter(filters.FilterSet):
 
     class Meta:
         model = Post
         fields = ['author', ]
 
 
-class PostMapListAPIView(generics.ListAPIView):
+class PostMiniListAPIView(generics.ListAPIView):
     """投稿の位置モデルの取得（一覧）・投稿APIクラス"""
     queryset = Post.objects.all()
-    serializer_class = PostMapSerializer
-    filter_class = PostMapFilter
+    serializer_class = PostMiniSerializer
+    filter_class = PostMiniFilter
 
 
-class PostMapRetrieveAPIView(generics.RetrieveAPIView):
-    """投稿の位置モデルの取得（詳細）・更新・削除APIクラス"""
+# class PostMiniRetrieveAPIView(generics.RetrieveAPIView):
+#     """投稿の位置モデルの取得（詳細）・更新・削除APIクラス"""
 
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+#     queryset = Post.objects.all()
+#     serializer_class = PostSerializer
 
 
 class CommentFilter(filters.FilterSet):
@@ -230,14 +140,16 @@ class CommentListCreateAPIView(generics.ListCreateAPIView):
 class CommentRetrieveUpdateDestroyAPIView(
         generics.RetrieveUpdateDestroyAPIView):
     """コメントモデルの取得（詳細）・更新・削除APIクラス"""
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
+
 
 
 class LikeFilter(filters.FilterSet):
     class Meta:
         model = Like
-        fields = ['user', 'post']
+        fields = ['author', 'post']
 
 
 class LikeListCreateAPIView(generics.ListCreateAPIView):
@@ -250,4 +162,5 @@ class LikeListCreateAPIView(generics.ListCreateAPIView):
 
 class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
+    permission_classes = [IsOwnerOrReadOnly]
     queryset = Like.objects.all()

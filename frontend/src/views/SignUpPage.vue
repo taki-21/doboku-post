@@ -1,8 +1,6 @@
 <template>
   <div>
     <MyHeader />
-    <!-- <GlobalMessage /> -->
-    <!-- {{message}} -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
         <div class="uk-container">
@@ -63,7 +61,6 @@
                           <p id="error_message">{{ errors[0] }}</p>
                         </ValidationProvider>
                       </div>
-                      <!-- {{email_adress}} -->
                     </div>
                     <div>
                       <div class="uk-inline uk-width-1-1">
@@ -192,7 +189,6 @@ export default {
         .then((response) => {
           console.log("送信内容: " + response.data);
           this.autoLogin();
-          // this.message = "送信しました！";
         })
         // .then(this.autoLogin())
         .catch((error) => {
@@ -210,7 +206,7 @@ export default {
           if (this.isLoggedIn) {
             console.log("Login succeed.");
             this.$store.dispatch("message/setInfoMessage", {
-              message: "ログインしました",
+              message: "登録完了",
             });
             console.log("this.id: " + this.id);
             this.$store
@@ -222,11 +218,6 @@ export default {
             // クエリ文字列に「next」がなければ、ホーム画面へ
             const next = this.$route.query.next || "/";
             this.$router.push(next).catch(() => {});
-            // .catch((error) => {
-            // navigationが失敗するとエラーを吐くことを知った
-            // test環境はどうしようか迷ったが今の所除外
-            //   if (process.env.NODE_ENV === "development") console.log(error);
-            // });
           } else {
             console.log("ログインエラー");
           }

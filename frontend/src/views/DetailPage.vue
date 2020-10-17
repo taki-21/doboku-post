@@ -44,25 +44,22 @@
 
                   <div uk-lightbox>
                     <a :href="post.raw_image">
-                      <img :src="post.image" />
+                      <img id="post_image" :src="post.image" />
                     </a>
                   </div>
                   <div v-if="post.address">
                     <button
                       id="location_button"
-                      class="uk-button uk-button-default"
+                      class="uk-button"
                       :href="modal_href"
                       type="button"
-                      @click="callChildMethod"
+                      @click="showMap"
                       uk-toggle
                     >
+                      <i uk-icon="location"></i>
                       場所を確認
                     </button>
-                    <div
-                      :id="modal"
-                      class="uk-flex-top .uk-width-large"
-                      uk-modal
-                    >
+                    <div :id="modal" class="uk-modal-flex" uk-modal>
                       <div
                         id="location_modal"
                         class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
@@ -73,7 +70,7 @@
                           uk-close
                         ></button>
                         <div>
-                          <Map ref="map" :post="post" />
+                          <Map ref="map" :post="post"/>
                         </div>
                       </div>
                     </div>
@@ -272,7 +269,7 @@ export default {
         await api
           .get("/likes/", {
             params: {
-              user: this.login_user_id,
+              author: this.login_user_id,
               post: this.post_id,
             },
           })
@@ -304,12 +301,12 @@ export default {
       this.isLiked = true;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/" + this.post_id + "/", {
+      api.patch("/posts/like/" + this.post_id + "/", {
         likes_count: this.likeCount,
       });
       api
         .post("/likes/", {
-          user: this.login_user_id,
+          author: this.login_user_id,
           post_id: this.post_id,
         })
         .then(this.getLikeCount)
@@ -321,7 +318,7 @@ export default {
       this.isLiked = false;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/" + this.post_id + "/", {
+      api.patch("/posts/like/" + this.post_id + "/", {
         likes_count: this.likeCount,
       });
 
@@ -339,8 +336,8 @@ export default {
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
-    callChildMethod() {
-      this.$refs.map.initializeMap();
+    async showMap() {
+      await this.$refs.map.initializeMap();
     },
     back() {
       // 1つ前へ
@@ -408,6 +405,9 @@ html {
   font-weight: bold;
   white-space: pre-wrap;
 }
+#post_image {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
+}
 
 .uk-comment-primary {
   background-color: #fff;
@@ -429,14 +429,12 @@ ul.uk-comment-list {
 #location_button {
   float: left;
   margin-top: 18px;
-}
-
-#location_button.uk-button-default {
-  background-color: rgb(238, 237, 235);
+  background-color: rgba(135, 165, 179, 0.829);
   color: #333;
   font-size: 20px;
-  border: 2px solid #696464;
-  border-radius: 15px;
+  /* border: 1px solid #696464; */
+  border-radius: 5px;
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 }
 #like_buttun {
   max-width: 640px;
@@ -496,17 +494,35 @@ ul.uk-comment-list {
   transition-property: opacity, transform;
   /* box-sizing : border-box; */
 }
-#delete-icon {
-  text-align: right;
-}
-
-.uk-modal-body {
+#location_modal.uk-modal-body {
   display: flow-root;
   padding: 0px 0px;
   border-radius: 10px;
 }
+#delete_modal.uk-modal-dialog {
+  position: relative;
+  box-sizing: border-box;
+  margin: 5px auto;
+  width: 600px;
+  max-width: calc(100% - 0.01px) !important;
+  background: rgb(240, 240, 240);
+  /* opacity: 0; */
+  /* transform: translateY(-100px); */
+  transition: 0.3s linear;
+  transition-property: opacity, transform;
+  /* box-sizing : border-box; */
+}
+#delete_modal.uk-modal-body {
+  display: flow-root;
+  border-radius: 5px;
+}
+
+#delete-icon {
+  text-align: right;
+}
+
 @media (max-width: 640px) {
-  .uk-modal-body {
+  #location_modal.uk-modal-body {
     display: flow-root;
     padding: 0px 0px;
     border-radius: 10px;

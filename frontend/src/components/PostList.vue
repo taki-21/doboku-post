@@ -185,6 +185,7 @@ export default {
   max-width: 640px;
   margin: 0px auto;
 }
+
 .timestamp {
   font-size: 12px;
   text-align: right;
@@ -281,19 +282,20 @@ export default {
 @media (max-width: 640px) {
   /* .timestamp, */
   .prefecture {
-    display: none;
+    font-size: 8px;
   }
   .timestamp {
-    font-size: 5px;
+    font-size: 8px;
+    height:12px;
   }
   .user_icon {
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     border-radius: 50%;
   }
   .show_user {
     text-decoration: none;
-    line-height: 20px;
+    line-height: 25px;
     float: left;
     /* font-size: large; */
     color: #333333;
@@ -309,7 +311,7 @@ export default {
     padding: 8px 8px 2px 8px;
   }
   #post_title {
-    font-size: 12px;
+    font-size: 13px;
   }
   #edit-word,
   #delete-word {

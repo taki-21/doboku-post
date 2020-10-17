@@ -52,11 +52,11 @@ export default {
     },
   },
   async mounted() {
-    await api.get("/posts/map/").then((response) => {
+    await api.get("/posts/mini/").then((response) => {
       this.postList = response.data;
     });
     if (this.user_id) {
-      await api.get("/posts/map/?author=" + this.user_id).then((response) => {
+      await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
         this.userPostList = response.data;
       });
     }

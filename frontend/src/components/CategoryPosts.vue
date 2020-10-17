@@ -20,12 +20,8 @@
               :value="category.id"
               @change="search"
             />
-            <label
-              id="category_label"
-              class="uk-button uk-width-1-1"
-              :for="category.id"
-            >
-              <span id="category_name">{{ category.name }}</span>
+            <label id="category_label" class="uk-width-1-1" :for="category.id">
+              <span>{{ category.name }}</span>
             </label>
           </li>
         </ul>
@@ -215,14 +211,25 @@ input[type="radio"] {
   margin-bottom: 20px;
   padding: 5px 5px;
   outline: none;
-  /* border-radius:5px; */
   border: 2px solid rgb(0, 0, 0);
   background-color: rgb(236, 231, 225);
 }
 #category_card_contnet {
   padding: 5px 40px;
 }
-
+#category_label {
+  font-size: 20px;
+  display: inline-block;
+  padding: 0.3em 1em;
+  text-decoration: none;
+  background: #f7f7f7;
+  border-left: solid 6px #000000; /*左線*/
+  color: #000000; /*文字色*/
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+}
+#category_label:hover{
+  cursor: pointer;
+}
 #previous_icon {
   margin-left: 0;
   padding-left: 10px;
@@ -231,32 +238,35 @@ input[type="radio"] {
   margin-right: 0;
   padding-right: 10px;
 }
-/* UIkitの上書き */
-.uk-button {
-  padding: 0 20px;
-  border-radius: 30px;
-  background-color: rgb(255, 255, 255);
-  border: 0.5px solid black;
-  font-size: 20px;
-  color: black;
-}
+
 @media (max-width: 640px) {
   #category_card {
-  margin-bottom: 10px;
-  padding: 2px 5px 3px 5px;
-  outline: none;
-  /* border-radius:5px; */
-  border: 1px solid rgb(0, 0, 0);
-  background-color: rgb(236, 231, 225);
-}
-
-  #category_name {
-    font-size: 15px;
+    margin-bottom: 10px;
+    padding: 2px 5px 3px 5px;
+    outline: none;
+    /* border-radius:5px; */
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgb(236, 231, 225);
   }
+
   #category_label {
+    font-size: 15px;
+    display: inline-block;
+    height: 22px;
+    line-height: 22px;
+    padding: 0.1em 1em;
+    margin-top: 0.1em;
+    text-decoration: none;
+    background: #f7f7f7;
+    border-left: solid 3px #000000; /*左線*/
+    color: #000000; /*文字色*/
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.29);
+  }
+
+  /* #category_label {
     height: 25px;
     line-height: 22px;
-  }
+  } */
   #category_card_contnet {
     padding: 0px 40px;
   }

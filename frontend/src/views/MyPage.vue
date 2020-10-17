@@ -1,7 +1,10 @@
 <template>
   <div>
-    <!-- ヘッダー -->
     <MyHeader />
+    <router-link class="router-link" id="post" to="/newpostpage">
+      <div class="fixed_btn">+</div>
+    </router-link>
+
     <div class="content_profilecard">
       <div
         id="profile_card"
@@ -44,10 +47,15 @@
             </div>
           </div>
           <div id="profile_content">
-            <div v-if="Person.introduction === null"></div>
-            <div v-else>{{ Person.introduction }}</div>
+            <div v-if="user_id == login_user_id">
+              <div v-if="login_user_introduction === null"></div>
+              <div v-else>{{ login_user_introduction }}</div>
+            </div>
+            <div v-else>
+              <div v-if="Person.introduction === null"></div>
+              <div v-else>{{ Person.introduction }}</div>
+            </div>
           </div>
-          <!-- </div> -->
         </div>
         <div class="uk-width-2-5@s uk-width-1-4">
           <div v-if="previousPosts[0]" class="chart">
@@ -62,7 +70,6 @@
           </div>
         </div>
       </div>
-      <!-- <pre>{{user_id}}</pre> -->
       <div class="content">
         <ul class="uk-flex-center" id="nav" uk-tab>
           <router-link
@@ -143,6 +150,7 @@ export default {
       previousPosts: [],
       login_user_icon_image: this.$store.getters["user/icon_image"],
       login_user_username: this.$store.getters["user/username"],
+      login_user_introduction: this.$store.getters["user/introduction"],
     };
   },
   computed: {
@@ -153,7 +161,7 @@ export default {
       categories: "categories",
     }),
     myCategories() {
-      return this.previousPosts.map((x) => x.category);
+      return this.previousPosts.map((x) => x.category.id);
     },
     categoriesNum() {
       var categories_num = [];
@@ -169,9 +177,7 @@ export default {
       console.log("watch!!!!");
       this.setPerson();
       this.loaded = false;
-      // this.options.animation.animateRotate = true;
       this.get_previous_posts();
-      // this.options.animation.animateRotate = false;
     },
   },
   created() {
@@ -186,8 +192,8 @@ export default {
     this.options.animation.animateRotate = true;
     this.pieChartData.labels = labels;
     this.loaded = false;
-    await api.get("/posts/?author=" + this.user_id).then((response) => {
-      this.previousPosts = response.data.results;
+    await api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+      this.previousPosts = response.data;
       this.options.animation.animateRotate = true;
       this.set_category_data();
       this.options.animation.animateRotate = false;
@@ -199,19 +205,19 @@ export default {
       api
         .get("/likes/", {
           params: {
-            user: this.user_id,
+            author: this.user_id,
           },
         })
         .then((response) => {
-          this.likedPostsNum = response.data.results.length;
+          this.likedPostsNum = response.data.count;
         });
     },
     get_previous_posts() {
       console.log("get_previous_posts!!!!");
-      api.get("/posts/?author=" + this.user_id).then((response) => {
-        this.previousPosts = response.data.results;
+      api.get("/posts/mini/?author=" + this.user_id).then((response) => {
+        this.previousPosts = response.data;
         this.set_category_data();
-        this.previousPostsNum = response.data.results.length;
+        this.previousPostsNum = response.data.length;
       });
     },
     set_category_data() {
@@ -260,9 +266,9 @@ export default {
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #f3f5f5;
-  /* margin-top: 20px; */
+  background-color: rgba(200, 200, 200, 0.1);
   margin-bottom: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
 .uk-tab > .uk-active > a {
   color: #333;
@@ -275,7 +281,6 @@ export default {
   padding: 5px 10px;
   color: #999;
   border-bottom: 3px solid transparent;
-  /* font-size: .875rem; */
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
   font-size: 120%;
@@ -285,6 +290,7 @@ export default {
   position: relative;
   top: 15px;
   margin-left: 20px;
+  background-color:rgba(187, 170, 150, 0.521)
 }
 #profile_content {
   max-width: 300px;
@@ -314,7 +320,43 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.fixed_btn {
+  display: none;
+}
+
 @media (max-width: 640px) {
+  .fixed_btn {
+    display: block;
+    text-decoration: none;
+    background: rgb(116, 116, 116);
+    color: #fff;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    border-radius: 50%;
+    text-align: center;
+    overflow: hidden;
+    transition: 0.4s;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 30px;
+    z-index: 100;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  .content_profilecard {
+    margin: 10px auto;
+    padding: 5px 15px;
+  }
+
+  #profile_card {
+    overflow: hidden;
+    border-radius: 5px;
+    /* margin-top: 20px; */
+    margin-bottom: 5px;
+  }
+
   #nav {
     font-size: 12px;
     margin-bottom: 10px;
@@ -329,7 +371,7 @@ export default {
     padding: 5px 10px 1px 10px;
   }
   #username {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: bold;
   }
 
