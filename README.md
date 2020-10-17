@@ -1,6 +1,7 @@
 # DOBOKU_Post
 ## URL
-https://doboku-post.site
+https://doboku-post.site  
+　「右上のログインボタン」 → 「かんたログイン」 で新規登録なしでログインできます。
 
 ## イメージ図
 ![スクリーンショット 2020-10-17 2 13 23](https://user-images.githubusercontent.com/62042131/96288447-6a18b700-101e-11eb-9cbd-fc281a797c40.png)
