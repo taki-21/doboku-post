@@ -302,7 +302,7 @@ export default {
           setTimeout(() => {
             this.isProcessing = false;
             resolve();
-          }, 300);
+          }, 500);
         });
       } else {
         this.$router.replace("/login");
