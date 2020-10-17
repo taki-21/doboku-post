@@ -271,8 +271,9 @@ export default {
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: rgba(43, 42, 42, 0.144);
+  background-color: rgba(200, 200, 200, 0.1);
   margin-bottom: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
 .uk-tab > .uk-active > a {
   color: #333;
