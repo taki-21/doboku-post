@@ -70,7 +70,7 @@
                           uk-close
                         ></button>
                         <div>
-                          <Map ref="map" :post="post"/>
+                          <Map ref="map" :post="post" />
                         </div>
                       </div>
                     </div>
@@ -78,7 +78,11 @@
                   <div id="like_buttun">
                     <div v-if="isLiked">
                       <div>
-                        <span class="like_icon" @click="toggleLike">
+                        <span
+                          class="like_icon"
+                          @click="toggleLike"
+                          :disabled="isProcessing"
+                        >
                           <svg
                             width="50"
                             height="50"
@@ -238,6 +242,7 @@ export default {
       isLiked: false,
       likeCount: "",
       loading: true,
+      isProcessing: false,
     };
   },
   computed: {
@@ -290,7 +295,15 @@ export default {
     },
     toggleLike() {
       if (this.isLoggedIn) {
+        if (this.isProcessing) return;
+        this.isProcessing = true;
         this.isLiked ? this.removeLike() : this.addLike();
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            this.isProcessing = false;
+            resolve();
+          }, 300);
+        });
       } else {
         this.$router.replace("/login");
       }
@@ -301,16 +314,16 @@ export default {
       this.isLiked = true;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/like/" + this.post_id + "/", {
-        likes_count: this.likeCount,
-      });
       api
-        .post("/likes/", {
-          author: this.login_user_id,
-          post_id: this.post_id,
+        .patch("/posts/like/" + this.post_id + "/", {
+          likes_count: this.likeCount,
         })
         .then(this.getLikeCount)
         .then(this.confirmLiked);
+      api.post("/likes/", {
+        author: this.login_user_id,
+        post_id: this.post_id,
+      });
     },
     removeLike() {
       console.log("removeLike");
@@ -318,14 +331,14 @@ export default {
       this.isLiked = false;
       this.confirmLiked;
       this.getLikeCount;
-      api.patch("/posts/like/" + this.post_id + "/", {
-        likes_count: this.likeCount,
-      });
-
       api
-        .delete("/likes/" + this.likeId + "/")
+        .patch("/posts/like/" + this.post_id + "/", {
+          likes_count: this.likeCount,
+        })
         .then(this.getLikeCount)
         .then(this.confirmLiked);
+
+      api.delete("/likes/" + this.likeId + "/");
     },
     CommentGet() {
       api.get("/comments/?post=" + this.post_id).then((response) => {
