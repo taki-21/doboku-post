@@ -81,7 +81,7 @@ https://doboku-post.site
 ### テスト
 * バックエンド
   * viewのテスト: 41methods
-  * serializerのテスト: 
+  * serializerのテスト: 6methods
 * フロントエンド
   * 未実装
 
