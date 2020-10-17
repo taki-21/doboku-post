@@ -9,7 +9,7 @@ from unittest import TestCase
 TestCase.maxDiff = None
 
 ###################
-# 合計:41
+# 合計:44
 ###################
 # GET(正常系: 1, 異常系: 0)
 # POST(正常系: 1, 異常系: 1)
