@@ -4,7 +4,7 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" id="post" to="/newpostpage">
-            <button class="uk-button uk-button-default" id="post_button">
+            <button class="uk-button header_button" id="post_button">
               <i id="icon" uk-icon="pencil"></i>投稿する
             </button>
           </router-link>
@@ -73,12 +73,13 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <router-link class="router-link" to="/signup">
-            <div class="link">
+            <button class="uk-button header_button" id="signup_button">
               <i id="icon" uk-icon="plus-circle"></i>新規登録
-            </div>
+            </button>
           </router-link>
           <router-link class="router-link" to="/login">
-            <div class="link"><i id="icon" uk-icon="sign-in"></i>ログイン</div>
+                        <button class="uk-button header_button" id="login_button">
+<i id="icon" uk-icon="sign-in"></i>ログイン</button>
           </router-link>
         </div>
       </li>
@@ -117,8 +118,8 @@ export default {
 #post {
   padding-left: 0;
 }
-#post_button {
-  background-color: rgba(225, 225, 225, 0.5);
+
+.header_button {
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0);
   font-size: 18px;
@@ -126,8 +127,18 @@ export default {
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
 }
 
-#post_button:active {
+.header_button:active {
   box-shadow: none;
+}
+
+#post_button{
+  background-color: rgba(225, 225, 225, 0.5);
+}
+#signup_button{
+  background-color: rgba(230, 160, 160, 0.4);
+}
+#login_button{
+  background-color: rgba(150, 210, 200, 0.4);
 }
 .show_user {
   font-size: large;
