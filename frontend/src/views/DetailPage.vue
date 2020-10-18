@@ -447,7 +447,6 @@ ul.uk-comment-list {
   background-color: rgba(135, 165, 179, 0.829);
   color: #333;
   font-size: 20px;
-  /* border: 1px solid #696464; */
   border-radius: 5px;
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
 }
@@ -466,7 +465,6 @@ ul.uk-comment-list {
   font-size: 40px;
   position: relative;
   top: 8px;
-  /* left: 8px; */
 }
 
 #author_name {
@@ -488,10 +486,7 @@ ul.uk-comment-list {
 }
 
 .logbox {
-  /* border: solid 1px #808080; */
-  /* margin-top: 40px; */
   height: 590px;
-  /* max-height: -webkit-fill-available; */
   overflow-y: scroll;
   overflow-y: overlay;
 }
@@ -503,11 +498,8 @@ ul.uk-comment-list {
   width: 1000px;
   max-width: calc(100% - 0.01px) !important;
   background: rgb(240, 240, 240);
-  /* opacity: 0; */
-  /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
-  /* box-sizing : border-box; */
 }
 #location_modal.uk-modal-body {
   display: flow-root;
@@ -521,11 +513,8 @@ ul.uk-comment-list {
   width: 600px;
   max-width: calc(100% - 0.01px) !important;
   background: rgb(240, 240, 240);
-  /* opacity: 0; */
-  /* transform: translateY(-100px); */
   transition: 0.3s linear;
   transition-property: opacity, transform;
-  /* box-sizing : border-box; */
 }
 #delete_modal.uk-modal-body {
   display: flow-root;
