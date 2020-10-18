@@ -35,10 +35,10 @@ export default {
   animation: fadein-keyframes 2s 0s 1 forwards;
 }
 #info {
-  background-color: #f1ebe7;
+  background-color: #a3fff7;
 }
 #error{
-  background-color: #f7e167;
+  background-color: #ffeb7c;
 }
 @keyframes fadein-keyframes {
   0% {

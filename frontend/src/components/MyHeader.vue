@@ -28,7 +28,7 @@ export default {
 
 .title-header {
   padding: 5px 5%;
-  background-color: rgba(139, 138, 135, 1);
+  background-color: rgba(135, 135, 135, 1);
   display: flex;
   align-items: center;
   height: 60px;
