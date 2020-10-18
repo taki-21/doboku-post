@@ -367,7 +367,7 @@ html {
   overflow: overlay;
 }
 #content {
-  margin-top: 10px;
+  margin: 0px auto 10px;
 }
 .show_user {
   text-decoration: none;
@@ -396,7 +396,9 @@ html {
   margin-right: 5px;
   border-radius: 50%;
 }
-
+.uk-card-body {
+    padding: 20px 40px;
+}
 #detail_post {
   background-color: rgba(225, 215, 205, 0.247);
 }
