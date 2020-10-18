@@ -127,7 +127,7 @@ workflows:
       - back_build:
           filters:
             branches:
-              ignore: master
+              only: master
       - aws-ecr/build-and-push-image:
           requires:
             - back_build
