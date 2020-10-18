@@ -24,6 +24,7 @@ export default {
   position: absolute;
   top: 20px;
   left: 50%;
+  min-width:30%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
@@ -34,10 +35,10 @@ export default {
   animation: fadein-keyframes 2s 0s 1 forwards;
 }
 #info {
-  background-color: #bef5de;
+  background-color: #a3fff7;
 }
 #error{
-  background-color: #f7e167;
+  background-color: #ffeb7c;
 }
 @keyframes fadein-keyframes {
   0% {

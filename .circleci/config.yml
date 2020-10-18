@@ -127,7 +127,7 @@ workflows:
       - back_build:
           filters:
             branches:
-              ignore: master
+              only: master
       - aws-ecr/build-and-push-image:
           requires:
             - back_build
@@ -150,6 +150,10 @@ workflows:
           cluster-name: "${MY_APP_PREFIX}-cluster"
           service-name: "${MY_APP_PREFIX}-service"
           container-image-name-updates: "container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}"
+          filters:
+            branches:
+              only: master
+
 
   # NginxをECR/ECSへデプロイ
   nginx_deploy:
@@ -181,7 +185,4 @@ workflows:
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      - front_deploy:
-          filters:
-            branches:
-              only: master
+      - front_deploy

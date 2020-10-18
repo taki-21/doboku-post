@@ -69,10 +69,10 @@
       </form>
     </div>
     <div>
-      <div v-show="loading" class="loader">
+      <div v-show="isLoading" class="loader">
         <span uk-spinner></span>
       </div>
-      <div v-show="!loading">
+      <div v-show="!isLoading">
         <PostList :postType="filterPosts" />
         <div v-if="filterPosts == ''">
           <p id="none_message">条件に一致する投稿がありません</p>
@@ -113,7 +113,7 @@ export default {
         period: this.$route.query.published_at || "",
         prefecture: this.$route.query.prefecture || "",
       },
-      loading: true,
+      isLoading: true,
       nextPage: false,
       infiniteId: 0,
       page: 1,
@@ -133,7 +133,7 @@ export default {
       this.getPostURL();
       this.searchHandler();
     },
-    loading() {
+    isLoading() {
       this.$nextTick(() => {
         var positionY = sessionStorage.getItem("positionY");
         console.log(positionY);
@@ -164,7 +164,7 @@ export default {
             this.filterPosts.push(...data.results);
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession();
       this.getPosts();
@@ -185,11 +185,11 @@ export default {
             this.nextPage = true;
           }
         });
-      this.loading = false;
+      this.isLoading = false;
     },
 
     resetHandler() {
-      this.loading = true;
+      this.isLoading = true;
       this.filterPosts = [];
       this.page = 1;
       this.nextPage = false;
@@ -212,7 +212,6 @@ export default {
     },
     search() {
       this.resetHandler();
-      // this.loading = true;
       this.$router.push({
         name: "search",
         query: {
@@ -233,7 +232,7 @@ export default {
         })
         .then((response) => {
           this.filterPosts = response.data.results;
-          this.loading = false;
+          this.isLoading = false;
           if (response.data.next !== null) {
             this.nextPage = true;
           }
@@ -253,7 +252,6 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
@@ -261,7 +259,6 @@ export default {
                 $state.complete();
               } else {
                 this.filterPosts.push(...data.results);
-                // this.page += 1;
                 $state.loaded();
               }
             }

@@ -4,12 +4,12 @@
       :postType="previousPosts"
       :user_id="auth_id"
       @parentPostDelete="parentPostDelete"
-      :loading="loading"
+      :isLoading="isLoading"
       :nextPage="nextPage"
       :postURL="postURL"
       :sessionKey="sessionKey"
     />
-    <div v-if="previousPosts == ''" v-show="!loading">
+    <div v-if="previousPosts == ''" v-show="!isLoading">
       <p id="none_message">まだ投稿がありません</p>
     </div>
   </div>
@@ -31,7 +31,7 @@ export default {
       auth_id: this.$store.getters["auth/id"],
       postNum: 0,
       page: 1,
-      loading: true,
+      isLoading: true,
       nextPage: false,
       previousPosts: [],
       sessionKey: "infinitePage_previous",
@@ -47,7 +47,7 @@ export default {
     $route() {
       this.getPosts();
     },
-    loading() {
+    isLoading() {
       this.$nextTick(() => {
         var positionY = sessionStorage.getItem("positionY");
         console.log(positionY);
@@ -78,7 +78,7 @@ export default {
             this.previousPosts.push(...data.results);
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession();
       this.getPosts();
@@ -92,7 +92,7 @@ export default {
           this.nextPage = true;
         }
       });
-      this.loading = false;
+      this.isLoading = false;
     },
     async parentPostDelete(post_id) {
       await api.delete("/posts/" + post_id + "/").then(this.getPosts);

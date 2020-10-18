@@ -1,6 +1,7 @@
 <template>
   <div>
     <MyHeader />
+    <GlobalMessage />
     <router-link class="router-link" id="post" to="/newpostpage">
       <div class="fixed_btn">+</div>
     </router-link>
@@ -105,6 +106,7 @@
 <script>
 import { mapGetters } from "vuex";
 import MyHeader from "@/components/MyHeader";
+import GlobalMessage from "@/components/GlobalMessage";
 import PieChart from "@/components/PieChart";
 import * as palette from "google-palette";
 import api from "@/services/api";
@@ -112,6 +114,7 @@ import api from "@/services/api";
 export default {
   components: {
     MyHeader,
+    GlobalMessage,
     PieChart,
   },
   props: ["user_id"],
@@ -290,7 +293,7 @@ export default {
   position: relative;
   top: 15px;
   margin-left: 20px;
-  background-color:rgba(187, 170, 150, 0.521)
+  background-color: rgba(187, 170, 150, 0.521);
 }
 #profile_content {
   max-width: 300px;

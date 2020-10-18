@@ -1,6 +1,6 @@
 export const watchScrollPosition = {
   watch: {
-    loading() {
+    isLoading() {
       this.$nextTick(() => {
         var positionY = sessionStorage.getItem("positionY");
         console.log(positionY);
