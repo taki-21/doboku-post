@@ -255,17 +255,17 @@ export default {
     async deleteAccount() {
       await api.delete("/users/" + this.id + "/")
       .then(
-        sessionStorage.clear(),
         this.$store.dispatch("message/setInfoMessage", {
           message: "アカウントを削除しました",
         }),
-        this.$router.replace("/")
+        // sessionStorage.clear(),
       )
       .catch((error) => {
         console.log(error)
       })
         this.$store.dispatch("user/logout"),
-        this.$store.dispatch("auth/logout")
+        this.$store.dispatch("auth/logout"),
+        this.$router.replace("/")
     },
     back() {
       // 1つ前へ
