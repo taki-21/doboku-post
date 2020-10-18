@@ -261,7 +261,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
             self.user1.id), params, format='json')
 
         # レスポンスの内容を検証
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_success(self):
         """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（正常系）"""
@@ -291,7 +291,7 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
 
         # レスポンスの内容を検証
         self.assertEqual(get_user_model().objects.count(), 2)
-        self.assertEqual(response.status_code, 401)
+        self.assertEqual(response.status_code, 403)
 
     def test_delete_unauthorized_bad_request(self):
         """カスタムユーザーモデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（異常系:ログインしていないユーザーのとき）"""
