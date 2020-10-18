@@ -150,6 +150,10 @@ workflows:
           cluster-name: "${MY_APP_PREFIX}-cluster"
           service-name: "${MY_APP_PREFIX}-service"
           container-image-name-updates: "container=${MY_APP_PREFIX}-django,tag=${CIRCLE_SHA1}"
+          filters:
+            branches:
+              only: master
+
 
   # NginxをECR/ECSへデプロイ
   nginx_deploy:
