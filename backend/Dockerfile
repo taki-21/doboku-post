@@ -9,7 +9,6 @@ ENV TZ Asia/Tokyo
 RUN apt-get update && apt-get install -y --no-install-recommends \
   git \
   vim \
-  curl \
   && rm -rf /var/lib/apt/lists/*
 
 # pipのアップデート

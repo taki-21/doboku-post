@@ -1,10 +1,10 @@
 <template>
   <div>
     <MyHeader />
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
+    <div v-show="!isLoading">
       <div id="content">
         <div class="uk-width-1-1">
           <div class="uk-container">
@@ -246,7 +246,7 @@ export default {
       lat: "",
       lng: "",
       message: "",
-      loading: true,
+      isLoading: true,
     };
   },
   watch: {
@@ -344,10 +344,10 @@ export default {
         this.address = response.data.address;
         this.lat = response.data.lat;
         this.lng = response.data.lng;
-        this.loading = false;
+        this.isLoading = false;
       });
     } else {
-      this.loading = false;
+      this.isLoading = false;
     }
   },
 };

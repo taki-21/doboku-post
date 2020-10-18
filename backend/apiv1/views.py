@@ -8,7 +8,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsOwnerOrReadOnly
+from .permissions import IsOwnerOrReadOnly, UserIsOwnerOrReadOnly
 
 def Response_unauthorized():
     return Response({"detail": "権限がありません。"}, status.HTTP_401_UNAUTHORIZED)
@@ -22,32 +22,9 @@ class UserListCreateAPIView(generics.ListCreateAPIView):
 
 class UserRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     """カスタムユーザーモデルの取得（詳細）・更新APIクラス"""
-    # permission_classes = [IsOwnerOrReadOnly]
+    permission_classes = [UserIsOwnerOrReadOnly]
     queryset = get_user_model().objects.all()
     serializer_class = UserSerializer
-
-    def update(self, request, pk, *args, **kwargs):
-        user = get_user_model().objects.get(id=pk)
-        if request.user.id != user.id:
-            return Response_unauthorized()
-        response = super().update(request, pk, *args, **kwargs)
-
-        return response
-
-    def partial_update(self, request, pk, *args, **kwargs):
-        user = get_user_model().objects.get(id=pk)
-        if request.user.id != user.id:
-            return Response_unauthorized()
-        response = super().partial_update(request, pk, *args, **kwargs)
-
-        return response
-
-    def destroy(self, request, pk, *args, **kwargs):
-        user = get_user_model().objects.get(id=pk)
-        if request.user.id != user.id:
-            return Response_unauthorized()
-        response = super().destroy(request, pk, *args, **kwargs)
-        return response
 
 
 class CategoryListAPIView(generics.ListAPIView):
@@ -97,7 +74,8 @@ class PostRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = PostSerializer
 
 
-class PostLikeRetrieveUpdateDestroyAPIView(generics.RetrieveUpdateDestroyAPIView):
+class PostLikeRetrieveUpdateDestroyAPIView(
+        generics.RetrieveUpdateDestroyAPIView):
     queryset = Post.objects.all()
     serializer_class = PostLikeSerializer
 
@@ -143,7 +121,6 @@ class CommentRetrieveUpdateDestroyAPIView(
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
-
 
 
 class LikeFilter(filters.FilterSet):

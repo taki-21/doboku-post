@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
+    <div v-show="!isLoading">
       <div id="map" ref="googleMap"></div>
     </div>
   </div>
@@ -34,7 +34,7 @@ export default {
       },
       postList: [],
       userPostList: [],
-      loading: true,
+      isLoading: true,
     };
   },
   computed: {
@@ -63,7 +63,7 @@ export default {
     this.google = await GoogleMapsApiLoader({
       apiKey: process.env.VUE_APP_GOOGLE_MAP_KEY,
     });
-    this.loading = false;
+    this.isLoading = false;
     this.initializeMap();
   },
   methods: {

@@ -1,10 +1,10 @@
 <template>
   <div>
     <MyHeader />
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
+    <div v-show="!isLoading">
       <div id="content">
         <div class="uk-width-1-1">
           <div class="uk-container">
@@ -241,7 +241,7 @@ export default {
       likeId: "",
       isLiked: false,
       likeCount: "",
-      loading: true,
+      isLoading: true,
       isProcessing: false,
     };
   },
@@ -290,7 +290,7 @@ export default {
     getLikeCount() {
       api.get("/posts/" + this.post_id + "/").then((response) => {
         this.likeCount = response.data.likes_count;
-        this.loading = false;
+        this.isLoading = false;
       });
     },
     toggleLike() {

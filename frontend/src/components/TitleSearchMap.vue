@@ -1,10 +1,10 @@
 <template>
   <div>
     <div v-if="title">
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-      <div v-show="!loading">
+      <div v-show="!isLoading">
         <input
           class="uk-input uk-form-width-medium"
           type="text"
@@ -32,7 +32,7 @@
     <div v-else>
       <span id="error_message">タイトルを入力してください</span>
     </div>
-    <div v-show="title && !loading" id="map" ref="googleMap"></div>
+    <div v-show="title && !isLoading" id="map" ref="googleMap"></div>
   </div>
 </template>
 
@@ -51,7 +51,7 @@ export default {
     return {
       marker: null,
       results: {},
-      loading: true,
+      isLoading: true,
     };
   },
   computed: {
@@ -103,7 +103,7 @@ export default {
               map: this.map,
               position: results[0].geometry.location,
             });
-            this.loading = false;
+            this.isLoading = false;
           }
         }
       );

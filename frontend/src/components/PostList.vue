@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
+    <div v-show="!isLoading">
       <div
         class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
         uk-grid
@@ -118,7 +118,7 @@ export default {
   props: [
     "postType",
     "user_id",
-    "loading",
+    "isLoading",
     "nextPage",
     "postURL",
     "sessionKey",

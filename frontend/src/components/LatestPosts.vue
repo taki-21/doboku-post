@@ -2,7 +2,7 @@
   <div>
     <PostList
       :postType="latestPosts"
-      :loading="loading"
+      :isLoading="isLoading"
       :nextPage="nextPage"
       :postURL="postURL"
       :sessionKey="sessionKey"
@@ -25,7 +25,7 @@ export default {
     return {
       page: 1,
       latestPosts: [],
-      loading: true,
+      isLoading: true,
       nextPage: false,
       postURL: "/posts/",
       sessionKey: "infinitePage_latest",
@@ -50,7 +50,7 @@ export default {
             this.latestPosts.push(...data.results);
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession()
       this.getPosts();
@@ -66,7 +66,7 @@ export default {
           this.nextPage = false;
         }
       });
-      this.loading = false;
+      this.isLoading = false;
     },
   },
 };

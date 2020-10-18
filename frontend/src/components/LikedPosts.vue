@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-show="loading" class="loader">
+    <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
-    <div v-show="!loading">
+    <div v-show="!isLoading">
       <PostList :postType="likedPosts" />
       <div v-if="likedPosts == ''">
         <p id="none_message">まだ投稿がありません</p>
@@ -31,7 +31,7 @@ export default {
   data() {
     return {
       page: 1,
-      loading: true,
+      isLoading: true,
       nextPage: false,
       likedPosts: [],
       sessionKey: "infinitePage_liked",
@@ -57,7 +57,7 @@ export default {
             this.likedPosts.push(...data.results.map((like) => like.post));
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession()
       this.getPosts();
@@ -77,7 +77,7 @@ export default {
             this.nextPage = true;
           }
         });
-      this.loading = false;
+      this.isLoading = false;
     },
 
     infiniteHandler($state) {

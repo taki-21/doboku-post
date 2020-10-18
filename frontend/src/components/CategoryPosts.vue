@@ -42,10 +42,10 @@
       </div>
     </div>
     <div>
-      <div v-show="loading" class="loader">
+      <div v-show="isLoading" class="loader">
         <span uk-spinner></span>
       </div>
-      <div v-show="!loading">
+      <div v-show="!isLoading">
         <PostList :postType="filterPosts" />
         <div v-if="filterPosts == ''">
           <p id="none_message">まだ投稿がありません</p>
@@ -86,7 +86,7 @@ export default {
         category: this.$route.query.category || "",
       },
       filterPosts: [],
-      loading: true,
+      isLoading: true,
       nextPage: false,
       infiniteId: 0,
       sessionKey: "infinitePage_category",
@@ -118,7 +118,7 @@ export default {
             this.filterPosts.push(...data.results);
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession();
       this.getPosts();
@@ -139,11 +139,11 @@ export default {
             this.nextPage = true;
           }
         });
-      this.loading = false;
+      this.isLoading= false;
     },
 
     resetHandler() {
-      this.loading = true;
+      this.isLoading = true;
       this.filterPosts = [];
       this.page = 1;
       this.nextPage = false;
@@ -172,7 +172,6 @@ export default {
         })
         .then(({ data }) => {
           setTimeout(() => {
-            // this.loading = false;
             if (data.results.length) {
               if (data.next === null) {
                 this.nextPage = false;
@@ -180,7 +179,6 @@ export default {
                 $state.complete();
               } else {
                 this.filterPosts.push(...data.results);
-                // this.page += 1;
                 $state.loaded();
               }
             }
