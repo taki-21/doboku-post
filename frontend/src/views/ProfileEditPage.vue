@@ -242,7 +242,7 @@ export default {
         await this.$store.dispatch("user/load", {
           id: this.$store.getters["auth/id"],
         });
-        this.$router.replace("/mypage/");
+        this.$router.replace("/mypage/" + this.id + "/");
       });
     },
     createImage(file) {
@@ -252,15 +252,20 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    deleteAccount() {
-      sessionStorage.clear();
-      api.delete("/users/" + this.id + "/");
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("user/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "アカウントを削除しました",
-      });
-      this.$router.replace("/");
+    async deleteAccount() {
+      await api.delete("/users/" + this.id + "/")
+      .then(
+        sessionStorage.clear(),
+        this.$store.dispatch("message/setInfoMessage", {
+          message: "アカウントを削除しました",
+        }),
+        this.$router.replace("/")
+      )
+      .catch((error) => {
+        console.log(error)
+      })
+        this.$store.dispatch("user/logout"),
+        this.$store.dispatch("auth/logout")
     },
     back() {
       // 1つ前へ

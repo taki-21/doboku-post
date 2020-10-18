@@ -2,7 +2,7 @@
   <div>
     <PostList
       :postType="popularPosts"
-      :loading="loading"
+      :isLoading="isLoading"
       :nextPage="nextPage"
       :postURL="postURL"
       :sessionKey="sessionKey"
@@ -24,7 +24,7 @@ export default {
     return {
       page: 1,
       popularPosts: [],
-      loading: true,
+      isLoading: true,
       nextPage: false,
       postURL: "/posts/?order_by=-likes_count",
       sessionKey: "infinitePage_popular",
@@ -49,7 +49,7 @@ export default {
             this.popularPosts.push(...data.results);
           });
       }
-      this.loading = false;
+      this.isLoading = false;
     } else {
       this.clearSession();
       this.getPosts();
@@ -63,7 +63,7 @@ export default {
           this.nextPage = true;
         }
       });
-      this.loading = false;
+      this.isLoading = false;
     },
   },
 };
