@@ -215,13 +215,14 @@ li {
     border-radius: 5px;
     font-size: 14px;
   }
-  .link {
-    font-size: 13px;
-    padding-left: 5px;
+  .header_button {
+    height: 30px;
+    line-height:30px;
+    padding: 0px 6px;
+    font-size: 10px;
   }
   .router-link {
-    /* font-size: 10px; */
-    padding-left: 2px;
+    padding-left: 8px;
   }
 }
 </style>
