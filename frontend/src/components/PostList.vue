@@ -196,7 +196,6 @@ export default {
 }
 .show_user {
   text-decoration: none;
-  /* line-height: 30px; */
   float: left;
   font-size: large;
   color: #333333;
@@ -245,7 +244,6 @@ export default {
 }
 
 #edit-delete {
-  /* padding-top: 0px; */
   border-top: 1px solid #b1aeae;
 }
 

@@ -78,7 +78,6 @@ export default {
         username: "",
         password: "",
       },
-      // id: this.$store.getters["auth/id"],
       isLoading: false,
     };
   },
@@ -110,11 +109,6 @@ export default {
             // クエリ文字列に「next」がなければ、ホーム画面へ
             const next = this.$route.query.next || "/";
             this.$router.push(next).catch(() => {});
-            // .catch((error) => {
-            // navigationが失敗するとエラーを吐くことを知った
-            // test環境はどうしようか迷ったが今の所除外
-            //   if (process.env.NODE_ENV === "development") console.log(error);
-            // });
           } else {
             console.log("ログインエラー");
             this.$store.dispatch("message/setErrorMessage", {

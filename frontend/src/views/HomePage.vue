@@ -58,6 +58,16 @@ export default {
   color: rgb(90, 84, 75);
 }
 
+.content {
+  margin: 0px auto 20px;
+  max-width: 1200px;
+  padding: 10px 30px;
+}
+.fixed_btn {
+  display: none;
+}
+
+/* UIkitの上書き */
 .uk-tab {
   padding-top: 20px;
   background-color: rgba(255, 255, 255, 0.9);
@@ -73,14 +83,6 @@ export default {
   float: left;
   padding: 0px 25px;
   position: relative;
-}
-.content {
-  margin: 0px auto 20px;
-  max-width: 1200px;
-  padding: 10px 30px;
-}
-.fixed_btn {
-  display: none;
 }
 
 @media (max-width: 640px) {

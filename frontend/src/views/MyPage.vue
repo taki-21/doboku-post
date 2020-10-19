@@ -249,11 +249,6 @@ export default {
 .router-link-exact-active {
   border-bottom: solid 3px rgba(90, 84, 75, 0.85);
 }
-.uk-tab > * {
-  flex: none;
-  padding: 0px 20px;
-  position: relative;
-}
 
 .content_profilecard {
   margin: 20px auto;
@@ -272,21 +267,6 @@ export default {
   background-color: rgba(200, 200, 200, 0.1);
   margin-bottom: 30px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
-}
-.uk-tab > .uk-active > a {
-  color: #333;
-  border-color: rgba(90, 84, 75, 0.85);
-}
-
-.uk-tab > * > a {
-  display: block;
-  text-align: center;
-  padding: 5px 10px;
-  color: #999;
-  border-bottom: 3px solid transparent;
-  text-transform: uppercase;
-  transition: color 0.1s ease-in-out;
-  font-size: 120%;
 }
 
 #profile_edit_button {
@@ -307,6 +287,33 @@ export default {
   transform: translateY(-50%);
 }
 
+.fixed_btn {
+  display: none;
+}
+
+/* UIkitの上書き */
+.uk-tab > * {
+  flex: none;
+  padding: 0px 20px;
+  position: relative;
+}
+
+.uk-tab > .uk-active > a {
+  color: #333;
+  border-color: rgba(90, 84, 75, 0.85);
+}
+
+.uk-tab > * > a {
+  display: block;
+  text-align: center;
+  padding: 5px 10px;
+  color: #999;
+  border-bottom: 3px solid transparent;
+  text-transform: uppercase;
+  transition: color 0.1s ease-in-out;
+  font-size: 120%;
+}
+
 .uk-badge {
   box-sizing: border-box;
   min-width: 25px;
@@ -323,10 +330,6 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.fixed_btn {
-  display: none;
-}
-
 @media (max-width: 640px) {
   .fixed_btn {
     display: block;

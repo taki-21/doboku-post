@@ -78,8 +78,9 @@
             </button>
           </router-link>
           <router-link class="router-link" to="/login">
-                        <button class="uk-button header_button" id="login_button">
-<i id="icon" uk-icon="sign-in"></i>ログイン</button>
+            <button class="uk-button header_button" id="login_button">
+              <i id="icon" uk-icon="sign-in"></i>ログイン
+            </button>
           </router-link>
         </div>
       </li>
@@ -131,13 +132,13 @@ export default {
   box-shadow: none;
 }
 
-#post_button{
+#post_button {
   background-color: rgba(225, 225, 225, 0.5);
 }
-#signup_button{
+#signup_button {
   background-color: rgba(230, 160, 160, 0.4);
 }
-#login_button{
+#login_button {
   background-color: rgba(150, 210, 200, 0.4);
 }
 .show_user {
@@ -162,6 +163,12 @@ li {
   color: black;
   text-decoration: none;
 }
+
+.dropdown {
+  margin: 10px auto;
+}
+
+/* UIkitの上書き */
 .uk-dropdown {
   position: absolute;
   text-align: center;
@@ -176,9 +183,6 @@ li {
   border-radius: 5px;
 }
 
-.dropdown {
-  margin: 10px auto;
-}
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
@@ -217,7 +221,7 @@ li {
   }
   .header_button {
     height: 30px;
-    line-height:30px;
+    line-height: 30px;
     padding: 0px 6px;
     font-size: 10px;
   }
