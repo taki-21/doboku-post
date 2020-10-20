@@ -78,16 +78,14 @@ export default {
         username: "",
         password: "",
       },
-      isLoading: false,
     };
   },
   methods: {
     // ログインボタン押下
-    submitLogin: function (username = "GuestUser", password = "test09876") {
+    submitLogin(username = "GuestUser", password = "test09876") {
       this.form.username = username;
       this.form.password = password;
       // ログイン
-      this.isLoading = true;
       this.$store
         .dispatch("auth/login", {
           username: username,
@@ -95,7 +93,7 @@ export default {
         })
         .then(() => {
           if (this.isLoggedIn) {
-            console.log("Login succeed.");
+            console.log("ログイン成功");
             this.$store.dispatch("message/setInfoMessage", {
               message: "ログインしました",
             });
@@ -105,12 +103,11 @@ export default {
               .catch((error) => {
                 if (process.env.NODE_ENV !== "production") console.log(error);
               });
-            this.isLoading = false;
             // クエリ文字列に「next」がなければ、ホーム画面へ
             const next = this.$route.query.next || "/";
             this.$router.push(next).catch(() => {});
           } else {
-            console.log("ログインエラー");
+            console.log("ログイン失敗");
             this.$store.dispatch("message/setErrorMessage", {
               message: "ユーザー名、もしくはパスワードが間違っています",
             });

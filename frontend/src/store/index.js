@@ -50,11 +50,7 @@ const authModule = {
           return context.dispatch('reload')
             .then(user => user)
         })
-        .catch(error => {
-          console.log('ログインえらー！！！！')
-          console.log(error)
-
-        })
+        .catch(error => error.response || error)
     },
     /**
      * ログアウト
