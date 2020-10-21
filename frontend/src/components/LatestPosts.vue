@@ -14,13 +14,11 @@
 import PostList from "@/components/PostList";
 import api from "@/services/api";
 import { clearSession } from "@/mixins/utility";
-
 export default {
   components: {
     PostList,
   },
   mixins: [clearSession],
-
   data() {
     return {
       page: 1,

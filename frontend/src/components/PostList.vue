@@ -113,7 +113,6 @@
 import moment from "moment";
 import api from "@/services/api";
 import { watchScrollPosition, clearSession } from "@/mixins/utility";
-
 export default {
   props: [
     "postType",
@@ -129,7 +128,6 @@ export default {
     };
   },
   mixins: [watchScrollPosition, clearSession],
-
   methods: {
     DestroyPost(post_id) {
       this.clearSession();
@@ -171,7 +169,6 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-
 .user_icon {
   width: 35px;
   height: 35px;
@@ -185,7 +182,6 @@ export default {
   max-width: 640px;
   margin: 0px auto;
 }
-
 .timestamp {
   font-size: 12px;
   text-align: right;
@@ -196,6 +192,7 @@ export default {
 }
 .show_user {
   text-decoration: none;
+  /* line-height: 30px; */
   float: left;
   font-size: large;
   color: #333333;
@@ -242,11 +239,10 @@ export default {
   text-decoration: none;
   color: rgba(50, 50, 50, 0.5);
 }
-
 #edit-delete {
+  /* padding-top: 0px; */
   border-top: 1px solid #b1aeae;
 }
-
 #edit-word {
   position: relative;
   top: 1px;
@@ -254,14 +250,12 @@ export default {
   margin-right: 10px;
   font-size: 16px;
 }
-
 #delete-word {
   position: relative;
   top: 1px;
   margin-left: 2px;
   font-size: 16px;
 }
-
 /* UIkitの上書き */
 .uk-card-body {
   padding: 10px 20px;
@@ -270,7 +264,6 @@ export default {
   display: flow-root;
   margin-bottom: 0px;
 }
-
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
@@ -298,7 +291,6 @@ export default {
     /* font-size: large; */
     color: #333333;
   }
-
   #author_name {
     position: relative;
     top: 0px;

@@ -34,6 +34,7 @@
                     <div class="uk-width-2-5@s uk-width-2-3">
                       <div id="username_content">
                         <div id="username">{{ user.username }}</div>
+                        <span v-if="user.is_superuser" id="administrator">【管理者】</span>
                       </div>
                       <div id="profile_introduction">
                         <div>
@@ -44,6 +45,8 @@
                     <div class="uk-width-2-5@s uk-width-1-4">
                       <div id="date_joined_word">登録日</div>
                       <div>{{user.date_joined | moment}}</div>
+                      <div id="post_num_word">投稿数</div>
+                      <!-- <div>{{user.date_joined | moment}}</div> -->
                       <!-- <div v-if="previousPosts[0]" class="chart">
                         <div id="piechart">
                           <PieChart
@@ -124,11 +127,19 @@ export default {
   font-size: 40px;
   font-weight: bold;
 }
+#administrator{
+  font-size: 20px;
+  padding: 20px;
+  /* position: relative;
+  top:20px; */
+  /* font-weight: bold; */
+}
 #profile_introduction {
   max-width: 300px;
   padding: 0px 0px 0px 30px;
   white-space: pre-wrap;
 }
+#post_num_word,
 #date_joined_word{
   font-size:20px;
   font-weight: bold;

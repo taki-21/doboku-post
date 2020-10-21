@@ -285,6 +285,7 @@ export default {
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
   font-size: 120%;
+}
 
 #profile_edit_button {
   position: relative;
@@ -292,6 +293,7 @@ export default {
   margin-left: 20px;
   background-color: rgba(187, 170, 150, 0.521);
 }
+
 #profile_introduction {
   max-width: 300px;
   padding: 0px 0px 0px 30px;

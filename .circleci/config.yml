@@ -188,4 +188,4 @@ workflows:
       - front_deploy:
           filters:
             branches:
-              only: master
+              only: develop
