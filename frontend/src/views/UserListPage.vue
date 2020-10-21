@@ -42,6 +42,8 @@
                       </div>
                     </div>
                     <div class="uk-width-2-5@s uk-width-1-4">
+                      <div id="date_joined_word">登録日</div>
+                      <div>{{user.date_joined | moment}}</div>
                       <!-- <div v-if="previousPosts[0]" class="chart">
                         <div id="piechart">
                           <PieChart
@@ -71,6 +73,8 @@
 <script>
 import MyHeader from "@/components/MyHeader.vue";
 import api from "@/services/api";
+import moment from "moment";
+
 
 export default {
   components: {
@@ -87,6 +91,12 @@ export default {
       this.userLists = response.data;
     });
   },
+    filters: {
+    moment: function (date) {
+      return moment(date).format("Y/MM/DD HH:MM");
+    },
+  },
+
 };
 </script>
 
@@ -118,6 +128,10 @@ export default {
   max-width: 300px;
   padding: 0px 0px 0px 30px;
   white-space: pre-wrap;
+}
+#date_joined_word{
+  font-size:20px;
+  font-weight: bold;
 }
 
 
