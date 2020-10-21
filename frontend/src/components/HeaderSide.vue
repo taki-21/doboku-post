@@ -3,11 +3,20 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link" id="post" to="/newpostpage">
-            <button class="uk-button header_button" id="post_button">
-              <i id="icon" uk-icon="pencil"></i>投稿する
-            </button>
-          </router-link>
+          <div>
+            <router-link class="router-link" :to="{ name: 'userlist' }">
+              <button class="uk-button header_button" id="userlist_button">
+                <i id="icon" uk-icon="users"></i>ユーザー一覧
+              </button>
+            </router-link>
+          </div>
+          <div>
+            <router-link class="router-link" id="post" to="/newpostpage">
+              <button class="uk-button header_button" id="post_button">
+                <i id="icon" uk-icon="pencil"></i>投稿する
+              </button>
+            </router-link>
+          </div>
           <div class="uk-inline">
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
@@ -131,7 +140,9 @@ export default {
 .header_button:active {
   box-shadow: none;
 }
-
+#userlist_button{
+  background-color: rgba(204, 194, 149, 0.5);
+}
 #post_button {
   background-color: rgba(225, 225, 225, 0.5);
 }

@@ -47,7 +47,7 @@
               </router-link>
             </div>
           </div>
-          <div id="profile_content">
+          <div id="profile_introduction">
             <div v-if="user_id == login_user_id">
               <div v-if="login_user_introduction === null"></div>
               <div v-else>{{ login_user_introduction }}</div>
@@ -238,6 +238,16 @@ export default {
 </script>
 
 <style scoped>
+@import "../assets/common.css";
+
+#profile_card {
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgba(200, 200, 200, 0.1);
+  margin-bottom: 30px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
 #username_content {
   display: flex;
   padding: 30px 30px 5px 30px;
@@ -261,13 +271,20 @@ export default {
   font-size: 20px;
 }
 
-#profile_card {
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: rgba(200, 200, 200, 0.1);
-  margin-bottom: 30px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+.uk-tab > .uk-active > a {
+  color: #333;
+  border-color: rgba(90, 84, 75, 0.85);
 }
+
+.uk-tab > * > a {
+  display: block;
+  text-align: center;
+  padding: 5px 10px;
+  color: #999;
+  border-bottom: 3px solid transparent;
+  text-transform: uppercase;
+  transition: color 0.1s ease-in-out;
+  font-size: 120%;
 
 #profile_edit_button {
   position: relative;
@@ -275,7 +292,7 @@ export default {
   margin-left: 20px;
   background-color: rgba(187, 170, 150, 0.521);
 }
-#profile_content {
+#profile_introduction {
   max-width: 300px;
   padding: 0px 0px 0px 30px;
   white-space: pre-wrap;

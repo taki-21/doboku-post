@@ -36,7 +36,7 @@ export default {
       const page_infinite = sessionStorage.getItem(this.sessionKey);
       for (let i = 1; i <= page_infinite; i++) {
         await api
-          .get("/posts/", {
+          .get(this.postURL, {
             params: {
               page: i,
             },
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     async getPosts() {
-      await api.get("/posts/").then((response) => {
+      await api.get(this.postURL).then((response) => {
         this.latestPosts = response.data.results;
         if (response.data.next !== null) {
           this.nextPage = true;
