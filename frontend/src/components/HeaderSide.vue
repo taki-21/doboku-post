@@ -3,11 +3,20 @@
     <ul>
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link" id="post" to="/newpostpage">
-            <button class="uk-button header_button" id="post_button">
-              <i id="icon" uk-icon="pencil"></i>投稿する
-            </button>
-          </router-link>
+          <div>
+            <router-link class="router-link" :to="{ name: 'userlist' }">
+              <button class="uk-button header_button" id="userlist_button">
+                <i id="icon" uk-icon="users"></i>ユーザー一覧
+              </button>
+            </router-link>
+          </div>
+          <div>
+            <router-link class="router-link" id="post" to="/newpostpage">
+              <button class="uk-button header_button" id="post_button">
+                <i id="icon" uk-icon="pencil"></i>投稿する
+              </button>
+            </router-link>
+          </div>
           <div class="uk-inline">
             <a class="show_user">
               <div class="uk-card header_user_buttonuk-margin">
@@ -78,8 +87,9 @@
             </button>
           </router-link>
           <router-link class="router-link" to="/login">
-                        <button class="uk-button header_button" id="login_button">
-<i id="icon" uk-icon="sign-in"></i>ログイン</button>
+            <button class="uk-button header_button" id="login_button">
+              <i id="icon" uk-icon="sign-in"></i>ログイン
+            </button>
           </router-link>
         </div>
       </li>
@@ -130,14 +140,16 @@ export default {
 .header_button:active {
   box-shadow: none;
 }
-
-#post_button{
+#userlist_button{
+  background-color: rgba(204, 194, 149, 0.5);
+}
+#post_button {
   background-color: rgba(225, 225, 225, 0.5);
 }
-#signup_button{
+#signup_button {
   background-color: rgba(230, 160, 160, 0.4);
 }
-#login_button{
+#login_button {
   background-color: rgba(150, 210, 200, 0.4);
 }
 .show_user {
@@ -217,7 +229,7 @@ li {
   }
   .header_button {
     height: 30px;
-    line-height:30px;
+    line-height: 30px;
     padding: 0px 6px;
     font-size: 10px;
   }
