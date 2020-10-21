@@ -174,6 +174,12 @@ li {
   color: black;
   text-decoration: none;
 }
+
+.dropdown {
+  margin: 10px auto;
+}
+
+/* UIkitの上書き */
 .uk-dropdown {
   position: absolute;
   text-align: center;
@@ -188,9 +194,6 @@ li {
   border-radius: 5px;
 }
 
-.dropdown {
-  margin: 10px auto;
-}
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;

@@ -396,9 +396,6 @@ html {
   margin-right: 5px;
   border-radius: 50%;
 }
-.uk-card-body {
-    padding: 20px 40px;
-}
 #detail_post {
   background-color: rgba(225, 215, 205, 0.247);
 }
@@ -424,22 +421,6 @@ html {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
-.uk-comment-primary {
-  background-color: #fff;
-  padding: 15px 15px 5px 15px;
-  border-left: 4px solid black;
-  border-bottom: 1px solid black;
-}
-.uk-comment-header {
-  margin-bottom: 10px;
-}
-
-.uk-comment-list > :nth-child(n + 2) {
-  margin-top: 0px;
-}
-ul.uk-comment-list {
-  margin: 0;
-}
 
 #location_button {
   float: left;
@@ -523,6 +504,28 @@ ul.uk-comment-list {
 
 #delete-icon {
   text-align: right;
+}
+
+/* UIkitの上書き */
+.uk-card-body {
+    padding: 20px 40px;
+}
+
+.uk-comment-primary {
+  background-color: #fff;
+  padding: 15px 15px 5px 15px;
+  border-left: 4px solid black;
+  border-bottom: 1px solid black;
+}
+.uk-comment-header {
+  margin-bottom: 10px;
+}
+
+.uk-comment-list > :nth-child(n + 2) {
+  margin-top: 0px;
+}
+ul.uk-comment-list {
+  margin: 0;
 }
 
 @media (max-width: 640px) {

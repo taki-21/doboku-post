@@ -242,29 +242,20 @@ input[type="radio"] {
     margin-bottom: 10px;
     padding: 2px 5px 3px 5px;
     outline: none;
-    /* border-radius:5px; */
     border: 1px solid rgb(0, 0, 0);
     background-color: rgb(236, 231, 225);
   }
 
   #category_label {
     font-size: 15px;
-    display: inline-block;
     height: 22px;
     line-height: 22px;
     padding: 0.1em 1em;
     margin-top: 0.1em;
     text-decoration: none;
-    background: #f7f7f7;
     border-left: solid 3px #000000; /*左線*/
-    color: #000000; /*文字色*/
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.29);
   }
-
-  /* #category_label {
-    height: 25px;
-    line-height: 22px;
-  } */
   #category_card_contnet {
     padding: 0px 40px;
   }

@@ -175,7 +175,6 @@ export default {
       password1: "",
       password2: "",
       isLoading: false,
-      // isLoggedIn: true
     };
   },
   methods: {
@@ -229,7 +228,6 @@ export default {
   },
   computed: {
     ...mapGetters("auth", {
-      // username: "username",
       isLoggedIn: "isLoggedIn",
       id: "id",
     }),

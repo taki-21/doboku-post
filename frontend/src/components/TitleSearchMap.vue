@@ -70,17 +70,7 @@ export default {
       return this.results[0].geometry.viewport.Sa.i;
     },
   },
-  // async created() {
-  //   this.google = await GoogleMapsApiLoader({
-  //     apiKey: "",
-  //   });
-  //   this.initializeMap();
-  // },
   methods: {
-    // initializeMap() {
-    //   this.map = new this.google.maps.Map(this.$refs.googleMap, this.mapConfig);
-    //   this.geocoder = new this.google.maps.Geocoder();
-    // },
     mapSearch() {
       if (this.marker) {
         this.marker.setMap(null);
@@ -96,9 +86,6 @@ export default {
             this.results = results;
 
             this.map.setCenter(results[0].geometry.location);
-            // 緯度経度の取得
-            // results[0].geometry.location.lat();
-            // results[0].geometry.location.lng();
             this.marker = new this.google.maps.Marker({
               map: this.map,
               position: results[0].geometry.location,
