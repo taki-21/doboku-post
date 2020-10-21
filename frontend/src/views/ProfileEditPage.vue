@@ -258,7 +258,6 @@ export default {
         this.$store.dispatch("message/setInfoMessage", {
           message: "アカウントを削除しました",
         }),
-        // sessionStorage.clear(),
       )
       .catch((error) => {
         console.log(error)
