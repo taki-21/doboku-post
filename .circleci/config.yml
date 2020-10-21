@@ -185,4 +185,7 @@ workflows:
   # VueをS3へデプロイ
   continuous-deploy:
     jobs:
-      - front_deploy
+      - front_deploy:
+          filters:
+            branches:
+              only: master
