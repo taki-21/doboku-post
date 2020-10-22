@@ -5,7 +5,6 @@ import store from '@/store'
 import HomePage from '@/views/HomePage'
 import DetailPage from '@/views/DetailPage'
 import MyPage from '@/views/MyPage'
-import UserListPage from '@/views/UserListPage'
 import NewEditPostPage from '@/views/NewEditPostPage'
 import SignUpPage from '@/views/SignUpPage'
 import ProfileEditPage from '@/views/ProfileEditPage'
@@ -81,11 +80,6 @@ const router = new VueRouter({
           props: true,
         }
       ]
-    },
-    {
-      path: '/userlist',
-      name: 'userlist',
-      component: UserListPage
     },
     {
       path: '/login',

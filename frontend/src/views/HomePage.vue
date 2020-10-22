@@ -4,7 +4,7 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-    <router-link class="router-link" id="post" to="/newpostpage">
+    <router-link class="router-link" id="post" to="/newpostpage" v-if="isLoggedIn">
       <div class="fixed_btn">+</div>
     </router-link>
     <div id="nav" style="z-index: 90" uk-sticky="offset: 70; bottom: #top">
@@ -38,6 +38,11 @@ export default {
   components: {
     GlobalMessage,
     MyHeader,
+  },
+  computed: {
+    isLoggedIn() {
+      return this.$store.getters["auth/isLoggedIn"];
+    },
   },
   mounted() {
     this.$store.dispatch("category/getAllCategories");

@@ -4,13 +4,6 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <div>
-            <router-link class="router-link" :to="{ name: 'userlist' }">
-              <button class="uk-button header_button" id="userlist_button">
-                <i id="icon" uk-icon="users"></i>ユーザー一覧
-              </button>
-            </router-link>
-          </div>
-          <div>
             <router-link class="router-link" id="post" to="/newpostpage">
               <button class="uk-button header_button" id="post_button">
                 <i id="icon" uk-icon="pencil"></i>投稿する

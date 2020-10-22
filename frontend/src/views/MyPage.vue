@@ -285,7 +285,7 @@ export default {
   text-transform: uppercase;
   transition: color 0.1s ease-in-out;
   font-size: 120%;
-
+}
 #profile_edit_button {
   position: relative;
   top: 15px;
