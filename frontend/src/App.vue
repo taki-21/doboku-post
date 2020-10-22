@@ -1,9 +1,9 @@
 <template>
-  <div id="app">
+  <v-app id="app">
     <div>
         <router-view />
     </div>
-  </div>
+  </v-app>
 </template>
 
 <style>
@@ -17,19 +17,15 @@ html{
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-
 .v-enter-active {
   transition: opacity 0.4s;
 }
-
 .v-enter {
   opacity: 0;
 }
-
 .v-enter-to {
   opacity: 1;
 }
-
 .v-leave,
 .v-leave-active,
 .v-leave-to {

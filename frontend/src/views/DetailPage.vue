@@ -78,25 +78,10 @@
                   <div id="like_buttun">
                     <div v-if="isLiked">
                       <div>
-                        <span
-                          class="like_icon"
-                          @click="toggleLike"
-                          :disabled="isProcessing"
-                        >
-                          <svg
-                            width="50"
-                            height="50"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            data-svg="heart"
-                          >
-                            <path
-                              fill="indianred"
-                              stroke="currentcolor"
-                              stroke-width="1"
-                              d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
-                            />
-                          </svg>
+                        <span @click="toggleLike" :disabled="isProcessing">
+                          <v-btn class="ma-2" text icon color="red lighten-2">
+                            <v-icon x-large>mdi-heart</v-icon>
+                          </v-btn>
                         </span>
                         <span class="like_count">{{ likeCount }}</span>
                       </div>
@@ -105,9 +90,12 @@
                       <div>
                         <span
                           class="like_icon"
-                          uk-icon="icon: heart; ratio: 2.5"
                           @click="toggleLike"
-                        ></span>
+                        >
+                          <v-btn class="ma-2" text icon color="blue lighten-1">
+                            <v-icon x-large>mdi-heart</v-icon>
+                          </v-btn>
+                        </span>
                         <span class="like_count">{{ likeCount }}</span>
                       </div>
                     </div>
@@ -421,7 +409,6 @@ html {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
-
 #location_button {
   float: left;
   margin-top: 18px;
@@ -508,7 +495,7 @@ html {
 
 /* UIkitの上書き */
 .uk-card-body {
-    padding: 20px 40px;
+  padding: 20px 40px;
 }
 
 .uk-comment-primary {
