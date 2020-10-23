@@ -44,10 +44,11 @@
                             </div>
                           <!-- </div> -->
                           <div class="camera-choice">
-                            <div
+                            <v-icon x-large>mdi-camera</v-icon>
+                            <!-- <div
                               class="camera-icon uk-hidden-touch"
                               uk-icon="icon: camera; ratio: 5"
-                            ></div>
+                            ></div> -->
                             <div
                               class="camera-icon uk-hidden-notouch"
                               uk-icon="icon: camera; ratio: 3"

@@ -45,15 +45,15 @@
               </div>
               <span id="post_title">{{ post.title }}</span>
               <div class="comment_like_icon uk-hidden-touch">
-                <i id="comment_icon" uk-icon="comment"></i>
-                <span>{{ post.comments_count }}</span>
-                <i id="like_icon" uk-icon="heart"></i>
-                <span>{{ post.likes_count }}</span>
+                <v-icon medium>mdi-message-text</v-icon>
+                {{ post.comments_count }}
+                <v-icon medium>mdi-heart-outline</v-icon>
+                {{ post.likes_count }}
               </div>
               <div class="comment_like_icon_touch uk-hidden-notouch">
-                <i id="comment_icon" uk-icon="icon: comment; ratio: 0.6"></i>
+                <v-icon small>mdi-message-text</v-icon>
                 <span>{{ post.comments_count }}</span>
-                <i id="like_icon" uk-icon="icon: heart; ratio: 0.6"></i>
+                <v-icon small>mdi-heart-outline</v-icon>
                 <span>{{ post.likes_count }}</span>
               </div>
               <div v-if="post.author.id == user_id">

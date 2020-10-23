@@ -5,9 +5,9 @@
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <div>
             <router-link class="router-link" id="post" to="/newpostpage">
-              <button class="uk-button header_button" id="post_button">
-                <i id="icon" uk-icon="pencil"></i>投稿する
-              </button>
+              <v-btn depressed elevation="3" color="brown lighten-2"
+                ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
+              >
             </router-link>
           </div>
           <div class="uk-inline">
@@ -24,7 +24,8 @@
                   class="router-link uk-hidden-notouch"
                   to="/newpostpage"
                 >
-                  <i id="icon" uk-icon="pencil"></i>投稿する
+                  <v-icon>mdi-pencil</v-icon>
+                  投稿する
                 </router-link>
               </div>
               <div class="dropdown">
@@ -33,13 +34,13 @@
                   :to="{ name: 'mypage', params: { user_id: user.id } }"
                   v-if="user.id"
                 >
-                  <i id="icon" uk-icon="user"></i>
+                  <v-icon>mdi-account</v-icon>
                   <span>マイページ</span>
                 </router-link>
               </div>
               <div class="dropdown">
                 <a href="#modal-logout" id="logout" uk-toggle>
-                  <i id="icon" uk-icon="sign-out"></i>ログアウト
+                  <v-icon>mdi-logout</v-icon>ログアウト
                 </a>
                 <div id="modal-logout" uk-modal>
                   <div class="uk-modal-dialog uk-modal-body">
@@ -133,7 +134,7 @@ export default {
 .header_button:active {
   box-shadow: none;
 }
-#userlist_button{
+#userlist_button {
   background-color: rgba(204, 194, 149, 0.5);
 }
 #post_button {

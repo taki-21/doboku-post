@@ -38,12 +38,9 @@
             <!-- </h1> -->
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
-                <div
-                  class="uk-button uk-button-small uk-button-default"
-                  id="profile_edit_button"
-                >
-                  編集
-                </div>
+                <v-btn class="ma-3" color="purple" dark>
+                  <v-icon>mdi-account-edit</v-icon>
+                </v-btn>
               </router-link>
             </div>
           </div>
@@ -76,17 +73,19 @@
           <router-link
             class="router-link"
             :to="{ name: 'mypage', params: { user_id: user_id } }"
-            >これまでの投稿<span class="uk-badge">{{
-              previousPostsNum
-            }}</span></router-link
-          >
+            ><v-badge color="green" :content="previousPostsNum">
+              これまでの投稿
+            </v-badge>
+          </router-link>
           <router-link
             class="router-link"
             :to="{ name: 'liked', params: { user_id: user_id } }"
-            >いいねした投稿<span class="uk-badge">{{
-              likedPostsNum
-            }}</span></router-link
           >
+            <v-badge color="green" :content="likedPostsNum">
+              いいねした投稿
+            </v-badge>
+          </router-link>
+
           <router-link
             class="router-link"
             :to="{ name: 'mymap', params: { user_id: user_id } }"

@@ -89,11 +89,10 @@
                     <div v-else>
                       <div>
                         <span
-                          class="like_icon"
                           @click="toggleLike"
                         >
-                          <v-btn class="ma-2" text icon color="blue lighten-1">
-                            <v-icon x-large>mdi-heart</v-icon>
+                          <v-btn class="ma-2" text icon>
+                            <v-icon x-large>mdi-heart-outline</v-icon>
                           </v-btn>
                         </span>
                         <span class="like_count">{{ likeCount }}</span>
@@ -102,7 +101,6 @@
                   </div>
                 </div>
                 <div class="uk-width-2-5@s">
-                  <!-- <div> -->
                   <div>
                     <div>
                       <CommentForm :post="post" @CommentGet="CommentGet" />
@@ -422,13 +420,7 @@ html {
   max-width: 640px;
   text-align: right;
 }
-.like_icon {
-  position: relative;
-  right: 8px;
-}
-.like_icon:hover {
-  cursor: pointer;
-}
+
 .like_count {
   font-size: 40px;
   position: relative;
