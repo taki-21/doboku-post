@@ -1,7 +1,5 @@
 <template>
   <div>
-    <!-- ヘッダー -->
-    <MyHeader />
     <div class="uk-section">
       <div class="uk-width-1-1">
         <div class="uk-container">
@@ -177,7 +175,6 @@
 <script>
 import { mapGetters } from "vuex";
 import api from "@/services/api";
-import MyHeader from "@/components/MyHeader";
 import {
   ValidationProvider,
   ValidationObserver,
@@ -195,7 +192,6 @@ localize("ja", ja);
 
 export default {
   components: {
-    MyHeader,
     ValidationProvider,
     ValidationObserver,
   },

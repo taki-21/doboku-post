@@ -1,16 +1,17 @@
 <template>
-  <div uk-sticky>
-    <header class="title-header">
-      <router-link class="router-link" to="/">
-        <div class="title_content">
-          <img class="doboku_icon" src="../assets/doboku.png" />
-          <span id="title">DOBOKU_Post</span>
-        </div>
-      </router-link>
+  <div>
+      <v-toolbar-title>
+        <router-link class="router-link" to="/">
+          <div class="title_content">
+            <img class="doboku_icon" src="../assets/doboku.png" />
+            <span id="title">DOBOKU_Post</span>
+          </div>
+        </router-link>
+      </v-toolbar-title>
+      <div class="flex-grow-1"></div>
       <nav>
         <HeaderSide />
       </nav>
-    </header>
   </div>
 </template>
 
@@ -27,11 +28,9 @@ export default {
 @import "../assets/common.css";
 
 .title-header {
-  padding: 5px 5%;
   background-color: rgba(135, 135, 135, 1);
   display: flex;
   align-items: center;
-  height: 60px;
 }
 .doboku_icon {
   width: 40px;

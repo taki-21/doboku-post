@@ -4,11 +4,11 @@
       <li>
         <div class="uk-grid-medium uk-flex-middle" uk-grid>
           <div>
-            <router-link class="router-link" id="post" to="/newpostpage">
+            <!-- <router-link class="router-link" id="post" to="/newpostpage">
               <v-btn depressed elevation="3" color="brown lighten-2"
                 ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
               >
-            </router-link>
+            </router-link> -->
           </div>
           <div class="uk-inline">
             <a class="show_user">
@@ -123,17 +123,6 @@ export default {
   padding-left: 0;
 }
 
-.header_button {
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.header_button:active {
-  box-shadow: none;
-}
 #userlist_button {
   background-color: rgba(204, 194, 149, 0.5);
 }

@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MyHeader />
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
         <div class="uk-container">
@@ -136,7 +135,6 @@
 </template>
 
 <script>
-import MyHeader from "@/components/MyHeader.vue";
 import { mapGetters } from "vuex";
 import api from "@/services/api";
 import {
@@ -163,7 +161,6 @@ localize("ja", ja);
 
 export default {
   components: {
-    MyHeader,
     ValidationProvider,
     ValidationObserver,
   },

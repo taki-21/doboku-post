@@ -1,22 +1,61 @@
 <template>
-  <v-app id="app">
-    <div>
+  <v-app>
+    <v-app-bar app color="blue-grey lighten-2">
+      <v-app-bar-nav-icon></v-app-bar-nav-icon>
+      <v-toolbar-title
+        ><router-link to="/" id="title"
+          >DOBOKU_Post</router-link
+        ></v-toolbar-title
+      >
+      <v-spacer></v-spacer>
+      <router-link class="router-link" id="post" to="/newpostpage">
+        <v-btn depressed elevation="3" color="brown lighten-2"
+          ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
+        >
+      </router-link>
+      <nav>
+        <HeaderSide />
+      </nav>
+    </v-app-bar>
+    <GlobalMessage />
+    <v-main>
+      <v-container fluid>
         <router-view />
-    </div>
+      </v-container>
+    </v-main>
   </v-app>
 </template>
 
+<script>
+import HeaderSide from "./components/HeaderSide";
+import GlobalMessage from "@/components/GlobalMessage.vue";
+
+export default {
+  components: {
+    HeaderSide,
+    GlobalMessage,
+  },
+};
+</script>
 <style>
 @import "./assets/common.css";
-html{
+
+html {
   overflow: overlay;
 }
-#app {
+/* #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+} */
+#title {
+  text-decoration: none;
+  color: black;
+  font-size: 40px;
+  font-family: "Economica";
 }
+
 .v-enter-active {
   transition: opacity 0.4s;
 }

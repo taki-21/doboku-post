@@ -1,8 +1,5 @@
 <template>
   <div id="login-page">
-    <MyHeader />
-    <GlobalMessage />
-    <!-- メインエリア -->
     <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
       <div class="uk-width-1-1">
         <div class="uk-container">
@@ -64,14 +61,8 @@
 
 <script>
 import { mapGetters } from "vuex";
-import MyHeader from "@/components/MyHeader.vue";
-import GlobalMessage from "@/components/GlobalMessage.vue";
 
 export default {
-  components: {
-    MyHeader,
-    GlobalMessage,
-  },
   data() {
     return {
       form: {

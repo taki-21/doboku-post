@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MyHeader />
     <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
@@ -201,7 +200,6 @@
 
 <script>
 import moment from "moment";
-import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 import Map from "@/components/Map";
 import api from "@/services/api";
@@ -209,7 +207,6 @@ import api from "@/services/api";
 export default {
   name: "detail",
   components: {
-    MyHeader,
     CommentForm,
     Map,
   },

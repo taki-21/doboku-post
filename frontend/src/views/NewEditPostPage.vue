@@ -1,6 +1,5 @@
 <template>
   <div>
-    <MyHeader />
     <div v-show="isLoading" class="loader">
       <span uk-spinner></span>
     </div>
@@ -202,7 +201,6 @@
 </template>
 
 <script>
-import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
 import prefs from "../mixins/PrefsMixin";
 import { mapGetters } from "vuex";
@@ -227,7 +225,6 @@ localize("ja", ja);
 export default {
   mixins: [prefs, clearSession],
   components: {
-    MyHeader,
     TitleSearchMap,
     ValidationProvider,
     ValidationObserver,

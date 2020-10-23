@@ -1,9 +1,5 @@
 <template>
   <div>
-    <!-- ヘッダー -->
-    <MyHeader />
-    <GlobalMessage />
-    <!-- メインエリア -->
     <router-link
       class="router-link"
       id="post"
@@ -12,28 +8,32 @@
     >
       <div class="fixed_btn">+</div>
     </router-link>
-    <v-bottom-navigation horizontal color="teal" grow>
-      <v-btn to="/">
-        <span>新着投稿</span>
-        <v-icon>mdi-history</v-icon>
-      </v-btn>
-      <v-btn to="/popular">
-        <span>人気投稿</span>
-        <v-icon>mdi-heart</v-icon>
-      </v-btn>
-      <v-btn to="/category">
-        <span>カテゴリ</span>
-        <v-icon>mdi-shape</v-icon>
-      </v-btn>
-      <v-btn to="/map">
-        <span>マップ</span>
-        <v-icon>mdi-map-marker</v-icon>
-      </v-btn>
-      <v-btn to="/search">
-        <span>検索</span>
-        <v-icon>mdi-magnify</v-icon>
-      </v-btn>
-    </v-bottom-navigation>
+    <!-- <v-app-bar fixed> -->
+    <!-- <v-app-bar app> -->
+      <v-tabs color="teal" centered>
+        <v-tab to="/">
+          <v-icon left>mdi-history</v-icon>
+          <span>新着投稿</span>
+        </v-tab>
+        <v-tab to="/popular">
+          <v-icon left>mdi-heart</v-icon>
+          <span>人気投稿</span>
+        </v-tab>
+        <v-tab to="/category">
+          <v-icon left>mdi-shape</v-icon>
+          <span>カテゴリ</span>
+        </v-tab>
+        <v-tab to="/map">
+          <v-icon left>mdi-map-marker</v-icon>
+          <span>マップ</span>
+        </v-tab>
+        <v-tab to="/search">
+          <v-icon left>mdi-magnify</v-icon>
+          <span>検索</span>
+        </v-tab>
+      </v-tabs>
+    <!-- </v-app-bar> -->
+    <!-- </v-app-bar> -->
     <div class="content">
       <transition appear>
         <router-view />
@@ -43,13 +43,13 @@
 </template>
 
 <script>
-import GlobalMessage from "@/components/GlobalMessage.vue";
-import MyHeader from "@/components/MyHeader";
+// import GlobalMessage from "@/components/GlobalMessage.vue";
+// import MyHeader from "@/components/MyHeader";
 
 export default {
   components: {
-    GlobalMessage,
-    MyHeader,
+    // GlobalMessage,
+    // MyHeader,
   },
   computed: {
     isLoggedIn() {
@@ -64,18 +64,21 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-.v-bottom-navigation a {
+.v-tabs {
+  border-bottom: 1px solid rgb(223, 211, 211);
+}
+.v-tabs a {
   text-decoration: none;
 }
-.v-btn span {
+.v-tab span {
   font-size: 16px;
 }
-.v-btn--active span{
+.v-tab--active span {
   font-weight: bold;
 }
 
 .content {
-  margin: 0px auto 20px;
+  margin: 10px auto 20px;
   max-width: 1200px;
   padding: 10px 30px;
 }
@@ -121,7 +124,7 @@ export default {
     z-index: 100;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
-  .uk-tab {
+  /* .uk-tab {
     position: relative;
     top: -16px;
     padding-top: 9px;
@@ -139,7 +142,7 @@ export default {
     float: left;
     padding: 0px 10px;
     position: relative;
-  }
+  } */
   .content {
     margin: 5px auto 10px;
     padding: 5px 15px;
