@@ -4,28 +4,40 @@
     <MyHeader />
     <GlobalMessage />
     <!-- メインエリア -->
-    <router-link class="router-link" id="post" to="/newpostpage" v-if="isLoggedIn">
+    <router-link
+      class="router-link"
+      id="post"
+      to="/newpostpage"
+      v-if="isLoggedIn"
+    >
       <div class="fixed_btn">+</div>
     </router-link>
-    <div id="nav" style="z-index: 90" uk-sticky="offset: 70; bottom: #top">
-      <ul class="uk-flex-center" uk-tab>
-        <router-link class="router-link" to="/">新着投稿</router-link>
-        <router-link class="router-link" to="/popular">人気投稿</router-link>
-        <router-link id="category" class="router-link" to="/category"
-          >カテゴリ</router-link
-        >
-        <router-link id="map" class="router-link" to="/map">マップ</router-link>
-        <router-link id="search" class="router-link" to="/search"
-          >検索</router-link
-        >
-      </ul>
-    </div>
+    <v-bottom-navigation horizontal color="teal" grow>
+      <v-btn to="/">
+        <span>新着投稿</span>
+        <v-icon>mdi-history</v-icon>
+      </v-btn>
+      <v-btn to="/popular">
+        <span>人気投稿</span>
+        <v-icon>mdi-heart</v-icon>
+      </v-btn>
+      <v-btn to="/category">
+        <span>カテゴリ</span>
+        <v-icon>mdi-shape</v-icon>
+      </v-btn>
+      <v-btn to="/map">
+        <span>マップ</span>
+        <v-icon>mdi-map-marker</v-icon>
+      </v-btn>
+      <v-btn to="/search">
+        <span>検索</span>
+        <v-icon>mdi-magnify</v-icon>
+      </v-btn>
+    </v-bottom-navigation>
     <div class="content">
-      <!-- <div id="view_content"> -->
       <transition appear>
         <router-view />
       </transition>
-      <!-- </div> -->
     </div>
   </div>
 </template>
@@ -52,15 +64,14 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-.router-link {
-  color: rgba(90, 84, 75, 0.8);
+.v-bottom-navigation a {
+  text-decoration: none;
 }
-.router-link-exact-active,
-#map.router-link-active,
-#search.router-link-active,
-#category.router-link-active {
-  border-bottom: solid 4px rgba(90, 84, 75, 0.85);
-  color: rgb(90, 84, 75);
+.v-btn span {
+  font-size: 16px;
+}
+.v-btn--active span{
+  font-weight: bold;
 }
 
 .content {
