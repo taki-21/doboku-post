@@ -209,8 +209,8 @@ input[type="radio"] {
   margin-bottom: 20px;
   padding: 5px 5px;
   outline: none;
-  border: 2px solid rgb(0, 0, 0);
-  background-color: rgb(236, 231, 225);
+  /* border: 2px solid rgb(0, 0, 0); */
+  /* background-color: rgb(236, 231, 225); */
 }
 #category_card_contnet {
   padding: 5px 40px;

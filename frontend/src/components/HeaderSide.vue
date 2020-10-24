@@ -1,75 +1,66 @@
 <template>
   <div v-if="isLoggedIn && user.icon_image">
-    <ul>
-      <li>
-        <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <div>
-            <!-- <router-link class="router-link" id="post" to="/newpostpage">
-              <v-btn depressed elevation="3" color="brown lighten-2"
-                ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
-              >
-            </router-link> -->
+    <div>
+      <!-- <div class="uk-inline"> -->
+        <a class="show_user">
+          <div class="uk-card header_user_buttonuk-margin">
+            <img class="user_icon" :src="user.icon_image" />
+            {{ user.username }}
+            <i id="chevron-down" uk-icon="chevron-down"></i>
           </div>
-          <div class="uk-inline">
-            <a class="show_user">
-              <div class="uk-card header_user_buttonuk-margin">
-                <img class="user_icon" :src="user.icon_image" />
-                {{ user.username }}
-                <i id="chevron-down" uk-icon="chevron-down"></i>
-              </div>
+        </a>
+        <div uk-dropdown="pos: bottom-center; mode: click">
+          <div class="dropdown">
+            <router-link
+              class="router-link uk-hidden-notouch"
+              to="/newpostpage"
+            >
+              <v-icon>mdi-pencil</v-icon>
+              投稿する
+            </router-link>
+          </div>
+          <div class="dropdown">
+            <router-link
+              class="router-link"
+              :to="{ name: 'mypage', params: { user_id: user.id } }"
+              v-if="user.id"
+            >
+              <v-icon>mdi-account</v-icon>
+              <span>マイページ</span>
+            </router-link>
+          </div>
+          <div class="dropdown">
+            <a href="#modal-logout" id="logout" uk-toggle>
+              <v-icon>mdi-logout</v-icon>ログアウト
             </a>
-            <div uk-dropdown="pos: bottom-center; mode: click">
-              <div class="dropdown">
-                <router-link
-                  class="router-link uk-hidden-notouch"
-                  to="/newpostpage"
-                >
-                  <v-icon>mdi-pencil</v-icon>
-                  投稿する
-                </router-link>
-              </div>
-              <div class="dropdown">
-                <router-link
-                  class="router-link"
-                  :to="{ name: 'mypage', params: { user_id: user.id } }"
-                  v-if="user.id"
-                >
-                  <v-icon>mdi-account</v-icon>
-                  <span>マイページ</span>
-                </router-link>
-              </div>
-              <div class="dropdown">
-                <a href="#modal-logout" id="logout" uk-toggle>
-                  <v-icon>mdi-logout</v-icon>ログアウト
-                </a>
-                <div id="modal-logout" uk-modal>
-                  <div class="uk-modal-dialog uk-modal-body">
-                    <h2 class="uk-modal-title">ログアウト確認</h2>
-                    <p>ログアウトします。よろしいですか？</p>
-                    <p class="uk-text-right">
-                      <button
-                        class="uk-button uk-button-default uk-modal-close"
-                        type="button"
-                      >
-                        キャンセル
-                      </button>
-                      <button
-                        id="ok_button"
-                        class="uk-button uk-button-default uk-modal-close"
-                        type="button"
-                        @click="clickLogout"
-                      >
-                        OK
-                      </button>
-                    </p>
-                  </div>
-                </div>
+            <div id="modal-logout" uk-modal>
+              <div class="uk-modal-dialog uk-modal-body">
+                <h2 class="uk-modal-title">ログアウト確認</h2>
+                <p>ログアウトします。よろしいですか？</p>
+                <p class="uk-text-right">
+                  <button
+                    class="uk-button uk-button-default uk-modal-close"
+                    type="button"
+                  >
+                    キャンセル
+                  </button>
+                  <button
+                    id="ok_button"
+                    class="uk-button uk-button-default uk-modal-close"
+                    type="button"
+                    @click="clickLogout"
+                  >
+                    OK
+                  </button>
+                </p>
               </div>
             </div>
           </div>
         </div>
-      </li>
-    </ul>
+      <!-- </div> -->
+    </div>
+    <!-- </li> -->
+    <!-- </ul> -->
   </div>
   <div v-else>
     <ul>

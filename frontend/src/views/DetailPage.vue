@@ -7,12 +7,40 @@
       <div id="content">
         <div class="uk-width-1-1">
           <div class="uk-container">
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i
-                id="back_icon"
-                uk-icon="icon: chevron-double-left; ratio: 2"
-              ></i>
-            </a>
+            <v-btn text @click="$router.back()" title="前ページへ戻る">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+            <v-card elevation="3" shaped class="mx-lg-auto" max-width="1100px">
+              <v-container class="grey lighten-5">
+                <v-row>
+                  <v-col cols="12" md="7">
+                    <v-card> .col-12 .col-md-7 </v-card>
+                    <v-card-title>
+                      {{ post.title }}
+                    </v-card-title>
+                    <v-card-subtitle>
+                      <v-avatar size="36px">
+                        <img class="user_icon" :src="author.icon_image" />
+                      </v-avatar>
+                      <span>
+                        {{ author.username }}
+                      </span>
+                    </v-card-subtitle>
+                    <v-card-text>
+                      {{ post.content }}
+                    </v-card-text>
+                    <div uk-lightbox>
+                      <a :href="post.raw_image">
+                        <v-img :src="post.image"></v-img>
+                      </a>
+                    </div>
+                  </v-col>
+                  <v-col cols="12" md="4">
+                    <v-card> .col-12 .col-md-4 </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
             <div
               id="detail_post"
               class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
@@ -87,9 +115,7 @@
                     </div>
                     <div v-else>
                       <div>
-                        <span
-                          @click="toggleLike"
-                        >
+                        <span @click="toggleLike">
                           <v-btn class="ma-2" text icon>
                             <v-icon x-large>mdi-heart-outline</v-icon>
                           </v-btn>
