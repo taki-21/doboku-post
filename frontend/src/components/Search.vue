@@ -1,76 +1,62 @@
 <template>
   <div>
-    <div class="uk-card uk-card-default uk-width-1-1@s" id="search_card">
-      <form class="uk-grid-small" uk-grid>
-        <div class="uk-width-2-5@s">
-          <strong>タイトル</strong>
-          <input
-            v-model="query.title"
-            @change="search"
-            class="uk-input"
-            type="search"
-            placeholder="キーワードを入力してください"
-          />
-          <input type="text" style="display: none" />
-        </div>
-        <div class="uk-width-1-5@s">
-          <strong>カテゴリ</strong>
-          <select
-            class="uk-select"
-            type="text"
-            v-model="query.category"
-            @change="search"
-            placeholder
-          >
-            <option value>選択してください</option>
-            <option
-              v-for="(ctg, key) in categories"
-              :key="key"
-              v-bind:value="ctg.id"
-            >
-              {{ ctg.name }}
-            </option>
-          </select>
-        </div>
-        <div class="uk-width-1-5@s">
-          <strong>投稿日</strong>
-          <select
-            class="uk-select"
-            type="text"
-            v-model="query.period"
-            @change="search"
-            clearable
-          >
-            <option value>選択してください</option>
-            <option
-              v-for="(prd, key) in periods"
-              :key="key"
-              v-bind:value="prd.date"
-            >
-              {{ prd.name }}
-            </option>
-          </select>
-        </div>
-        <div class="uk-width-1-5@s">
-          <strong>都道府県</strong>
-          <select
-            class="uk-select"
-            type="text"
-            v-model="query.prefecture"
-            @change="search"
-            clearable
-          >
-            <option value>選択してください</option>
-            <option v-for="item in prefs" :key="item.name">
-              {{ item.name }}
-            </option>
-          </select>
-        </div>
-      </form>
-    </div>
+    <v-form>
+      <v-container>
+        <v-row>
+          <v-col cols="12" xs="6" sm="6" md="3">
+            <v-text-field
+              v-model="query.title"
+              @change="search"
+              clearable
+              label="タイトル"
+              placeholder="キーワードを入力してください"
+            ></v-text-field>
+          </v-col>
+          <v-col cols="12" xs="6" sm="6" md="3">
+            <v-select
+              :items="categories"
+              item-text="name"
+              item-value="id"
+              v-model="query.category"
+              @change="search"
+              clearable
+              label="カテゴリ"
+              placeholder="選択してください"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" xs="6" sm="6" md="3">
+            <v-select
+              :items="periods"
+              item-text="name"
+              item-value="date"
+              v-model="query.period"
+              @change="search"
+              clearable
+              label="投稿日"
+              placeholder="選択してください"
+            ></v-select>
+          </v-col>
+          <v-col cols="12" xs="6" sm="6" md="3">
+            <v-select
+              :items="prefs"
+              item-text="name"
+              item-value="id"
+              v-model="query.prefecture"
+              @change="search"
+              clearable
+              label="都道府県"
+              placeholder="選択してください"
+            ></v-select>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-form>
     <div>
-      <div v-show="isLoading" class="loader">
-        <span uk-spinner></span>
+      <div v-show="isLoading" class="text-center">
+        <v-progress-circular
+          indeterminate
+          color="blue-gray"
+        ></v-progress-circular>
       </div>
       <div v-show="!isLoading">
         <PostList :postType="filterPosts" />
@@ -215,10 +201,10 @@ export default {
       this.$router.push({
         name: "search",
         query: {
-          title: this.query.title,
-          category: this.query.category,
-          published_at: this.query.period,
-          prefecture: this.query.prefecture,
+          title: this.query.title || "",
+          category: this.query.category || "",
+          published_at: this.query.period || "",
+          prefecture: this.query.prefecture || "",
         },
       });
     },

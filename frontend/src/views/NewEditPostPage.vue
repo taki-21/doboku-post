@@ -43,7 +43,7 @@
                             </div>
                           <!-- </div> -->
                           <div class="camera-choice">
-                            <v-icon x-large>mdi-camera</v-icon>
+                            <v-icon size="100">mdi-camera</v-icon>
                             <!-- <div
                               class="camera-icon uk-hidden-touch"
                               uk-icon="icon: camera; ratio: 5"

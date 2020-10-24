@@ -21,82 +21,85 @@
     <v-app-bar app color="blue-grey lighten-2" clipped-left>
       <!-- <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon> -->
       <v-app-bar-nav-icon></v-app-bar-nav-icon>
-      <v-toolbar-title
-        ><router-link to="/" id="title"
+      <v-btn icon>
+        <v-img src="./assets/doboku.png" max-width="35px" />
+      </v-btn>
+      <v-toolbar-title>
+        <router-link to="/" id="title"
           >DOBOKU_Post</router-link
         ></v-toolbar-title
       >
       <v-spacer></v-spacer>
       <!-- <v-toolbar-item> -->
-        <router-link class="router-link" id="post" to="/newpostpage">
-          <v-btn depressed elevation="3" color="blue-grey lighten-4"
-            ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
-          >
-        </router-link>
-        <v-menu offset-y>
-          <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-bind="attrs" v-on="on">
-              <v-avatar size="36px">
-                <img class="user_icon" :src="user.icon_image" />
-              </v-avatar>
-              <span>
-                {{ user.username }}
-              </span>
-            </v-btn>
-          </template>
-          <v-card class="mx-auto">
-            <v-list>
-              <v-list-item-group>
-                <router-link
-                  class="router-link"
-                  :to="{ name: 'mypage', params: { user_id: user.id } }"
-                  v-if="user.id"
-                >
-                  <v-list-item>
+      <router-link class="router-link" id="post" to="/newpostpage">
+        <v-btn depressed elevation="3" color="blue-grey lighten-4"
+          ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
+        >
+      </router-link>
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on">
+            <v-avatar size="36px">
+              <img class="user_icon" :src="user.icon_image" />
+            </v-avatar>
+            <span>
+              {{ user.username }}
+            </span>
+          </v-btn>
+        </template>
+        <v-card class="mx-auto">
+          <v-list>
+            <v-list-item-group>
+              <router-link
+                class="router-link"
+                :to="{ name: 'mypage', params: { user_id: user.id } }"
+                v-if="user.id"
+              >
+                <v-list-item>
+                  <v-list-item-icon>
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-icon>
+                  <v-list-item-content>
+                    <v-list-item-title> マイページ </v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </router-link>
+              <v-dialog v-model="dialog" width="500">
+                <template v-slot:activator="{ on, attrs }">
+                  <v-list-item v-bind="attrs" v-on="on">
                     <v-list-item-icon>
-                      <v-icon>mdi-account</v-icon>
+                      <v-icon>mdi-logout</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-content>
-                      <v-list-item-title> マイページ </v-list-item-title>
-                    </v-list-item-content>
+                    <v-list-item-content
+                      ><v-list-item-title>
+                        ログアウト
+                      </v-list-item-title></v-list-item-content
+                    >
                   </v-list-item>
-                </router-link>
-                <v-dialog v-model="dialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-list-item v-bind="attrs" v-on="on">
-                      <v-list-item-icon>
-                        <v-icon>mdi-logout</v-icon>
-                      </v-list-item-icon>
-                      <v-list-item-content
-                        ><v-list-item-title>
-                          ログアウト
-                        </v-list-item-title></v-list-item-content
-                      >
-                    </v-list-item>
-                  </template>
-                  <v-card>
-                    <v-card-title class="headline grey lighten-2">
-                      ログアウト確認
-                    </v-card-title>
-                    <v-card-text>
-                      ログアウトします。よろしいですか？
-                    </v-card-text>
-                    <!-- <v-divider></v-divider> -->
-                    <v-card-actions>
-                      <v-spacer></v-spacer>
-                      <v-btn color="primary" text @click="dialog = false">
-                        キャンセル
-                      </v-btn>
-                      <v-btn color="primary" text @click="clickLogout">
-                        OK
-                      </v-btn>
-                    </v-card-actions>
-                  </v-card>
-                </v-dialog>
-              </v-list-item-group>
-            </v-list>
-          </v-card>
-        </v-menu>
+                </template>
+                <v-card>
+                  <v-card-title class="headline grey lighten-2">
+                    ログアウト確認
+                  </v-card-title>
+                  <v-card-text>
+                    ログアウトします。よろしいですか？
+                  </v-card-text>
+                  <!-- <v-divider></v-divider> -->
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="dialog = false">
+                      キャンセル
+                    </v-btn>
+                    <v-btn color="primary" text @click="clickLogout">
+                      OK
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </v-list-item-group>
+          </v-list>
+        </v-card>
+      </v-menu>
       <!-- </v-toolbar-item> -->
     </v-app-bar>
     <GlobalMessage />
@@ -162,11 +165,11 @@ export default {
       return this.$store.getters["auth/isLoggedIn"];
     },
   },
-    methods: {
+  methods: {
     // ログアウトリンク押下
     clickLogout: function () {
       sessionStorage.clear();
-      this.dialog = false
+      this.dialog = false;
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("user/logout");
       this.$store.dispatch("message/setInfoMessage", {
@@ -175,7 +178,6 @@ export default {
       this.$router.replace("/login");
     },
   },
-
 };
 </script>
 <style>
