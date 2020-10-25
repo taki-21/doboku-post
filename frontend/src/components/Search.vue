@@ -1,6 +1,9 @@
 <template>
   <div>
     <v-form>
+      <!-- <pre>{{categories}}</pre> -->
+      <!-- <pre>{{periods}}</pre>
+      <pre>{{prefs}}</pre> -->
       <v-container>
         <v-row>
           <v-col cols="12" xs="6" sm="6" md="3">
@@ -40,7 +43,7 @@
             <v-select
               :items="prefs"
               item-text="name"
-              item-value="id"
+              item-value="name"
               v-model="query.prefecture"
               @change="search"
               clearable
@@ -95,7 +98,7 @@ export default {
       filterPosts: [],
       query: {
         title: this.$route.query.title || "",
-        category: this.$route.query.category || "",
+        category: Number(this.$route.query.category) || "",
         period: this.$route.query.published_at || "",
         prefecture: this.$route.query.prefecture || "",
       },
