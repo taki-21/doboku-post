@@ -2,18 +2,17 @@
   <div>
     <form @submit.prevent="submitText()" @click="post_comment">
       <div>
-        <div class="mb-6">
+        <div class="mb-5">
           <v-textarea
-          no-gutters
             class="ma-0 pa-0"
             solo
             rows="2"
-            type="text"
             v-model="text"
             placeholder="コメントを入力してください"
+            hide-details
           >
           </v-textarea>
-            <v-btn type="submit" block>
+            <v-btn type="submit" block class="mt-1" dark color="blue-grey darken-1">
               <v-icon>mdi-send</v-icon>
               送信
             </v-btn>
@@ -67,11 +66,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-#comment-btn {
-  width: 100%;
-  background-color: rgba(140, 140, 135, 0.3);
-  margin-bottom: 20px;
-}
-</style>

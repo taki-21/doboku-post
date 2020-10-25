@@ -10,7 +10,7 @@
       <!-- <v-container> -->
         <v-row justify="center">
           <v-col justify="center">
-            <v-btn class="float-left d-none d-sm-flex" text @click="$router.back()" title="前ページへ戻る">
+            <v-btn class="float-left" text @click="$router.back()" title="前ページへ戻る">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
             <v-card
@@ -20,7 +20,7 @@
               class="mx-auto"
               max-width="1200px"
             >
-              <div class="pa-8">
+              <div class="pa-6">
                 <h3 v-if="post_id" class="text-center">投稿編集</h3>
                 <h3 v-else class="text-center">新規投稿</h3>
                 <ValidationObserver v-slot="{ invalid }">
@@ -90,6 +90,7 @@
                         >
                           <v-textarea
                             label="キャプション"
+                            rows=4
                             :error-messages="errors"
                             v-model="content"
                           ></v-textarea>
