@@ -1,32 +1,29 @@
 <template>
   <div>
     <div v-if="title">
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
-    </div>
+      <div v-show="isLoading" class="loader">
+        <v-progress-circular
+          indeterminate
+          color="blue-gray"
+        ></v-progress-circular>
+      </div>
       <div v-show="!isLoading">
-        <input
-          class="uk-input uk-form-width-medium"
-          type="text"
-          v-model="title"
-          @change="mapSearch"
-        />
-        <div class="uk-margin" uk-margin>
-          <div v-if="results[0]">
-            <input
-              class="uk-input uk-form-width-large"
-              type="text"
-              v-model="results[0].formatted_address"
-            />
-            <button
-              id="ok_button"
-              class="uk-button uk-button-default uk-modal-close"
-              @click="call_parent"
-            >
-              OK
-            </button>
-          </div>
-        </div>
+            <v-row no-gutters>
+              <v-col cols="12" md="6">
+                <v-text-field v-model="title" @change="mapSearch">
+                </v-text-field>
+              </v-col>
+            </v-row>
+            <v-row no-gutters>
+              <v-col cols="12" md="8">
+                <div v-if="results[0]">
+                  <v-text-field v-model="results[0].formatted_address" />
+                </div>
+              </v-col>
+              <v-col cols="12" md="4">
+                <v-btn id="ok_button" @click="call_parent"> OK </v-btn>
+              </v-col>
+            </v-row>
       </div>
     </div>
     <div v-else>
@@ -84,7 +81,6 @@ export default {
         (results, status) => {
           if (status === this.google.maps.GeocoderStatus.OK) {
             this.results = results;
-
             this.map.setCenter(results[0].geometry.location);
             this.marker = new this.google.maps.Marker({
               map: this.map,
@@ -113,11 +109,15 @@ export default {
 
 #map {
   width: 100%;
-  height: 600px;
+  height: 500px;
 }
 .loader {
-    text-align: center;
-    position: relative;
-    top: 0px;
+  text-align: center;
+  position: relative;
+  top: 0px;
+}
+.v-text-field {
+    padding-top: 0px;
+    margin-top: 4px;
 }
 </style>
