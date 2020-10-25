@@ -86,24 +86,6 @@ export default {
   display: none;
 }
 
-/* UIkitの上書き */
-.uk-tab {
-  padding-top: 20px;
-  background-color: rgba(255, 255, 255, 0.9);
-  display: flex;
-  flex-wrap: wrap;
-  margin-left: -20px;
-  font-size: 22px;
-  list-style: none;
-  position: relative;
-}
-
-.uk-tab > * {
-  float: left;
-  padding: 0px 25px;
-  position: relative;
-}
-
 @media (max-width: 640px) {
   .fixed_btn {
     display: block;
@@ -124,25 +106,6 @@ export default {
     z-index: 100;
     box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
   }
-  /* .uk-tab {
-    position: relative;
-    top: -16px;
-    padding-top: 9px;
-    background-color: rgba(255, 255, 255, 0.9);
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -20px;
-    list-style: none;
-    position: relative;
-    font-size: 14px;
-    margin-bottom: 5px;
-  }
-
-  .uk-tab > * {
-    float: left;
-    padding: 0px 10px;
-    position: relative;
-  } */
   .content {
     margin: 5px auto 10px;
     padding: 5px 15px;

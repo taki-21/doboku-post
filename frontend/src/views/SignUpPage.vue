@@ -1,136 +1,99 @@
 <template>
   <div>
-    <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
-      <div class="uk-width-1-1">
-        <div class="uk-container">
-          <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-            <div class="uk-width-1-1@m">
-              <div
-                id="signup_card"
-                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
-              >
-                <h2 class="uk-card-title uk-text-center">新規登録</h2>
-                <ValidationObserver v-slot="{ invalid }">
-                  <form @submit.prevent="submitUser()">
-                    <div>
-                      <div class="uk-inline uk-width-1-1">
-                        <ValidationProvider
-                          mode="eager"
-                          name="ユーザー名"
-                          rules="required|max:10"
-                          v-slot="{ errors }"
-                        >
-                          <span
-                            id="form_icon"
-                            class="uk-form-icon"
-                            uk-icon="icon: user"
-                          ></span>
-                          <input
-                            class="uk-input"
-                            type="text"
-                            placeholder="ユーザー名"
-                            v-model="username"
-                            required
-                          />
-                          <span id="designated_message">: 10文字以下</span>
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="uk-inline uk-width-1-1">
-                        <ValidationProvider
-                          mode="lazy"
-                          name="入力内容"
-                          rules="required|email"
-                          v-slot="{ errors }"
-                        >
-                          <span
-                            id="form_icon"
-                            class="uk-form-icon"
-                            uk-icon="icon: mail"
-                          ></span>
-                          <input
-                            class="uk-input"
-                            type="email"
-                            placeholder="メールアドレス"
-                            v-model="email_adress"
-                            required
-                          />
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="uk-inline uk-width-1-1">
-                        <ValidationProvider
-                          mode="lazy"
-                          name="パスワード"
-                          rules="required|min:8|password"
-                          v-slot="{ errors }"
-                          vid="password1"
-                        >
-                          <span
-                            id="form_icon"
-                            class="uk-form-icon"
-                            uk-icon="icon: lock"
-                          ></span>
-                          <input
-                            class="uk-input"
-                            type="password"
-                            placeholder="パスワード"
-                            v-model="password1"
-                            required
-                          />
-                          <span id="designated_message"
-                            >: 8文字以上(半角英小文字、数字)</span
-                          >
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                    </div>
-                    <div>
-                      <div class="uk-inline uk-width-1-1">
-                        <ValidationProvider
-                          mode="aggressive"
-                          name="パスワード"
-                          rules="required|confirmed:password1"
-                          v-slot="{ errors }"
-                        >
-                          <span
-                            id="form_icon"
-                            class="uk-form-icon"
-                            uk-icon="icon: lock"
-                          ></span>
-                          <input
-                            class="uk-input"
-                            type="password"
-                            placeholder="パスワード（確認）"
-                            v-model="password2"
-                            required
-                          />
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                    </div>
-                    <div>
-                      <button
-                        id="send_button"
-                        class="uk-button uk-button-large uk-width-1-1"
-                        :disabled="invalid"
-                        type="submit"
-                      >
-                        新規登録
-                      </button>
-                    </div>
-                  </form>
-                </ValidationObserver>
-              </div>
+    <v-container>
+      <h3 class="h3 text-center pt-8">新規登録</h3>
+      <v-row justify="center">
+        <v-col cols="12" md="6">
+          <v-card elevation="5" shaped color="blue-grey lighten-5">
+            <div class="pa-8">
+              <ValidationObserver v-slot="{ invalid }">
+                <form @submit.prevent="submitUser()">
+                  <ValidationProvider
+                    mode="eager"
+                    name="ユーザー名"
+                    rules="required|max:10"
+                    v-slot="{ errors }"
+                  >
+                    <v-text-field
+                      v-model="username"
+                      :counter="10"
+                      :error-messages="errors"
+                      required
+                      placeholder="ユーザー名"
+                      hint=": 10文字以下"
+                      persistent-hint
+                      prepend-inner-icon="mdi-account"
+                    ></v-text-field>
+                  </ValidationProvider>
+                  <ValidationProvider
+                    mode="lazy"
+                    name="入力内容"
+                    rules="required|email"
+                    v-slot="{ errors }"
+                  >
+                    <v-text-field
+                      v-model="email_adress"
+                      :error-messages="errors"
+                      required
+                      placeholder="メールアドレス"
+                      prepend-inner-icon="mdi-email"
+                    ></v-text-field>
+                  </ValidationProvider>
+                  <ValidationProvider
+                    mode="lazy"
+                    name="パスワード"
+                    rules="required|min:8|password"
+                    v-slot="{ errors }"
+                    vid="password1"
+                  >
+                    <v-text-field
+                      v-model="password1"
+                      :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show1 ? 'text' : 'password'"
+                      counter
+                      :error-messages="errors"
+                      required
+                      placeholder="パスワード"
+                      hint=": 8文字以上（半角英小文字,数字を含む）"
+                      persistent-hint
+                      @click:append="show1 = !show1"
+                      prepend-inner-icon="mdi-lock"
+                    ></v-text-field>
+                  </ValidationProvider>
+                  <ValidationProvider
+                    mode="aggressive"
+                    name="パスワード"
+                    rules="required|confirmed:password1"
+                    v-slot="{ errors }"
+                  >
+                    <v-text-field
+                      v-model="password2"
+                      :append-icon="show2 ? 'mdi-eye' : 'mdi-eye-off'"
+                      :type="show2 ? 'text' : 'password'"
+                      counter
+                      :error-messages="errors"
+                      required
+                      placeholder="パスワード（確認）"
+                      @click:append="show2 = !show2"
+                      prepend-inner-icon="mdi-lock"
+                    ></v-text-field>
+                  </ValidationProvider>
+                  <v-btn
+                    block
+                    elevation="2"
+                    class="mr-4 mt-4"
+                    type="submit"
+                    :disabled="invalid"
+                  >
+                    送信
+                  </v-btn>
+                </form>
+              </ValidationObserver>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -172,6 +135,8 @@ export default {
       password1: "",
       password2: "",
       isLoading: false,
+      show1: false,
+      show2: false,
     };
   },
   methods: {
@@ -231,16 +196,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@import "../assets/common.css";
-
-#form_icon {
-  height: 40px;
-}
-#designated_message {
-  font-size: 14px;
-  color: gray;
-}
-
-</style>

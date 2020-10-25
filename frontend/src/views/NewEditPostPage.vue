@@ -1,7 +1,10 @@
 <template>
   <div>
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
+    <div v-show="isLoading" class="text-center">
+      <v-progress-circular
+        indeterminate
+        color="blue-gray"
+      ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
       <div id="content">
@@ -31,16 +34,16 @@
                         <div class="uk-placeholder uk-text-center">
                           <input type="file" @change="selectedFile" />
                           <!-- <div id="preview"> -->
-                            <div v-if="!post_id" id="preview">
-                              <img
-                                id="preview_image"
-                                v-show="previewImage"
-                                :src="previewImage"
-                              />
-                            </div>
-                            <div v-else id="preview">
-                              <img id="preview_image" :src="beforeImage" />
-                            </div>
+                          <div v-if="!post_id" id="preview">
+                            <img
+                              id="preview_image"
+                              v-show="previewImage"
+                              :src="previewImage"
+                            />
+                          </div>
+                          <div v-else id="preview">
+                            <img id="preview_image" :src="beforeImage" />
+                          </div>
                           <!-- </div> -->
                           <div class="camera-choice">
                             <v-icon size="100">mdi-camera</v-icon>
@@ -116,7 +119,9 @@
                       </div>
                       <div class="uk-inline uk-width-1-1">
                         <label>場所（任意）</label>
-                        <span id="select_way">: 指定方法は以下の2つのみです</span>
+                        <span id="select_way"
+                          >: 指定方法は以下の2つのみです</span
+                        >
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
@@ -384,7 +389,7 @@ export default {
 }
 
 .camera-choice {
-  width: 180px ;
+  width: 180px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -397,7 +402,7 @@ export default {
 #preview {
   position: absolute;
   width: 100%;
-  height:100%;
+  height: 100%;
   right: 0px;
   top: 0px;
   z-index: 100;
@@ -406,7 +411,6 @@ export default {
 #preview_image {
   width: 100%;
   height: 100%;
-
 }
 .uk-modal-body {
   border-radius: 5px;

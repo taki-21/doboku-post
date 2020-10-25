@@ -313,7 +313,7 @@ export default {
   /* position: absolute; */
   /* 現在:, 変更:, クリア表示を隠す  */
   top: 0px;
-  z-index: 100;
+  z-index: 1;
   pointer-events: none;
   width: 100%;
   height: auto;
