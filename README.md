@@ -17,7 +17,7 @@
 ### フロントエンド
 * Vue.js: 2.6.11
 * Vue CLI: 4.4.6
-* UIkit: 3.5.6
+* UIkit: 3.5.6（※ 現在Vuetifyに移行中）
 * HTML/CSS
 
 ### バックエンド
