@@ -8,7 +8,7 @@
     </div>
     <div v-show="!isLoading">
       <v-container>
-        <v-row justify="center">
+        <v-row>
           <v-col cols="12" md="12">
             <v-btn text @click="$router.back()" title="前ページへ戻る">
               <v-icon>mdi-arrow-left</v-icon>

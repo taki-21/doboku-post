@@ -2,22 +2,21 @@
   <div>
     <form @submit.prevent="submitText()" @click="post_comment">
       <div>
-        <div class="uk-inline uk-width-1-1">
-          <textarea
-            class="uk-textarea"
-            row="4"
+        <div class="mb-6">
+          <v-textarea
+          no-gutters
+            class="ma-0 pa-0"
+            solo
+            rows="2"
             type="text"
             v-model="text"
             placeholder="コメントを入力してください"
-          ></textarea>
-          <button
-            class="uk-button uk-button-default uk-button-small"
-            type="submit"
-            id="comment-btn"
           >
-            <span uk-icon="icon: comment"></span>
-            送信
-          </button>
+          </v-textarea>
+            <v-btn type="submit" block>
+              <v-icon>mdi-send</v-icon>
+              送信
+            </v-btn>
         </div>
       </div>
     </form>
