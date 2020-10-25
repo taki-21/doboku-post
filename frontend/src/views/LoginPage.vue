@@ -1,52 +1,50 @@
 <template>
-  <div>
-    <v-container>
-      <h3 class="h3 text-center pt-8">ログイン</h3>
-      <v-row justify="center">
-        <v-col cols="12" md="6">
-          <v-card elevation="5" shaped color="blue-grey lighten-5">
-            <div class="pa-8">
-              <form @submit.prevent="submitLogin(form.username, form.password)">
-                <v-text-field
-                  v-model="form.username"
-                  required
-                  placeholder="ユーザー名"
-                  prepend-inner-icon="mdi-account"
-                ></v-text-field>
-                <v-text-field
-                  v-model="form.password"
-                  :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                  :type="show1 ? 'text' : 'password'"
-                  required
-                  placeholder="パスワード"
-                  @click:append="show1 = !show1"
-                  prepend-inner-icon="mdi-lock"
-                ></v-text-field>
-                <v-btn block elevation="2" class="mr-4 mt-4" type="submit">
-                  ログイン
-                </v-btn>
-              </form>
-              <v-btn
-                block
-                color="blue-grey lighten-3"
-                elevation="2"
-                class="mr-4 mt-4"
-                @click="submitLogin()"
-              >
-                かんたんログイン
+  <v-container>
+    <h3 class="h3 text-center pt-8">ログイン</h3>
+    <v-row justify="center">
+      <v-col cols="12" md="6">
+        <v-card elevation="5" shaped color="blue-grey lighten-5">
+          <div class="pa-8">
+            <form @submit.prevent="submitLogin(form.username, form.password)">
+              <v-text-field
+                v-model="form.username"
+                required
+                placeholder="ユーザー名"
+                prepend-inner-icon="mdi-account"
+              ></v-text-field>
+              <v-text-field
+                v-model="form.password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+                required
+                placeholder="パスワード"
+                @click:append="show1 = !show1"
+                prepend-inner-icon="mdi-lock"
+              ></v-text-field>
+              <v-btn block elevation="2" class="mr-4 mt-4" type="submit">
+                ログイン
               </v-btn>
-              <div class="pa-md-4 text-center">
-                登録していない方
-                <router-link id="to_signup" class="router-link" to="/signup"
-                  >アカウント作成</router-link
-                >
-              </div>
+            </form>
+            <v-btn
+              block
+              color="blue-grey lighten-3"
+              elevation="2"
+              class="mr-4 mt-4"
+              @click="submitLogin()"
+            >
+              かんたんログイン
+            </v-btn>
+            <div class="pa-md-4 text-center">
+              登録していない方
+              <router-link id="to_signup" class="router-link" to="/signup"
+                >アカウント作成</router-link
+              >
             </div>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+          </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

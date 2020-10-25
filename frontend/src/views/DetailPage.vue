@@ -1,9 +1,26 @@
 <template>
   <div>
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
+    <div v-show="isLoading" class="text-center">
+      <v-progress-circular
+        indeterminate
+        color="blue-gray"
+      ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="12" md="6">
+            <v-btn text @click="$router.back()" title="前ページへ戻る">
+              <v-icon>mdi-arrow-left</v-icon>
+            </v-btn>
+
+            <v-card elevation="5" shaped color="blue-grey lighten-5">
+              <div class="pa-8"></div>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-container>
+
       <div id="content">
         <div class="uk-width-1-1">
           <div class="uk-container">
