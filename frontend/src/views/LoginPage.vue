@@ -2,8 +2,14 @@
   <v-container>
     <h3 class="h3 text-center pt-8">ログイン</h3>
     <v-row justify="center">
-      <v-col cols="12" md="6">
-        <v-card elevation="5" shaped color="blue-grey lighten-5">
+      <v-col justify="center">
+        <v-card
+          elevation="5"
+          shaped
+          color="blue-grey lighten-5"
+          class="mx-auto"
+          max-width="500px"
+        >
           <div class="pa-8">
             <form @submit.prevent="submitLogin(form.username, form.password)">
               <v-text-field
@@ -34,7 +40,7 @@
             >
               かんたんログイン
             </v-btn>
-            <div class="pa-md-4 text-center">
+            <div class="pa-4 text-center">
               登録していない方
               <router-link id="to_signup" class="router-link" to="/signup"
                 >アカウント作成</router-link

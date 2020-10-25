@@ -3,8 +3,14 @@
     <v-container>
       <h3 class="h3 text-center pt-8">新規登録</h3>
       <v-row justify="center">
-        <v-col cols="12" md="6">
-          <v-card elevation="5" shaped color="blue-grey lighten-5">
+        <v-col justify="center">
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="500px"
+          >
             <div class="pa-8">
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitUser()">

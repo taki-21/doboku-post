@@ -10,7 +10,7 @@
       <v-container>
         <v-row justify="center">
           <v-col cols="12" md="6">
-            <v-btn text @click="$router.back()" title="前ページへ戻る">
+            <v-btn lass="float-left" text @click="$router.back()" title="前ページへ戻る">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
 

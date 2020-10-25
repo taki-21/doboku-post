@@ -7,13 +7,19 @@
       ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
-      <v-container>
-        <v-row>
-          <v-col cols="12" md="12">
-            <v-btn text @click="$router.back()" title="前ページへ戻る">
+      <!-- <v-container> -->
+        <v-row justify="center">
+          <v-col justify="center">
+            <v-btn class="float-left d-none d-sm-flex" text @click="$router.back()" title="前ページへ戻る">
               <v-icon>mdi-arrow-left</v-icon>
             </v-btn>
-            <v-card elevation="5" shaped color="blue-grey lighten-5">
+            <v-card
+              elevation="5"
+              shaped
+              color="blue-grey lighten-5"
+              class="mx-auto"
+              max-width="1200px"
+            >
               <div class="pa-8">
                 <h3 v-if="post_id" class="text-center">投稿編集</h3>
                 <h3 v-else class="text-center">新規投稿</h3>
@@ -36,10 +42,6 @@
                             </div>
                             <div class="camera-choice">
                               <v-icon size="100">mdi-camera</v-icon>
-                              <div
-                                class="camera-icon uk-hidden-notouch"
-                                uk-icon="icon: camera; ratio: 3"
-                              ></div>
                               <p>画像を選択してください</p>
                             </div>
                           </div>
@@ -178,7 +180,7 @@
             </v-card>
           </v-col>
         </v-row>
-      </v-container>
+      <!-- </v-container> -->
     </div>
   </div>
 </template>
