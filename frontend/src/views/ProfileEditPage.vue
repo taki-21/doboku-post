@@ -275,16 +275,6 @@ export default {
   box-sizing: border-box;
 }
 
-.camera-choice {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: table-cell;
-  vertical-align: middle;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
 #preview {
   position: relative;
   /* position: absolute; */
@@ -300,26 +290,6 @@ export default {
   position: relative;
   width: 100%;
   height: auto;
-}
-
-.textarea-input {
-  padding-left: 40px;
-}
-
-.uk-section {
-  padding-top: 30px;
-}
-#delete_button {
-  background-color: rgba(245, 170, 157, 0.4);
-  font-size: 15px;
-  color: rgb(0, 0, 0);
-  border-radius: 10px;
-  border: 2px solid rgb(240, 173, 173);
-}
-.uk-modal-body {
-  display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
 }
 
 @media (max-width: 640px) {

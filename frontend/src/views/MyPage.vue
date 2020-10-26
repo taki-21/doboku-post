@@ -36,7 +36,7 @@
             <!-- </h1> -->
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
-                <v-btn class="ma-3" color="purple" dark>
+                <v-btn class="mt-4 ml-4" color="indigo lighten-4" small>
                   <v-icon>mdi-account-edit</v-icon>
                 </v-btn>
               </router-link>

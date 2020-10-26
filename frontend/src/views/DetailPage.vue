@@ -42,7 +42,7 @@
                       <span v-else>---</span>
                     </div>
                   </div>
-                  <v-card-subtitle>
+                  <v-card-subtitle id="post_content">
                     {{ post.content }}
                   </v-card-subtitle>
                   <div uk-lightbox>
@@ -384,9 +384,6 @@ html {
   margin-right: 5px;
   border-radius: 50%;
 }
-#detail_post {
-  background-color: rgba(225, 215, 205, 0.247);
-}
 
 #post_title {
   padding-top: 10px;
@@ -397,12 +394,8 @@ html {
 #post_content {
   word-break: break-all;
   margin: 0px 0px 10px 0px;
-  border-radius: 5px;
-  background-color: rgba(224, 215, 196, 0.432);
   padding: 5px 5px 5px 10px;
-  max-width: 625px;
   font-size: 15px;
-  font-weight: bold;
   white-space: pre-wrap;
 }
 #post_image {
@@ -412,11 +405,7 @@ html {
 #location_button {
   float: left;
   margin-top: 18px;
-  background-color: rgba(135, 165, 179, 0.829);
   color: #333;
-  font-size: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
   text-decoration: none;
 }
 #like_buttun {

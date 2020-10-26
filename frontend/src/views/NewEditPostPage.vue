@@ -95,7 +95,7 @@
                             v-model="content"
                           ></v-textarea>
                         </ValidationProvider>
-                        <div class="uk-inline uk-width-1-1">
+                        <div class="uk-inline uk-width-1-1 location_form">
                           <label>場所（任意）</label>
                           <span id="select_way"
                             >: 指定方法は以下の2つのみです</span
@@ -167,6 +167,7 @@
                     </v-row>
                     <v-btn
                       block
+                      large
                       elevation="2"
                       class="mr-4 mt-4"
                       type="submit"
@@ -415,5 +416,11 @@ export default {
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
+}
+.v-application ul, .v-application ol {
+    padding-left: 0px;
+}
+.location_form{
+  margin-top:20px;
 }
 </style>

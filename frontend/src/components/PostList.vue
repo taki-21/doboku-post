@@ -180,7 +180,7 @@ export default {
 #card {
   overflow: hidden;
   border-radius: 5px;
-  background-color: #e9e4dede;
+  background-color: rgb(145, 163, 174, 0.25);
   margin-bottom: 20px;
   max-width: 640px;
   margin: 0px auto;
