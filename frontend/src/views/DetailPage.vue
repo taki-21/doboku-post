@@ -7,195 +7,195 @@
       ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
-      <!-- <v-row>
-        <v-col> -->
-      <!-- <v-btn
-            class="float-left"
-            text
-            @click="$router.back()"
-            title="前ページへ戻る"
-          >
+      <v-row justify="center" align-content="center">
+        <v-col class="py-0">
+          <v-btn fixed text @click="$router.back()" title="前ページへ戻る">
             <v-icon>mdi-arrow-left</v-icon>
-          </v-btn> -->
-      <v-card
-        elevation="5"
-        shaped
-        color="blue-grey lighten-5"
-        class="mx-auto"
-        max-width="1100px"
-      >
-        <div class="px-3 ">
-          <v-row justify="center">
-            <v-col cols="12" md="7">
-              <v-card-title class="float-left">
-                {{ post.title }}
-              </v-card-title>
-              <div class="text-right">
-                <div>
-                  <v-avatar size="36px">
-                    <img class="user_icon" :src="author.icon_image" />
-                  </v-avatar>
-                  <span>
-                    {{ author.username }}
-                  </span>
-                </div>
-                <div>
-                  <span>{{ post.published_at | moment }}</span>
-                </div>
-                <div>
-                  <span v-if="post.prefecture">{{ post.prefecture }}</span>
-                  <span v-else>---</span>
-                </div>
-              </div>
-              <v-card-subtitle>
-                {{ post.content }}
-              </v-card-subtitle>
-              <div uk-lightbox>
-                <a :href="post.raw_image">
-                  <v-img :src="post.image"></v-img>
-                </a>
-              </div>
-              <div v-if="post.address">
-                <button
-                  id="location_button"
-                  class="uk-button"
-                  :href="modal_href"
-                  type="button"
-                  @click="showMap"
-                  uk-toggle
-                >
-                  <i uk-icon="location"></i>
-                  場所を確認
-                </button>
-                <div :id="modal" class="uk-modal-flex" uk-modal>
-                  <div
-                    id="location_modal"
-                    class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
-                  >
-                    <button
-                      class="uk-modal-close-default"
-                      type="button"
-                      uk-close
-                    ></button>
+          </v-btn>
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="1100px"
+          >
+            <div class="px-3">
+              <v-row justify="center">
+                <v-col cols="12" md="7">
+                  <v-card-title class="float-left">
+                    {{ post.title }}
+                  </v-card-title>
+                  <div class="text-right">
                     <div>
-                      <Map ref="map" :post="post" />
+                      <v-avatar size="36px">
+                        <img class="user_icon" :src="author.icon_image" />
+                      </v-avatar>
+                      <span>
+                        {{ author.username }}
+                      </span>
+                    </div>
+                    <div>
+                      <span>{{ post.published_at | moment }}</span>
+                    </div>
+                    <div>
+                      <span v-if="post.prefecture">{{ post.prefecture }}</span>
+                      <span v-else>---</span>
                     </div>
                   </div>
-                </div>
-              </div>
-              <div id="like_buttun">
-                <div v-if="isLiked">
-                  <div>
-                    <span @click="toggleLike" :disabled="isProcessing">
-                      <v-btn class="ma-2" text icon color="red lighten-2">
-                        <v-icon x-large>mdi-heart</v-icon>
-                      </v-btn>
-                    </span>
-                    <span class="like_count">{{ likeCount }}</span>
+                  <v-card-subtitle>
+                    {{ post.content }}
+                  </v-card-subtitle>
+                  <div uk-lightbox>
+                    <a :href="post.raw_image">
+                      <v-img :src="post.image"></v-img>
+                    </a>
                   </div>
-                </div>
-                <div v-else>
-                  <div>
-                    <span @click="toggleLike">
-                      <v-btn class="ma-2" text icon>
-                        <v-icon x-large>mdi-heart-outline</v-icon>
-                      </v-btn>
-                    </span>
-                    <span class="like_count">{{ likeCount }}</span>
-                  </div>
-                </div>
-              </div>
-            </v-col>
-            <v-col cols="12" md="5">
-              <div>
-                <div>
-                  <CommentForm :post="post" @CommentGet="CommentGet" />
-                </div>
-              </div>
-              <div v-if="comments == ''">
-                <p id="none_message">まだコメントがありません</p>
-              </div>
-              <div v-else>
-                <div class="logbox">
-                  <ul class="uk-comment-list">
-                    <li v-for="comment in comments" :key="comment.id">
-                      <article
-                        class="uk-comment uk-comment-primary uk-visible-toggle"
-                        tabindex="-1"
+                  <div v-if="post.address">
+                    <v-btn
+                      color="blue-grey lighten-2"
+                      id="location_button"
+                      :href="modal_href"
+                      @click="showMap"
+                      uk-toggle
+                    >
+                      <v-icon left> mdi-map-marker </v-icon>
+                      場所を確認
+                    </v-btn>
+                    <div :id="modal" class="uk-modal-flex" uk-modal>
+                      <div
+                        id="location_modal"
+                        class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
                       >
-                        <header class="uk-comment-header uk-position-relative">
-                          <div>
-                            <router-link
-                              class="show_user"
-                              :to="{
-                                name: 'mypage',
-                                params: { user_id: comment.author.id },
-                              }"
-                            >
-                              <img
-                                class="comment_user_icon"
-                                :src="comment.author.icon_image"
-                              />
-                              <strong>{{ comment.author.username }}</strong>
-                            </router-link>
-                            <div class="timestamp">
-                              <span>{{ comment.timestamp | moment }}</span>
-                            </div>
-                          </div>
-                        </header>
+                        <button
+                          class="uk-modal-close-default"
+                          type="button"
+                          uk-close
+                        ></button>
                         <div>
-                          <div>{{ comment.text }}</div>
+                          <Map ref="map" :post="post" />
                         </div>
-                        <div
-                          id="delete-icon"
-                          v-if="comment.author.id == login_user_id"
-                        >
-                          <a
-                            class="router-link"
-                            :href="'#modal-' + comment.id"
-                            uk-toggle
+                      </div>
+                    </div>
+                  </div>
+                  <div id="like_buttun">
+                    <div v-if="isLiked">
+                      <div>
+                        <span @click="toggleLike" :disabled="isProcessing">
+                          <v-btn class="ma-2" text icon color="red lighten-2">
+                            <v-icon x-large>mdi-heart</v-icon>
+                          </v-btn>
+                        </span>
+                        <span class="like_count">{{ likeCount }}</span>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div>
+                        <span @click="toggleLike">
+                          <v-btn class="ma-2" text icon>
+                            <v-icon x-large>mdi-heart-outline</v-icon>
+                          </v-btn>
+                        </span>
+                        <span class="like_count">{{ likeCount }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </v-col>
+                <v-col cols="12" md="5">
+                  <div>
+                    <div>
+                      <CommentForm :post="post" @CommentGet="CommentGet" />
+                    </div>
+                  </div>
+                  <div v-if="comments == ''">
+                    <p id="none_message">まだコメントがありません</p>
+                  </div>
+                  <div v-else>
+                    <div class="logbox">
+                      <ul class="uk-comment-list">
+                        <li v-for="comment in comments" :key="comment.id">
+                          <article
+                            class="uk-comment uk-comment-primary uk-visible-toggle"
+                            tabindex="-1"
                           >
-                            <v-icon>mdi-delete</v-icon>
-                          </a>
-                          <div :id="'modal-' + comment.id" uk-modal>
-                            <div
-                              id="delete_modal"
-                              class="uk-modal-dialog uk-modal-body"
+                            <header
+                              class="uk-comment-header uk-position-relative"
                             >
-                              <h2 class="uk-modal-title">削除確認</h2>
-                              <p>
-                                コメント：{{
-                                  comment.text
-                                }}を削除します。よろしいですか？
-                              </p>
-                              <p class="uk-text-right">
-                                <button
-                                  class="uk-button uk-button-default uk-modal-close"
-                                  type="button"
+                              <div>
+                                <router-link
+                                  class="show_user"
+                                  :to="{
+                                    name: 'mypage',
+                                    params: { user_id: comment.author.id },
+                                  }"
                                 >
-                                  キャンセル
-                                </button>
-                                <button
-                                  id="ok_button"
-                                  class="uk-button uk-button-default uk-modal-close"
-                                  type="button"
-                                  @click="deleteComment(comment.id)"
-                                >
-                                  OK
-                                </button>
-                              </p>
+                                  <img
+                                    class="comment_user_icon"
+                                    :src="comment.author.icon_image"
+                                  />
+                                  <strong>{{ comment.author.username }}</strong>
+                                </router-link>
+                                <div class="timestamp">
+                                  <span>{{ comment.timestamp | moment }}</span>
+                                </div>
+                              </div>
+                            </header>
+                            <div>
+                              <div>{{ comment.text }}</div>
                             </div>
-                          </div>
-                        </div>
-                      </article>
-                    </li>
-                  </ul>
-                </div>
-              </div>
-            </v-col>
-          </v-row>
-        </div>
-      </v-card>
+                            <div
+                              id="delete-icon"
+                              v-if="comment.author.id == login_user_id"
+                            >
+                              <a
+                                class="router-link"
+                                :href="'#modal-' + comment.id"
+                                uk-toggle
+                              >
+                                <v-btn v-bind="attrs" v-on="on" text>
+                                  <v-icon>mdi-delete</v-icon>
+                                </v-btn>
+                              </a>
+                              <div :id="'modal-' + comment.id" uk-modal>
+                                <div
+                                  id="delete_modal"
+                                  class="uk-modal-dialog uk-modal-body"
+                                >
+                                  <h2 class="uk-modal-title">削除確認</h2>
+                                  <p>
+                                    コメント：{{
+                                      comment.text
+                                    }}を削除します。よろしいですか？
+                                  </p>
+                                  <p class="uk-text-right">
+                                    <button
+                                      class="uk-button uk-button-default uk-modal-close"
+                                      type="button"
+                                    >
+                                      キャンセル
+                                    </button>
+                                    <button
+                                      id="ok_button"
+                                      class="uk-button uk-button-default uk-modal-close"
+                                      type="button"
+                                      @click="deleteComment(comment.id)"
+                                    >
+                                      OK
+                                    </button>
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          </article>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </v-col>
+              </v-row>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
@@ -348,7 +348,7 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 .v-card__subtitle {
-    padding-top: 2px;
+  padding-top: 2px;
 }
 
 html {
@@ -417,6 +417,7 @@ html {
   font-size: 20px;
   border-radius: 5px;
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
 }
 #like_buttun {
   max-width: 640px;

@@ -23,7 +23,7 @@
         </router-link>
         <v-menu offset-y>
           <template v-slot:activator="{ on, attrs }">
-            <v-btn text v-bind="attrs" v-on="on" class="ma-2">
+            <v-btn text v-bind="attrs" v-on="on" class="ma-2" style="text-transform: none">
               <v-avatar size="36px" class="ma-2">
                 <img class="user_icon" :src="user.icon_image" />
               </v-avatar>

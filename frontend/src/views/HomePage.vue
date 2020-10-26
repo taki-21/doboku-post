@@ -73,9 +73,6 @@ export default {
 .v-tab span {
   font-size: 16px;
 }
-.v-tab--active span {
-  font-weight: bold;
-}
 
 .content {
   margin: 10px auto 20px;
