@@ -1,15 +1,20 @@
 <template>
   <div>
-    <router-link
-      class="router-link"
-      id="post"
+    <v-btn
+      class="mx-2 d-flex d-sm-none"
+      fab
+      large
+      fixed
+      right
+      bottom
+      dark
+      color="blue-grey lighten-2"
       to="/newpostpage"
-      v-if="isLoggedIn"
     >
-      <div class="fixed_btn">+</div>
-    </router-link>
-    <!-- <v-app-bar fixed> -->
-    <!-- <v-app-bar app> -->
+      <v-icon dark>
+        mdi-plus
+      </v-icon>
+    </v-btn>
       <v-tabs color="blue-grey lighten-2" centered show-arrows>
         <v-tab to="/">
           <v-icon left>mdi-history</v-icon>
@@ -32,8 +37,6 @@
           <span>検索</span>
         </v-tab>
       </v-tabs>
-    <!-- </v-app-bar> -->
-    <!-- </v-app-bar> -->
     <div class="content">
       <transition appear>
         <router-view />
@@ -43,14 +46,7 @@
 </template>
 
 <script>
-// import GlobalMessage from "@/components/GlobalMessage.vue";
-// import MyHeader from "@/components/MyHeader";
-
 export default {
-  components: {
-    // GlobalMessage,
-    // MyHeader,
-  },
   computed: {
     isLoggedIn() {
       return this.$store.getters["auth/isLoggedIn"];
@@ -79,30 +75,8 @@ export default {
   max-width: 1200px;
   padding: 10px 30px;
 }
-.fixed_btn {
-  display: none;
-}
 
 @media (max-width: 640px) {
-  .fixed_btn {
-    display: block;
-    text-decoration: none;
-    background: rgb(116, 116, 116);
-    color: #fff;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    border-radius: 50%;
-    text-align: center;
-    overflow: hidden;
-    transition: 0.4s;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 30px;
-    z-index: 100;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  }
   .content {
     margin: 5px auto 10px;
     padding: 5px 15px;

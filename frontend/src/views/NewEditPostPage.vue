@@ -7,181 +7,188 @@
       ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
+      <v-btn
+        class="mx-2 d-none d-sm-flex"
+        @click="$router.back()"
+        fab
+        fixed
+        dark
+        small
+        color="blue-grey lighten-2"
+      >
+        <v-icon dark> mdi-arrow-left </v-icon>
+      </v-btn>
+
       <!-- <v-container> -->
-        <v-row justify="center">
-          <v-col justify="center">
-            <v-btn class="float-left" text @click="$router.back()" title="前ページへ戻る">
-              <v-icon>mdi-arrow-left</v-icon>
-            </v-btn>
-            <v-card
-              elevation="5"
-              shaped
-              color="blue-grey lighten-5"
-              class="mx-auto"
-              max-width="1200px"
-            >
-              <div class="pa-6">
-                <h3 v-if="post_id" class="text-center">投稿編集</h3>
-                <h3 v-else class="text-center">新規投稿</h3>
-                <ValidationObserver v-slot="{ invalid }">
-                  <form @submit.prevent="submitPost()">
-                    <v-row>
-                      <v-col cols="12" md="6">
-                        <div uk-form-custom id="form_custom">
-                          <div class="uk-placeholder uk-text-center">
-                            <input type="file" @change="selectedFile" />
-                            <div v-if="!post_id" id="preview">
-                              <img
-                                id="preview_image"
-                                v-show="previewImage"
-                                :src="previewImage"
+      <v-row justify="center">
+        <v-col justify="center">
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="1200px"
+          >
+            <div class="pa-6">
+              <h3 v-if="post_id" class="text-center">投稿編集</h3>
+              <h3 v-else class="text-center">新規投稿</h3>
+              <ValidationObserver v-slot="{ invalid }">
+                <form @submit.prevent="submitPost()">
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <div uk-form-custom id="form_custom">
+                        <div class="uk-placeholder uk-text-center">
+                          <input type="file" @change="selectedFile" />
+                          <div v-if="!post_id" id="preview">
+                            <img
+                              id="preview_image"
+                              v-show="previewImage"
+                              :src="previewImage"
+                            />
+                          </div>
+                          <div v-else id="preview">
+                            <img id="preview_image" :src="beforeImage" />
+                          </div>
+                          <div class="camera-choice">
+                            <v-icon size="100">mdi-camera</v-icon>
+                            <p>画像を選択してください</p>
+                          </div>
+                        </div>
+                      </div>
+                      <p id="error_message">{{ message }}</p>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <ValidationProvider
+                        mode="lazy"
+                        name="カテゴリ"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <v-select
+                          :items="categories"
+                          item-text="name"
+                          item-value="id"
+                          :error-messages="errors"
+                          v-model="category"
+                          label="カテゴリ"
+                          placeholder="選択してください"
+                        ></v-select>
+                      </ValidationProvider>
+                      <ValidationProvider
+                        mode="aggressive"
+                        name="タイトル"
+                        rules="required|max:15"
+                        v-slot="{ errors }"
+                      >
+                        <v-text-field
+                          label="タイトル"
+                          v-model="title"
+                          :counter="15"
+                          :error-messages="errors"
+                          required
+                          placeholder="例）明石海峡大橋"
+                          hint=": 15文字以下"
+                          persistent-hint
+                        ></v-text-field>
+                      </ValidationProvider>
+                      <ValidationProvider
+                        mode="aggressive"
+                        name="キャプション"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <v-textarea
+                          label="キャプション"
+                          rows="4"
+                          :error-messages="errors"
+                          v-model="content"
+                        ></v-textarea>
+                      </ValidationProvider>
+                      <div class="uk-inline uk-width-1-1 location_form">
+                        <label>場所（任意）</label>
+                        <span id="select_way"
+                          >: 指定方法は以下の2つのみです</span
+                        >
+                        <div
+                          uk-switcher="animation: uk-animation-fade; toggle: > *"
+                        >
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            :href="'#modal-center' + title"
+                            @click="callChildMethod"
+                            type="button"
+                            uk-toggle
+                          >
+                            タイトルから検索
+                          </button>
+                          or
+                          <button
+                            class="uk-button uk-button-secondary uk-button-small"
+                            type="button"
+                          >
+                            都道府県のみ
+                          </button>
+                        </div>
+                        <div
+                          :id="'modal-center' + title"
+                          class="uk-flex-top .uk-width-large"
+                          uk-modal
+                        >
+                          <div
+                            class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
+                          >
+                            <button
+                              class="uk-modal-close-default"
+                              type="button"
+                              uk-close
+                            ></button>
+                            <div>
+                              <TitleSearchMap
+                                ref="map"
+                                :title="title"
+                                @callParent="callParent"
                               />
-                            </div>
-                            <div v-else id="preview">
-                              <img id="preview_image" :src="beforeImage" />
-                            </div>
-                            <div class="camera-choice">
-                              <v-icon size="100">mdi-camera</v-icon>
-                              <p>画像を選択してください</p>
                             </div>
                           </div>
                         </div>
-                        <p id="error_message">{{ message }}</p>
-                      </v-col>
-                      <v-col cols="12" md="6">
-                        <ValidationProvider
-                          mode="lazy"
-                          name="カテゴリ"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <v-select
-                            :items="categories"
-                            item-text="name"
-                            item-value="id"
-                            :error-messages="errors"
-                            v-model="category"
-                            label="カテゴリ"
-                            placeholder="選択してください"
-                          ></v-select>
-                        </ValidationProvider>
-                        <ValidationProvider
-                          mode="aggressive"
-                          name="タイトル"
-                          rules="required|max:15"
-                          v-slot="{ errors }"
-                        >
-                          <v-text-field
-                            label="タイトル"
-                            v-model="title"
-                            :counter="15"
-                            :error-messages="errors"
-                            required
-                            placeholder="例）明石海峡大橋"
-                            hint=": 15文字以下"
-                            persistent-hint
-                          ></v-text-field>
-                        </ValidationProvider>
-                        <ValidationProvider
-                          mode="aggressive"
-                          name="キャプション"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <v-textarea
-                            label="キャプション"
-                            rows=4
-                            :error-messages="errors"
-                            v-model="content"
-                          ></v-textarea>
-                        </ValidationProvider>
-                        <div class="uk-inline uk-width-1-1 location_form">
-                          <label>場所（任意）</label>
-                          <span id="select_way"
-                            >: 指定方法は以下の2つのみです</span
-                          >
-                          <div
-                            uk-switcher="animation: uk-animation-fade; toggle: > *"
-                          >
-                            <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              :href="'#modal-center' + title"
-                              @click="callChildMethod"
-                              type="button"
-                              uk-toggle
-                            >
-                              タイトルから検索
-                            </button>
-                            or
-                            <button
-                              class="uk-button uk-button-secondary uk-button-small"
-                              type="button"
-                            >
-                              都道府県のみ
-                            </button>
-                          </div>
-                          <div
-                            :id="'modal-center' + title"
-                            class="uk-flex-top .uk-width-large"
-                            uk-modal
-                          >
-                            <div
-                              class="uk-modal-dialog uk-modal-body uk-margin-auto-vertical"
-                            >
-                              <button
-                                class="uk-modal-close-default"
-                                type="button"
-                                uk-close
-                              ></button>
-                              <div>
-                                <TitleSearchMap
-                                  ref="map"
-                                  :title="title"
-                                  @callParent="callParent"
-                                />
-                              </div>
-                            </div>
-                          </div>
-                          <ul id="address_form" class="uk-switcher">
-                            <li>
-                              <input
-                                placeholder="住所または都道府県名が入力されます"
-                                class="uk-input"
-                                type="text"
-                                v-model="address"
-                              />
-                            </li>
-                            <li>
-                              <select class="uk-select" v-model="prefecture">
-                                <option value>
-                                  都道府県を選択してください
-                                </option>
-                                <option v-for="item in prefs" :key="item.name">
-                                  {{ item.name }}
-                                </option>
-                              </select>
-                            </li>
-                          </ul>
-                        </div>
-                      </v-col>
-                    </v-row>
-                    <v-btn
-                      block
-                      large
-                      elevation="2"
-                      class="mr-4 mt-4"
-                      type="submit"
-                      :disabled="invalid"
-                    >
-                      <span v-if="post_id">変更を保存</span>
-                      <span v-else>投稿</span>
-                    </v-btn>
-                  </form>
-                </ValidationObserver>
-              </div>
-            </v-card>
-          </v-col>
-        </v-row>
+                        <ul id="address_form" class="uk-switcher">
+                          <li>
+                            <input
+                              placeholder="住所または都道府県名が入力されます"
+                              class="uk-input"
+                              type="text"
+                              v-model="address"
+                            />
+                          </li>
+                          <li>
+                            <select class="uk-select" v-model="prefecture">
+                              <option value>都道府県を選択してください</option>
+                              <option v-for="item in prefs" :key="item.name">
+                                {{ item.name }}
+                              </option>
+                            </select>
+                          </li>
+                        </ul>
+                      </div>
+                    </v-col>
+                  </v-row>
+                  <v-btn
+                    block
+                    large
+                    elevation="2"
+                    class="mr-4 mt-4"
+                    type="submit"
+                    :disabled="invalid"
+                  >
+                    <span v-if="post_id">変更を保存</span>
+                    <span v-else>投稿</span>
+                  </v-btn>
+                </form>
+              </ValidationObserver>
+            </div>
+          </v-card>
+        </v-col>
+      </v-row>
       <!-- </v-container> -->
     </div>
   </div>
@@ -417,10 +424,11 @@ export default {
   font-size: 14px;
   color: rgb(145, 91, 56);
 }
-.v-application ul, .v-application ol {
-    padding-left: 0px;
+.v-application ul,
+.v-application ol {
+  padding-left: 0px;
 }
-.location_form{
-  margin-top:20px;
+.location_form {
+  margin-top: 20px;
 }
 </style>

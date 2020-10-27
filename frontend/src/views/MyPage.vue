@@ -1,8 +1,29 @@
 <template>
   <div>
-    <router-link class="router-link" id="post" to="/newpostpage">
-      <div class="fixed_btn">+</div>
-    </router-link>
+        <v-btn
+      class="mx-2 d-none d-sm-flex"
+      @click="$router.back()"
+      fab
+      fixed
+      dark
+      small
+      color="blue-grey lighten-2"
+    >
+      <v-icon dark> mdi-arrow-left </v-icon>
+    </v-btn>
+    <v-btn
+      class="mx-2 d-flex d-sm-none"
+      fab
+      large
+      fixed
+      right
+      bottom
+      dark
+      color="blue-grey lighten-2"
+      to="/newpostpage"
+    >
+      <v-icon dark> mdi-plus </v-icon>
+    </v-btn>
 
     <div class="content_profilecard">
       <div
@@ -35,7 +56,11 @@
             <div v-else id="username">{{ Person.username }}</div>
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
-                <v-btn class="mt-4 ml-4" color="indigo lighten-4" small>
+                <v-btn
+                  class="mt-sm-5 ml-sm-3 mt-2 ml-2"
+                  color="indigo lighten-4"
+                  x-small
+                >
                   <v-icon>mdi-account-edit</v-icon>
                 </v-btn>
               </router-link>
@@ -68,13 +93,21 @@
       <v-tabs color="blue-grey lighten-2" centered show-arrows>
         <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
           <v-icon left>mdi-history</v-icon>
-          <v-badge color="blue-grey darken-1" :content="previousPostsNum" :value="previousPostsNum">
+          <v-badge
+            color="blue-grey darken-1"
+            :content="previousPostsNum"
+            :value="previousPostsNum"
+          >
             <span>これまでの投稿</span>
           </v-badge>
         </v-tab>
         <v-tab :to="{ name: 'liked', params: { user_id: user_id } }">
           <v-icon left>mdi-heart</v-icon>
-          <v-badge color="blue-grey darken-1" :content="likedPostsNum" :value="likedPostsNum">
+          <v-badge
+            color="blue-grey darken-1"
+            :content="likedPostsNum"
+            :value="likedPostsNum"
+          >
             <span>いいねした投稿</span>
           </v-badge>
         </v-tab>
@@ -240,7 +273,7 @@ export default {
   overflow: hidden;
   border-radius: 5px;
   background-color: rgba(200, 200, 200, 0.1);
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -252,12 +285,9 @@ export default {
   font-size: 40px;
   font-weight: bold;
 }
-.router-link-exact-active {
-  border-bottom: solid 3px rgba(90, 84, 75, 0.85);
-}
 
 .content_profilecard {
-  margin: 20px auto;
+  margin: 0px auto;
   max-width: 1200px;
   padding: 0px 30px;
 }
@@ -267,27 +297,6 @@ export default {
   font-size: 20px;
 }
 
-.uk-tab > .uk-active > a {
-  color: #333;
-  border-color: rgba(90, 84, 75, 0.85);
-}
-
-.uk-tab > * > a {
-  display: block;
-  text-align: center;
-  padding: 5px 10px;
-  color: #999;
-  border-bottom: 3px solid transparent;
-  text-transform: uppercase;
-  transition: color 0.1s ease-in-out;
-  font-size: 120%;
-}
-#profile_edit_button {
-  position: relative;
-  top: 15px;
-  margin-left: 20px;
-  background-color: rgba(187, 170, 150, 0.521);
-}
 #profile_introduction {
   max-width: 300px;
   padding: 0px 0px 0px 30px;
@@ -300,30 +309,7 @@ export default {
   transform: translateY(-50%);
 }
 
-.fixed_btn {
-  display: none;
-}
 @media (max-width: 640px) {
-  .fixed_btn {
-    display: block;
-    text-decoration: none;
-    background: rgb(116, 116, 116);
-    color: #fff;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    border-radius: 50%;
-    text-align: center;
-    overflow: hidden;
-    transition: 0.4s;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 30px;
-    z-index: 100;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  }
-
   .content_profilecard {
     margin: 10px auto;
     padding: 5px 15px;
@@ -333,18 +319,9 @@ export default {
     overflow: hidden;
     border-radius: 5px;
     /* margin-top: 20px; */
-    margin-bottom: 5px;
-  }
-
-  #nav {
-    font-size: 12px;
     margin-bottom: 10px;
   }
-  .uk-tab > * {
-    float: left;
-    padding: 0px 10px;
-    position: relative;
-  }
+
   #username_content {
     display: flex;
     padding: 5px 10px 1px 10px;
@@ -360,23 +337,11 @@ export default {
     top: 3px;
     margin-left: 10px;
   }
-  .uk-button-small {
-    padding: 0 4px;
-    line-height: 15px;
-    font-size: 0.875rem;
-  }
   #profile_content {
     font-size: 10px;
     max-width: 300px;
     padding: 0px 0px 0px 10px;
     white-space: pre-wrap;
-  }
-
-  .uk-badge {
-    min-width: 15px;
-    height: 15px;
-    margin-bottom: 2px;
-    font-size: 0.7rem;
   }
 }
 @media (max-width: 1000px) {

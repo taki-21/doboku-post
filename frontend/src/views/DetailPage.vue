@@ -7,11 +7,20 @@
       ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
+      <v-btn
+        class="mx-2 d-none d-sm-flex"
+        @click="$router.back()"
+        fab
+        fixed
+        dark
+        small
+        color="blue-grey lighten-2"
+      >
+        <v-icon dark> mdi-arrow-left </v-icon>
+      </v-btn>
+
       <v-row justify="center" align-content="center">
         <v-col class="py-0">
-          <v-btn fixed text @click="$router.back()" title="前ページへ戻る">
-            <v-icon>mdi-arrow-left</v-icon>
-          </v-btn>
           <v-card
             elevation="5"
             shaped
@@ -22,7 +31,7 @@
             <div class="px-3">
               <v-row justify="center">
                 <v-col cols="12" md="7">
-                  <v-card-title class="float-left text-h" >
+                  <v-card-title class="float-left text-h">
                     {{ post.title }}
                   </v-card-title>
                   <div class="text-right">
@@ -167,9 +176,7 @@
                                     }}を削除します。よろしいですか？
                                   </p>
                                   <p class="uk-text-right">
-                                    <v-btn
-                                      class=" uk-modal-close"
-                                    >
+                                    <v-btn class="uk-modal-close">
                                       キャンセル
                                     </v-btn>
                                     <v-btn
