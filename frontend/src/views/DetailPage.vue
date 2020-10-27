@@ -22,7 +22,7 @@
             <div class="px-3">
               <v-row justify="center">
                 <v-col cols="12" md="7">
-                  <v-card-title class="float-left">
+                  <v-card-title class="float-left text-h" >
                     {{ post.title }}
                   </v-card-title>
                   <div class="text-right">
@@ -151,7 +151,7 @@
                                 :href="'#modal-' + comment.id"
                                 uk-toggle
                               >
-                                <v-btn v-bind="attrs" v-on="on" text>
+                                <v-btn text icon>
                                   <v-icon>mdi-delete</v-icon>
                                 </v-btn>
                               </a>
@@ -167,20 +167,18 @@
                                     }}を削除します。よろしいですか？
                                   </p>
                                   <p class="uk-text-right">
-                                    <button
-                                      class="uk-button uk-button-default uk-modal-close"
-                                      type="button"
+                                    <v-btn
+                                      class=" uk-modal-close"
                                     >
                                       キャンセル
-                                    </button>
-                                    <button
-                                      id="ok_button"
-                                      class="uk-button uk-button-default uk-modal-close"
-                                      type="button"
+                                    </v-btn>
+                                    <v-btn
+                                      class="uk-modal-close"
+                                      color="blue-grey lighten-3"
                                       @click="deleteComment(comment.id)"
                                     >
                                       OK
-                                    </button>
+                                    </v-btn>
                                   </p>
                                 </div>
                               </div>

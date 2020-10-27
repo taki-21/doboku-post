@@ -56,13 +56,9 @@
   box-shadow: none;
 }
 
-#back_icon {
-  color: rgba(140, 140, 135, 0.85);
-}
-
 #ok_button {
   margin-left: 10px;
-  background-color: rgba(105, 85, 75, 0.4);
+  background-color: #CFD8DC;
 }
 
 #profile_edit_card,

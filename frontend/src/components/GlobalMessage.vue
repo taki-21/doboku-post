@@ -38,10 +38,9 @@ export default {
 
 <style scoped>
 .message {
-  /* padding: 5px 20px; */
   text-align: center;
   position: absolute;
-  top: 15px;
+  top: 10px;
   left: 50%;
   min-width: 40%;
   transform: translateX(-50%);

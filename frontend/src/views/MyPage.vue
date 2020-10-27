@@ -33,7 +33,6 @@
               {{ login_user_username }}
             </div>
             <div v-else id="username">{{ Person.username }}</div>
-            <!-- </h1> -->
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
                 <v-btn class="mt-4 ml-4" color="indigo lighten-4" small>
@@ -66,35 +65,28 @@
           </div>
         </div>
       </div>
+      <v-tabs color="blue-grey lighten-2" centered show-arrows>
+        <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
+          <v-icon left>mdi-history</v-icon>
+          <v-badge color="blue-grey darken-1" :content="previousPostsNum" :value="previousPostsNum">
+            <span>これまでの投稿</span>
+          </v-badge>
+        </v-tab>
+        <v-tab :to="{ name: 'liked', params: { user_id: user_id } }">
+          <v-icon left>mdi-heart</v-icon>
+          <v-badge color="blue-grey darken-1" :content="likedPostsNum" :value="likedPostsNum">
+            <span>いいねした投稿</span>
+          </v-badge>
+        </v-tab>
+        <v-tab :to="{ name: 'mymap', params: { user_id: user_id } }">
+          <v-icon left>mdi-map-marker</v-icon>
+          <span>マイマップ</span>
+        </v-tab>
+      </v-tabs>
       <div class="content">
-        <ul class="uk-flex-center" id="nav" uk-tab>
-          <router-link
-            class="router-link"
-            :to="{ name: 'mypage', params: { user_id: user_id } }"
-            ><v-badge color="green" :content="previousPostsNum">
-              これまでの投稿
-            </v-badge>
-          </router-link>
-          <router-link
-            class="router-link"
-            :to="{ name: 'liked', params: { user_id: user_id } }"
-          >
-            <v-badge color="green" :content="likedPostsNum">
-              いいねした投稿
-            </v-badge>
-          </router-link>
-
-          <router-link
-            class="router-link"
-            :to="{ name: 'mymap', params: { user_id: user_id } }"
-            >マイマップ</router-link
-          >
-        </ul>
-        <div>
-          <transition appear>
-            <router-view @deletePost="get_previous_posts" />
-          </transition>
-        </div>
+        <transition appear>
+          <router-view @deletePost="get_previous_posts" />
+        </transition>
       </div>
     </div>
   </div>
@@ -102,16 +94,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-// import MyHeader from "@/components/MyHeader";
-// import GlobalMessage from "@/components/GlobalMessage";
 import PieChart from "@/components/PieChart";
 import * as palette from "google-palette";
 import api from "@/services/api";
 
 export default {
   components: {
-    // MyHeader,
-    // GlobalMessage,
     PieChart,
   },
   props: ["user_id"],
@@ -237,11 +225,22 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
+.v-tabs {
+  border-bottom: 1px solid rgb(223, 211, 211);
+}
+
+.v-tabs a {
+  text-decoration: none;
+}
+
+.v-tab span {
+  font-size: 16px;
+}
 #profile_card {
   overflow: hidden;
   border-radius: 5px;
   background-color: rgba(200, 200, 200, 0.1);
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
 }
 
@@ -303,46 +302,6 @@ export default {
 
 .fixed_btn {
   display: none;
-}
-
-/* UIkitの上書き */
-.uk-tab > * {
-  flex: none;
-  padding: 0px 20px;
-  position: relative;
-}
-
-.uk-tab > .uk-active > a {
-  color: #333;
-  border-color: rgba(90, 84, 75, 0.85);
-}
-
-.uk-tab > * > a {
-  display: block;
-  text-align: center;
-  padding: 5px 10px;
-  color: #999;
-  border-bottom: 3px solid transparent;
-  text-transform: uppercase;
-  transition: color 0.1s ease-in-out;
-  font-size: 120%;
-}
-
-.uk-badge {
-  box-sizing: border-box;
-  min-width: 25px;
-  height: 25px;
-  padding: 0 5px;
-  margin-left: 10px;
-  margin-bottom: 4px;
-  border-radius: 500px;
-  vertical-align: middle;
-  background: rgba(90, 84, 75, 0.85);
-  color: #fff;
-  font-size: 0.875rem;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
 }
 @media (max-width: 640px) {
   .fixed_btn {

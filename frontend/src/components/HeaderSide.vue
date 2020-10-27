@@ -11,7 +11,7 @@
           ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
         >
       </router-link>
-      <v-menu offset-y>
+      <v-menu offset-y close-on-click>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             text
@@ -26,12 +26,19 @@
             <span style="font-size: 20px">
               {{ user.username }}
             </span>
+            <span>
+              <v-icon>mdi-chevron-down</v-icon>
+            </span>
           </v-btn>
         </template>
         <HeaderSideDropdown />
       </v-menu>
     </div>
     <div class="d-sm-none">
+      <!-- <v-switch
+      v-model="closeOnContentClick"
+      label="Close on content click"
+    ></v-switch> -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" style="text-transform: none">
@@ -82,6 +89,7 @@ export default {
   data() {
     return {
       dialog: false,
+      closeOnContentClick: true,
     };
   },
   computed: {

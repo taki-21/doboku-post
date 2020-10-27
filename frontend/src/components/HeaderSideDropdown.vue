@@ -27,7 +27,7 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
-        <v-dialog v-model="dialog" width="500" v-if="isLoggedIn">
+        <v-dialog v-model="dialog" max-width="600" v-if="isLoggedIn">
           <template v-slot:activator="{ on, attrs }">
             <v-list-item v-bind="attrs" v-on="on">
               <v-list-item-icon>
@@ -40,18 +40,17 @@
               >
             </v-list-item>
           </template>
-          <v-card>
-            <v-card-title class="headline grey lighten-2">
+          <v-card class="pa-2">
+            <v-card-title class="headline font-weight-bold">
               ログアウト確認
             </v-card-title>
             <v-card-text> ログアウトします。よろしいですか？ </v-card-text>
-            <!-- <v-divider></v-divider> -->
             <v-card-actions>
               <v-spacer></v-spacer>
-              <v-btn color="primary" text @click="dialog = false">
+              <v-btn  @click="dialog = false">
                 キャンセル
               </v-btn>
-              <v-btn color="primary" text @click="clickLogout"> OK </v-btn>
+              <v-btn color="blue-grey lighten-3" @click="clickLogout"> OK </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>

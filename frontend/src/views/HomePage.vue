@@ -10,7 +10,7 @@
     </router-link>
     <!-- <v-app-bar fixed> -->
     <!-- <v-app-bar app> -->
-      <v-tabs color="blue-grey lighten-2" centered>
+      <v-tabs color="blue-grey lighten-2" centered show-arrows>
         <v-tab to="/">
           <v-icon left>mdi-history</v-icon>
           <span>新着投稿</span>
