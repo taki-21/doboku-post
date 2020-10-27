@@ -2,22 +2,20 @@
   <div>
     <form @submit.prevent="submitText()" @click="post_comment">
       <div>
-        <div class="uk-inline uk-width-1-1">
-          <textarea
-            class="uk-textarea"
-            row="4"
-            type="text"
+        <div class="mb-5">
+          <v-textarea
+            class="ma-0 pa-0"
+            solo
+            rows="2"
             v-model="text"
             placeholder="コメントを入力してください"
-          ></textarea>
-          <button
-            class="uk-button uk-button-default uk-button-small"
-            type="submit"
-            id="comment-btn"
+            hide-details
           >
-            <span uk-icon="icon: comment"></span>
-            送信
-          </button>
+          </v-textarea>
+            <v-btn type="submit" block class="mt-1" dark color="blue-grey darken-1">
+              <v-icon>mdi-send</v-icon>
+              送信
+            </v-btn>
         </div>
       </div>
     </form>
@@ -62,17 +60,12 @@ export default {
     },
     post_comment() {
       if (this.isLoggedIn == false) {
+        this.$store.dispatch("message/setInfoMessage", {
+              message: "ログインが必要です",
+            });
         this.$router.replace("/login");
       }
     },
   },
 };
 </script>
-
-<style scoped>
-#comment-btn {
-  width: 100%;
-  background-color: rgba(140, 140, 135, 0.3);
-  margin-bottom: 20px;
-}
-</style>

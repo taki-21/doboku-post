@@ -1,10 +1,29 @@
 <template>
   <div>
-    <MyHeader />
-    <GlobalMessage />
-    <router-link class="router-link" id="post" to="/newpostpage">
-      <div class="fixed_btn">+</div>
-    </router-link>
+        <v-btn
+      class="mx-2 d-none d-sm-flex"
+      @click="$router.back()"
+      fab
+      fixed
+      dark
+      small
+      color="blue-grey lighten-2"
+    >
+      <v-icon dark> mdi-arrow-left </v-icon>
+    </v-btn>
+    <v-btn
+      class="mx-2 d-flex d-sm-none"
+      fab
+      large
+      fixed
+      right
+      bottom
+      dark
+      color="blue-grey lighten-2"
+      to="/newpostpage"
+    >
+      <v-icon dark> mdi-plus </v-icon>
+    </v-btn>
 
     <div class="content_profilecard">
       <div
@@ -35,19 +54,19 @@
               {{ login_user_username }}
             </div>
             <div v-else id="username">{{ Person.username }}</div>
-            <!-- </h1> -->
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
-                <div
-                  class="uk-button uk-button-small uk-button-default"
-                  id="profile_edit_button"
+                <v-btn
+                  class="mt-sm-5 ml-sm-3 mt-2 ml-2"
+                  color="indigo lighten-4"
+                  x-small
                 >
-                  編集
-                </div>
+                  <v-icon>mdi-account-edit</v-icon>
+                </v-btn>
               </router-link>
             </div>
           </div>
-          <div id="profile_content">
+          <div id="profile_introduction">
             <div v-if="user_id == login_user_id">
               <div v-if="login_user_introduction === null"></div>
               <div v-else>{{ login_user_introduction }}</div>
@@ -71,33 +90,36 @@
           </div>
         </div>
       </div>
+      <v-tabs color="blue-grey lighten-2" centered show-arrows>
+        <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
+          <v-icon left>mdi-history</v-icon>
+          <v-badge
+            color="blue-grey darken-1"
+            :content="previousPostsNum"
+            :value="previousPostsNum"
+          >
+            <span>これまでの投稿</span>
+          </v-badge>
+        </v-tab>
+        <v-tab :to="{ name: 'liked', params: { user_id: user_id } }">
+          <v-icon left>mdi-heart</v-icon>
+          <v-badge
+            color="blue-grey darken-1"
+            :content="likedPostsNum"
+            :value="likedPostsNum"
+          >
+            <span>いいねした投稿</span>
+          </v-badge>
+        </v-tab>
+        <v-tab :to="{ name: 'mymap', params: { user_id: user_id } }">
+          <v-icon left>mdi-map-marker</v-icon>
+          <span>マイマップ</span>
+        </v-tab>
+      </v-tabs>
       <div class="content">
-        <ul class="uk-flex-center" id="nav" uk-tab>
-          <router-link
-            class="router-link"
-            :to="{ name: 'mypage', params: { user_id: user_id } }"
-            >これまでの投稿<span class="uk-badge">{{
-              previousPostsNum
-            }}</span></router-link
-          >
-          <router-link
-            class="router-link"
-            :to="{ name: 'liked', params: { user_id: user_id } }"
-            >いいねした投稿<span class="uk-badge">{{
-              likedPostsNum
-            }}</span></router-link
-          >
-          <router-link
-            class="router-link"
-            :to="{ name: 'mymap', params: { user_id: user_id } }"
-            >マイマップ</router-link
-          >
-        </ul>
-        <div>
-          <transition appear>
-            <router-view @deletePost="get_previous_posts" />
-          </transition>
-        </div>
+        <transition appear>
+          <router-view @deletePost="get_previous_posts" />
+        </transition>
       </div>
     </div>
   </div>
@@ -105,16 +127,12 @@
 
 <script>
 import { mapGetters } from "vuex";
-import MyHeader from "@/components/MyHeader";
-import GlobalMessage from "@/components/GlobalMessage";
 import PieChart from "@/components/PieChart";
 import * as palette from "google-palette";
 import api from "@/services/api";
 
 export default {
   components: {
-    MyHeader,
-    GlobalMessage,
     PieChart,
   },
   props: ["user_id"],
@@ -238,6 +256,27 @@ export default {
 </script>
 
 <style scoped>
+@import "../assets/common.css";
+
+.v-tabs {
+  border-bottom: 1px solid rgb(223, 211, 211);
+}
+
+.v-tabs a {
+  text-decoration: none;
+}
+
+.v-tab span {
+  font-size: 16px;
+}
+#profile_card {
+  overflow: hidden;
+  border-radius: 5px;
+  background-color: rgba(200, 200, 200, 0.1);
+  margin-bottom: 15px;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
+}
+
 #username_content {
   display: flex;
   padding: 30px 30px 5px 30px;
@@ -246,17 +285,9 @@ export default {
   font-size: 40px;
   font-weight: bold;
 }
-.router-link-exact-active {
-  border-bottom: solid 3px rgba(90, 84, 75, 0.85);
-}
-.uk-tab > * {
-  flex: none;
-  padding: 0px 20px;
-  position: relative;
-}
 
 .content_profilecard {
-  margin: 20px auto;
+  margin: 0px auto;
   max-width: 1200px;
   padding: 0px 30px;
 }
@@ -266,36 +297,7 @@ export default {
   font-size: 20px;
 }
 
-#profile_card {
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: rgba(200, 200, 200, 0.1);
-  margin-bottom: 30px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
-}
-.uk-tab > .uk-active > a {
-  color: #333;
-  border-color: rgba(90, 84, 75, 0.85);
-}
-
-.uk-tab > * > a {
-  display: block;
-  text-align: center;
-  padding: 5px 10px;
-  color: #999;
-  border-bottom: 3px solid transparent;
-  text-transform: uppercase;
-  transition: color 0.1s ease-in-out;
-  font-size: 120%;
-}
-
-#profile_edit_button {
-  position: relative;
-  top: 15px;
-  margin-left: 20px;
-  background-color: rgba(187, 170, 150, 0.521);
-}
-#profile_content {
+#profile_introduction {
   max-width: 300px;
   padding: 0px 0px 0px 30px;
   white-space: pre-wrap;
@@ -307,47 +309,7 @@ export default {
   transform: translateY(-50%);
 }
 
-.uk-badge {
-  box-sizing: border-box;
-  min-width: 25px;
-  height: 25px;
-  padding: 0 5px;
-  margin-left: 10px;
-  margin-bottom: 4px;
-  border-radius: 500px;
-  vertical-align: middle;
-  background: rgba(90, 84, 75, 0.85);
-  color: #fff;
-  font-size: 0.875rem;
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-}
-.fixed_btn {
-  display: none;
-}
-
 @media (max-width: 640px) {
-  .fixed_btn {
-    display: block;
-    text-decoration: none;
-    background: rgb(116, 116, 116);
-    color: #fff;
-    width: 70px;
-    height: 70px;
-    line-height: 70px;
-    border-radius: 50%;
-    text-align: center;
-    overflow: hidden;
-    transition: 0.4s;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 30px;
-    z-index: 100;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-  }
-
   .content_profilecard {
     margin: 10px auto;
     padding: 5px 15px;
@@ -357,18 +319,9 @@ export default {
     overflow: hidden;
     border-radius: 5px;
     /* margin-top: 20px; */
-    margin-bottom: 5px;
-  }
-
-  #nav {
-    font-size: 12px;
     margin-bottom: 10px;
   }
-  .uk-tab > * {
-    float: left;
-    padding: 0px 10px;
-    position: relative;
-  }
+
   #username_content {
     display: flex;
     padding: 5px 10px 1px 10px;
@@ -384,23 +337,11 @@ export default {
     top: 3px;
     margin-left: 10px;
   }
-  .uk-button-small {
-    padding: 0 4px;
-    line-height: 15px;
-    font-size: 0.875rem;
-  }
   #profile_content {
     font-size: 10px;
     max-width: 300px;
     padding: 0px 0px 0px 10px;
     white-space: pre-wrap;
-  }
-
-  .uk-badge {
-    min-width: 15px;
-    height: 15px;
-    margin-bottom: 2px;
-    font-size: 0.7rem;
   }
 }
 @media (max-width: 1000px) {

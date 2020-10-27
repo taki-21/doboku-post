@@ -6,7 +6,7 @@
       uk-slider="finite: false"
       id="category_card"
     >
-      <div class="uk-position-relative" id="category_card_contnet">
+      <div class="uk-position-relative" id="category_card_content">
         <ul
           id="category_choice"
           class="uk-slider-items uk-grid uk-grid-column-small uk-child-width-1-2 uk-child-width-1-4@s uk-child-width-1-6@m uk-text-center"
@@ -209,21 +209,21 @@ input[type="radio"] {
   margin-bottom: 20px;
   padding: 5px 5px;
   outline: none;
-  border: 2px solid rgb(0, 0, 0);
-  background-color: rgb(236, 231, 225);
+  /* border: 2px solid rgb(0, 0, 0); */
+  background-color: rgb(145, 163, 174, 0.1);
 }
-#category_card_contnet {
+#category_card_content {
   padding: 5px 40px;
 }
 #category_label {
   font-size: 20px;
   display: inline-block;
   padding: 0.3em 1em;
+  border-radius: 10px;
   text-decoration: none;
   background: #f7f7f7;
-  border-left: solid 6px #000000; /*左線*/
   color: #000000; /*文字色*/
-  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.29);
+  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.29);
 }
 #category_label:hover{
   cursor: pointer;
@@ -231,10 +231,12 @@ input[type="radio"] {
 #previous_icon {
   margin-left: 0;
   padding-left: 10px;
+  color: #000000;
 }
 #next_icon {
   margin-right: 0;
   padding-right: 10px;
+  color: #000000;
 }
 
 @media (max-width: 640px) {
@@ -242,30 +244,20 @@ input[type="radio"] {
     margin-bottom: 10px;
     padding: 2px 5px 3px 5px;
     outline: none;
-    /* border-radius:5px; */
     border: 1px solid rgb(0, 0, 0);
-    background-color: rgb(236, 231, 225);
+    /* background-color: rgb(236, 231, 225); */
   }
 
   #category_label {
     font-size: 15px;
-    display: inline-block;
     height: 22px;
     line-height: 22px;
     padding: 0.1em 1em;
     margin-top: 0.1em;
     text-decoration: none;
-    background: #f7f7f7;
-    border-left: solid 3px #000000; /*左線*/
-    color: #000000; /*文字色*/
     box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.29);
   }
-
-  /* #category_label {
-    height: 25px;
-    line-height: 22px;
-  } */
-  #category_card_contnet {
+  #category_card_content {
     padding: 0px 40px;
   }
 }

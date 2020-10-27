@@ -50,11 +50,7 @@ const authModule = {
           return context.dispatch('reload')
             .then(user => user)
         })
-        .catch(error => {
-          console.log('ログインえらー！！！！')
-          console.log(error)
-
-        })
+        .catch(error => error.response || error)
     },
     /**
      * ログアウト
@@ -92,34 +88,66 @@ const messageModule = {
   strict: process.env.NODE_ENV !== 'production',
   namespaced: true,
   state: {
+    success: '',
+    info: '',
+    warnings: '',
     error: '',
-    warnings: [],
-    info: ''
   },
   getters: {
-    error: state => state.error,
+    success: state => state.success,
+    info: state => state.info,
     warnings: state => state.warnings,
-    info: state => state.info
+    error: state => state.error,
   },
   mutations: {
     set(state, payload) {
-      if (payload.error) {
-        state.error = payload.error
-      }
-      if (payload.warnings) {
-        state.warnings = payload.warnings
+      if (payload.success) {
+        state.success = payload.success
       }
       if (payload.info) {
         state.info = payload.info
       }
+      if (payload.warnings) {
+        state.warnings = payload.warnings
+      }
+      if (payload.error) {
+        state.error = payload.error
+      }
     },
     clear(state) {
-      state.error = ''
-      state.warnings = []
+      state.success = ''
       state.info = ''
+      state.warnings = []
+      state.error = ''
     }
   },
   actions: {
+    /**
+     * サクセスメッセージ表示
+     */
+    setSuccessMessage(context, payload) {
+      // context.commit('clear')
+      context.commit('set', {
+        'success': payload.message
+      })
+      // 一時的に保存する
+      setTimeout(() => {
+        context.dispatch('clearMessages')
+      }, 1500)
+    },
+    /**
+     * インフォメーションメッセージ表示
+     */
+    setInfoMessage(context, payload) {
+      // context.commit('clear')
+      context.commit('set', {
+        'info': payload.message
+      })
+      // 一時的に保存する
+      setTimeout(() => {
+        context.dispatch('clearMessages')
+      }, 1500)
+    },
     /**
      * エラーメッセージ表示
      */
@@ -136,23 +164,15 @@ const messageModule = {
      * 警告メッセージ（複数）表示
      */
     setWarningMessages(context, payload) {
-      context.commit('clear')
-      context.commit('set', {
-        'warnings': payload.messages
-      })
-    },
-    /**
-     * インフォメーションメッセージ表示
-     */
-    setInfoMessage(context, payload) {
       // context.commit('clear')
       context.commit('set', {
-        'info': payload.message
+        'warnings': payload.messages
       })
       // 一時的に保存する
       setTimeout(() => {
         context.dispatch('clearMessages')
       }, 1500)
+
     },
     /**
      * 全メッセージ削除

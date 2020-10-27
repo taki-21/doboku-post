@@ -51,21 +51,15 @@
   font-size: 20px;
   color: rgba(0, 0, 0, 0.300);
   border-radius: 10px;
-  /* border:1px solid rgba(0, 0, 0, 0.300); */
 }
 #send_button:active {
   box-shadow: none;
 }
 
-#back_icon {
-  color: rgba(140, 140, 135, 0.85);
-}
-
 #ok_button {
   margin-left: 10px;
-  background-color: rgba(105, 85, 75, 0.4);
+  background-color: #CFD8DC;
 }
-
 
 #profile_edit_card,
 #signup_card,
@@ -73,6 +67,7 @@
   background-color: rgba(151, 132, 116, 0.315);
   border-radius: 10px;
 }
+
 
 #icon {
   position: relative;
@@ -91,5 +86,5 @@
   #detail_post {
     padding: 5px 10px;
   }
-  
+
 }
