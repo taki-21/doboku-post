@@ -1,122 +1,112 @@
 <template>
   <div>
-    <MyHeader />
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
+    <div v-show="isLoading" class="text-center">
+      <v-progress-circular
+        indeterminate
+        color="blue-gray"
+      ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
-      <div id="content">
-        <div class="uk-width-1-1">
-          <div class="uk-container">
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i
-                id="back_icon"
-                uk-icon="icon: chevron-double-left; ratio: 2"
-              ></i>
-            </a>
-            <div
-              id="new_post_card"
-              class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <div v-if="post_id" class="uk-text-center" id="new_post_title">
-                投稿編集
-              </div>
-              <div v-else class="uk-text-center" id="new_post_title">
-                新規投稿
-              </div>
+      <v-btn
+        class="mx-2 d-none d-sm-flex"
+        @click="$router.back()"
+        fab
+        fixed
+        dark
+        small
+        color="blue-grey lighten-2"
+      >
+        <v-icon dark> mdi-arrow-left </v-icon>
+      </v-btn>
+      <v-row justify="center">
+        <v-col justify="center">
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="1200px"
+          >
+            <div class="pa-6">
+              <h3 v-if="post_id" class="text-center">投稿編集</h3>
+              <h3 v-else class="text-center">新規投稿</h3>
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
-                  <div uk-grid id="grid">
-                    <div class="uk-width-1-2@s">
+                  <v-row>
+                    <v-col cols="12" md="6">
                       <div uk-form-custom id="form_custom">
                         <div class="uk-placeholder uk-text-center">
                           <input type="file" @change="selectedFile" />
-                          <!-- <div id="preview"> -->
-                            <div v-if="!post_id" id="preview">
-                              <img
-                                id="preview_image"
-                                v-show="previewImage"
-                                :src="previewImage"
-                              />
-                            </div>
-                            <div v-else id="preview">
-                              <img id="preview_image" :src="beforeImage" />
-                            </div>
-                          <!-- </div> -->
+                          <div v-if="!post_id" id="preview">
+                            <img
+                              id="preview_image"
+                              v-show="previewImage"
+                              :src="previewImage"
+                            />
+                          </div>
+                          <div v-else id="preview">
+                            <img id="preview_image" :src="beforeImage" />
+                          </div>
                           <div class="camera-choice">
-                            <div
-                              class="camera-icon uk-hidden-touch"
-                              uk-icon="icon: camera; ratio: 5"
-                            ></div>
-                            <div
-                              class="camera-icon uk-hidden-notouch"
-                              uk-icon="icon: camera; ratio: 3"
-                            ></div>
+                            <v-icon size="100">mdi-camera</v-icon>
                             <p>画像を選択してください</p>
                           </div>
                         </div>
                       </div>
                       <p id="error_message">{{ message }}</p>
-                    </div>
-                    <div class="uk-width-1-2@s">
-                      <div class="uk-inline uk-width-1-1">
-                        <label>カテゴリ</label>
-                        <ValidationProvider
-                          mode="lazy"
-                          name="カテゴリ"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <select class="uk-select" v-model="category">
-                            <option
-                              v-for="(ctg, key) in categories"
-                              :key="key"
-                              v-bind:value="ctg.id"
-                            >
-                              {{ ctg.name }}
-                            </option>
-                          </select>
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                      <div class="uk-inline uk-width-1-1">
-                        <label>タイトル（15文字以下）</label>
-                        <ValidationProvider
-                          mode="aggressive"
-                          name="タイトル"
-                          rules="required|max:15"
-                          v-slot="{ errors }"
-                        >
-                          <input
-                            class="uk-input"
-                            type="text"
-                            v-model="title"
-                            required
-                          />
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                      <div class="uk-inline uk-width-1-1">
-                        <label>キャプション</label>
-                        <ValidationProvider
-                          mode="aggressive"
-                          name="キャプション"
-                          rules="required"
-                          v-slot="{ errors }"
-                        >
-                          <textarea
-                            class="uk-textarea"
-                            rows="3"
-                            type="text"
-                            v-model="content"
-                            required
-                          ></textarea>
-                          <p id="error_message">{{ errors[0] }}</p>
-                        </ValidationProvider>
-                      </div>
-                      <div class="uk-inline uk-width-1-1">
+                    </v-col>
+                    <v-col cols="12" md="6">
+                      <ValidationProvider
+                        mode="lazy"
+                        name="カテゴリ"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <v-select
+                          :items="categories"
+                          item-text="name"
+                          item-value="id"
+                          :error-messages="errors"
+                          v-model="category"
+                          label="カテゴリ"
+                          placeholder="選択してください"
+                        ></v-select>
+                      </ValidationProvider>
+                      <ValidationProvider
+                        mode="aggressive"
+                        name="タイトル"
+                        rules="required|max:15"
+                        v-slot="{ errors }"
+                      >
+                        <v-text-field
+                          label="タイトル"
+                          v-model="title"
+                          :counter="15"
+                          :error-messages="errors"
+                          required
+                          placeholder="例）明石海峡大橋"
+                          hint=": 15文字以下"
+                          persistent-hint
+                        ></v-text-field>
+                      </ValidationProvider>
+                      <ValidationProvider
+                        mode="aggressive"
+                        name="キャプション"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <v-textarea
+                          label="キャプション"
+                          rows="4"
+                          :error-messages="errors"
+                          v-model="content"
+                        ></v-textarea>
+                      </ValidationProvider>
+                      <div class="uk-inline uk-width-1-1 location_form">
                         <label>場所（任意）</label>
-                        <span id="select_way">: 指定方法は以下の2つのみです</span>
+                        <span id="select_way"
+                          >: 指定方法は以下の2つのみです</span
+                        >
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
@@ -178,30 +168,31 @@
                           </li>
                         </ul>
                       </div>
-                    </div>
-                  </div>
-                  <button
-                    id="send_button"
-                    class="uk-button uk-button-large uk-width-1-1"
+                    </v-col>
+                  </v-row>
+                  <v-btn
+                    block
+                    large
+                    elevation="2"
+                    class="mr-4 mt-4"
                     type="submit"
                     :disabled="invalid"
                   >
                     <span v-if="post_id">変更を保存</span>
                     <span v-else>投稿</span>
-                  </button>
-                  <!-- </div> -->
+                  </v-btn>
                 </form>
               </ValidationObserver>
             </div>
-          </div>
-        </div>
-      </div>
+          </v-card>
+        </v-col>
+      </v-row>
+      <!-- </v-container> -->
     </div>
   </div>
 </template>
 
 <script>
-import MyHeader from "@/components/MyHeader";
 import TitleSearchMap from "@/components/TitleSearchMap";
 import prefs from "../mixins/PrefsMixin";
 import { mapGetters } from "vuex";
@@ -226,7 +217,6 @@ localize("ja", ja);
 export default {
   mixins: [prefs, clearSession],
   components: {
-    MyHeader,
     TitleSearchMap,
     ValidationProvider,
     ValidationObserver,
@@ -356,10 +346,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-#content {
-  margin-top: 10px;
-}
-
 #grid {
   margin-bottom: 20px;
 }
@@ -386,7 +372,7 @@ export default {
 }
 
 .camera-choice {
-  width: 180px ;
+  width: 180px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -399,7 +385,7 @@ export default {
 #preview {
   position: absolute;
   width: 100%;
-  height:100%;
+  height: 100%;
   right: 0px;
   top: 0px;
   z-index: 100;
@@ -408,7 +394,6 @@ export default {
 #preview_image {
   width: 100%;
   height: 100%;
-
 }
 .uk-modal-body {
   border-radius: 5px;
@@ -436,5 +421,12 @@ export default {
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
+}
+.v-application ul,
+.v-application ol {
+  padding-left: 0px;
+}
+.location_form {
+  margin-top: 20px;
 }
 </style>

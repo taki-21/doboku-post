@@ -1,83 +1,69 @@
 <template>
-  <div id="login-page">
-    <MyHeader />
-    <GlobalMessage />
-    <!-- メインエリア -->
-    <div class="uk-section uk-flex uk-flex-middle uk-animation-fade">
-      <div class="uk-width-1-1">
-        <div class="uk-container">
-          <div class="uk-grid-margin uk-grid uk-grid-stack" uk-grid>
-            <div class="uk-width-1-1@m">
-              <div
-                id="login_card"
-                class="uk-margin uk-width-large uk-margin-auto uk-card uk-card-default uk-card-body uk-box-shadow-large"
+  <v-container>
+    <h3 class="h3 text-center pt-8">ログイン</h3>
+    <v-row justify="center">
+      <v-col justify="center">
+        <v-card
+          elevation="5"
+          shaped
+          color="blue-grey lighten-5"
+          class="mx-auto"
+          max-width="500px"
+        >
+          <div class="pa-8">
+            <form @submit.prevent="submitLogin(form.username, form.password)">
+              <v-text-field
+                v-model="form.username"
+                required
+                placeholder="ユーザー名"
+                prepend-inner-icon="mdi-account"
+              ></v-text-field>
+              <v-text-field
+                v-model="form.password"
+                :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="show1 ? 'text' : 'password'"
+                required
+                placeholder="パスワード"
+                @click:append="show1 = !show1"
+                prepend-inner-icon="mdi-lock"
+              ></v-text-field>
+              <v-btn block elevation="2" class="mr-4 mt-4" type="submit">
+                ログイン
+              </v-btn>
+            </form>
+            <v-btn
+              block
+              color="blue-grey lighten-3"
+              elevation="2"
+              class="mr-4 mt-4"
+              @click="submitLogin()"
+            >
+              かんたんログイン
+            </v-btn>
+            <div class="pa-4 text-center">
+              登録していない方
+              <router-link id="to_signup" class="router-link" to="/signup"
+                >アカウント作成</router-link
               >
-                <h2 class="uk-card-title uk-text-center">ログイン</h2>
-                <form @submit.prevent="submitLogin(form.username,form.password)">
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: user"></span>
-                      <input
-                        class="uk-input"
-                        type="text"
-                        v-model="form.username"
-                        placeholder="ユーザー名"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span class="uk-form-icon" uk-icon="icon: lock"></span>
-                      <input
-                        class="uk-input"
-                        type="password"
-                        v-model="form.password"
-                        placeholder="パスワード"
-                        required
-                      />
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <button
-                      id="send_button"
-                      class="uk-button uk-button-primary uk-button-large uk-width-1-1"
-                      type="submit"
-                    >ログイン</button>
-                  </div>
-                </form>
-                <div @click="submitLogin()">
-                  <button class="uk-button uk-button-secondary uk-width-1-1">かんたんログイン</button>
-                </div>
-                <div class="uk-text-small uk-text-center" id="create_account">
-                  登録していない方
-                  <router-link id="to_signup" class="router-link" to="/signup">アカウント作成</router-link>
-                </div>
-              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
-import MyHeader from "@/components/MyHeader.vue";
-import GlobalMessage from "@/components/GlobalMessage.vue";
 
 export default {
-  components: {
-    MyHeader,
-    GlobalMessage,
-  },
   data() {
     return {
       form: {
         username: "",
         password: "",
       },
+      show1: false,
     };
   },
   methods: {
@@ -94,7 +80,7 @@ export default {
         .then(() => {
           if (this.isLoggedIn) {
             console.log("ログイン成功");
-            this.$store.dispatch("message/setInfoMessage", {
+            this.$store.dispatch("message/setSuccessMessage", {
               message: "ログインしました",
             });
             console.log("this.id: " + this.id);
@@ -127,15 +113,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@import '../assets/common.css';
-
-#to_signup:hover{
-  border-bottom:1px solid black
-}
-#create_account {
-  margin-top: 20px;
-}
-
-</style>

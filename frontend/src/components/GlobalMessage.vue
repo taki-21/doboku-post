@@ -1,9 +1,54 @@
 <template>
-  <!-- メッセージエリア -->
   <div>
-    <div variant="danger" id="error" class="message" show v-if="message.error">{{ message.error }}</div>
+    <v-alert
+      dense
+      type="success"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.success"
+    >
+      {{ message.success }}
+    </v-alert>
 
-    <div variant="info" id="info" class="message" show v-if="message.info">{{ message.info }}</div>
+    <v-alert
+    dense
+      type="info"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.info"
+    >
+      {{ message.info }}
+    </v-alert>
+    <v-alert
+      dense
+      type="warning"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.warning"
+    >
+      {{ message.warning }}
+    </v-alert>
+    <v-alert
+    dense
+      type="error"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.error"
+    >
+      {{ message.error }}
+    </v-alert>
   </div>
 </template>
 
@@ -18,28 +63,21 @@ export default {
 </script>
 
 <style scoped>
-.message{
-  padding:0px 20px;
+.message {
   text-align: center;
   position: absolute;
-  top: 20px;
+  top: 10px;
   left: 50%;
-  min-width:30%;
+  min-width: 40%;
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  font-size: 20px;
+  /* font-size: 20px; */
   font-weight: bold;
   z-index: 1000;
-  border-radius: 3px;
   animation: fadein-keyframes 2s 0s 1 forwards;
 }
-#info {
-  background-color: #a3fff7;
-}
-#error{
-  background-color: #ffeb7c;
-}
+
 @keyframes fadein-keyframes {
   0% {
     opacity: 1;
@@ -52,18 +90,8 @@ export default {
   }
 }
 @media (max-width: 640px) {
-.message#info{
-  padding:0px 20px;
-  position: absolute;
-  top: 15px;
-  font-size: 15px;
+  .message {
+    font-size: 15px;
+  }
 }
-.message#error{
-  padding:0px 10px;
-  position: absolute;
-  top: 8px;
-  font-size: 15px;
-}
-}
-
 </style>

@@ -1,109 +1,96 @@
 <template>
   <div v-if="isLoggedIn && user.icon_image">
-    <ul>
-      <li>
-        <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <div>
-            <router-link class="router-link" id="post" to="/newpostpage">
-              <button class="uk-button header_button" id="post_button">
-                <i id="icon" uk-icon="pencil"></i>投稿する
-              </button>
-            </router-link>
-          </div>
-          <div class="uk-inline">
-            <a class="show_user">
-              <div class="uk-card header_user_buttonuk-margin">
-                <img class="user_icon" :src="user.icon_image" />
-                {{ user.username }}
-                <i id="chevron-down" uk-icon="chevron-down"></i>
-              </div>
-            </a>
-            <div uk-dropdown="pos: bottom-center; mode: click">
-              <div class="dropdown">
-                <router-link
-                  class="router-link uk-hidden-notouch"
-                  to="/newpostpage"
-                >
-                  <i id="icon" uk-icon="pencil"></i>投稿する
-                </router-link>
-              </div>
-              <div class="dropdown">
-                <router-link
-                  class="router-link"
-                  :to="{ name: 'mypage', params: { user_id: user.id } }"
-                  v-if="user.id"
-                >
-                  <i id="icon" uk-icon="user"></i>
-                  <span>マイページ</span>
-                </router-link>
-              </div>
-              <div class="dropdown">
-                <a href="#modal-logout" id="logout" uk-toggle>
-                  <i id="icon" uk-icon="sign-out"></i>ログアウト
-                </a>
-                <div id="modal-logout" uk-modal>
-                  <div class="uk-modal-dialog uk-modal-body">
-                    <h2 class="uk-modal-title">ログアウト確認</h2>
-                    <p>ログアウトします。よろしいですか？</p>
-                    <p class="uk-text-right">
-                      <button
-                        class="uk-button uk-button-default uk-modal-close"
-                        type="button"
-                      >
-                        キャンセル
-                      </button>
-                      <button
-                        id="ok_button"
-                        class="uk-button uk-button-default uk-modal-close"
-                        type="button"
-                        @click="clickLogout"
-                      >
-                        OK
-                      </button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </li>
-    </ul>
+    <div class="d-none d-sm-flex">
+      <router-link class="router-link" id="post" to="/newpostpage">
+        <v-btn
+          depressed
+          elevation="3"
+          color="blue-grey lighten-4"
+          large
+          class="ma-1"
+          ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
+        >
+      </router-link>
+      <v-menu offset-y close-on-click>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn
+            text
+            v-bind="attrs"
+            v-on="on"
+            class="ma-2 pl-0"
+            style="text-transform: none"
+          >
+            <v-avatar size="36px" class="ma-2">
+              <img :src="user.icon_image" />
+            </v-avatar>
+            <span style="font-size: 20px">
+              {{ user.username }}
+            </span>
+            <span>
+              <v-icon>mdi-chevron-down</v-icon>
+            </span>
+          </v-btn>
+        </template>
+        <HeaderSideDropdown />
+      </v-menu>
+    </div>
+    <div class="d-sm-none">
+      <!-- <v-switch
+      v-model="closeOnContentClick"
+      label="Close on content click"
+    ></v-switch> -->
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on" style="text-transform: none">
+            <v-avatar size="40px">
+              <img :src="user.icon_image" />
+            </v-avatar>
+          </v-btn>
+        </template>
+        <HeaderSideDropdown />
+      </v-menu>
+    </div>
   </div>
   <div v-else>
-    <ul>
-      <li>
-        <div class="uk-grid-medium uk-flex-middle" uk-grid>
-          <router-link class="router-link" to="/signup">
-            <button class="uk-button header_button" id="signup_button">
-              <i id="icon" uk-icon="plus-circle"></i>新規登録
-            </button>
-          </router-link>
-          <router-link class="router-link" to="/login">
-            <button class="uk-button header_button" id="login_button">
-              <i id="icon" uk-icon="sign-in"></i>ログイン
-            </button>
-          </router-link>
-        </div>
-      </li>
-    </ul>
+    <div class="d-none d-sm-flex">
+      <router-link class="router-link" id="post" to="/signup">
+        <v-btn depressed elevation="3" color="blue-grey lighten-4" class="ma-2"
+          ><v-icon>mdi-account-plus</v-icon>新規登録</v-btn
+        >
+      </router-link>
+      <router-link class="router-link" id="post" to="/login">
+        <v-btn depressed elevation="3" color="blue-grey lighten-4" class="ma-2"
+          ><v-icon>mdi-login</v-icon>ログイン</v-btn
+        >
+      </router-link>
+    </div>
+    <div class="d-sm-none">
+      <v-menu offset-y>
+        <template v-slot:activator="{ on, attrs }">
+          <v-btn text v-bind="attrs" v-on="on" style="text-transform: none">
+            <v-icon size="40px">
+              mdi-menu
+            </v-icon>
+          </v-btn>
+        </template>
+        <HeaderSideDropdown />
+      </v-menu>
+    </div>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
+import HeaderSideDropdown from "@/components/HeaderSideDropdown";
 export default {
-  methods: {
-    // ログアウトリンク押下
-    clickLogout: function () {
-      sessionStorage.clear();
-      this.$store.dispatch("auth/logout");
-      this.$store.dispatch("user/logout");
-      this.$store.dispatch("message/setInfoMessage", {
-        message: "ログアウトしました",
-      });
-      this.$router.replace("/login");
-    },
+  components: {
+    HeaderSideDropdown,
+  },
+  data() {
+    return {
+      dialog: false,
+      closeOnContentClick: true,
+    };
   },
   computed: {
     ...mapGetters("user", {
@@ -122,18 +109,7 @@ export default {
   padding-left: 0;
 }
 
-.header_button {
-  border-radius: 10px;
-  border: 1px solid rgba(0, 0, 0, 0);
-  font-size: 18px;
-  color: rgb(0, 0, 0);
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.3);
-}
-
-.header_button:active {
-  box-shadow: none;
-}
-#userlist_button{
+#userlist_button {
   background-color: rgba(204, 194, 149, 0.5);
 }
 #post_button {
@@ -156,13 +132,6 @@ li {
   list-style: none;
 }
 
-.user_icon {
-  width: 40px;
-  height: 40px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-
 #logout {
   color: black;
   text-decoration: none;
@@ -173,64 +142,10 @@ li {
 }
 
 /* UIkitの上書き */
-.uk-dropdown {
-  position: absolute;
-  text-align: center;
-  z-index: 1020;
-  box-sizing: border-box;
-  min-width: 100px;
-  width: 160px;
-  padding: 10px 10px;
-  background: #f7fcfc;
-  color: #666;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-}
 
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
-}
-@media (max-width: 640px) {
-  #post {
-    display: none;
-  }
-  .show_user {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    text-decoration: none;
-  }
-
-  .user_icon {
-    width: 30px;
-    height: 30px;
-    margin-right: 5px;
-    border-radius: 50%;
-  }
-  .uk-dropdown {
-    position: absolute;
-    text-align: center;
-    z-index: 1000;
-    box-sizing: border-box;
-    min-width: 100px;
-    width: 140px;
-    padding: 5px 5px;
-    background: #f3ffff;
-    color: #666;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  .header_button {
-    height: 30px;
-    line-height: 30px;
-    padding: 0px 6px;
-    font-size: 10px;
-  }
-  .router-link {
-    padding-left: 8px;
-  }
 }
 </style>

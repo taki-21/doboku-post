@@ -1,183 +1,171 @@
 <template>
   <div>
-    <!-- ヘッダー -->
-    <MyHeader />
-    <div class="uk-section">
-      <div class="uk-width-1-1">
-        <div class="uk-container">
-          <div class="uk-margin uk-width-large uk-margin-auto">
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i
-                id="back_icon"
-                uk-icon="icon: chevron-double-left; ratio: 2"
-              ></i>
-            </a>
-            <div
-              id="profile_edit_card"
-              class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <h2 class="uk-card-title uk-text-center">プロフィール編集</h2>
+    <v-btn
+      class="mx-2 d-none d-sm-flex"
+      @click="$router.back()"
+      fab
+      fixed
+      dark
+      small
+      color="blue-grey lighten-2"
+    >
+      <v-icon dark> mdi-arrow-left </v-icon>
+    </v-btn>
+    <v-container>
+      <h3 class="h3 text-center pt-8">プロフィール編集</h3>
+      <v-row justify="center">
+        <v-col justify="center">
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="800px"
+          >
+            <div class="pa-8">
+              <span v-if="id == 2" style="color: red"
+                >※
+                申し訳ございません。GuestUserは編集及びアカウント削除ができません。</span
+              >
               <ValidationObserver v-slot="{ invalid }">
                 <form @submit.prevent="submitPost()">
-                  <div uk-form-custom id="form_custom">
-                    <div class="uk-placeholder uk-text-center">
-                      <input
-                        :disabled="disabled"
-                        type="file"
-                        @change="selectedFile"
-                      />
-                      <div id="preview">
-                        <div v-if="previewImage">
-                          <img id="preview_image" :src="previewImage" />
-                        </div>
-                        <div v-else>
-                          <img id="preview_image" :src="beforeIconImage" />
+                  <v-row>
+                    <v-col cols="12" md="6">
+                      <div uk-form-custom id="form_custom">
+                        <div class="uk-placeholder uk-text-center">
+                          <input
+                            :disabled="disabled"
+                            type="file"
+                            @change="selectedFile"
+                          />
+                          <div id="preview">
+                            <div v-if="previewImage">
+                              <img id="preview_image" :src="previewImage" />
+                            </div>
+                            <div v-else>
+                              <img id="preview_image" :src="beforeIconImage" />
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
+                    </v-col>
+                    <v-col cols="12" md="6">
                       <ValidationProvider
                         mode="lazy"
                         name="ユーザー名"
                         rules="required|max:10"
                         v-slot="{ errors }"
                       >
-                        <span
-                          id="form_icon"
-                          class="uk-form-icon"
-                          uk-icon="icon: user"
-                        ></span>
-                        <input
+                        <v-text-field
                           :disabled="disabled"
-                          class="uk-input"
-                          type="text"
-                          placeholder="ユーザー名"
                           v-model="username"
+                          :counter="10"
+                          :error-messages="errors"
                           required
-                        />
-                        <p id="error_message">{{ errors[0] }}</p>
+                          placeholder="ユーザー名"
+                          hint=": 10文字以下"
+                          persistent-hint
+                          prepend-inner-icon="mdi-account"
+                        ></v-text-field>
                       </ValidationProvider>
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
                       <ValidationProvider
                         mode="lazy"
                         name="入力内容"
                         rules="required|email"
                         v-slot="{ errors }"
                       >
-                        <span
-                          id="form_icon"
-                          class="uk-form-icon"
-                          uk-icon="icon: mail"
-                        ></span>
-                        <input
+                        <v-text-field
                           :disabled="disabled"
-                          class="uk-input"
-                          type="email"
-                          placeholder="メールアドレス"
                           v-model="email"
+                          :error-messages="errors"
                           required
-                        />
-                        <p id="error_message">{{ errors[0] }}</p>
+                          placeholder="メールアドレス"
+                          prepend-inner-icon="mdi-email"
+                        ></v-text-field>
                       </ValidationProvider>
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <div class="uk-inline uk-width-1-1">
-                      <span
-                        class="uk-form-icon"
-                        uk-icon="icon: file-edit"
-                      ></span>
-                      <textarea
-                        :disabled="disabled"
-                        class="uk-textarea textarea-input"
-                        rows="4"
-                        type="text"
-                        placeholder="自己紹介文"
-                        v-model="introduction"
-                      ></textarea>
-                    </div>
-                  </div>
-                  <div class="uk-margin">
-                    <button
-                      id="send_button"
-                      class="uk-button uk-button-primary uk-button-large uk-width-1-1"
-                      :disabled="invalid"
-                      type="submit"
-                    >
-                      変更を保存する
-                    </button>
-                  </div>
-                  <div>
-                    <a
-                      href="#modal-delete"
-                      id="delete_button"
-                      class="uk-button uk-button-middle uk-width-1-1"
-                      uk-toggle
-                    >
-                      アカウント削除
-                    </a>
-                    <div id="modal-delete" uk-modal>
-                      <div class="uk-modal-dialog uk-modal-body">
-                        <div v-if="id === 2">
-                          <span
-                            >申し訳ございません。GuestUserのアカウントは削除できません。</span
+                      <ValidationProvider
+                        mode="lazy"
+                        name="入力内容"
+                        rules="required"
+                        v-slot="{ errors }"
+                      >
+                        <v-textarea
+                          label="自己紹介"
+                          rows="4"
+                          v-model="introduction"
+                          :error-messages="errors"
+                          :disabled="disabled"
+                          required
+                          placeholder="自分のことについて簡単に書きましょう！"
+                        ></v-textarea>
+                      </ValidationProvider>
+                      <v-btn
+                        block
+                        large
+                        elevation="2"
+                        class="mr-4 mt-4"
+                        type="submit"
+                        :disabled="invalid || disabled"
+                      >
+                        変更を保存する
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                  <v-row no-gutters>
+                    <v-col class="text-right">
+                      <v-dialog v-model="dialog" max-width="600">
+                        <template v-slot:activator="{ on, attrs }">
+                          <v-btn
+                            small
+                            elevation="2"
+                            color="red accent-1"
+                            v-bind="attrs"
+                            v-on="on"
+                            :disabled="disabled"
                           >
-                          <div class="uk-text-right">
-                            <button
-                              class="uk-button uk-button-small uk-button-default uk-modal-close"
-                            >
-                              OK
-                            </button>
-                          </div>
-                        </div>
+                            アカウント削除
+                          </v-btn>
+                        </template>
+                        <v-card class="pa-2">
+                          <div>
+                            <v-card-title class="headline font-weight-bold">
+                              アカウント削除確認
+                            </v-card-title>
 
-                        <div v-else>
-                          <h2 class="uk-modal-title">アカウント削除確認</h2>
-                          <p>アカウントを削除します。よろしいですか？</p>
-                          <p class="uk-text-right">
-                            <button
-                              class="uk-button uk-modal-close"
-                              type="button"
-                            >
-                              キャンセル
-                            </button>
-                            <button
-                              id="ok_button"
-                              class="uk-button uk-button-default uk-modal-close"
-                              type="button"
-                              @click="deleteAccount"
-                            >
-                              OK
-                            </button>
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div v-if="id === 2">
-                    <span id="error_message">
-                      ※このアカウントは編集・削除ができません。
-                    </span>
-                  </div>
+                            <v-card-text>
+                              アカウントを削除します。よろしいですか？
+                            </v-card-text>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn @click="dialog = false">
+                                キャンセル
+                              </v-btn>
+                              <v-btn
+                                color="blue-grey lighten-3"
+                                @click="deleteAccount"
+                                class="ml-4"
+                              >
+                                OK
+                              </v-btn>
+                            </v-card-actions>
+                          </div>
+                        </v-card>
+                      </v-dialog>
+                    </v-col>
+                  </v-row>
                 </form>
               </ValidationObserver>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 import { mapGetters } from "vuex";
 import api from "@/services/api";
-import MyHeader from "@/components/MyHeader";
 import {
   ValidationProvider,
   ValidationObserver,
@@ -195,7 +183,6 @@ localize("ja", ja);
 
 export default {
   components: {
-    MyHeader,
     ValidationProvider,
     ValidationObserver,
   },
@@ -213,6 +200,7 @@ export default {
       email: this.$store.getters["user/email"],
       introduction: this.$store.getters["user/introduction"],
       disabled: false,
+      dialog: false,
     };
   },
   mounted() {
@@ -253,18 +241,20 @@ export default {
       reader.readAsDataURL(file);
     },
     async deleteAccount() {
-      await api.delete("/users/" + this.id + "/")
-      .then(
-        this.$store.dispatch("message/setInfoMessage", {
-          message: "アカウントを削除しました",
-        }),
-      )
-      .catch((error) => {
-        console.log(error)
-      })
-        this.$store.dispatch("user/logout"),
+      this.dialog = false;
+      await api
+        .delete("/users/" + this.id + "/")
+        .then(
+          this.$store.dispatch("message/setInfoMessage", {
+            message: "アカウントを削除しました",
+          })
+        )
+        .catch((error) => {
+          console.log(error);
+        });
+      this.$store.dispatch("user/logout"),
         this.$store.dispatch("auth/logout"),
-        this.$router.replace("/")
+        this.$router.replace("/");
     },
     back() {
       // 1つ前へ
@@ -302,22 +292,12 @@ export default {
   box-sizing: border-box;
 }
 
-.camera-choice {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: table-cell;
-  vertical-align: middle;
-  -webkit-transform: translate(-50%, -50%);
-  transform: translate(-50%, -50%);
-}
-
 #preview {
   position: relative;
   /* position: absolute; */
   /* 現在:, 変更:, クリア表示を隠す  */
   top: 0px;
-  z-index: 100;
+  z-index: 1;
   pointer-events: none;
   width: 100%;
   height: auto;
@@ -327,26 +307,6 @@ export default {
   position: relative;
   width: 100%;
   height: auto;
-}
-
-.textarea-input {
-  padding-left: 40px;
-}
-
-.uk-section {
-  padding-top: 30px;
-}
-#delete_button {
-  background-color: rgba(245, 170, 157, 0.4);
-  font-size: 15px;
-  color: rgb(0, 0, 0);
-  border-radius: 10px;
-  border: 2px solid rgb(240, 173, 173);
-}
-.uk-modal-body {
-  display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
 }
 
 @media (max-width: 640px) {

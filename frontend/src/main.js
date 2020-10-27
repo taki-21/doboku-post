@@ -15,6 +15,8 @@ UIkit.use(Icons);
 
 // vue-infinite-loadingの導入
 import InfiniteLoading from 'vue-infinite-loading';
+
+import vuetify from './plugins/vuetify';
 Vue.use(InfiniteLoading);
 
 
@@ -27,5 +29,6 @@ Vue.use(VueAxios, axios) //追記
 new Vue({
   router,
   store,
+  vuetify,
   render: h => h(App)
 }).$mount('#app')

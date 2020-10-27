@@ -1,64 +1,74 @@
 <template>
   <div>
-    <MyHeader />
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
+    <div v-show="isLoading" class="text-center">
+      <v-progress-circular
+        indeterminate
+        color="blue-gray"
+      ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
-      <div id="content">
-        <div class="uk-width-1-1">
-          <div class="uk-container">
-            <a @click="$router.back()" title="前ページへ戻る">
-              <i
-                id="back_icon"
-                uk-icon="icon: chevron-double-left; ratio: 2"
-              ></i>
-            </a>
-            <div
-              id="detail_post"
-              class="uk-card uk-card-default uk-card-body uk-box-shadow-large"
-            >
-              <div uk-grid>
-                <div class="uk-width-3-5@s">
-                  <div>
-                    <router-link
-                      class="show_user"
-                      v-if="author.id"
-                      :to="{ name: 'mypage', params: { user_id: author.id } }"
-                    >
-                      <img class="user_icon" :src="author.icon_image" />
-                      <span id="author_name">{{ author.username }}</span>
-                    </router-link>
-                    <div class="timestamp">
+      <v-btn
+        class="mx-2 d-none d-sm-flex"
+        @click="$router.back()"
+        fab
+        fixed
+        dark
+        small
+        color="blue-grey lighten-2"
+      >
+        <v-icon dark> mdi-arrow-left </v-icon>
+      </v-btn>
+      <v-row justify="center" align-content="center">
+        <v-col class="py-0">
+          <v-card
+            elevation="5"
+            shaped
+            color="blue-grey lighten-5"
+            class="mx-auto"
+            max-width="1100px"
+          >
+            <div class="px-3">
+              <v-row justify="center">
+                <v-col cols="12" md="7">
+                  <v-card-title class="float-left text-h">
+                    {{ post.title }}
+                  </v-card-title>
+                  <div class="text-right">
+                    <div>
+                      <v-avatar size="36px">
+                        <img class="user_icon" :src="author.icon_image" />
+                      </v-avatar>
+                      <span>
+                        {{ author.username }}
+                      </span>
+                    </div>
+                    <div>
                       <span>{{ post.published_at | moment }}</span>
                     </div>
-                    <div class="prefecture">
+                    <div>
                       <span v-if="post.prefecture">{{ post.prefecture }}</span>
                       <span v-else>---</span>
                     </div>
                   </div>
-                  <div id="title-content">
-                    <div id="post_title">{{ post.title }}</div>
-                    <div id="post_content">{{ post.content }}</div>
-                  </div>
-
+                  <v-card-subtitle id="post_content">
+                    {{ post.content }}
+                  </v-card-subtitle>
                   <div uk-lightbox>
                     <a :href="post.raw_image">
-                      <img id="post_image" :src="post.image" />
+                      <v-img id="post_image" :src="post.image"></v-img>
                     </a>
                   </div>
                   <div v-if="post.address">
-                    <button
+                    <v-btn
+                      color="blue-grey lighten-2"
                       id="location_button"
-                      class="uk-button"
                       :href="modal_href"
-                      type="button"
                       @click="showMap"
                       uk-toggle
                     >
-                      <i uk-icon="location"></i>
+                      <v-icon left> mdi-map-marker </v-icon>
                       場所を確認
-                    </button>
+                    </v-btn>
                     <div :id="modal" class="uk-modal-flex" uk-modal>
                       <div
                         id="location_modal"
@@ -78,43 +88,27 @@
                   <div id="like_buttun">
                     <div v-if="isLiked">
                       <div>
-                        <span
-                          class="like_icon"
-                          @click="toggleLike"
-                          :disabled="isProcessing"
-                        >
-                          <svg
-                            width="50"
-                            height="50"
-                            viewBox="0 0 20 20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            data-svg="heart"
-                          >
-                            <path
-                              fill="indianred"
-                              stroke="currentcolor"
-                              stroke-width="1"
-                              d="M10,4 C10,4 8.1,2 5.74,2 C3.38,2 1,3.55 1,6.73 C1,8.84 2.67,10.44 2.67,10.44 L10,18 L17.33,10.44 C17.33,10.44 19,8.84 19,6.73 C19,3.55 16.62,2 14.26,2 C11.9,2 10,4 10,4 L10,4 Z"
-                            />
-                          </svg>
+                        <span @click="toggleLike" :disabled="isProcessing">
+                          <v-btn class="ma-2" text icon color="red lighten-2">
+                            <v-icon x-large>mdi-heart</v-icon>
+                          </v-btn>
                         </span>
                         <span class="like_count">{{ likeCount }}</span>
                       </div>
                     </div>
                     <div v-else>
                       <div>
-                        <span
-                          class="like_icon"
-                          uk-icon="icon: heart; ratio: 2.5"
-                          @click="toggleLike"
-                        ></span>
+                        <span @click="toggleLike">
+                          <v-btn class="ma-2" text icon>
+                            <v-icon x-large>mdi-heart-outline</v-icon>
+                          </v-btn>
+                        </span>
                         <span class="like_count">{{ likeCount }}</span>
                       </div>
                     </div>
                   </div>
-                </div>
-                <div class="uk-width-2-5@s">
-                  <!-- <div> -->
+                </v-col>
+                <v-col cols="12" md="5">
                   <div>
                     <div>
                       <CommentForm :post="post" @CommentGet="CommentGet" />
@@ -160,62 +154,59 @@
                               id="delete-icon"
                               v-if="comment.author.id == login_user_id"
                             >
-                              <a
-                                class="router-link"
-                                :href="'#modal-' + comment.id"
-                                uk-toggle
+                              <v-btn
+                                text
+                                icon
+                                @click.stop="onClickBtn(comment)"
                               >
-                                <i id="delete-icon" uk-icon="icon: trash"></i>
-                              </a>
-                              <div :id="'modal-' + comment.id" uk-modal>
-                                <div
-                                  id="delete_modal"
-                                  class="uk-modal-dialog uk-modal-body"
-                                >
-                                  <h2 class="uk-modal-title">削除確認</h2>
-                                  <p>
+                                <v-icon>mdi-delete</v-icon>
+                              </v-btn>
+                              <v-dialog
+                                v-model="dialog"
+                                v-if="currentComment"
+                                activator
+                                max-width="600px"
+                              >
+                                <v-card class="pa-2">
+                                  <v-card-title>削除確認</v-card-title>
+                                  <v-card-text>
                                     コメント：{{
-                                      comment.text
-                                    }}を削除します。よろしいですか？
-                                  </p>
-                                  <p class="uk-text-right">
-                                    <button
-                                      class="uk-button uk-button-default uk-modal-close"
-                                      type="button"
-                                    >
+                                      currentComment.text
+                                    }}を削除します。よろしいですか？</v-card-text
+                                  >
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn @click="dialog = false">
                                       キャンセル
-                                    </button>
-                                    <button
-                                      id="ok_button"
-                                      class="uk-button uk-button-default uk-modal-close"
-                                      type="button"
-                                      @click="deleteComment(comment.id)"
+                                    </v-btn>
+                                    <v-btn
+                                      color="blue-grey lighten-3"
+                                      @click="deleteComment(currentComment.id)"
+                                      class="ml-4"
                                     >
                                       OK
-                                    </button>
-                                  </p>
-                                </div>
-                              </div>
+                                    </v-btn>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
                             </div>
                           </article>
                         </li>
                       </ul>
                     </div>
                   </div>
-                  <!-- </div> -->
-                </div>
-              </div>
+                </v-col>
+              </v-row>
             </div>
-          </div>
-        </div>
-      </div>
+          </v-card>
+        </v-col>
+      </v-row>
     </div>
   </div>
 </template>
 
 <script>
 import moment from "moment";
-import MyHeader from "@/components/MyHeader";
 import CommentForm from "@/components/CommentForm";
 import Map from "@/components/Map";
 import api from "@/services/api";
@@ -223,7 +214,6 @@ import api from "@/services/api";
 export default {
   name: "detail",
   components: {
-    MyHeader,
     CommentForm,
     Map,
   },
@@ -243,6 +233,8 @@ export default {
       likeCount: "",
       isLoading: true,
       isProcessing: false,
+      dialog: false,
+      currentComment: null,
     };
   },
   computed: {
@@ -305,6 +297,9 @@ export default {
           }, 500);
         });
       } else {
+        this.$store.dispatch("message/setInfoMessage", {
+          message: "ログインが必要です",
+        });
         this.$router.replace("/login");
       }
     },
@@ -345,7 +340,12 @@ export default {
         this.comments = response.data;
       });
     },
+    onClickBtn(comment) {
+      this.currentComment = comment;
+      this.dialog = true;
+    },
     deleteComment(comment_id) {
+      this.dialog = false;
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
@@ -362,6 +362,9 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
+.v-card__subtitle {
+  padding-top: 2px;
+}
 
 html {
   overflow: overlay;
@@ -396,63 +399,32 @@ html {
   margin-right: 5px;
   border-radius: 50%;
 }
-#detail_post {
-  background-color: rgba(225, 215, 205, 0.247);
-}
-
-#post_title {
-  padding-top: 10px;
-  font-size: 35px;
-  font-weight: bold;
-  margin-bottom: 0px;
-}
 #post_content {
   word-break: break-all;
   margin: 0px 0px 10px 0px;
-  border-radius: 5px;
-  background-color: rgba(224, 215, 196, 0.432);
   padding: 5px 5px 5px 10px;
-  max-width: 625px;
   font-size: 15px;
-  font-weight: bold;
   white-space: pre-wrap;
 }
 #post_image {
   box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3);
 }
 
-
 #location_button {
   float: left;
   margin-top: 18px;
-  background-color: rgba(135, 165, 179, 0.829);
   color: #333;
-  font-size: 20px;
-  border-radius: 5px;
-  box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.3);
+  text-decoration: none;
 }
 #like_buttun {
   max-width: 640px;
   text-align: right;
 }
-.like_icon {
-  position: relative;
-  right: 8px;
-}
-.like_icon:hover {
-  cursor: pointer;
-}
+
 .like_count {
   font-size: 40px;
   position: relative;
   top: 8px;
-}
-
-#author_name {
-  position: relative;
-  top: 3px;
-  margin-left: 10px;
-  font-size: 20px;
 }
 
 .timestamp {
@@ -467,7 +439,7 @@ html {
 }
 
 .logbox {
-  height: 590px;
+  height: 520px;
   overflow-y: scroll;
   overflow-y: overlay;
 }
@@ -487,29 +459,12 @@ html {
   padding: 0px 0px;
   border-radius: 10px;
 }
-#delete_modal.uk-modal-dialog {
-  position: relative;
-  box-sizing: border-box;
-  margin: 5px auto;
-  width: 600px;
-  max-width: calc(100% - 0.01px) !important;
-  background: rgb(240, 240, 240);
-  transition: 0.3s linear;
-  transition-property: opacity, transform;
-}
-#delete_modal.uk-modal-body {
-  display: flow-root;
-  border-radius: 5px;
-}
 
 #delete-icon {
   text-align: right;
 }
 
 /* UIkitの上書き */
-.uk-card-body {
-    padding: 20px 40px;
-}
 
 .uk-comment-primary {
   background-color: #fff;
