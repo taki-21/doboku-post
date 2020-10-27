@@ -113,7 +113,7 @@
                   </v-row>
                   <v-row no-gutters>
                     <v-col class="text-right">
-                      <v-dialog v-model="dialog" width="500">
+                      <v-dialog v-model="dialog" max-width="600">
                         <template v-slot:activator="{ on, attrs }">
                           <v-btn
                             small
@@ -126,24 +126,24 @@
                             アカウント削除
                           </v-btn>
                         </template>
-                        <v-card>
+                        <v-card class="pa-2">
                           <div>
-                            <v-card-title class="headline grey lighten-2">
+                            <v-card-title class="headline font-weight-bold">
                               アカウント削除確認
                             </v-card-title>
 
                             <v-card-text>
                               アカウントを削除します。よろしいですか？
                             </v-card-text>
-
-                            <v-divider></v-divider>
-
                             <v-card-actions>
                               <v-spacer></v-spacer>
+                              <v-btn @click="dialog = false">
+                                キャンセル
+                              </v-btn>
                               <v-btn
-                                color="primary"
-                                text
+                                color="blue-grey lighten-3"
                                 @click="deleteAccount"
+                                class="ml-4"
                               >
                                 OK
                               </v-btn>

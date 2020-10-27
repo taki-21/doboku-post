@@ -142,54 +142,10 @@ li {
 }
 
 /* UIkitの上書き */
-.uk-dropdown {
-  position: absolute;
-  text-align: center;
-  z-index: 1020;
-  box-sizing: border-box;
-  min-width: 100px;
-  width: 160px;
-  padding: 10px 10px;
-  background: #f7fcfc;
-  color: #666;
-  box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-}
 
 .uk-modal-body {
   display: flow-root;
   padding: 30px 30px;
   border-radius: 5px;
 }
-/* @media (max-width: 640px) {
-  #post {
-    display: none;
-  }
-  .show_user {
-    font-size: 18px;
-    font-weight: bold;
-    color: #333333;
-    text-decoration: none;
-  }
-  .uk-dropdown {
-    position: absolute;
-    text-align: center;
-    z-index: 1000;
-    box-sizing: border-box;
-    min-width: 100px;
-    width: 140px;
-    padding: 5px 5px;
-    background: #f3ffff;
-    color: #666;
-    box-shadow: 0 20px 20px rgba(0, 0, 0, 0.15);
-    border-radius: 5px;
-    font-size: 14px;
-  }
-  .header_button {
-    height: 30px;
-    line-height: 30px;
-    padding: 0px 6px;
-    font-size: 10px;
-  }
-} */
 </style>

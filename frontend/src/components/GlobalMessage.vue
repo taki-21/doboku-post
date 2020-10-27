@@ -1,6 +1,44 @@
 <template>
   <div>
     <v-alert
+      dense
+      type="success"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.success"
+    >
+      {{ message.success }}
+    </v-alert>
+
+    <v-alert
+    dense
+      type="info"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.info"
+    >
+      {{ message.info }}
+    </v-alert>
+    <v-alert
+      dense
+      type="warning"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.warning"
+    >
+      {{ message.warning }}
+    </v-alert>
+    <v-alert
+    dense
       type="error"
       class="message"
       border="left"
@@ -10,18 +48,6 @@
       v-if="message.error"
     >
       {{ message.error }}
-    </v-alert>
-    <v-alert
-      dense
-      type="success"
-      class="message"
-      border="left"
-      elevation="8"
-      dark
-      show
-      v-if="message.info"
-    >
-      {{ message.info }}
     </v-alert>
   </div>
 </template>

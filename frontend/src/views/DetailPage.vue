@@ -18,7 +18,6 @@
       >
         <v-icon dark> mdi-arrow-left </v-icon>
       </v-btn>
-
       <v-row justify="center" align-content="center">
         <v-col class="py-0">
           <v-card
@@ -56,7 +55,7 @@
                   </v-card-subtitle>
                   <div uk-lightbox>
                     <a :href="post.raw_image">
-                      <v-img :src="post.image"></v-img>
+                      <v-img id="post_image" :src="post.image"></v-img>
                     </a>
                   </div>
                   <div v-if="post.address">
@@ -155,40 +154,41 @@
                               id="delete-icon"
                               v-if="comment.author.id == login_user_id"
                             >
-                              <a
-                                class="router-link"
-                                :href="'#modal-' + comment.id"
-                                uk-toggle
+                              <v-btn
+                                text
+                                icon
+                                @click.stop="onClickBtn(comment)"
                               >
-                                <v-btn text icon>
-                                  <v-icon>mdi-delete</v-icon>
-                                </v-btn>
-                              </a>
-                              <div :id="'modal-' + comment.id" uk-modal>
-                                <div
-                                  id="delete_modal"
-                                  class="uk-modal-dialog uk-modal-body"
-                                >
-                                  <h2 class="uk-modal-title">削除確認</h2>
-                                  <p>
+                                <v-icon>mdi-delete</v-icon>
+                              </v-btn>
+                              <v-dialog
+                                v-model="dialog"
+                                v-if="currentComment"
+                                activator
+                                max-width="600px"
+                              >
+                                <v-card class="pa-2">
+                                  <v-card-title>削除確認</v-card-title>
+                                  <v-card-text>
                                     コメント：{{
-                                      comment.text
-                                    }}を削除します。よろしいですか？
-                                  </p>
-                                  <p class="uk-text-right">
-                                    <v-btn class="uk-modal-close">
+                                      currentComment.text
+                                    }}を削除します。よろしいですか？</v-card-text
+                                  >
+                                  <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn @click="dialog = false">
                                       キャンセル
                                     </v-btn>
                                     <v-btn
-                                      class="uk-modal-close"
                                       color="blue-grey lighten-3"
-                                      @click="deleteComment(comment.id)"
+                                      @click="deleteComment(currentComment.id)"
+                                      class="ml-4"
                                     >
                                       OK
                                     </v-btn>
-                                  </p>
-                                </div>
-                              </div>
+                                  </v-card-actions>
+                                </v-card>
+                              </v-dialog>
                             </div>
                           </article>
                         </li>
@@ -233,6 +233,8 @@ export default {
       likeCount: "",
       isLoading: true,
       isProcessing: false,
+      dialog: false,
+      currentComment: null,
     };
   },
   computed: {
@@ -295,6 +297,9 @@ export default {
           }, 500);
         });
       } else {
+        this.$store.dispatch("message/setInfoMessage", {
+          message: "ログインが必要です",
+        });
         this.$router.replace("/login");
       }
     },
@@ -335,7 +340,12 @@ export default {
         this.comments = response.data;
       });
     },
+    onClickBtn(comment) {
+      this.currentComment = comment;
+      this.dialog = true;
+    },
     deleteComment(comment_id) {
+      this.dialog = false;
       api.delete("/comments/" + comment_id + "/").then(this.CommentGet);
     },
 
@@ -389,13 +399,6 @@ html {
   margin-right: 5px;
   border-radius: 50%;
 }
-
-#post_title {
-  padding-top: 10px;
-  font-size: 35px;
-  font-weight: bold;
-  margin-bottom: 0px;
-}
 #post_content {
   word-break: break-all;
   margin: 0px 0px 10px 0px;
@@ -422,13 +425,6 @@ html {
   font-size: 40px;
   position: relative;
   top: 8px;
-}
-
-#author_name {
-  position: relative;
-  top: 3px;
-  margin-left: 10px;
-  font-size: 20px;
 }
 
 .timestamp {
@@ -463,29 +459,12 @@ html {
   padding: 0px 0px;
   border-radius: 10px;
 }
-#delete_modal.uk-modal-dialog {
-  position: relative;
-  box-sizing: border-box;
-  margin: 5px auto;
-  width: 600px;
-  max-width: calc(100% - 0.01px) !important;
-  background: rgb(240, 240, 240);
-  transition: 0.3s linear;
-  transition-property: opacity, transform;
-}
-#delete_modal.uk-modal-body {
-  display: flow-root;
-  border-radius: 5px;
-}
 
 #delete-icon {
   text-align: right;
 }
 
 /* UIkitの上書き */
-.uk-card-body {
-  padding: 20px 40px;
-}
 
 .uk-comment-primary {
   background-color: #fff;

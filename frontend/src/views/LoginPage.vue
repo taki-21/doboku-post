@@ -80,7 +80,7 @@ export default {
         .then(() => {
           if (this.isLoggedIn) {
             console.log("ログイン成功");
-            this.$store.dispatch("message/setInfoMessage", {
+            this.$store.dispatch("message/setSuccessMessage", {
               message: "ログインしました",
             });
             console.log("this.id: " + this.id);

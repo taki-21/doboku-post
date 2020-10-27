@@ -50,7 +50,7 @@
               <v-btn  @click="dialog = false">
                 キャンセル
               </v-btn>
-              <v-btn color="blue-grey lighten-3" @click="clickLogout"> OK </v-btn>
+              <v-btn color="blue-grey lighten-3" @click="clickLogout" class="ml-4"> OK </v-btn>
             </v-card-actions>
           </v-card>
         </v-dialog>
@@ -103,7 +103,7 @@ export default {
       this.dialog = false;
       this.$store.dispatch("auth/logout");
       this.$store.dispatch("user/logout");
-      this.$store.dispatch("message/setInfoMessage", {
+      this.$store.dispatch("message/setSuccessMessage", {
         message: "ログアウトしました",
       });
       this.$router.replace("/login");

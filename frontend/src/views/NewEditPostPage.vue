@@ -18,8 +18,6 @@
       >
         <v-icon dark> mdi-arrow-left </v-icon>
       </v-btn>
-
-      <!-- <v-container> -->
       <v-row justify="center">
         <v-col justify="center">
           <v-card

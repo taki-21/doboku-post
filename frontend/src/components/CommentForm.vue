@@ -60,6 +60,9 @@ export default {
     },
     post_comment() {
       if (this.isLoggedIn == false) {
+        this.$store.dispatch("message/setInfoMessage", {
+              message: "ログインが必要です",
+            });
         this.$router.replace("/login");
       }
     },
