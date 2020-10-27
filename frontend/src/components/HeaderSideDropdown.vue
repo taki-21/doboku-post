@@ -58,6 +58,7 @@
                 <router-link
           class="router-link"
           to='/signup'
+          v-if="!isLoggedIn"
         >
           <v-list-item>
             <v-list-item-icon>
@@ -71,6 +72,7 @@
                 <router-link
           class="router-link"
           to='/login'
+          v-if="!isLoggedIn"
         >
           <v-list-item>
             <v-list-item-icon>

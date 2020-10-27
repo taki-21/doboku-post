@@ -1,21 +1,28 @@
 <template>
-  <!-- メッセージエリア -->
   <div>
-    <div variant="danger" id="error" class="message" show v-if="message.error">
-      {{ message.error }}
-    </div>
     <v-alert
+      type="error"
+      class="message"
+      border="left"
+      elevation="8"
+      dark
+      show
+      v-if="message.error"
+    >
+      {{ message.error }}
+    </v-alert>
+    <v-alert
+      dense
       type="success"
       class="message"
       border="left"
-      color="green"
+      elevation="8"
       dark
       show
       v-if="message.info"
     >
       {{ message.info }}
     </v-alert>
-    <!-- <div variant="info" id="info" class="message" show v-if="message.info">{{ message.info }}</div> -->
   </div>
 </template>
 
@@ -31,7 +38,7 @@ export default {
 
 <style scoped>
 .message {
-  padding: 5px 20px;
+  /* padding: 5px 20px; */
   text-align: center;
   position: absolute;
   top: 15px;
@@ -40,10 +47,9 @@ export default {
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  /* font-size: 20px;
-  font-weight: bold; */
+  /* font-size: 20px; */
+  font-weight: bold;
   z-index: 1000;
-  border-radius: 3px;
   animation: fadein-keyframes 2s 0s 1 forwards;
 }
 
@@ -59,16 +65,7 @@ export default {
   }
 }
 @media (max-width: 640px) {
-  .message#info {
-    padding: 0px 20px;
-    position: absolute;
-    top: 15px;
-    font-size: 15px;
-  }
-  .message#error {
-    padding: 0px 10px;
-    position: absolute;
-    top: 8px;
+  .message {
     font-size: 15px;
   }
 }
