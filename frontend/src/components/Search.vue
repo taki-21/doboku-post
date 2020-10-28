@@ -1,9 +1,6 @@
 <template>
   <div>
     <v-form>
-      <!-- <pre>{{categories}}</pre> -->
-      <!-- <pre>{{periods}}</pre>
-      <pre>{{prefs}}</pre> -->
       <v-container>
         <v-row>
           <v-col cols="12" xs="6" sm="6" md="3">

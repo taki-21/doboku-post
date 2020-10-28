@@ -162,7 +162,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format("MM/DD HH:MM");
+      return moment(date).format("MM月DD日");
     },
   },
 };

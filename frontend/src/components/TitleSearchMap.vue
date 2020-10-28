@@ -21,7 +21,7 @@
                 </div>
               </v-col>
               <v-col cols="12" md="4">
-                <v-btn id="ok_button" @click="call_parent"> OK </v-btn>
+                <v-btn @click="call_parent" class="uk-modal-close" > OK </v-btn>
               </v-col>
             </v-row>
       </div>

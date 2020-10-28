@@ -30,18 +30,18 @@
             <div class="px-3">
               <v-row justify="center">
                 <v-col cols="12" md="7">
-                  <v-card-title class="float-left text-h">
+                  <v-card-title class="float-left text-h4 font-weight-bold">
                     {{ post.title }}
                   </v-card-title>
                   <div class="text-right">
-                    <div>
+                    <v-btn class="px-0" v-if="author.id" text :to="{ name: 'mypage', params: { user_id: author.id } }" style="text-transform: none; text-decoration: none;">
                       <v-avatar size="36px">
                         <img class="user_icon" :src="author.icon_image" />
                       </v-avatar>
-                      <span>
+                      <span class="text-h6">
                         {{ author.username }}
                       </span>
-                    </div>
+                    </v-btn>
                     <div>
                       <span>{{ post.published_at | moment }}</span>
                     </div>
@@ -60,6 +60,7 @@
                   </div>
                   <div v-if="post.address">
                     <v-btn
+                    class="px-10"
                       color="blue-grey lighten-2"
                       id="location_button"
                       :href="modal_href"
@@ -219,7 +220,7 @@ export default {
   },
   filters: {
     moment: function (date) {
-      return moment(date).format("YYYY/MM/DD HH:mm");
+      return moment(date).format("YYYY年MM月DD日");
     },
   },
   props: ["post_id"],

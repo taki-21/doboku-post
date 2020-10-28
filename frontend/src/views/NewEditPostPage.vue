@@ -110,22 +110,23 @@
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
+                          <v-btn
+                          color="grey darken-1"
+                          dark
                             :href="'#modal-center' + title"
                             @click="callChildMethod"
-                            type="button"
                             uk-toggle
+                            small
+                            style="text-decoration: none;"
                           >
                             タイトルから検索
-                          </button>
+                          </v-btn>
                           or
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
+                          <v-btn small color="grey darken-1"
+                          dark
                           >
                             都道府県のみ
-                          </button>
+                          </v-btn>
                         </div>
                         <div
                           :id="'modal-center' + title"
@@ -149,22 +150,16 @@
                             </div>
                           </div>
                         </div>
-                        <ul id="address_form" class="uk-switcher">
+                        <ul class="uk-switcher">
                           <li>
-                            <input
+                            <v-text-field
                               placeholder="住所または都道府県名が入力されます"
-                              class="uk-input"
-                              type="text"
                               v-model="address"
                             />
                           </li>
                           <li>
-                            <select class="uk-select" v-model="prefecture">
-                              <option value>都道府県を選択してください</option>
-                              <option v-for="item in prefs" :key="item.name">
-                                {{ item.name }}
-                              </option>
-                            </select>
+                            <v-select v-model="prefecture" placeholder="都道府県を選択してください" :items="prefs" item-text="name" item-value="name" clearable>
+                            </v-select>
                           </li>
                         </ul>
                       </div>
@@ -187,7 +182,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <!-- </v-container> -->
     </div>
   </div>
 </template>
@@ -427,6 +421,6 @@ export default {
   padding-left: 0px;
 }
 .location_form {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 </style>

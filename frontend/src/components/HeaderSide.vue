@@ -35,10 +35,6 @@
       </v-menu>
     </div>
     <div class="d-sm-none">
-      <!-- <v-switch
-      v-model="closeOnContentClick"
-      label="Close on content click"
-    ></v-switch> -->
       <v-menu offset-y>
         <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" style="text-transform: none">
