@@ -1,7 +1,7 @@
 <template>
   <div v-if="isLoggedIn && user.icon_image">
     <div class="d-none d-sm-flex">
-      <router-link class="router-link" id="post" to="/newpostpage">
+      <router-link class="router-link" to="/newpostpage">
         <v-btn
           depressed
           elevation="3"
@@ -98,50 +98,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-@import "../assets/common.css";
-#post {
-  padding-left: 0;
-}
-
-#userlist_button {
-  background-color: rgba(204, 194, 149, 0.5);
-}
-#post_button {
-  background-color: rgba(225, 225, 225, 0.5);
-}
-#signup_button {
-  background-color: rgba(230, 160, 160, 0.4);
-}
-#login_button {
-  background-color: rgba(150, 210, 200, 0.4);
-}
-.show_user {
-  font-size: large;
-  font-weight: bold;
-  color: #333333;
-  text-decoration: none;
-}
-
-li {
-  list-style: none;
-}
-
-#logout {
-  color: black;
-  text-decoration: none;
-}
-
-.dropdown {
-  margin: 10px auto;
-}
-
-/* UIkitの上書き */
-
-.uk-modal-body {
-  display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
-}
-</style>

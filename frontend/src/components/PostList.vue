@@ -1,10 +1,127 @@
 <template>
   <div>
-    <div v-show="isLoading" class="loader">
-      <span uk-spinner></span>
+    <div v-show="isLoading" class="text-center">
+      <v-progress-circular
+        indeterminate
+        color="blue-gray"
+      ></v-progress-circular>
     </div>
     <div v-show="!isLoading">
-      <div
+      <v-container>
+        <v-row>
+          <v-col
+            class="pa-1 pa-sm-2"
+            v-for="(post, key) in postType"
+            :key="key"
+            cols="6"
+            lg="4"
+            md="4"
+            sm="6"
+            xs="3"
+          >
+          <v-hover>
+      <template v-slot:default="{ hover }">
+            <v-card
+              hover
+              :elevation="hover ? 15 : 3"
+              color="blue-grey lighten-5"
+              style="text-decoration: none"
+              :to="{ name: 'detail', params: { post_id: post.id } }"
+              ><v-img :src="post.image"></v-img>
+              <v-card-title class="pa-2 pa-sm-4">
+                <router-link
+                  class="show_user"
+                  :to="{
+                    name: 'mypage',
+                    params: { user_id: post.author.id },
+                  }"
+                >
+                  <v-btn
+                    text
+                    class="px-0"
+                    style="text-transform: none; text-decoration: none"
+                  >
+                    <v-avatar size="24px" class="mr-2">
+                      <img :src="post.author.icon_image" />
+                    </v-avatar>
+                    <span class="text-body-2 text-sm-h6">{{
+                      post.author.username
+                    }}</span>
+                  </v-btn>
+                </router-link>
+              </v-card-title>
+              <v-card-subtitle class="pb-0 text-center text-caption text-sm-h6">
+                {{ post.title }}
+              </v-card-subtitle>
+              <v-card-actions class="px-2 py-0 px-sm-4 py-sm-2">
+                <div class="timestamp px-0" style="color: #263238">
+                  <span class="px-2">{{ post.published_at | moment }}</span>
+                </div>
+                <div class="prefecture" style="color: #263238">
+                  <span v-if="post.prefecture">{{ post.prefecture }}</span>
+                  <span v-else>---</span>
+                </div>
+
+                <v-spacer></v-spacer>
+                <div class="d-none d-sm-flex">
+                  <v-icon medium class="pr-1">mdi-message-text</v-icon>
+                  {{ post.comments_count }}
+                  <v-icon medium class="ml-2 pr-1">mdi-heart-outline</v-icon>
+                  {{ post.likes_count }}
+                </div>
+                <div class="d-flex d-sm-none">
+                  <v-icon small class="pr-1">mdi-message-text</v-icon>
+                  {{ post.comments_count }}
+                  <v-icon small class="ml-2 pr-1">mdi-heart-outline</v-icon>
+                  {{ post.likes_count }}
+                </div>
+              </v-card-actions>
+              <div v-if="post.author.id == user_id">
+                <div id="edit-delete">
+                  <router-link
+                    class="edit-link"
+                    :to="{ name: 'post_edit', params: { post_id: post.id } }"
+                  >
+                    <i id="" uk-icon="icon: pencil"></i>
+                    <span id="edit-word">編集</span>
+                  </router-link>
+                  <a class="delete-link" :href="'#modal-' + post.id" uk-toggle>
+                    <i id="" uk-icon="icon: trash"></i>
+                    <span id="delete-word">削除</span>
+                  </a>
+                  <div :id="'modal-' + post.id" uk-modal>
+                    <div class="uk-modal-dialog uk-modal-body">
+                      <h2 class="uk-modal-title">削除確認</h2>
+                      <p>
+                        投稿：{{ post.title }}を削除します。よろしいですか？
+                      </p>
+                      <p class="uk-text-right">
+                        <button
+                          class="uk-button uk-button-default uk-modal-close"
+                          type="button"
+                        >
+                          キャンセル
+                        </button>
+                        <button
+                          id="ok_button"
+                          class="uk-button uk-button-default uk-modal-close"
+                          type="button"
+                          @click="DestroyPost(post.id)"
+                        >
+                          OK
+                        </button>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </v-card>
+            </template>
+    </v-hover>
+          </v-col>
+        </v-row>
+      </v-container>
+      <!-- <div
         class="uk-grid-column-small uk-grid-row-small uk-child-width-1-2 uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-3@l uk-text-center"
         uk-grid
       >
@@ -33,7 +150,7 @@
                       v-bind:src="post.author.icon_image"
                     />
                     <span id="author_name">{{ post.author.username }}</span>
-                    <!-- </div> -->
+                     </div>
                   </router-link>
                   <div class="timestamp">
                     <span>{{ post.published_at | moment }}</span>
@@ -98,7 +215,7 @@
             </div>
           </div>
         </router-link>
-      </div>
+      </div> -->
       <div v-if="nextPage">
         <infinite-loading spinner="spiral" @infinite="infiniteHandler">
           <span slot="no-more"></span>
@@ -284,7 +401,7 @@ export default {
   }
   .timestamp {
     font-size: 8px;
-    height:12px;
+    height: 12px;
   }
   .user_icon {
     width: 25px;

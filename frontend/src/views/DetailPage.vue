@@ -30,7 +30,7 @@
             <div class="px-3">
               <v-row justify="center">
                 <v-col cols="12" md="7">
-                  <v-card-title class="float-left text-h4 font-weight-bold">
+                  <v-card-title class="float-left text-lg-h4 text-xs-caption font-weight-bold">
                     {{ post.title }}
                   </v-card-title>
                   <div class="text-right">
@@ -38,7 +38,7 @@
                       <v-avatar size="36px">
                         <img class="user_icon" :src="author.icon_image" />
                       </v-avatar>
-                      <span class="text-h6">
+                      <span class="text-lg-h6">
                         {{ author.username }}
                       </span>
                     </v-btn>

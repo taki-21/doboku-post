@@ -75,17 +75,17 @@
                       <ValidationProvider
                         mode="aggressive"
                         name="タイトル"
-                        rules="required|max:15"
+                        rules="required|max:12"
                         v-slot="{ errors }"
                       >
                         <v-text-field
                           label="タイトル"
                           v-model="title"
-                          :counter="15"
+                          :counter="12"
                           :error-messages="errors"
                           required
                           placeholder="例）明石海峡大橋"
-                          hint=": 15文字以下"
+                          hint=": 12文字以下"
                           persistent-hint
                         ></v-text-field>
                       </ValidationProvider>
@@ -111,7 +111,8 @@
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
                           <v-btn
-                          color="grey darken-1"
+                          color="light-blue darken-4
+"
                           dark
                             :href="'#modal-center' + title"
                             @click="callChildMethod"
@@ -122,7 +123,8 @@
                             タイトルから検索
                           </v-btn>
                           or
-                          <v-btn small color="grey darken-1"
+                          <v-btn small color="light-blue darken-4
+"
                           dark
                           >
                             都道府県のみ
@@ -172,9 +174,16 @@
                     class="mr-4 mt-4"
                     type="submit"
                     :disabled="invalid"
+                    color="blue-grey lighten-2"
                   >
-                    <span v-if="post_id">変更を保存</span>
-                    <span v-else>投稿</span>
+                    <span v-if="post_id">
+                      <v-icon>mdi-content-save</v-icon>
+                      変更を保存
+                      </span>
+                    <span v-else>
+                      <v-icon>mdi-send-outline</v-icon>
+                      投稿
+                      </span>
                   </v-btn>
                 </form>
               </ValidationObserver>
