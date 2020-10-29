@@ -257,13 +257,4 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-
-#search_card {
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: rgb(212, 217, 220);
-  border-radius: 10px;
-  border: 2px solid black;
-  font-size: 18px;
-}
 </style>

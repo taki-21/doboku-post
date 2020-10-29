@@ -349,13 +349,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-#grid {
-  margin-bottom: 20px;
-}
-#new_post_title {
-  font-size: 30px;
-  margin-bottom: 20px;
-}
 
 #form_custom {
   width: 540px;
@@ -413,14 +406,7 @@ export default {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
-#address_form {
-  margin-top: 4px;
-}
 
-#new_post_card {
-  background-color: rgba(225, 215, 205, 0.247);
-  border-radius: 10px;
-}
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);

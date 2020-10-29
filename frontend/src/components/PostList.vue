@@ -21,19 +21,15 @@
           >
             <v-hover>
               <template v-slot:default="{ hover }">
-                <v-card
-                  hover
-                  :elevation="hover ? 15 : 3"
-                  color="blue-grey lighten-5"
-                >
+                <v-card :elevation="hover ? 15 : 3" color="blue-grey lighten-5">
                   <router-link
                     style="text-decoration: none"
                     :to="{ name: 'detail', params: { post_id: post.id } }"
                   >
-                    <v-img :src="post.image"></v-img>
-                    <v-card-title class="pa-2 pa-sm-4">
+                    <v-img eager :src="post.image"></v-img>
+                    <v-card-title class="pa-1 pa-sm-4">
                       <router-link
-                        class="show_user"
+                        style="text-decoration: none"
                         :to="{
                           name: 'mypage',
                           params: { user_id: post.author.id },
@@ -59,12 +55,18 @@
                       {{ post.title }}
                     </v-card-subtitle>
                     <v-card-actions class="px-2 py-0 px-sm-4 py-sm-2">
-                      <div class="timestamp px-0" style="color: #263238">
-                        <span class="px-2">{{
+                      <div
+                        class="px-0 text-caption text-sm-body-2"
+                        style="color: #263238"
+                      >
+                        <span class="px-1 px-sm-2">{{
                           post.published_at | moment
                         }}</span>
                       </div>
-                      <div class="prefecture" style="color: #263238">
+                      <div
+                        class="text-caption text-sm-body-2"
+                        style="color: #263238"
+                      >
                         <span v-if="post.prefecture">{{
                           post.prefecture
                         }}</span>
@@ -85,11 +87,11 @@
                         }}</span>
                       </div>
                       <div class="d-flex d-sm-none">
-                        <v-icon small class="pr-1">mdi-message-text</v-icon>
+                        <v-icon small class="pr-0">mdi-message-text</v-icon>
                         <span style="color: #263238">{{
                           post.comments_count
                         }}</span>
-                        <v-icon small class="ml-2 pr-1"
+                        <v-icon small class="ml-1 pr-0"
                           >mdi-heart-outline</v-icon
                         >
                         <span style="color: #263238">{{
@@ -112,11 +114,7 @@
                         <v-icon>mdi-pencil</v-icon>
                         編集
                       </v-btn>
-                      <v-btn
-                        style="z-index: 100"
-                        text
-                        @click.stop="onClickBtn(post)"
-                      >
+                      <v-btn text @click.stop="onClickBtn(post)">
                         <v-icon>mdi-delete</v-icon>
                         削除
                       </v-btn>
@@ -189,7 +187,7 @@ export default {
 
   methods: {
     DestroyPost(post_id) {
-      this.dialog = false
+      this.dialog = false;
       this.clearSession();
       this.$emit("parentPostDelete", post_id);
     },
@@ -210,7 +208,6 @@ export default {
                 $state.complete();
               } else {
                 this.postType.push(...data.results);
-                // this.page += 1;
                 $state.loaded();
               }
             }
@@ -229,153 +226,3 @@ export default {
   },
 };
 </script>
-
-
-<style scoped>
-@import "../assets/common.css";
-
-.user_icon {
-  width: 35px;
-  height: 35px;
-  border-radius: 50%;
-}
-#card {
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: rgb(145, 163, 174, 0.25);
-  margin-bottom: 20px;
-  max-width: 640px;
-  margin: 0px auto;
-}
-
-.timestamp {
-  font-size: 12px;
-  text-align: right;
-}
-.prefecture {
-  font-size: 12px;
-  text-align: right;
-}
-.show_user {
-  text-decoration: none;
-  float: left;
-  font-size: large;
-  color: #333333;
-}
-.show_user:hover {
-  color: rgba(90, 84, 75, 0.7);
-}
-.post_content {
-  width: 100%;
-  font-size: small;
-  height: 40px;
-}
-.comment_like_icon {
-  text-align: right;
-}
-.comment_like_icon_touch {
-  text-align: right;
-  font-size: 12px;
-}
-#comment_icon {
-  position: relative;
-  top: -1px;
-  margin-right: 3px;
-}
-#like_icon {
-  position: relative;
-  top: -2px;
-  margin-left: 5px;
-  margin-right: 3px;
-}
-#author_name {
-  position: relative;
-  top: 3px;
-  margin-left: 10px;
-  font-size: 20px;
-}
-.edit-link,
-.delete-link {
-  text-decoration: none;
-  color: rgb(50, 50, 50);
-}
-.edit-link:hover,
-.delete-link:hover {
-  text-decoration: none;
-  color: rgba(50, 50, 50, 0.5);
-}
-
-#edit-delete {
-  border-top: 1px solid #b1aeae;
-}
-
-#edit-word {
-  position: relative;
-  top: 1px;
-  margin-left: 2px;
-  margin-right: 10px;
-  font-size: 16px;
-}
-
-#delete-word {
-  position: relative;
-  top: 1px;
-  margin-left: 2px;
-  font-size: 16px;
-}
-
-/* UIkitの上書き */
-.uk-card-body {
-  padding: 10px 20px;
-}
-.uk-comment-header {
-  display: flow-root;
-  margin-bottom: 0px;
-}
-
-.uk-modal-body {
-  display: flow-root;
-  padding: 30px 30px;
-  border-radius: 5px;
-}
-/*レスポンシブ*/
-@media (max-width: 640px) {
-  /* .timestamp, */
-  .prefecture {
-    font-size: 8px;
-  }
-  .timestamp {
-    font-size: 8px;
-    height: 12px;
-  }
-  .user_icon {
-    width: 25px;
-    height: 25px;
-    border-radius: 50%;
-  }
-  .show_user {
-    text-decoration: none;
-    line-height: 25px;
-    float: left;
-    /* font-size: large; */
-    color: #333333;
-  }
-
-  #author_name {
-    position: relative;
-    top: 0px;
-    margin-left: 5px;
-    font-size: 12px;
-  }
-  .uk-card-body {
-    padding: 8px 8px 2px 8px;
-  }
-  #post_title {
-    font-size: 13px;
-  }
-  #edit-word,
-  #delete-word {
-    font-size: 10px;
-  }
-}
-</style>

@@ -266,11 +266,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-.uk-input,
-.uk-textarea {
-  border-color: rgba(150, 150, 150, 0.5);
-}
-
 #form_icon {
   height: 40px;
 }
@@ -294,7 +289,6 @@ export default {
 
 #preview {
   position: relative;
-  /* position: absolute; */
   /* 現在:, 変更:, クリア表示を隠す  */
   top: 0px;
   z-index: 1;
@@ -312,7 +306,6 @@ export default {
 @media (max-width: 640px) {
   #preview_image {
     position: relative;
-
     width: 100%;
     height: auto;
   }

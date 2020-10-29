@@ -30,13 +30,21 @@
             <div class="px-3">
               <v-row justify="center">
                 <v-col cols="12" md="7">
-                  <v-card-title class="float-left text-lg-h4 text-xs-caption font-weight-bold">
+                  <v-card-title
+                    class="float-left text-lg-h4 text-xs-caption font-weight-bold"
+                  >
                     {{ post.title }}
                   </v-card-title>
                   <div class="text-right">
-                    <v-btn class="px-0" v-if="author.id" text :to="{ name: 'mypage', params: { user_id: author.id } }" style="text-transform: none; text-decoration: none;">
-                      <v-avatar size="36px">
-                        <img class="user_icon" :src="author.icon_image" />
+                    <v-btn
+                      class="px-0"
+                      v-if="author.id"
+                      text
+                      :to="{ name: 'mypage', params: { user_id: author.id } }"
+                      style="text-transform: none; text-decoration: none"
+                    >
+                      <v-avatar size="36px" class="ma-2">
+                        <img :src="author.icon_image" />
                       </v-avatar>
                       <span class="text-lg-h6">
                         {{ author.username }}
@@ -60,7 +68,7 @@
                   </div>
                   <div v-if="post.address">
                     <v-btn
-                    class="px-10"
+                      class="px-10"
                       color="blue-grey lighten-2"
                       id="location_button"
                       :href="modal_href"
@@ -130,20 +138,27 @@
                               class="uk-comment-header uk-position-relative"
                             >
                               <div>
-                                <router-link
-                                  class="show_user"
+                                <v-btn
+                                  class="px-0 float-left"
+                                  v-if="author.id"
+                                  text
                                   :to="{
                                     name: 'mypage',
                                     params: { user_id: comment.author.id },
                                   }"
+                                  style="
+                                    text-transform: none;
+                                    text-decoration: none;
+                                  "
                                 >
-                                  <img
-                                    class="comment_user_icon"
-                                    :src="comment.author.icon_image"
-                                  />
-                                  <strong>{{ comment.author.username }}</strong>
-                                </router-link>
-                                <div class="timestamp">
+                                  <v-avatar size="36px" class="ma-2">
+                                    <img :src="comment.author.icon_image" />
+                                  </v-avatar>
+                                  <span class="text-lg-h6">
+                                    {{ comment.author.username }}
+                                  </span>
+                                </v-btn>
+                                <div class="text-right text-body-2">
                                   <span>{{ comment.timestamp | moment }}</span>
                                 </div>
                               </div>
@@ -152,7 +167,7 @@
                               <div>{{ comment.text }}</div>
                             </div>
                             <div
-                              id="delete-icon"
+                              class="text-right"
                               v-if="comment.author.id == login_user_id"
                             >
                               <v-btn
@@ -363,43 +378,11 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-.v-card__subtitle {
-  padding-top: 2px;
-}
 
 html {
   overflow: overlay;
 }
-#content {
-  margin: 0px auto 10px;
-}
-.show_user {
-  text-decoration: none;
-  line-height: 45px;
-  font-size: large;
-  float: left;
-  color: #333333;
-}
-.show_user:hover {
-  color: rgba(90, 84, 75, 0.7);
-}
 
-.v-application ol,
-.v-application ul {
-  padding-left: 0px;
-}
-.user_icon {
-  width: 35px;
-  height: 35px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
-.comment_user_icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
-  border-radius: 50%;
-}
 #post_content {
   word-break: break-all;
   margin: 0px 0px 10px 0px;
@@ -414,7 +397,6 @@ html {
 #location_button {
   float: left;
   margin-top: 18px;
-  color: #333;
   text-decoration: none;
 }
 #like_buttun {
@@ -428,16 +410,6 @@ html {
   top: 8px;
 }
 
-.timestamp {
-  max-width: 640px;
-  font-size: 12px;
-  text-align: right;
-}
-.prefecture {
-  max-width: 640px;
-  font-size: 18px;
-  text-align: right;
-}
 
 .logbox {
   height: 520px;
@@ -461,9 +433,6 @@ html {
   border-radius: 10px;
 }
 
-#delete-icon {
-  text-align: right;
-}
 
 /* UIkitの上書き */
 

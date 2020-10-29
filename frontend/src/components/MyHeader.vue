@@ -1,22 +1,25 @@
 <template>
-  <div>
-      <v-toolbar-title>
-        <router-link class="router-link" to="/">
-          <div class="title_content">
-            <img class="doboku_icon" src="../assets/doboku.png" />
-            <span id="title">DOBOKU_Post</span>
-          </div>
-        </router-link>
-      </v-toolbar-title>
-      <div class="flex-grow-1"></div>
-      <nav>
-        <HeaderSide />
-      </nav>
-  </div>
+  <v-app-bar app color="blue-grey lighten-2">
+    <v-app-bar-nav-icon class="d-none"></v-app-bar-nav-icon>
+    <v-toolbar-title class="pl-0 pl-sm-5">
+      <router-link to="/" id="title">
+        <v-btn icon class="mb-2" depressed disabled>
+          <v-img
+            src="../assets/doboku.png"
+            max-width="35px"
+            max-height="35px"
+          />
+        </v-btn>
+        DOBOKU_Post
+      </router-link>
+    </v-toolbar-title>
+    <v-spacer></v-spacer>
+    <HeaderSide />
+  </v-app-bar>
 </template>
 
 <script>
-import HeaderSide from "../components/HeaderSide";
+import HeaderSide from "@/components/HeaderSide";
 export default {
   components: {
     HeaderSide,
@@ -27,53 +30,10 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-.title-header {
-  background-color: rgba(135, 135, 135, 1);
-  display: flex;
-  align-items: center;
-}
-.doboku_icon {
-  width: 40px;
-  height: 40px;
-  position: relative;
-  top: 12px;
-  margin-right: 8px;
-}
-
-.title_content {
-  text-decoration: none;
-  color: black;
-  display: flex;
-}
 #title {
+  text-decoration: none;
   font-size: 40px;
   font-family: "Economica";
-  position: relative;
-  top: 2px;
-}
-
-nav {
-  margin: 0 0 0 auto;
-  padding-top: 22px;
-}
-
-@media (max-width: 640px) {
-  .title-header {
-  height: 45px;
-}
-
-  #title {
-    font-size: 30px;
-    font-family: "Economica";
-    position: relative;
-    top: 1px;
-  }
-  .doboku_icon {
-    width: 30px;
-    height: 30px;
-    position: relative;
-    top: 7px;
-    margin-right: 6px;
-  }
+  color: black;
 }
 </style>

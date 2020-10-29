@@ -11,7 +11,7 @@
           ><v-icon>mdi-pencil-outline</v-icon>投稿する</v-btn
         >
       </router-link>
-      <v-menu offset-y close-on-click>
+      <v-menu offset-y close-on-content-click>
         <template v-slot:activator="{ on, attrs }">
           <v-btn
             text
@@ -35,7 +35,7 @@
       </v-menu>
     </div>
     <div class="d-sm-none">
-      <v-menu offset-y>
+      <v-menu offset-y close-on-content-click>
         <template v-slot:activator="{ on, attrs }">
           <v-btn text v-bind="attrs" v-on="on" style="text-transform: none">
             <v-avatar size="40px">

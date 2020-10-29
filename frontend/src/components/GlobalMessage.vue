@@ -72,7 +72,6 @@ export default {
   transform: translateX(-50%);
   -webkit-transform: translateX(-50%);
   -ms-transform: translateX(-50%);
-  /* font-size: 20px; */
   font-weight: bold;
   z-index: 1000;
   animation: fadein-keyframes 2s 0s 1 forwards;
