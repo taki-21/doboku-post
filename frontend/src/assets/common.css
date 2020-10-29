@@ -1,15 +1,4 @@
-::-webkit-scrollbar-thumb {
-  background-color: rgba(208, 210, 212, 0.993);
-  border-right: none;
-}
 
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar {
-  width: 10px;
-}
 
 .router-link {
   text-decoration: none;

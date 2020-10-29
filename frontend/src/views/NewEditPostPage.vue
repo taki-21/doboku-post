@@ -75,17 +75,17 @@
                       <ValidationProvider
                         mode="aggressive"
                         name="タイトル"
-                        rules="required|max:15"
+                        rules="required|max:12"
                         v-slot="{ errors }"
                       >
                         <v-text-field
                           label="タイトル"
                           v-model="title"
-                          :counter="15"
+                          :counter="12"
                           :error-messages="errors"
                           required
                           placeholder="例）明石海峡大橋"
-                          hint=": 15文字以下"
+                          hint=": 12文字以下"
                           persistent-hint
                         ></v-text-field>
                       </ValidationProvider>
@@ -110,22 +110,25 @@
                         <div
                           uk-switcher="animation: uk-animation-fade; toggle: > *"
                         >
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
+                          <v-btn
+                          color="light-blue darken-4
+"
+                          dark
                             :href="'#modal-center' + title"
                             @click="callChildMethod"
-                            type="button"
                             uk-toggle
+                            small
+                            style="text-decoration: none;"
                           >
                             タイトルから検索
-                          </button>
+                          </v-btn>
                           or
-                          <button
-                            class="uk-button uk-button-secondary uk-button-small"
-                            type="button"
+                          <v-btn small color="light-blue darken-4
+"
+                          dark
                           >
                             都道府県のみ
-                          </button>
+                          </v-btn>
                         </div>
                         <div
                           :id="'modal-center' + title"
@@ -149,22 +152,16 @@
                             </div>
                           </div>
                         </div>
-                        <ul id="address_form" class="uk-switcher">
+                        <ul class="uk-switcher">
                           <li>
-                            <input
+                            <v-text-field
                               placeholder="住所または都道府県名が入力されます"
-                              class="uk-input"
-                              type="text"
                               v-model="address"
                             />
                           </li>
                           <li>
-                            <select class="uk-select" v-model="prefecture">
-                              <option value>都道府県を選択してください</option>
-                              <option v-for="item in prefs" :key="item.name">
-                                {{ item.name }}
-                              </option>
-                            </select>
+                            <v-select v-model="prefecture" placeholder="都道府県を選択してください" :items="prefs" item-text="name" item-value="name" clearable>
+                            </v-select>
                           </li>
                         </ul>
                       </div>
@@ -177,9 +174,16 @@
                     class="mr-4 mt-4"
                     type="submit"
                     :disabled="invalid"
+                    color="blue-grey lighten-2"
                   >
-                    <span v-if="post_id">変更を保存</span>
-                    <span v-else>投稿</span>
+                    <span v-if="post_id">
+                      <v-icon>mdi-content-save</v-icon>
+                      変更を保存
+                      </span>
+                    <span v-else>
+                      <v-icon>mdi-send-outline</v-icon>
+                      投稿
+                      </span>
                   </v-btn>
                 </form>
               </ValidationObserver>
@@ -187,7 +191,6 @@
           </v-card>
         </v-col>
       </v-row>
-      <!-- </v-container> -->
     </div>
   </div>
 </template>
@@ -346,13 +349,6 @@ export default {
 <style scoped>
 @import "../assets/common.css";
 
-#grid {
-  margin-bottom: 20px;
-}
-#new_post_title {
-  font-size: 30px;
-  margin-bottom: 20px;
-}
 
 #form_custom {
   width: 540px;
@@ -410,14 +406,7 @@ export default {
   transition: 0.3s linear;
   transition-property: opacity, transform;
 }
-#address_form {
-  margin-top: 4px;
-}
 
-#new_post_card {
-  background-color: rgba(225, 215, 205, 0.247);
-  border-radius: 10px;
-}
 #select_way {
   font-size: 14px;
   color: rgb(145, 91, 56);
@@ -427,6 +416,6 @@ export default {
   padding-left: 0px;
 }
 .location_form {
-  margin-top: 20px;
+  margin-top: 15px;
 }
 </style>

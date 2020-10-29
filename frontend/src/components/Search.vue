@@ -1,9 +1,6 @@
 <template>
   <div>
     <v-form>
-      <!-- <pre>{{categories}}</pre> -->
-      <!-- <pre>{{periods}}</pre>
-      <pre>{{prefs}}</pre> -->
       <v-container>
         <v-row>
           <v-col cols="12" xs="6" sm="6" md="3">
@@ -260,13 +257,4 @@ export default {
 
 <style scoped>
 @import "../assets/common.css";
-
-#search_card {
-  margin-bottom: 20px;
-  padding: 20px;
-  background-color: rgb(212, 217, 220);
-  border-radius: 10px;
-  border: 2px solid black;
-  font-size: 18px;
-}
 </style>

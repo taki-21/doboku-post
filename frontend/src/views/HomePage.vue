@@ -73,13 +73,13 @@ export default {
 .content {
   margin: 10px auto 20px;
   max-width: 1200px;
-  padding: 10px 30px;
+  padding: 0px 15px;
 }
 
 @media (max-width: 640px) {
   .content {
     margin: 5px auto 10px;
-    padding: 5px 15px;
+    padding: 5px 5px;
   }
 }
 </style>

@@ -1,22 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar app color="blue-grey lighten-2">
-      <v-app-bar-nav-icon class="d-none"></v-app-bar-nav-icon>
-      <v-toolbar-title>
-        <router-link to="/" id="title">
-          <v-btn icon class="mb-2" disable>
-            <v-img
-              src="./assets/doboku.png"
-              max-width="35px"
-              max-height="35px"
-            />
-          </v-btn>
-          DOBOKU_Post
-        </router-link>
-      </v-toolbar-title>
-      <v-spacer></v-spacer>
-      <HeaderSide/>
-    </v-app-bar>
+    <MyHeader />
     <GlobalMessage />
     <v-main>
       <v-container fluid>
@@ -27,31 +11,29 @@
 </template>
 
 <script>
-import HeaderSide from "./components/HeaderSide";
-import GlobalMessage from "@/components/GlobalMessage.vue";
-import { mapGetters } from "vuex";
+import MyHeader from "@/components/MyHeader";
+import GlobalMessage from "@/components/GlobalMessage";
 
 export default {
   components: {
-    HeaderSide,
+    MyHeader,
     GlobalMessage,
-  },
-  computed: {
-    ...mapGetters("user", {
-      user: "getUser",
-    }),
-    ...mapGetters("user", {
-      user: "getUser",
-    }),
-    isLoggedIn: function () {
-      return this.$store.getters["auth/isLoggedIn"];
-    },
   },
 };
 </script>
 <style>
-@import "./assets/common.css";
+::-webkit-scrollbar-thumb {
+  background-color: rgba(208, 210, 212, 0.993);
+  border-right: none;
+}
 
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
 /* html {
   overflow: overlay;
 } */
@@ -61,13 +43,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 } */
-#title {
-  height: 50px;
-  text-decoration: none;
-  color: black;
-  font-size: 40px;
-  font-family: "Economica";
-}
 
 .v-enter-active {
   transition: opacity 0.4s;
@@ -83,4 +58,8 @@ export default {
 .v-leave-to {
   opacity: 0;
 }
+@media (min-width: 960px){
+.container {
+    max-width: 1400px;
+}}
 </style>

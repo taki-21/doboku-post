@@ -42,8 +42,11 @@
       </div>
     </div>
     <div>
-      <div v-show="isLoading" class="loader">
-        <span uk-spinner></span>
+      <div v-show="isLoading" class="text-center">
+        <v-progress-circular
+          indeterminate
+          color="blue-gray"
+        ></v-progress-circular>
       </div>
       <div v-show="!isLoading">
         <PostList :postType="filterPosts" />
