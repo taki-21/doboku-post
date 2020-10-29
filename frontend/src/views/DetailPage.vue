@@ -382,7 +382,10 @@ export default {
 html {
   overflow: overlay;
 }
-
+.v-application ul,
+.v-application ol {
+  padding-left: 0px;
+}
 #post_content {
   word-break: break-all;
   margin: 0px 0px 10px 0px;
@@ -410,7 +413,6 @@ html {
   top: 8px;
 }
 
-
 .logbox {
   height: 520px;
   overflow-y: scroll;
@@ -432,7 +434,6 @@ html {
   padding: 0px 0px;
   border-radius: 10px;
 }
-
 
 /* UIkitの上書き */
 
