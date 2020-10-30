@@ -2,13 +2,14 @@ from django.shortcuts import get_object_or_404
 from rest_framework import authentication, permissions, generics, views, status, pagination, response
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
-from .models import Post, Category, Comment, Like
+from .models import Post, Category, Comment, Like, Connection
 from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, PostLikeSerializer, CommentSerializer, LikeSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsOwnerOrReadOnly, UserIsOwnerOrReadOnly
+
 
 def Response_unauthorized():
     return Response({"detail": "権限がありません。"}, status.HTTP_401_UNAUTHORIZED)
@@ -141,3 +142,11 @@ class LikeDestroyAPIView(generics.DestroyAPIView):
     """いいねモデルの削除APIクラス"""
     permission_classes = [IsOwnerOrReadOnly]
     queryset = Like.objects.all()
+
+
+class ConnectionListCreateAPIView(generics.ListCreateAPIView):
+    """コネクションモデルの取得（一覧）・投稿APIクラス"""
+    queryset = Connection.objects.all()
+    serializer_class = LikeSerializer
+    filter_class = LikeFilter
+    pagination_class = StandardResultsSetPagination

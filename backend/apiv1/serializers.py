@@ -6,9 +6,46 @@ from django.contrib.auth.hashers import make_password
 
 class UserSerializer(serializers.ModelSerializer):
     """ユーザー一覧シリアライザー"""
+    followings_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+    is_following = serializers.SerializerMethodField()
+
     class Meta:
         model = get_user_model()
-        fields = '__all__'
+        fields = (
+            'id',
+            'password',
+            'last_login', 'is_superuser",
+            'first_name',
+            'last_name',
+            'is_staff',
+            'is_active',
+            'date_joined',
+            'email',
+            'username',
+            'introduction',
+            'icon_image',
+            'groups',
+            'user_permissions',
+            'followings_count',
+            'followers_count',
+            'is_following'
+        )
+        # fields = '__all__'
+
+    def get_followings_count(self, obj):
+        return obj.get_followings().count()
+
+    def get_followers_count(self, obj):
+        return obj.get_followers().count()
+
+    def get_is_following(self, obj):
+        user = self.context['request'].user
+
+        if user.is_authenticated:
+            return obj in user.get_followings()
+        else:
+            return False
 
     def create(self, validated_data):
         password = validated_data.get('password', None)
@@ -134,3 +171,6 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('id', 'author', 'post', 'post_id')
+
+class ConnectionSerializer(serializers.ModelSerializer):
+    
