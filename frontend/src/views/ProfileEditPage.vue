@@ -84,7 +84,7 @@
                         ></v-text-field>
                       </ValidationProvider>
                       <ValidationProvider
-                        mode="lazy"
+                        mode="aggressive"
                         name="入力内容"
                         rules="required"
                         v-slot="{ errors }"

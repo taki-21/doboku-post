@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Category, Post, Comment, Like
+from .models import Category, Post, Comment, Like, Connection
 from django.contrib.auth.hashers import make_password
 
 
@@ -8,14 +8,14 @@ class UserSerializer(serializers.ModelSerializer):
     """ユーザー一覧シリアライザー"""
     followings_count = serializers.SerializerMethodField()
     followers_count = serializers.SerializerMethodField()
-    is_following = serializers.SerializerMethodField()
 
     class Meta:
         model = get_user_model()
         fields = (
             'id',
             'password',
-            'last_login', 'is_superuser",
+            'last_login',
+            'is_superuser',
             'first_name',
             'last_name',
             'is_staff',
@@ -29,23 +29,14 @@ class UserSerializer(serializers.ModelSerializer):
             'user_permissions',
             'followings_count',
             'followers_count',
-            'is_following'
         )
         # fields = '__all__'
 
     def get_followings_count(self, obj):
-        return obj.get_followings().count()
+        return obj.following.count()
 
     def get_followers_count(self, obj):
-        return obj.get_followers().count()
-
-    def get_is_following(self, obj):
-        user = self.context['request'].user
-
-        if user.is_authenticated:
-            return obj in user.get_followings()
-        else:
-            return False
+        return obj.follower.count()
 
     def create(self, validated_data):
         password = validated_data.get('password', None)
@@ -173,4 +164,6 @@ class LikeSerializer(serializers.ModelSerializer):
         fields = ('id', 'author', 'post', 'post_id')
 
 class ConnectionSerializer(serializers.ModelSerializer):
-    
+    class Meta:
+        model = Connection
+        fields = ('id', 'follower', 'following')

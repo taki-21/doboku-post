@@ -1,6 +1,6 @@
 <template>
   <div>
-        <v-btn
+    <v-btn
       class="mx-2 d-none d-sm-flex"
       @click="$router.back()"
       fab
@@ -24,7 +24,6 @@
     >
       <v-icon dark> mdi-plus </v-icon>
     </v-btn>
-
     <div class="content_profilecard">
       <div
         id="profile_card"
@@ -75,6 +74,15 @@
               <div v-if="Person.introduction === null"></div>
               <div v-else>{{ Person.introduction }}</div>
             </div>
+          </div>
+          <div>
+            <span>フォロー</span>
+            <span>{{ Person.followings_count }}</span>
+            <span>フォロワー</span>
+            <span>{{ followersCount }}</span>
+          </div>
+          <div v-if="user_id != login_user_id && isLoggedIn">
+            <v-btn @click="toggleFollow()"> フォローする </v-btn>
           </div>
         </div>
         <div class="uk-width-2-5@s uk-width-1-4">
@@ -172,6 +180,10 @@ export default {
       login_user_icon_image: this.$store.getters["user/icon_image"],
       login_user_username: this.$store.getters["user/username"],
       login_user_introduction: this.$store.getters["user/introduction"],
+      isFollowing: false,
+      followersCount: "",
+      connectionId: "",
+      isProcessing: false,
     };
   },
   computed: {
@@ -181,6 +193,10 @@ export default {
     ...mapGetters("category", {
       categories: "categories",
     }),
+    isLoggedIn() {
+      return this.$store.getters["auth/isLoggedIn"];
+    },
+
     myCategories() {
       return this.previousPosts.map((x) => x.category.id);
     },
@@ -208,6 +224,8 @@ export default {
   },
   async mounted() {
     console.log("mounted!!!!");
+    this.setPerson();
+    this.confirmFollow();
     this.setPerson();
     const labels = this.categories.map((x) => x.name);
     this.options.animation.animateRotate = true;
@@ -249,7 +267,58 @@ export default {
     setPerson() {
       api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
+        this.followersCount = response.data.followers_count;
       });
+    },
+    confirmFollow() {
+      api
+        .get("/connections/", {
+          params: {
+            follower: this.user_id,
+            following: this.login_user_id,
+          },
+        })
+        .then((response) => {
+          console.log('response.data[0]' + response.data[0])
+          if (response.data[0]) {
+            console.log('あああ')
+            this.isFollowing = true;
+            console.log('response.data[0].id' + response.data[0])
+            this.connectionId = response.data[0].id;
+          }
+        });
+    },
+    toggleFollow() {
+      this.isProcessing = true;
+      this.isFollowing ? this.Unfollow() : this.Follow();
+      return new Promise((resolve) => {
+        setTimeout(() => {
+          this.isProcessing = false;
+          resolve();
+        }, 500);
+      });
+    },
+    Follow() {
+      console.log("----Follow----");
+      this.followersCount += 1;
+      this.isFollowing = true
+      api
+        .post("/connections/", {
+          follower: this.user_id,
+          following: this.login_user_id,
+        }).then((response) => {
+          this.connectionId = response.data.id
+        })
+    },
+    Unfollow() {
+      console.log("----Unfollow----");
+      this.followersCount -= 1;
+      this.isFollowing = false
+      api
+        .delete("/connections/" + this.connectionId + "/", {
+          follower: this.user_id,
+          following: this.login_user_id,
+        })
     },
   },
 };

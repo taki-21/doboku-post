@@ -3,7 +3,7 @@ from rest_framework import authentication, permissions, generics, views, status,
 from rest_framework.response import Response
 from django.contrib.auth import get_user_model
 from .models import Post, Category, Comment, Like, Connection
-from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, PostLikeSerializer, CommentSerializer, LikeSerializer
+from .serializers import UserSerializer, CategorySerializer, PostSerializer, PostMiniSerializer, PostLikeSerializer, CommentSerializer, LikeSerializer, ConnectionSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from django_filters import rest_framework as filters
 from rest_framework.filters import OrderingFilter
@@ -95,13 +95,6 @@ class PostMiniListAPIView(generics.ListAPIView):
     filter_class = PostMiniFilter
 
 
-# class PostMiniRetrieveAPIView(generics.RetrieveAPIView):
-#     """投稿の位置モデルの取得（詳細）・更新・削除APIクラス"""
-
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
-
-
 class CommentFilter(filters.FilterSet):
     class Meta:
         model = Comment
@@ -144,9 +137,19 @@ class LikeDestroyAPIView(generics.DestroyAPIView):
     queryset = Like.objects.all()
 
 
+class ConnectionFilter(filters.FilterSet):
+    class Meta:
+        model = Connection
+        fields = ['follower', 'following']
+
+
 class ConnectionListCreateAPIView(generics.ListCreateAPIView):
     """コネクションモデルの取得（一覧）・投稿APIクラス"""
     queryset = Connection.objects.all()
-    serializer_class = LikeSerializer
-    filter_class = LikeFilter
-    pagination_class = StandardResultsSetPagination
+    serializer_class = ConnectionSerializer
+    filter_class = ConnectionFilter
+
+
+class ConnectionDestroyAPIView(generics.DestroyAPIView):
+    """コネクションモデルの削除APIクラス"""
+    queryset = Connection.objects.all()
