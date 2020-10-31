@@ -1,11 +1,6 @@
 <template>
   <div>
-    <div
-      class="uk-card uk-card-default uk-card-body uk-width-1-1@m"
-      tabindex="-1"
-      uk-slider="finite: false"
-      id="category_card"
-    >
+    <v-card :ripple="false" color="blue-grey darken-1" elevation="5" shaped tabindex="-1" uk-slider="finite: false">
       <div class="uk-position-relative" id="category_card_content">
         <ul
           id="category_choice"
@@ -40,7 +35,7 @@
           uk-slider-item="next"
         ></a>
       </div>
-    </div>
+    </v-card>
     <div>
       <div v-show="isLoading" class="text-center">
         <v-progress-circular
@@ -142,7 +137,7 @@ export default {
             this.nextPage = true;
           }
         });
-      this.isLoading= false;
+      this.isLoading = false;
     },
 
     resetHandler() {
@@ -213,7 +208,7 @@ input[type="radio"] {
   padding: 5px 5px;
   outline: none;
   /* border: 2px solid rgb(0, 0, 0); */
-  background-color: rgb(145, 163, 174, 0.1);
+  background-color: #90a4ae;
 }
 #category_card_content {
   padding: 5px 40px;
@@ -228,7 +223,7 @@ input[type="radio"] {
   color: #000000; /*文字色*/
   box-shadow: 0px 3px 3px rgba(0, 0, 0, 0.29);
 }
-#category_label:hover{
+#category_label:hover {
   cursor: pointer;
 }
 #previous_icon {
@@ -242,26 +237,4 @@ input[type="radio"] {
   color: #000000;
 }
 
-@media (max-width: 640px) {
-  #category_card {
-    margin-bottom: 10px;
-    padding: 2px 5px 3px 5px;
-    outline: none;
-    border: 1px solid rgb(0, 0, 0);
-    /* background-color: rgb(236, 231, 225); */
-  }
-
-  #category_label {
-    font-size: 15px;
-    height: 22px;
-    line-height: 22px;
-    padding: 0.1em 1em;
-    margin-top: 0.1em;
-    text-decoration: none;
-    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.29);
-  }
-  #category_card_content {
-    padding: 0px 40px;
-  }
-}
 </style>

@@ -80,3 +80,10 @@ class Like(models.Model):
         Post,
         on_delete=models.CASCADE,
         related_name='like_post')
+
+class Connection(models.Model):
+    follower = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='follower')
+    following = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="following")
+
+    def __str__(self):
+        return "{} : {}".format(self.follower.username, self.following.username)
