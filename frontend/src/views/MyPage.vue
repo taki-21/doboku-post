@@ -24,8 +24,91 @@
     >
       <v-icon dark> mdi-plus </v-icon>
     </v-btn>
-    <div class="content_profilecard">
-      <div
+    <div class="content">
+      <v-card class="mb-2">
+        <v-row no-gutters>
+          <v-col cols="6" lg="3" md="3" sm="3" xs="3">
+            <v-img :src="login_user_icon_image"> </v-img>
+          </v-col>
+          <v-col cols="6" lg="4" md="3" sm="9" xs="3" class="pa-md-3">
+            <v-card-title
+              v-if="user_id == login_user_id"
+              class="text-h5 text-sm-h4 text-md-h4 text-lg-h3 pa-2 pa-sm-4"
+            >
+              {{ login_user_username }}
+              <v-btn
+                v-if="user_id == login_user_id"
+                style="text-decoration: none"
+                fab
+                x-small
+                class="ml-4"
+                color="indigo lighten-4"
+                to="/profile_edit"
+              >
+                <v-icon>mdi-account-edit</v-icon>
+              </v-btn>
+            </v-card-title>
+            <v-card-title
+              v-else
+              class="text-h5 text-sm-h4 text-md-h4 text-lg-h3"
+              >{{ Person.username }}</v-card-title
+            >
+            <v-card-text class="pa-2 pa-sm-4">
+              <div v-if="user_id == login_user_id">
+                <div v-if="login_user_introduction === null"></div>
+                <div v-else>{{ login_user_introduction }}</div>
+              </div>
+              <div v-else>
+                <div v-if="Person.introduction === null"></div>
+                <div v-else>{{ Person.introduction }}</div>
+              </div>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn text outlined class="text-caption text-sm-body-2">
+                フォロー
+                {{ Person.followings_count }}
+              </v-btn>
+              <v-btn text outlined class="text-caption text-sm-body-2">
+                フォロワー
+                {{ followersCount }}
+              </v-btn>
+            </v-card-actions>
+            <v-card-actions v-if="user_id != login_user_id && isLoggedIn">
+              <v-btn
+                v-if="!isFollowing"
+                block
+                class="text-sm-body-1 font-weight-black"
+                @click="toggleFollow()"
+              >
+                フォローする
+              </v-btn>
+              <v-btn
+                v-if="isFollowing"
+                block
+                dark
+                class="text-sm-body-1 font-weight-black"
+                color="blue-grey darken-2"
+                @click="toggleFollow()"
+              >
+                フォロー中
+              </v-btn>
+            </v-card-actions>
+          </v-col>
+          <v-col cols="12" lg="5" md="6" class="d-none d-md-flex">
+            <div v-if="previousPosts[0]" class="chart">
+              <div id="piechart">
+                <PieChart
+                  v-if="loaded"
+                  :data="pieChartData"
+                  :options="options"
+                  style="position: relative; width: 460px; height: 220px"
+                ></PieChart>
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-card>
+      <!-- <div
         id="profile_card"
         class="uk-card uk-card-default uk-grid-collapse uk-margin"
         uk-grid
@@ -56,11 +139,12 @@
             <div v-if="user_id == login_user_id">
               <router-link class="router-link" to="/profile_edit">
                 <v-btn
-                  class="mt-sm-5 ml-sm-3 mt-2 ml-2"
+                  class="mt-sm-4 ml-sm-3 mt-1 ml-2"
                   color="indigo lighten-4"
-                  x-small
+                  small
                 >
                   <v-icon>mdi-account-edit</v-icon>
+                  編集
                 </v-btn>
               </router-link>
             </div>
@@ -97,7 +181,7 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <v-tabs color="blue-grey lighten-2" centered show-arrows>
         <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
           <v-icon left>mdi-history</v-icon>
@@ -279,11 +363,11 @@ export default {
           },
         })
         .then((response) => {
-          console.log('response.data[0]' + response.data[0])
+          console.log("response.data[0]" + response.data[0]);
           if (response.data[0]) {
-            console.log('あああ')
+            console.log("あああ");
             this.isFollowing = true;
-            console.log('response.data[0].id' + response.data[0])
+            console.log("response.data[0].id" + response.data[0]);
             this.connectionId = response.data[0].id;
           }
         });
@@ -301,24 +385,24 @@ export default {
     Follow() {
       console.log("----Follow----");
       this.followersCount += 1;
-      this.isFollowing = true
+      this.isFollowing = true;
       api
         .post("/connections/", {
           follower: this.user_id,
           following: this.login_user_id,
-        }).then((response) => {
-          this.connectionId = response.data.id
         })
+        .then((response) => {
+          this.connectionId = response.data.id;
+        });
     },
     Unfollow() {
       console.log("----Unfollow----");
       this.followersCount -= 1;
-      this.isFollowing = false
-      api
-        .delete("/connections/" + this.connectionId + "/", {
-          follower: this.user_id,
-          following: this.login_user_id,
-        })
+      this.isFollowing = false;
+      api.delete("/connections/" + this.connectionId + "/", {
+        follower: this.user_id,
+        following: this.login_user_id,
+      });
     },
   },
 };
@@ -355,11 +439,11 @@ export default {
   font-weight: bold;
 }
 
-.content_profilecard {
+/* .content_profilecard {
   margin: 0px auto;
   max-width: 1200px;
   padding: 0px 30px;
-}
+} */
 .content {
   margin: 20px auto;
   max-width: 1200px;
@@ -413,9 +497,9 @@ export default {
     white-space: pre-wrap;
   }
 }
-@media (max-width: 1000px) {
+/* @media (max-width: 1000px) {
   .chart {
     display: none;
   }
-}
+} */
 </style>
