@@ -1,14 +1,42 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from .models import Category, Post, Comment, Like
+from .models import Category, Post, Comment, Like, Connection
 from django.contrib.auth.hashers import make_password
 
 
 class UserSerializer(serializers.ModelSerializer):
     """ユーザー一覧シリアライザー"""
+    followings_count = serializers.SerializerMethodField()
+    followers_count = serializers.SerializerMethodField()
+
     class Meta:
         model = get_user_model()
-        fields = '__all__'
+        fields = (
+            'id',
+            'password',
+            'last_login',
+            'is_superuser',
+            'first_name',
+            'last_name',
+            'is_staff',
+            'is_active',
+            'date_joined',
+            'email',
+            'username',
+            'introduction',
+            'icon_image',
+            'groups',
+            'user_permissions',
+            'followings_count',
+            'followers_count',
+        )
+        # fields = '__all__'
+
+    def get_followings_count(self, obj):
+        return obj.following.count()
+
+    def get_followers_count(self, obj):
+        return obj.follower.count()
 
     def create(self, validated_data):
         password = validated_data.get('password', None)
@@ -134,3 +162,33 @@ class LikeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('id', 'author', 'post', 'post_id')
+
+
+class ConnectionSerializer(serializers.ModelSerializer):
+    follower = UserSerializer(read_only=True)
+    follower_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(), write_only=True)
+
+    following = UserSerializer(read_only=True)
+    following_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(), write_only=True)
+
+    def create(self, validated_data):
+        validated_data['follower'] = validated_data.get(
+            'follower_id', None)
+        validated_data['following'] = validated_data.get(
+            'following_id', None)
+
+        if validated_data['follower'] is None:
+            raise serializers.ValidationError('follower not found.')
+        if validated_data['following'] is None:
+            raise serializers.ValidationError('following not found.')
+
+        del validated_data['follower_id']
+        del validated_data['following_id']
+        return Connection.objects.create(**validated_data)
+
+
+    class Meta:
+        model = Connection
+        fields = ('id', 'follower', 'follower_id', 'following', 'following_id')

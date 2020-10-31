@@ -63,7 +63,7 @@
                   </v-card-subtitle>
                   <div uk-lightbox>
                     <a :href="post.raw_image">
-                      <v-img id="post_image" :src="post.image"></v-img>
+                      <v-img eager id="post_image" :src="post.image"></v-img>
                     </a>
                   </div>
                   <div v-if="post.address">
