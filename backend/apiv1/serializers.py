@@ -163,7 +163,32 @@ class LikeSerializer(serializers.ModelSerializer):
         model = Like
         fields = ('id', 'author', 'post', 'post_id')
 
+
 class ConnectionSerializer(serializers.ModelSerializer):
+    follower = UserSerializer(read_only=True)
+    follower_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(), write_only=True)
+
+    following = UserSerializer(read_only=True)
+    following_id = serializers.PrimaryKeyRelatedField(
+        queryset=get_user_model().objects.all(), write_only=True)
+
+    def create(self, validated_data):
+        validated_data['follower'] = validated_data.get(
+            'follower_id', None)
+        validated_data['following'] = validated_data.get(
+            'following_id', None)
+
+        if validated_data['follower'] is None:
+            raise serializers.ValidationError('follower not found.')
+        if validated_data['following'] is None:
+            raise serializers.ValidationError('following not found.')
+
+        del validated_data['follower_id']
+        del validated_data['following_id']
+        return Connection.objects.create(**validated_data)
+
+
     class Meta:
         model = Connection
-        fields = ('id', 'follower', 'following')
+        fields = ('id', 'follower', 'follower_id', 'following', 'following_id')

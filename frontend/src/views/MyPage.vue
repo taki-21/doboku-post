@@ -35,7 +35,7 @@
         <v-card class="mb-2" color="blue-grey lighten-5">
           <v-row no-gutters>
             <v-col cols="6" lg="3" md="3" sm="3" xs="3">
-              <v-img :src="login_user_icon_image"> </v-img>
+              <v-img eager :src="Person.icon_image"> </v-img>
             </v-col>
             <v-col cols="6" lg="4" md="3" sm="9" xs="3" class="pa-md-3">
               <v-card-title
@@ -71,14 +71,36 @@
                 </div>
               </v-card-text>
               <v-card-actions>
-                <v-btn text outlined class="text-caption text-sm-body-2 font-weight-black">
+                <v-btn
+                  text
+                  outlined
+                  class="text-caption text-sm-body-2 font-weight-black"
+                  @click="dialog1 = true"
+                >
                   フォロー
                   {{ Person.followings_count }}
                 </v-btn>
-                <v-btn text outlined class="text-caption text-sm-body-2 font-weight-black">
+                <v-btn
+                  text
+                  outlined
+                  class="text-caption text-sm-body-2 font-weight-black"
+                  @click="dialog2 = true"
+                >
                   フォロワー
                   {{ followersCount }}
                 </v-btn>
+                <v-dialog v-model="dialog1" activator max-width="400px">
+                  <ConnectionList
+                    :connectionList="followList"
+                    @closeModal="closeModal"
+                  />
+                </v-dialog>
+                <v-dialog v-model="dialog2" activator max-width="400px">
+                  <ConnectionList
+                    :connectionList="followerList"
+                    @closeModal="closeModal"
+                  />
+                </v-dialog>
               </v-card-actions>
               <v-card-actions v-if="user_id != login_user_id && isLoggedIn">
                 <v-btn
@@ -156,10 +178,12 @@ import { mapGetters } from "vuex";
 import PieChart from "@/components/PieChart";
 import * as palette from "google-palette";
 import api from "@/services/api";
+import ConnectionList from "@/components/ConnectionList";
 
 export default {
   components: {
     PieChart,
+    ConnectionList,
   },
   props: ["user_id"],
   data() {
@@ -203,6 +227,10 @@ export default {
       connectionId: "",
       isProcessing: false,
       isLoading: true,
+      followerList: [],
+      followList: [],
+      dialog1: false,
+      dialog2: false,
     };
   },
   computed: {
@@ -234,10 +262,16 @@ export default {
       this.setPerson();
       this.loaded = false;
       this.get_previous_posts();
+      this.confirmFollowing();
+      this.confirmFollower();
+      this.confirmFollow();
     },
   },
   created() {
     console.log("created!!!!");
+    this.confirmFollowing();
+    this.confirmFollower();
+    this.confirmFollow();
     this.get_previous_posts();
     this.get_liked_posts();
   },
@@ -286,11 +320,11 @@ export default {
       await api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
         this.followersCount = response.data.followers_count;
-        this.isLoading = false;
       });
+      this.isLoading = false;
     },
-    confirmFollow() {
-      api
+    async confirmFollowing() {
+      await api
         .get("/connections/", {
           params: {
             follower: this.user_id,
@@ -304,6 +338,34 @@ export default {
             this.isFollowing = true;
             console.log("response.data[0].id" + response.data[0]);
             this.connectionId = response.data[0].id;
+          } else {
+            this.isFollowing = false;
+          }
+        });
+    },
+    async confirmFollower() {
+      await api
+        .get("/connections/", {
+          params: {
+            follower: this.user_id,
+          },
+        })
+        .then((response) => {
+          if (response.data) {
+            this.followerList = response.data.map((user) => user.following);
+          }
+        });
+    },
+    async confirmFollow() {
+      await api
+        .get("/connections/", {
+          params: {
+            following: this.user_id,
+          },
+        })
+        .then((response) => {
+          if (response.data) {
+            this.followList = response.data.map((user) => user.follower);
           }
         });
     },
@@ -323,21 +385,28 @@ export default {
       this.isFollowing = true;
       api
         .post("/connections/", {
-          follower: this.user_id,
-          following: this.login_user_id,
+          follower_id: this.user_id,
+          following_id: this.login_user_id,
         })
         .then((response) => {
           this.connectionId = response.data.id;
+          this.confirmFollower();
         });
     },
     Unfollow() {
       console.log("----Unfollow----");
       this.followersCount -= 1;
       this.isFollowing = false;
-      api.delete("/connections/" + this.connectionId + "/", {
-        follower: this.user_id,
-        following: this.login_user_id,
-      });
+      api
+        .delete("/connections/" + this.connectionId + "/", {
+          follower_id: this.user_id,
+          following_id: this.login_user_id,
+        })
+        .then(this.confirmFollower);
+    },
+    closeModal() {
+      this.dialog1 = false;
+      this.dialog2 = false;
     },
   },
 };
@@ -357,38 +426,11 @@ export default {
 .v-tab span {
   font-size: 16px;
 }
-#profile_card {
-  overflow: hidden;
-  border-radius: 5px;
-  background-color: rgba(200, 200, 200, 0.1);
-  margin-bottom: 15px;
-  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.15);
-}
 
-#username_content {
-  display: flex;
-  padding: 30px 30px 5px 30px;
-}
-#username {
-  font-size: 40px;
-  font-weight: bold;
-}
-
-/* .content_profilecard {
-  margin: 0px auto;
-  max-width: 1200px;
-  padding: 0px 30px;
-} */
 .content {
   margin: 20px auto;
   max-width: 1200px;
   font-size: 20px;
-}
-
-#profile_introduction {
-  max-width: 300px;
-  padding: 0px 0px 0px 30px;
-  white-space: pre-wrap;
 }
 
 .chart {
@@ -396,45 +438,4 @@ export default {
   top: 50%;
   transform: translateY(-50%);
 }
-
-@media (max-width: 640px) {
-  .content_profilecard {
-    margin: 10px auto;
-    padding: 5px 15px;
-  }
-
-  #profile_card {
-    overflow: hidden;
-    border-radius: 5px;
-    /* margin-top: 20px; */
-    margin-bottom: 10px;
-  }
-
-  #username_content {
-    display: flex;
-    padding: 5px 10px 1px 10px;
-  }
-  #username {
-    font-size: 24px;
-    font-weight: bold;
-  }
-
-  #profile_edit_button {
-    font-size: 10px;
-    position: relative;
-    top: 3px;
-    margin-left: 10px;
-  }
-  #profile_content {
-    font-size: 10px;
-    max-width: 300px;
-    padding: 0px 0px 0px 10px;
-    white-space: pre-wrap;
-  }
-}
-/* @media (max-width: 1000px) {
-  .chart {
-    display: none;
-  }
-} */
 </style>
