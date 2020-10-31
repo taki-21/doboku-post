@@ -25,193 +25,127 @@
       <v-icon dark> mdi-plus </v-icon>
     </v-btn>
     <div class="content">
-      <v-card class="mb-2">
-        <v-row no-gutters>
-          <v-col cols="6" lg="3" md="3" sm="3" xs="3">
-            <v-img :src="login_user_icon_image"> </v-img>
-          </v-col>
-          <v-col cols="6" lg="4" md="3" sm="9" xs="3" class="pa-md-3">
-            <v-card-title
-              v-if="user_id == login_user_id"
-              class="text-h5 text-sm-h4 text-md-h4 text-lg-h3 pa-2 pa-sm-4"
-            >
-              {{ login_user_username }}
-              <v-btn
+      <div v-show="isLoading" class="text-center">
+        <v-progress-circular
+          indeterminate
+          color="blue-gray"
+        ></v-progress-circular>
+      </div>
+      <div v-show="!isLoading">
+        <v-card class="mb-2" color="blue-grey lighten-5">
+          <v-row no-gutters>
+            <v-col cols="6" lg="3" md="3" sm="3" xs="3">
+              <v-img :src="login_user_icon_image"> </v-img>
+            </v-col>
+            <v-col cols="6" lg="4" md="3" sm="9" xs="3" class="pa-md-3">
+              <v-card-title
                 v-if="user_id == login_user_id"
-                style="text-decoration: none"
-                fab
-                x-small
-                class="ml-4"
-                color="indigo lighten-4"
-                to="/profile_edit"
+                class="text-h5 text-sm-h4 text-md-h4 text-lg-h3 pa-2 pa-sm-4"
               >
-                <v-icon>mdi-account-edit</v-icon>
-              </v-btn>
-            </v-card-title>
-            <v-card-title
-              v-else
-              class="text-h5 text-sm-h4 text-md-h4 text-lg-h3"
-              >{{ Person.username }}</v-card-title
-            >
-            <v-card-text class="pa-2 pa-sm-4">
-              <div v-if="user_id == login_user_id">
-                <div v-if="login_user_introduction === null"></div>
-                <div v-else>{{ login_user_introduction }}</div>
-              </div>
-              <div v-else>
-                <div v-if="Person.introduction === null"></div>
-                <div v-else>{{ Person.introduction }}</div>
-              </div>
-            </v-card-text>
-            <v-card-actions>
-              <v-btn text outlined class="text-caption text-sm-body-2">
-                フォロー
-                {{ Person.followings_count }}
-              </v-btn>
-              <v-btn text outlined class="text-caption text-sm-body-2">
-                フォロワー
-                {{ followersCount }}
-              </v-btn>
-            </v-card-actions>
-            <v-card-actions v-if="user_id != login_user_id && isLoggedIn">
-              <v-btn
-                v-if="!isFollowing"
-                block
-                class="text-sm-body-1 font-weight-black"
-                @click="toggleFollow()"
-              >
-                フォローする
-              </v-btn>
-              <v-btn
-                v-if="isFollowing"
-                block
-                dark
-                class="text-sm-body-1 font-weight-black"
-                color="blue-grey darken-2"
-                @click="toggleFollow()"
-              >
-                フォロー中
-              </v-btn>
-            </v-card-actions>
-          </v-col>
-          <v-col cols="12" lg="5" md="6" class="d-none d-md-flex">
-            <div v-if="previousPosts[0]" class="chart">
-              <div id="piechart">
-                <PieChart
-                  v-if="loaded"
-                  :data="pieChartData"
-                  :options="options"
-                  style="position: relative; width: 460px; height: 220px"
-                ></PieChart>
-              </div>
-            </div>
-          </v-col>
-        </v-row>
-      </v-card>
-      <!-- <div
-        id="profile_card"
-        class="uk-card uk-card-default uk-grid-collapse uk-margin"
-        uk-grid
-      >
-        <div class="uk-width-1-5@s uk-width-1-3">
-          <div class="uk-card-media-left uk-cover-container">
-            <img
-              v-if="user_id == login_user_id"
-              class="mypage_user_icon"
-              :src="login_user_icon_image"
-              uk-cover
-            />
-            <img
-              v-else
-              class="mypage_user_icon"
-              :src="Person.icon_image"
-              uk-cover
-            />
-            <canvas width="400" height="400"></canvas>
-          </div>
-        </div>
-        <div class="uk-width-2-5@s uk-width-2-3">
-          <div id="username_content">
-            <div v-if="user_id == login_user_id" id="username">
-              {{ login_user_username }}
-            </div>
-            <div v-else id="username">{{ Person.username }}</div>
-            <div v-if="user_id == login_user_id">
-              <router-link class="router-link" to="/profile_edit">
+                {{ login_user_username }}
                 <v-btn
-                  class="mt-sm-4 ml-sm-3 mt-1 ml-2"
+                  v-if="user_id == login_user_id"
+                  style="text-decoration: none"
+                  fab
+                  x-small
+                  class="ml-4"
                   color="indigo lighten-4"
-                  small
+                  to="/profile_edit"
                 >
                   <v-icon>mdi-account-edit</v-icon>
-                  編集
                 </v-btn>
-              </router-link>
-            </div>
-          </div>
-          <div id="profile_introduction">
-            <div v-if="user_id == login_user_id">
-              <div v-if="login_user_introduction === null"></div>
-              <div v-else>{{ login_user_introduction }}</div>
-            </div>
-            <div v-else>
-              <div v-if="Person.introduction === null"></div>
-              <div v-else>{{ Person.introduction }}</div>
-            </div>
-          </div>
-          <div>
-            <span>フォロー</span>
-            <span>{{ Person.followings_count }}</span>
-            <span>フォロワー</span>
-            <span>{{ followersCount }}</span>
-          </div>
-          <div v-if="user_id != login_user_id && isLoggedIn">
-            <v-btn @click="toggleFollow()"> フォローする </v-btn>
-          </div>
+              </v-card-title>
+              <v-card-title
+                v-else
+                class="text-h5 text-sm-h4 text-md-h4 text-lg-h3"
+                >{{ Person.username }}</v-card-title
+              >
+              <v-card-text class="pa-2 pa-sm-4">
+                <div v-if="user_id == login_user_id">
+                  <div v-if="login_user_introduction === null"></div>
+                  <div v-else>{{ login_user_introduction }}</div>
+                </div>
+                <div v-else>
+                  <div v-if="Person.introduction === null"></div>
+                  <div v-else>{{ Person.introduction }}</div>
+                </div>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn text outlined class="text-caption text-sm-body-2 font-weight-black">
+                  フォロー
+                  {{ Person.followings_count }}
+                </v-btn>
+                <v-btn text outlined class="text-caption text-sm-body-2 font-weight-black">
+                  フォロワー
+                  {{ followersCount }}
+                </v-btn>
+              </v-card-actions>
+              <v-card-actions v-if="user_id != login_user_id && isLoggedIn">
+                <v-btn
+                  v-if="!isFollowing"
+                  block
+                  class="text-sm-body-1 font-weight-black"
+                  @click="toggleFollow()"
+                >
+                  フォローする
+                </v-btn>
+                <v-btn
+                  v-if="isFollowing"
+                  block
+                  dark
+                  class="text-sm-body-1 font-weight-black"
+                  color="blue-grey darken-2"
+                  @click="toggleFollow()"
+                >
+                  フォロー中
+                </v-btn>
+              </v-card-actions>
+            </v-col>
+            <v-col cols="12" lg="5" md="6" class="d-none d-md-flex">
+              <div v-if="previousPosts[0]" class="chart">
+                <div id="piechart">
+                  <PieChart
+                    v-if="loaded"
+                    :data="pieChartData"
+                    :options="options"
+                    style="position: relative; width: 460px; height: 220px"
+                  ></PieChart>
+                </div>
+              </div>
+            </v-col>
+          </v-row>
+        </v-card>
+        <v-tabs color="blue-grey lighten-2" centered show-arrows>
+          <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
+            <v-icon left>mdi-history</v-icon>
+            <v-badge
+              color="blue-grey darken-1"
+              :content="previousPostsNum"
+              :value="previousPostsNum"
+            >
+              <span>これまでの投稿</span>
+            </v-badge>
+          </v-tab>
+          <v-tab :to="{ name: 'liked', params: { user_id: user_id } }">
+            <v-icon left>mdi-heart</v-icon>
+            <v-badge
+              color="blue-grey darken-1"
+              :content="likedPostsNum"
+              :value="likedPostsNum"
+            >
+              <span>いいねした投稿</span>
+            </v-badge>
+          </v-tab>
+          <v-tab :to="{ name: 'mymap', params: { user_id: user_id } }">
+            <v-icon left>mdi-map-marker</v-icon>
+            <span>マイマップ</span>
+          </v-tab>
+        </v-tabs>
+        <div class="content">
+          <transition appear>
+            <router-view @deletePost="get_previous_posts" />
+          </transition>
         </div>
-        <div class="uk-width-2-5@s uk-width-1-4">
-          <div v-if="previousPosts[0]" class="chart">
-            <div id="piechart">
-              <PieChart
-                v-if="loaded"
-                :data="pieChartData"
-                :options="options"
-                style="position: relative; width: 460px; height: 220px"
-              ></PieChart>
-            </div>
-          </div>
-        </div>
-      </div> -->
-      <v-tabs color="blue-grey lighten-2" centered show-arrows>
-        <v-tab :to="{ name: 'mypage', params: { user_id: user_id } }">
-          <v-icon left>mdi-history</v-icon>
-          <v-badge
-            color="blue-grey darken-1"
-            :content="previousPostsNum"
-            :value="previousPostsNum"
-          >
-            <span>これまでの投稿</span>
-          </v-badge>
-        </v-tab>
-        <v-tab :to="{ name: 'liked', params: { user_id: user_id } }">
-          <v-icon left>mdi-heart</v-icon>
-          <v-badge
-            color="blue-grey darken-1"
-            :content="likedPostsNum"
-            :value="likedPostsNum"
-          >
-            <span>いいねした投稿</span>
-          </v-badge>
-        </v-tab>
-        <v-tab :to="{ name: 'mymap', params: { user_id: user_id } }">
-          <v-icon left>mdi-map-marker</v-icon>
-          <span>マイマップ</span>
-        </v-tab>
-      </v-tabs>
-      <div class="content">
-        <transition appear>
-          <router-view @deletePost="get_previous_posts" />
-        </transition>
       </div>
     </div>
   </div>
@@ -268,6 +202,7 @@ export default {
       followersCount: "",
       connectionId: "",
       isProcessing: false,
+      isLoading: true,
     };
   },
   computed: {
@@ -310,7 +245,6 @@ export default {
     console.log("mounted!!!!");
     this.setPerson();
     this.confirmFollow();
-    this.setPerson();
     const labels = this.categories.map((x) => x.name);
     this.options.animation.animateRotate = true;
     this.pieChartData.labels = labels;
@@ -348,10 +282,11 @@ export default {
       this.pieChartData.datasets[0].data = this.categoriesNum;
       this.loaded = true;
     },
-    setPerson() {
-      api.get("/users/" + this.user_id + "/").then((response) => {
+    async setPerson() {
+      await api.get("/users/" + this.user_id + "/").then((response) => {
         this.Person = response.data;
         this.followersCount = response.data.followers_count;
+        this.isLoading = false;
       });
     },
     confirmFollow() {
