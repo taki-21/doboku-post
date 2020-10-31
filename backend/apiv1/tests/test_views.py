@@ -45,7 +45,7 @@ class TestUserListCreateAPIView(APITestCase):
         expected_json_dict = [
             {
                 "id": user[0].id,
-                "password":user[0].password,
+                "password": user[0].password,
                 "last_login": None,
                 "is_superuser": False,
                 "first_name": "",
@@ -62,7 +62,9 @@ class TestUserListCreateAPIView(APITestCase):
                 "introduction": None,
                 "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
                 "groups": [],
-                "user_permissions": []}]
+                "user_permissions": [],
+                'followers_count': 0,
+                'followings_count': 0, }]
         self.assertJSONEqual(response.content, expected_json_dict)
 
     def test_post_success(self):
@@ -104,7 +106,9 @@ class TestUserListCreateAPIView(APITestCase):
             "introduction": None,
             "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
             "groups": [],
-            "user_permissions": []}
+            "user_permissions": [],
+            'followers_count': 0,
+            'followings_count': 0, }
         self.assertJSONEqual(response.content, expected_json_dict)
 
     def test_post_bad_request(self):
@@ -182,7 +186,9 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
             "introduction": None,
             "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
             "groups": [],
-            "user_permissions": []}
+            "user_permissions": [],
+            'followers_count': 0,
+            'followings_count': 0, }
         self.assertJSONEqual(response.content, expected_json_dict)
 
     def test_patch_success(self):
@@ -224,7 +230,9 @@ class TestUserRetrieveUpdateDestroyAPIView(APITestCase):
             "introduction": None,
             "icon_image": "http://testserver/media/images/custom_user/icon_image/default_icon.png",
             "groups": [],
-            "user_permissions": []}
+            "user_permissions": [],
+            'followers_count': 0,
+            'followings_count': 0, }
         self.assertJSONEqual(response.content, expected_json_dict)
 
     def test_patch_bad_request(self):
@@ -445,7 +453,9 @@ class TestPostListCreateAPIView(APITestCase):
                     'last_name': '',
                     'password': user['password'],
                     'user_permissions': [],
-                    'username': user['username']},
+                    'username': user['username'],
+                    'followers_count': 0,
+                    'followings_count': 0, },
                 'title': post.title,
                 'content': post.content,
                 'published_at': str(
@@ -508,7 +518,9 @@ class TestPostListCreateAPIView(APITestCase):
                     'last_name': '',
                     'password': user['password'],
                     'user_permissions': [],
-                    'username': user['username'], },
+                    'username': user['username'],
+                    'followers_count': 0,
+                    'followings_count': 0, },
                 'title': post.title,
                 'content': post.content,
                 'published_at': str(
@@ -570,7 +582,9 @@ class TestPostListCreateAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': user['username']},
+                'username': user['username'],
+                'followers_count': 0,
+                'followings_count': 0, },
             'title': post[0].title,
             'content': post[0].content,
             'published_at': str(
@@ -681,7 +695,9 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user1'},
+                'username': 'user1',
+                'followers_count': 0,
+                'followings_count': 0, },
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -732,7 +748,9 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user1'},
+                'username': 'user1',
+                'followers_count': 0,
+                'followings_count': 0, },
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -795,7 +813,9 @@ class TestPostRetrieveUpdateDestroyAPIView(APITestCase):
                 'last_name': '',
                 'password': user['password'],
                 'user_permissions': [],
-                'username': 'user1'},
+                'username': 'user1',
+                'followers_count': 0,
+                'followings_count': 0, },
             'title': post.title,
             'content': post.content,
             'published_at': str(
@@ -997,6 +1017,8 @@ class TestCommentListCreateAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment.text,
             'timestamp': str(
@@ -1051,6 +1073,8 @@ class TestCommentListCreateAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment.text,
             'timestamp': str(
@@ -1109,6 +1133,8 @@ class TestCommentListCreateAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment[0].text,
             'timestamp': str(
@@ -1216,6 +1242,8 @@ class TestCommentRetrieveUpdateDestroyAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment.text,
             'timestamp': str(
@@ -1263,6 +1291,8 @@ class TestCommentRetrieveUpdateDestroyAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment.text,
             'timestamp': str(
@@ -1317,6 +1347,8 @@ class TestCommentRetrieveUpdateDestroyAPIView(APITestCase):
                 'icon_image': 'http://testserver/media/images/custom_user/icon_image/default_icon.png',
                 'groups': [],
                 'user_permissions': [],
+                'followers_count': 0,
+                'followings_count': 0,
             },
             'text': comment.text,
             'timestamp': str(
@@ -1540,7 +1572,6 @@ class TestLikeListCreateAPIView(APITestCase):
         self.assertEqual(response.status_code, 400)
 
 
-
 # DELETE(正常系: 1, 異常系: 2)
 class TestLikeDestroyAPIView(APITestCase):
     """LikeRetrieveUpdateDestroyAPIViewのテストクラス"""
@@ -1584,7 +1615,6 @@ class TestLikeDestroyAPIView(APITestCase):
             post=cls.post2,
             author=cls.user2,
         )
-
 
     def test_delete_success(self):
         """投稿モデルの取得（詳細）・更新・削除APIへのDELETEリクエスト（正常系）"""
