@@ -76,6 +76,7 @@
 * 名前（タイトル）から住所及び緯度経度を検索「GoogleMap Geocording API」
 
 ### ユーザー周り
+<img width="800" alt="スクリーンショット 2020-11-01 16 19 49" src="https://user-images.githubusercontent.com/62042131/97797155-12a15a80-1c5e-11eb-9bd3-5e4461ed5851.png">
 * ログイン機能
   * JWTによる認証
 * 新規登録機能
