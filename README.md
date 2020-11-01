@@ -26,10 +26,12 @@
 * Django: 3.0
 * Django REST Framework: 3.10
 * poetry: 1.0.10
-* uWSGI: 2.0.19.1
 
 ### Webサーバー
 * Nginx: 1.17.8
+
+### アプリケーションサーバー
+* uWSGI: 2.0.19.1
 
 ### データベース
 * PostgreSQL: 12.4
