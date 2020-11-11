@@ -100,7 +100,12 @@
 ### 構成図
 ![スクリーンショット 2020-10-10 19 33 22](https://user-images.githubusercontent.com/62042131/95652911-76d57080-0b2f-11eb-817f-71e84cba06da.png)
 ### AWS
-* ECS/ECR/ALB/EC2/VPC/RDS(PostgreSQL)/S3/CroudFront/Route53/ACM
+* ECS/ECR/ALB/EC2/VPC/RDS(PostgreSQL)/S3/CroudFront/Route53/ACMを使用
+* S3にバケットを2つ作り、一つはVue.jsのファイル、もう一つはアップロードされる投稿画像やアイコン画像を格納する。
+* CloudFrontにより、S3に配置したファイルを高速かつ安全に配信する。
+* VPC内でサブネットを二つ作成し一つはEC2インスタンスにそれぞれ配置されたDjangoとNginxによるAPIサーバーとして利用し、もう一つはRDSによってREST APIのデータを管理するために利用する。
+* Route53によりドメインを管理する。
+
 ### Docker
 * Docker: 19.03.12
 * docker-compose: 1.27.2
