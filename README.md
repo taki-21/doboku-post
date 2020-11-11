@@ -109,7 +109,8 @@
 * 自動テスト
   * masterブランチ以外に pushすることでテスト開始
 * 自動デプロイ
-  * masterブランチへpushすることでECR/ECS/S3へデプロイ
+  * masterブランチへpushすることでDjango, NginxのファイルをECR/ECSへデプロイ
+  * developブランチへpushすることでVue.jsの静的ファイルをS3へデプロイ
   * Orbsを使用
   
 ## About me
