@@ -119,7 +119,10 @@
   * masterブランチへpushすることでDjango, NginxのファイルをECR/ECSへデプロイ
   * developブランチへpushすることでVue.jsの静的ファイルをS3へデプロイ
   * Orbsを使用
-  
+
+## ER図
+ただいま作成中
+
 ## About me
   現在、22歳で某独立行政法人に勤務しております。バックエンドエンジニアを目指しポートフォリオの作成・改善、アウトプットを行っております。  
 * [Twitter](https://twitter.com/saka___21)  
