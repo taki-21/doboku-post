@@ -123,9 +123,5 @@
 ## ER図
 <img width="600" alt="スクリーンショット 2020-11-01 16 19 49" src="https://user-images.githubusercontent.com/62042131/99896250-1dd22e00-2cd2-11eb-93d3-d89b64aece04.jpg">
 
-## About me
-* [Twitter](https://twitter.com/saka___21)  
-* [Qiita](https://qiita.com/saka___21)    
-* [学習記録](https://saka-21.hatenablog.com/archive)
 
 
