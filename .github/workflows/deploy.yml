@@ -7,3 +7,10 @@ on:
   pull_request:
     branches:
       - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo hello
+        run: echo "hello"
