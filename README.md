@@ -124,7 +124,7 @@
 
 ### AWS
 
-- ECS/ECR/ALB/EC2/VPC/RDS(PostgreSQL)/S3/CroudFront/Route53/ACM を使用
+- ECS/ECR/ALB/EC2/VPC/RDS(PostgreSQL)/S3/CloudFront/Route53/ACM を使用
 - S3 にバケットを 2 つ作り、一つは Vue.js のファイル、もう一つはアップロードされる投稿画像やアイコン画像を格納する。
 - CloudFront により、S3 に配置したファイルを高速かつ安全に配信する。
 - VPC 内でサブネットを二つ作成し一つは EC2 インスタンスにそれぞれ配置された Django と Nginx による API サーバーとして利用し、もう一つは RDS によって REST API のデータを管理するために利用する。
