@@ -2,7 +2,7 @@
 
 ## URL
 
-### https://doboku-post.site
+### https://doboku-post.site（現在廃止中です）
 
 ※ 「右上のログインボタン」 → 「かんたんログイン」 で新規登録なしでログインできます。
 
