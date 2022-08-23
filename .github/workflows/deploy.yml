@@ -14,8 +14,14 @@ jobs:
     steps:
       - name: echo hello
         run: echo "hello"
+        # poetry install
+        # db_migrations
+        # run_test
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: echo hello
         run: echo "hello"
+        # DjangoをECR/ECSへデプロイ
+        # NginxをECR/ECSへデプロイ
+        # VueをS3へデプロイ
