@@ -1,4 +1,4 @@
-name: doboku-post
+name: Django Backend Test and Build-Push
 
 on:
   push:
@@ -12,11 +12,27 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - name: echo hello
-        run: echo "hello"
-        # poetry install
-        # db_migrations
-        # run_test
+      - uses: actions/checkout@v3
+
+      - name: Install Python Package
+        run: |
+          sudo pip install poetry
+          cd backend
+          poetry install
+
+      # packageをキャッシュしたほうがいいかも
+
+      - name: DB Migrations
+        run: |
+          cd backend
+          poetry run python3 manage.py makemigrations
+          poetry run python3 manage.py migrate
+
+      - name: Run Tests
+        run: |
+          cd backend
+          poetry run python3 manage.py test
+
   deploy:
     runs-on: ubuntu-latest
     steps:
